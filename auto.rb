@@ -44,7 +44,7 @@ puts "* Auto #{VERSION} starting..."
 Dir.chdir(File.dirname(__FILE__))
 
 # Require our libraries.
-require_relative 'lib/core.rb'
+require_relative 'lib/ruby_core_ext.rb'
 require_relative 'lib/auto.rb'
 require_relative 'lib/core/logging.rb'
 require_relative 'lib/parser/config.rb'
