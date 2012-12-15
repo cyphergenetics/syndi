@@ -18,6 +18,8 @@ Description
 Auto 4 is a minimal and simple multi-protocol chat bot designed in the Ruby
 programming language.
 
+It is advisable to read the documentation on the [wiki](https://github.com/noxgirl/Auto/wiki).
+
 Using Auto 4
 ------------
 
