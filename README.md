@@ -34,7 +34,7 @@ Start Auto 4 by running `ruby auto.rb`.
 License
 -------
 
-Auto 4 is distributed under the 3-clause BSD license:
+Auto 4 is distributed under the three-clause BSD license:
 
     Copyright (c) 2013, Auto Project
     All rights reserved.
