@@ -3,7 +3,7 @@ Auto 4
 
 by the Auto Project:
 
--   [noxgirl](https://github.com/noxgirl) <xoeverlux@gmail.com>
+-   [noxgirl](https://github.com/noxgirl) \<xoeverlux@gmail.com\>
 
 Past contributors:
 
