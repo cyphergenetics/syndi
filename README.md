@@ -7,10 +7,10 @@ by the Auto Project:
 
 Past contributors:
 
--   Matthew Barksdale <mattwb65@gmail.com>
--   Russell Bradford <russell@rbradford.me>
--   Liam Smith <me@liam.co>
--   Alyx Wolcott <alyx@woomoo.org>
+-   Matthew Barksdale \<mattwb65@gmail.com\>
+-   Russell Bradford \<russell@rbradford.me\>
+-   Liam Smith \<me@liam.co\>
+-   Alyx Wolcott \<alyx@woomoo.org\>
 
 Description
 -----------
