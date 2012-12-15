@@ -10,7 +10,7 @@ Past contributors:
 -   Matthew Barksdale \<mattwb65@gmail.com\>
 -   Russell Bradford \<russell@rbradford.me\>
 -   Liam Smith \<me@liam.co\>
--   Alyx Wolcott \<alyx@woomoo.org\>
+-   Alyx Wolcott \<contact@alyxw.me\>
 
 Description
 -----------
