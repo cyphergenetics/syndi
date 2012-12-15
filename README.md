@@ -3,14 +3,14 @@ Auto 4
 
 by the Auto Project:
 
--   Autumn P. (noxgirl) <xoeverlux@gmail.com>
+-   [noxgirl](https://github.com/noxgirl) <xoeverlux@gmail.com>
 
 Past contributors:
 
--   Matthew B. <mattwb65@gmail.com>
--   Russell B. <russell@rbradford.me>
--   Liam S. <me@liam.co>
--   Alyx W. <alyx@woomoo.org>
+-   Matthew Barksdale <mattwb65@gmail.com>
+-   Russell Bradford <russell@rbradford.me>
+-   Liam Smith <me@liam.co>
+-   Alyx Wolcott <alyx@woomoo.org>
 
 Description
 -----------
