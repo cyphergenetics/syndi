@@ -141,6 +141,14 @@ module IRC
       $m.events.call('Irc.OnBotOutJoin', self, chan, key)
     end
 
+    # Send a message.
+    # (str, str)
+    def msg(target, message)
+      $m.events.call('Irc.OnBotPreMsg', self, target, message)
+      snd("PRIVMSG #{target} :#{message}")
+      $m.events.call('Irc.OnBotMsg', self, target, message)
+    end
+
     # Change nickname.
     # (str)
     def nick(newnick)
@@ -153,14 +161,6 @@ module IRC
       $m.events.call('Irc.OnBotPreOutNick', self, newnick)
       snd("NICK :#{newnick}")
       $m.events.call('Irc.OnBotOutNick', self, newnick)
-    end
-
-    # Send a message.
-    # (str, str)
-    def msg(target, message)
-      $m.events.call('Irc.OnBotPreMsg', self, target, message)
-      snd("PRIVMSG #{target} :#{message}")
-      $m.events.call('Irc.OnBotMsg', self, target, message)
     end
 
     # Send a notice.
@@ -183,6 +183,11 @@ module IRC
     # (str)
     def pass(password)
       snd("PASS :#{password}")
+    end
+
+    # Disconnect.
+    def quit(msg)
+      snd("QUIT :#{msg}")
     end
 
     # Send USER.
