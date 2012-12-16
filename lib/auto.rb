@@ -23,10 +23,18 @@ class Auto
     @log = Core::Logging.new
     @log.info("Logging started")
 
-    # Parse the configuration file, auto.conf.
-    puts "* Reading the configuration file conf/auto.conf..."
-    @log.info("Reading the configuration file conf/auto.conf...")
-    @conf = Parser::Config.new('conf/auto.conf')
+    ## Load configuration ##
+
+    # Foremost, check for an alternate file.
+    confpath = 'conf/auto.json'
+    if @opts.include?('altconf')
+      confpath = @opts['altconf']
+    end
+
+    # Process it.
+    puts "* Reading the configuration file #{confpath}..."
+    @log.info("Reading the configuration file #{confpath}...")
+    @conf = Core::Config.new(confpath)
 
     # Start the event system.
     puts "* Starting the event system..."
@@ -42,7 +50,7 @@ class Auto
     puts "* Loading core modules..."
     @log.info("Loading core modules...")
     @mods = []
-    @conf.get('*', 'module').each do |mod|
+    @conf.conf['modules'].each do |mod|
       if mod == 'irc'
         begin
           require_relative 'irc/server.rb'
@@ -70,7 +78,7 @@ class Auto
     # Check if the irc core module is loaded.
     if @mods.include?('irc')
       # Prepare for incoming data.
-      $m.events.on(self, 'Irc.OnReadReady') do |irc|
+      $m.events.on(self, 'irc:onReadReady') do |irc|
         until irc.recvq.length == 0
           line = irc.recvq.shift.chomp
           foreground("#{irc} >> #{line}")
@@ -79,16 +87,17 @@ class Auto
       end
         
       # Iterate through each IRC server in the config, and connect to them.
-      @conf.get('irc').each do |name, block|
+      @conf.conf['irc'].each do |hash|
+        name = hash['name']
         begin
           # Configure the IRC instance.
           @sockets[name] = IRC::Server.new(name) do |c|
-            c.address = block['address'][0]
-            c.port    = block['port'][0]
-            c.nick    = block['nick'][0] 
-            c.user    = block['user'][0]
-            c.real    = block['real'][0]
-            c.ssl     = block['ssl'][0]
+            c.address = hash['address']
+            c.port    = hash['port']
+            c.nick    = hash['nickname'] 
+            c.user    = hash['username']
+            c.real    = hash['realName']
+            c.ssl     = hash['useSSL']
           end
 
           # Connect.
@@ -178,7 +187,7 @@ class Auto
   end
 
   # Produce a debug message.
-  def debug(msg, log)
+  def debug(msg, log=false)
     if @opts['debug']
       puts "[D] #{msg}"
       @log.debug(msg) if log
