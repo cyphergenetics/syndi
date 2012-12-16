@@ -74,7 +74,7 @@ module IRC
       end
       
       # CAP
-      $m.events.on(self, 'irc:OnRaw1:CAP') do |irc, data|
+      $m.events.on(self, 'irc:onRaw1:CAP') do |irc, data|
         # LS
         if data[3] == 'LS'
           req = []
@@ -116,7 +116,7 @@ module IRC
       ### NUMERICS ###
 
       # 005
-      $m.events.on(self, 'irc:OnRaw1:005') do |irc, data|
+      $m.events.on(self, 'irc:onRaw1:005') do |irc, data|
 
         # Iterate through the parameters.
         data[3..-1].each do |param|
@@ -165,7 +165,7 @@ module IRC
       end # do
       
       # 903
-      $m.events.on(self, 'irc:OnRaw1:903') do |irc, data|
+      $m.events.on(self, 'irc:onRaw1:903') do |irc, data|
         # SASL authentication was successful.
         $m.info("SASL authentication to #{irc} successful.")
         $m.timers.del(irc, irc.sasl_id)
@@ -174,7 +174,7 @@ module IRC
       end
 
       # 904
-      $m.events.on(self, 'irc:OnRaw1:904') do |irc, data|
+      $m.events.on(self, 'irc:onRaw1:904') do |irc, data|
         # SASL authentication failed.
         $m.info("SASL authentication to #{irc} failed.")
         $m.timers.del(irc, irc.sasl_id)
