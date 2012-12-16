@@ -24,9 +24,29 @@ module Core
     
     end
 
-    #**************************************
     # Rehash the configuration.
-    # TODO while events are worked on
+    def rehash!
+      
+      $m.debug("Configuration file is rehashing.")
+
+      # Keep the old configuration in case of issues.
+      oldconf = @x
+      @x = {}
+
+      # Rehash.
+      begin
+        parse!
+      rescue => e
+        $m.error("Failed to rehash the configuration file! Reverting to old configuration.", false, e)
+        @x = oldconf
+        return
+      end
+      
+      # bot:onRehash
+      $m.events.call('bot:onRehash')
+
+    end
+
 
     #######
     private
