@@ -53,10 +53,10 @@ require_relative 'lib/ruby_core_ext.rb'
 require_relative 'lib/auto.rb'
 require_relative 'lib/core/logging.rb'
 require_relative 'lib/core/config.rb'
-#require_relative 'lib/api/plugin.rb'
-#require_relative 'lib/api/command.rb'
+require_relative 'lib/api/plugin.rb'
 require_relative 'lib/api/timers.rb'
 require_relative 'lib/api/events.rb'
+require_relative 'lib/api/extender.rb'
 
 # Create an instance of Auto.
 $m = Auto.new(mopts)

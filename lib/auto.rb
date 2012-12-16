@@ -5,7 +5,8 @@
 # Class Auto: Main bot class.
 class Auto
 
-  attr_reader :opts, :conf, :log, :mods, :sockets, :events, :timers, :irc_parser
+  attr_reader :opts, :conf, :log, :mods, :sockets, :events, :timers, :irc_parser,
+              :extend
 
   # Create a new instance of Auto.
   # (hash)
@@ -63,6 +64,14 @@ class Auto
           error("Unable to load core module `irc`: #{e}", true)
         end
       end
+    end
+
+    # Load plugins.
+    puts "* Loading plugins..."
+    @log.info("Loading plugins...")
+    @extend = API::Extender.new
+    @conf.x['plugins'].each do |plugin|
+      @extend.pload(plugin)
     end
 
     # Create additional instance variables.
