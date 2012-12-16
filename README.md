@@ -39,10 +39,11 @@ documentation on the [wiki](https://github.com/noxgirl/Auto/wiki).
 
 If the wiki fails to address your needs, please either:
 
-1. Join the official IRC chatroom at 
-[#autoproject on irc.freenode.net](http://webchat.freenode.net/?randomnick=1&channels=autoproject&prompt=1)
+1. Ideally, use the [issue management hub](https://github.com/noxgirl/Auto/issues), **or**
+2. Join the official IRC chatroom at 
+[#autoproject on irc.freenode.net](http://webchat.freenode.net/?randomnick=1&channels=autoproject&prompt=1),
 **or**
-2. Address an e-mail to one of the active developer(s) noted above, prefixing
+3. Address an e-mail to one of the active developer(s) noted above, prefixing
 your subject with "[auto-support]."
 
 License
