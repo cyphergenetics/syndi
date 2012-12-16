@@ -54,15 +54,14 @@
             // Real name the bot should use
             "realName": "Auto",
             // Identify to services the traditional way
-            "nickIdentify":
-                {
-                    // Service (commonly NickServ)
-                    "service": "NickServ",
-                    // Command (commonly "identify")
-                    "command": "identify",
-                    // Password (for Atheme, you may desire to use "username password" for foolproof identification)
-                    "password": "moopass"
-                }
+            "nickIdentify": {
+                        // Service (commonly NickServ)
+                        "service": "NickServ",
+                        // Command (commonly "identify")
+                        "command": "identify",
+                        // Password (for Atheme, you may desire to use "username password" for foolproof identification)
+                        "password": "moopass"
+                        }
          }
             ]
 
