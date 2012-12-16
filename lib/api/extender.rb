@@ -16,8 +16,8 @@ module API
     # Create new API::Extender instance.
     def initialize
       
-      # Define @plugins as an array
-      @plugins = []
+      # Define @plugins as a hash
+      @plugins = {}
 
     end
 
@@ -52,19 +52,53 @@ module API
       end
 
       # Append to the list of loaded plugins.
-      @plugins << {
-                'name' => piclass._name,
-                'object' => piclass
-                }
+      @plugins[piclass._name][:object] = piclass
+      eval "@plugins[piclass._name][:class] = #{match[1]}"
 
       # Successful.
       $m.info("Successfully initialized #{piclass._name}!")
+      $m.events.call('bot:onLoadPlugin', piclass._name)
 
     end # def pload
 
-    #****************************
-    # TODO: unload()
-    ################
+    # Unload a plugin (public method).
+    def punload(piname)
+
+      # Check if it's really loaded.
+      unless @plugins.include? piname
+        $m.error("Unable to unload #{piname} because no such plugin is loaded!")
+        return
+      end
+
+      # Call the private method.
+      unload(@plugins[piname][:object])
+
+    end
+
+    #######
+    private
+    #######
+
+    # Unload a plugin.
+    def unload(object)
+
+      # Foremost, attempt to call uninitialize()
+      begin
+        object.uninitialize
+      rescue NameError => e
+        $m.error("Unloading plugin #{object._name}: uninitialize() method is missing! (NameError) Serious issues could occur.", false, e)
+      rescue => e
+        $m.error("Unloading plugin #{object._name}: uninitialize() call raised an exception! Serious issues could occur.", false, e)
+      ensure
+        # Whatever the outcome, we must destroy the plugin.
+        name = object._name
+        eval "undef #{@plugins[name][:class]}"
+        @plugins.delete(name)
+        $m.events.call('bot:onUnloadPlugin', name)
+      end
+    
+    end
+
 
   end # class Extender
 
