@@ -16,7 +16,20 @@ Description
 -----------
 
 Auto 4 is a minimal and simple multi-protocol chat bot designed in the Ruby
-programming language.
+programming language, with emphasis on IRC.
+
+Auto was initially released in December of 2009, and has since undergone four
+major revisions. The latest stable version is version 3, which is in Perl, and
+which is maintained by [Arinity](https://github.com/arinity/Auto), who
+inherited maintenance from noxgirl (the original designer).
+
+In December of 2012, noxgirl released this fourth major revision of Auto to the
+public on Git. It is largely functional, but as it is being actively developed
+in the core, it retains its status of 'unstable' for the time being and is not
+yet ready to supersede Auto v3.
+
+Come stability, Auto 4 will supersede Auto 3. The most notable change is in its
+fundamental structure, which is much cleaner and simpler, and less esoteric.
 
 It is advisable to read the documentation on the [wiki](https://github.com/noxgirl/Auto/wiki).
 
@@ -49,7 +62,7 @@ your subject with "[auto-support]."
 License
 -------
 
-Auto 4 is distributed under the three-clause BSD license:
+Auto 4 is free software distributed under the three-clause BSD license:
 
     Copyright (c) 2013, Auto Project
     All rights reserved.
