@@ -57,8 +57,7 @@ If the wiki fails to address your needs, please either:
 
 1. Ideally, use the [issue management hub](https://github.com/noxgirl/Auto/issues), **or**
 2. Join the **unofficial** IRC chatroom at 
-[##noxchat on irc.freenode.net](http://webchat.freenode.net/?randomnick=1&channels=##noxchat&prompt=1),
-**or**
+[##noxchat on irc.freenode.net](http://webchat.freenode.net/?randomnick=1&channels=##noxchat&prompt=1)
 
 License
 -------
