@@ -1,70 +1,90 @@
 {
 
     /*
-        Core modules to load
-        ["mod1", "mod2"]
+    Core modules to load
+    ["mod1", "mod2"]
 
-        irc: IRC functionality.
+    irc: IRC functionality.
     */
     "modules": ["irc"],
 
     /* 
-        irc module: IRC networks 
-        
-        Add each network to which you desire the bot to connect.
+    irc module: IRC networks 
+
+    Add each network to which you desire the bot to connect.
     */
     "irc": [
         {
             // Network name
             "name": "freenode",
+            
             // Network address
             "address": "irc.freenode.net",
+            
             // Port on which to connect
             "port": 7000,
+            
             // Whether to use SSL (true/false)
             "useSSL": true,
+            
             // Nickname the bot should use
             "nick": "moobot",
+            
             // Username the bot should use (as in nick!user@host)
             "username": "Auto",
+            
             // Real name the bot should use
             "realName": "Auto",
-            // Identify to services by means of SASL authentication
-            "SASL": {
-                // SASL timeout in seconds
-                "timeout": 15,
-                // SASL authentication username
-                "username": "moobot",
-                // SASL authentication password
-                "password": "moopass"
-                    }
+            
+            // Whether the bot should authenticate with SASL (true/false)
+            "useSASL": true,
+            
+            // SASL timeout in seconds
+            "SASLTimeout": 15,
+            
+            // SASL authentication username
+            "SASLUsername": "moobot",
+            
+            // SASL authentication password
+            "SASLPassword": "moopass"
+            
         },
         {
             // Network name
             "name": "Rizon",
+            
             // Network address
             "address": "irc.rizon.net",
+            
             // Port on which to connect
             "port": 6667,
+            
             // Whether to use SSL (true/false)
             "useSSL": false,
+            
             // Nickname the bot should use
             "nick": "moobot",
+            
             // Username the bot should use (as in nick!user@host)
             "username": "Auto",
+            
             // Real name the bot should use
             "realName": "Auto",
+            
             // Identify to services the traditional way
             "nickIdentify": {
-                        // Service (commonly NickServ)
-                        "service": "NickServ",
-                        // Command (commonly "identify")
-                        "command": "identify",
-                        // Password (for Atheme, you may desire to use "username password" for foolproof identification)
-                        "password": "moopass"
-                            }
-         }
-            ]
+            
+                // Service (commonly NickServ)
+                "service": "NickServ",
+                
+                // Command (commonly "identify")
+                "command": "identify",
+
+                // Password (for Atheme, you may desire to use "username password" for foolproof identification)
+                "password": "moopass"
+                
+            }
+        }
+    ]
 
 }
-
