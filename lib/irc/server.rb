@@ -187,6 +187,7 @@ module IRC
 
     # Disconnect.
     def quit(msg)
+      $m.events.call('irc:onQuit', self)
       snd("QUIT :#{msg}")
     end
 
