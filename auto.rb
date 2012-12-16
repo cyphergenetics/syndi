@@ -79,14 +79,20 @@ unless mopts['debug'] or mopts['foreground']
   # Fork and retrieve the PID.
   pid = fork
 
+
   # Save it to auto.pid.
   unless pid.nil?
-    File.open('auto.pid') { |io| io.puts pid }
+    File.open('auto.pid', 'w') { |io| io.puts pid }
     exit 0
   end
 end
+  
+# Catch SIGTERM
+Signal.trap("TERM") do
+  $m.terminate("Caught SIGTERM")
+end
 
-# The following should capture all exceptions that are not caught:
+# The following should capture all exceptions that are not otherwise caught:
 begin
   # Start the bot.
   $m.start
