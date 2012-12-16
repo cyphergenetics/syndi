@@ -36,7 +36,7 @@ module IRC
       ### COMMANDS ###
       
       # AUTHENTICATE
-      $m.events.on(self, 'Irc.OnRaw0_AUTHENTICATE') do |irc, data|
+      $m.events.on(self, 'irc:onRaw0:AUTHENTICATE') do |irc, data|
         
         if data[1] == '+'
           # Import Base64.
@@ -50,7 +50,7 @@ module IRC
           end
 
           # Encrypt the combination.
-          username = $m.conf.get("irc:#{irc}", 'sasl_username')[0]
+          username = $m.conf.x['irc'][irc]['SASL']['username']
           password = $m.conf.get("irc:#{irc}", 'sasl_password')[0]
           enc = Base64.encode64([username, username, password].join("\0")).gsub(/\n/, '')
           
@@ -74,7 +74,7 @@ module IRC
       end
       
       # CAP
-      $m.events.on(self, 'Irc.OnRaw1_CAP') do |irc, data|
+      $m.events.on(self, 'irc:OnRaw1:CAP') do |irc, data|
         # LS
         if data[3] == 'LS'
           req = []
@@ -109,14 +109,14 @@ module IRC
       end
 
       # PING
-      $m.events.on(self, 'Irc.OnRaw0_PING') do |irc, data|
+      $m.events.on(self, 'irc:onRaw0:PING') do |irc, data|
         irc.snd("PONG #{data[1]}")
       end
 
       ### NUMERICS ###
 
       # 005
-      $m.events.on(self, 'Irc.OnRaw1_005') do |irc, data|
+      $m.events.on(self, 'irc:OnRaw1:005') do |irc, data|
 
         # Iterate through the parameters.
         data[3..-1].each do |param|
@@ -165,7 +165,7 @@ module IRC
       end # do
       
       # 903
-      $m.events.on(self, 'Irc.OnRaw1_903') do |irc, data|
+      $m.events.on(self, 'irc:OnRaw1:903') do |irc, data|
         # SASL authentication was successful.
         $m.info("SASL authentication to #{irc} successful.")
         $m.timers.del(irc, irc.sasl_id)
@@ -174,7 +174,7 @@ module IRC
       end
 
       # 904
-      $m.events.on(self, 'Irc.OnRaw1_904') do |irc, data|
+      $m.events.on(self, 'irc:OnRaw1:904') do |irc, data|
         # SASL authentication failed.
         $m.info("SASL authentication to #{irc} failed.")
         $m.timers.del(irc, irc.sasl_id)

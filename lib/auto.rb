@@ -50,7 +50,7 @@ class Auto
     puts "* Loading core modules..."
     @log.info("Loading core modules...")
     @mods = []
-    @conf.conf['modules'].each do |mod|
+    @conf.x['modules'].each do |mod|
       if mod == 'irc'
         begin
           require_relative 'irc/server.rb'
@@ -87,7 +87,7 @@ class Auto
       end
         
       # Iterate through each IRC server in the config, and connect to them.
-      @conf.conf['irc'].each do |hash|
+      @conf.x['irc'].each do |hash|
         name = hash['name']
         begin
           # Configure the IRC instance.

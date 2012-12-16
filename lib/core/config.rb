@@ -10,7 +10,7 @@ module Core
   # Configuration file management.
   class Config
 
-    attr_reader :conf
+    attr_reader :x
 
     # Create new instance of Core::Config.
     def initialize(filepath)
@@ -57,7 +57,7 @@ module Core
         return
       end
 
-      @conf = conf
+      @x = conf
 
     end # def parse
 
