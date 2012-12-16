@@ -48,7 +48,7 @@
                 // SASL authentication password
                 "password": "moopass"
                     
-            }
+            },
             
             // Automatically join these channels
             "autojoin": [
