@@ -185,6 +185,27 @@ class Auto
     end
   end
 
+  # Terminate the bot.
+  def terminate(reason)
+    if reason.nil?
+      reason = "Terminating"
+    end
+    info("Auto is terminating owing to thus: #{reason}")
+    
+    # Disconnect from IRC networks if IRC is in use.
+    if @mods.include? 'irc'
+      @sockets.each { |name, obj| obj.quit(reason) }
+    end
+
+    # Delete auto.pid
+    unless @opts['debug'] or @opts['foreground']
+      File.delete('auto.pid')
+    end
+
+    exit 0
+  end
+      
+
 end # class Auto
 
 # vim: set ts=4 sts=2 sw=2 et:
