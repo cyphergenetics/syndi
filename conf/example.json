@@ -61,7 +61,7 @@
                         "command": "identify",
                         // Password (for Atheme, you may desire to use "username password" for foolproof identification)
                         "password": "moopass"
-                        }
+                            }
          }
             ]
 
