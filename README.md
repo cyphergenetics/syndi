@@ -26,8 +26,8 @@ Using Auto 4
 You need Ruby 1.9 to run Auto 4. You can get MRI from the [official Ruby
 website](http://www.ruby-lang.org).
 
-Open `conf/example.conf` and go over the configuration, specifying the
-settings to your liking, then save it as `conf/auto.conf`.
+Open `conf/example.json` and go over the configuration, which is in JSON, 
+specifying the settings to your liking, then save it as `conf/auto.json`.
 
 Start Auto 4 by running `ruby auto.rb`.
 
