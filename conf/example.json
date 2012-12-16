@@ -28,7 +28,7 @@
             "useSSL": true,
             
             // Nickname the bot should use
-            "nick": "moobot",
+            "nickname": "moobot",
             
             // Username the bot should use (as in nick!user@host)
             "username": "Auto",
@@ -65,7 +65,7 @@
             "useSSL": false,
             
             // Nickname the bot should use
-            "nick": "moobot",
+            "nickname": "moobot",
             
             // Username the bot should use (as in nick!user@host)
             "username": "Auto",
