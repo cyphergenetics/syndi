@@ -59,7 +59,7 @@ If the wiki fails to address your needs, please either:
 2. Join the **unofficial** IRC chatroom at 
 [##noxchat on irc.freenode.net](http://webchat.freenode.net/?randomnick=1&channels=##noxchat&prompt=1),
 **or**
-3. Address an e-mail to one of the active developer(s) noted above, prefixing
+3. Address an e-mail to one of the **active** developer(s) noted above, prefixing
 your subject with "[auto-support]."
 
 License
