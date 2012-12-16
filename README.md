@@ -41,6 +41,9 @@ website](http://www.ruby-lang.org).
 
 Open `conf/example.json` and go over the configuration, which is in JSON, 
 specifying the settings to your liking, then save it as `conf/auto.json`.
+This is elaborated in detail on the 
+[Configuring Auto](https://github.com/noxgirl/Auto/wiki/Configuring-Auto)
+wiki page.
 
 Start Auto 4 by running `ruby auto.rb`.
 
