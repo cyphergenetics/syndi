@@ -90,7 +90,7 @@ module IRC
       @socket = socket
 
       # Register.
-      $m.events.call('Irc.OnPreConnect', self)
+      $m.events.call('irc:onPreConnect', self)
       pass(@pass) if @pass
       snd('CAP LS')
       nick(@nick)
@@ -127,26 +127,26 @@ module IRC
       end
       @recvqm = data if data != ''
 
-      # Lastly, push the data to the recvQ and call Irc.OnReadReady.
+      # Lastly, push the data to the recvQ and call irc:onReadReady.
       @recvq.push(*recv)
-      $m.events.call('Irc.OnReadReady', self)
+      $m.events.call('irc:onReadReady', self)
 
     end
       
     # Join a channel.
     # (str, [str])
     def join(chan, key=nil)
-      $m.events.call('Irc.OnBotPreOutJoin', self, chan, key)
+      $m.events.call('irc:onBotPreOutJoin', self, chan, key)
       snd("JOIN #{chan}#{key.nil? ? '' : key}")
-      $m.events.call('Irc.OnBotOutJoin', self, chan, key)
+      $m.events.call('irc:onBotOutJoin', self, chan, key)
     end
 
     # Send a message.
     # (str, str)
     def msg(target, message)
-      $m.events.call('Irc.OnBotPreMsg', self, target, message)
+      $m.events.call('irc:onBotPreMsg', self, target, message)
       snd("PRIVMSG #{target} :#{message}")
-      $m.events.call('Irc.OnBotMsg', self, target, message)
+      $m.events.call('irc:onBotMsg', self, target, message)
     end
 
     # Change nickname.
@@ -158,25 +158,25 @@ module IRC
         @nick = newnick
       end
       
-      $m.events.call('Irc.OnBotPreOutNick', self, newnick)
+      $m.events.call('irc:onBotPreOutNick', self, newnick)
       snd("NICK :#{newnick}")
-      $m.events.call('Irc.OnBotOutNick', self, newnick)
+      $m.events.call('irc:onBotOutNick', self, newnick)
     end
 
     # Send a notice.
     # (str, str)
     def notice(target, message)
-      $m.events.call('Irc.OnBotPreNotice', self, target, message)
+      $m.events.call('irc:onBotPreNotice', self, target, message)
       snd("NOTICE #{target} :#{message}")
-      $m.events.call('Irc.OnBotNotice', self, target, message)
+      $m.events.call('irc:onBotNotice', self, target, message)
     end
 
     # Part a channel.
     # (str, [str])
     def part(chan, msg='Leaving')
-      $m.events.call('Irc.OnBotPreOutPart', self, chan, msg)
+      $m.events.call('irc:onBotPreOutPart', self, chan, msg)
       snd("PART #{chan} :#{msg}")
-      $m.events.call('Irc.OnBotPrePart', self, chan, msg)
+      $m.events.call('irc:onBotPrePart', self, chan, msg)
     end
 
     # Supply server password.
@@ -199,9 +199,9 @@ module IRC
     # Send a WHO.
     # (str)
     def who(target)
-      $m.events.call('Irc.OnPreWho', self, target)
+      $m.events.call('irc:onPreWho', self, target)
       snd("WHO #{target}")
-      $m.events.call('Irc.OnWho', self, target)
+      $m.events.call('irc:onWho', self, target)
     end
 
     # How we appear in string form.
@@ -237,34 +237,33 @@ module IRC
     def bind_default_handlers
 
       # RPL_WELCOME
-      $m.events.on(self, 'Irc.OnRaw1_001') do |irc, data|
+      $m.events.on(self, 'irc:onRaw1:001') do |irc, data|
 
         if irc == self
+          
           # Connection established.
           $m.info("Successfully connected to #@name!")
           @connected = true
+          
           # First event.
-          $m.events.call('Irc.OnPreProcessConnect', self)
-          # Send identify-msg if given.
-          if msg = $m.conf.get("irc:#@name", 'identify-msg')
-            snd(msg[0])
+          $m.events.call('irc:onPreProcessConnect', self)
+          
+          # Identify the traditional way.
+          if $m.conf.x['irc'][irc].include?('nickIdentify')
+            msg($m.conf.x['irc'][irc]['nickIdentify']['service'], 
+                "#{$m.conf.x['irc'][irc]['nickIdentify']['command']} #{$m.conf.x['irc'][irc]['nickIdentify']['password']}")
           end
+          
           # Send a WHO on ourselves.
           who(@nick)
-          # Join any channels.
-          if chans = $m.conf.get("irc:#@name", 'ajoin')
-            chans.each do |chan|
-              # Check for a key.
-              key = nil
-              if /\s/ =~ chan
-                chan, key = chan.split(/\s+/)
-              end
-              # Send the join.
-              join(chan, key)
-            end
+          
+          # Join any channels specified in the configuration.
+          if $m.conf.x['irc'][irc].include?('autojoin')
+            $m.conf.x['irc'][irc]['autojoin'].each { |chan, key| join(chan, key) }
           end
+
           # Final event.
-          $m.events.call('Irc.OnPostProcessConnect', self)
+          $m.events.call('irc:onPostProcessConnect', self)
         end
       
       end
