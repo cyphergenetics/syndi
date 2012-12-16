@@ -110,8 +110,7 @@ module API
         $m.events.call('bot:onUnloadPlugin', name)
       end
     
-    end
-
+    end # def _unload
 
   end # class Extender
 
