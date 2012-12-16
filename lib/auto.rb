@@ -87,8 +87,7 @@ class Auto
       end
         
       # Iterate through each IRC server in the config, and connect to them.
-      @conf.x['irc'].each do |hash|
-        name = hash['name']
+      @conf.x['irc'].each do |name, hash|
         begin
           # Configure the IRC instance.
           @sockets[name] = IRC::Server.new(name) do |c|

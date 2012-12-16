@@ -209,6 +209,9 @@ module IRC
     def to_s
       @name
     end
+    def s
+      @name
+    end
 
     #######
     private
@@ -249,17 +252,17 @@ module IRC
           $m.events.call('irc:onPreProcessConnect', self)
           
           # Identify the traditional way.
-          if $m.conf.x['irc'][irc].include?('nickIdentify')
-            msg($m.conf.x['irc'][irc]['nickIdentify']['service'], 
-                "#{$m.conf.x['irc'][irc]['nickIdentify']['command']} #{$m.conf.x['irc'][irc]['nickIdentify']['password']}")
+          if $m.conf.x['irc'][irc.s].include?('nickIdentify')
+            msg($m.conf.x['irc'][irc.s]['nickIdentify']['service'], 
+                "#{$m.conf.x['irc'][irc.s]['nickIdentify']['command']} #{$m.conf.x['irc'][irc.s]['nickIdentify']['password']}")
           end
           
           # Send a WHO on ourselves.
           who(@nick)
           
           # Join any channels specified in the configuration.
-          if $m.conf.x['irc'][irc].include?('autojoin')
-            $m.conf.x['irc'][irc]['autojoin'].each { |chan, key| join(chan, key) }
+          if $m.conf.x['irc'][irc.s].include?('autojoin')
+            $m.conf.x['irc'][irc.s]['autojoin'].each { |c| join(c['name'], c['key']) }
           end
 
           # Final event.

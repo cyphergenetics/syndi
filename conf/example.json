@@ -13,11 +13,8 @@
 
     Add each network to which you desire the bot to connect.
     */
-    "irc": [
-        {
-            // Network name
-            "name": "freenode",
-            
+    "irc": {
+        "freenode": {
             // Network address
             "address": "irc.freenode.net",
             
@@ -57,10 +54,7 @@
             
             
         },
-        {
-            // Network name
-            "name": "Rizon",
-            
+        "Rizon": {
             // Network address
             "address": "irc.rizon.net",
             
@@ -93,6 +87,6 @@
                 
             }
         }
-    ]
+    }
 
 }
