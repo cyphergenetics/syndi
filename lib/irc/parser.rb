@@ -35,11 +35,11 @@ module IRC
 
       # Are we listening for a command in this data?
       if @commands[:zero].has_key? data[0]
-        $m.events.call("Irc.OnRaw0_#{data[0]}", irc, data)
+        $m.events.call("irc:onRaw0:#{data[0]}", irc, data)
       end
 
       if @commands[:one].has_key? data[1]
-        $m.events.call("Irc.OnRaw1_#{data[1]}", irc, data)
+        $m.events.call("irc:onRaw1:#{data[1]}", irc, data)
       end
 
     end
