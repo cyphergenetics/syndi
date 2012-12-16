@@ -20,6 +20,11 @@ OptionParser.new do |opts|
   opts.separator ''
   opts.separator "Options:"
 
+  # Configuration file.
+  opts.on('-c', '--config', "Specify a configuration file path other than conf/auto.json") do |path|
+    mopts['altconf'] = path
+  end
+
   # Debug flag.
   opts.on('-d', '--debug', "Execute in debug mode.") { |v| mopts['debug'] = true }
 
