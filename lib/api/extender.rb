@@ -29,6 +29,12 @@ module API
         $m.error("Unable to load plugin #{piname} because plugins/#{piname.dc}.rb does not exist!")
         return
       end
+      
+      # Try to prevent duplicates.
+      if @plugins.include? piname.dc
+        $m.error("Initializing #{piname}: Duplicate (#{piname.dc}) exists! Halting initialization...")
+        return
+      end
 
       # Check this file for plugin_class. We need to know what the plugin's class is,
       # or we can't initialize it.
@@ -41,7 +47,7 @@ module API
       if match.length > 0
         begin
           load "plugins/#{piname.dc}.rb"
-          eval "piclass = #{match[1]}.new", nil, ">/dev/null"
+          eval "piclass = #{match[1]}.new"
         rescue RuntimeError => e
           $m.error("Unable to load plugin #{piname} owing to RuntimeError!", false, e)
           return
@@ -54,17 +60,10 @@ module API
         return
       end
 
-      # Ensure we don't have duplicates.
-      if @plugins.include? piclass._name
-        $m.error("Initializing #{piname}: plugin initialized, but duplicate (#{piclass._name}) exists! Forcing out of runtime...")
-        unload(piclass)
-        return
-      end
-
-
       # Append to the list of loaded plugins.
-      @plugins[piclass._name][:object] = piclass
-      eval "@plugins[piclass._name][:class] = #{match[1]}"
+      @plugins[piclass._name.dc] = {}
+      @plugins[piclass._name.dc][:object] = piclass
+      eval "@plugins[piclass._name.dc][:class] = #{match[1]}"
 
       # Successful.
       $m.info("Successfully initialized #{piclass._name}!")
@@ -76,13 +75,13 @@ module API
     def punload(piname)
 
       # Check if it's really loaded.
-      unless @plugins.include? piname
+      unless @plugins.include? piname.dc
         $m.error("Unable to unload #{piname} because no such plugin is loaded!")
         return
       end
 
       # Call the private method.
-      unload(@plugins[piname][:object], @plugins[piname)
+      _unload(@plugins[piname.dc][:object], @plugins[piname.dc][:class])
 
     end
 
@@ -91,7 +90,7 @@ module API
     #######
 
     # Unload a plugin.
-    def unload(object, oclass)
+    def _unload(object, oclass)
 
       # Foremost, attempt to call uninitialize()
       name = object._name
@@ -103,10 +102,9 @@ module API
         $m.error("Unloading plugin #{name}: uninitialize() call raised an exception! Serious issues could occur.", false, e)
       ensure
         # Whatever the outcome, we must destroy the plugin.
-        eval "undef #{oclass}"
         if @plugins.include? name
-          if @plugins[name][:object] == object
-            @plugins.delete(name)
+          if @plugins[name.dc][:object] == object
+            @plugins.delete(name.dc)
           end
         end
         $m.events.call('bot:onUnloadPlugin', name)
