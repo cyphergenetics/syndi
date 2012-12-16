@@ -102,7 +102,7 @@ module API
         $m.error("Unloading plugin #{name}: uninitialize() call raised an exception! Serious issues could occur.", false, e)
       ensure
         # Whatever the outcome, we must destroy the plugin.
-        if @plugins.include? name
+        if @plugins.include? name.dc
           if @plugins[name.dc][:object] == object
             @plugins.delete(name.dc)
           end
