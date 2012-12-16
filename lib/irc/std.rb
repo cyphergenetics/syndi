@@ -51,7 +51,7 @@ module IRC
 
           # Encrypt the combination.
           username = $m.conf.x['irc'][irc]['SASL']['username']
-          password = $m.conf.get("irc:#{irc}", 'sasl_password')[0]
+          password = $m.conf.x['irc'][irc]['SASL']['password']
           enc = Base64.encode64([username, username, password].join("\0")).gsub(/\n/, '')
           
           # Send it.
@@ -86,7 +86,7 @@ module IRC
           end
 
           # If we're supposed to be using SASL, request it.
-          if $m.conf.get("irc:#{irc}", 'sasl') and data[4..-1].include? 'sasl'
+          if $m.conf.x['irc'][irc].include?('SASL') and data[4..-1].include? 'sasl'
             req << 'sasl'
           end
 
@@ -99,7 +99,7 @@ module IRC
           # Check for SASL.
           if data[4..-1].include? 'sasl'
             irc.snd('AUTHENTICATE PLAIN')
-            irc.sasl_id = $m.timers.spawn(irc, $m.conf.get("irc:#{irc}", 'sasl_timeout')[0], :once) do
+            irc.sasl_id = $m.timers.spawn(irc, $m.conf.x['irc'][irc]['SASL']['timeout'], :once) do
               irc.snd('CAP END')
             end
           else
