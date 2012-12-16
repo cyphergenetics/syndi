@@ -50,6 +50,12 @@
                     
             }
             
+            // Automatically join these channels
+            "autojoin": [
+                {"name": "#autoproject", "key": ""}
+            ]
+            
+            
         },
         {
             // Network name
