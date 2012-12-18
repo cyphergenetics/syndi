@@ -101,8 +101,10 @@ Signal.trap('TERM') { $m.terminate("Caught SIGTERM") }
 # Catch SIGINT
 Signal.trap('INT') { $m.terminate("Caught Ctrl-C") }
 
-# Catch SIGUSR1 (rehash)
-Signal.trap('USR1') { $m.conf.rehash! }
+# Catch SIGUSR1 (rehash) [if not on Windows]
+unless RUBY_PLATFORM.dc =~ /win32/
+  Signal.trap('USR1') { $m.conf.rehash! }
+end
 
 ### END SIGNALS ###
 
