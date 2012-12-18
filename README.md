@@ -89,3 +89,24 @@ Auto 4 is free software distributed under the three-clause BSD license:
     THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
     OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
     POSSIBILITY OF SUCH DAMAGE.
+
+Project
+-------
+
+Auto 4 is maintained by the Auto Project, of which [noxgirl](https://github.com/noxgirl)
+is the head developer. If you are interested in volunteering to join the team
+and aid with Auto, please contact her [by e-mail](mailto://xoeverlux@gmail.com)
+and be mindful of thus:
+
+**Anyone** may contribute to Auto. Fork the repository using GitHub; change
+the code as you will; to submit your changes as a contribution, submit a
+[pull request](https://github.com/noxgirl/Auto/pulls) and the team will
+review your changes. If they are acceptable, they will be merged into the main
+repository.
+
+If you desire to be a developer, a history of contributions will be expected.
+Why? Joining the team makes it easier to submit changes, and gives you certain
+administrative privileges. Therefore, it is only sensible that you demonstrate
+a history of contributing to Auto 4 before you are approved for this position.
+
+Thank you. - noxgirl
