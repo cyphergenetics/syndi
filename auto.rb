@@ -91,11 +91,19 @@ unless mopts['debug'] or mopts['foreground']
     exit 0
   end
 end
-  
+
+### SIGNALS ###
+
 # Catch SIGTERM
-Signal.trap("TERM") do
-  $m.terminate("Caught SIGTERM")
-end
+Signal.trap('TERM') { $m.terminate("Caught SIGTERM") }
+
+# Catch SIGINT
+Signal.trap('INT') { $m.terminate("Caught Ctrl-C") }
+
+# Catch SIGUSR1 (rehash)
+Signal.trap('USR1') { $m.conf.rehash! }
+
+### END SIGNALS ###
 
 # The following should capture all exceptions that are not otherwise caught:
 begin
