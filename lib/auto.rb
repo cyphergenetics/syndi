@@ -205,15 +205,15 @@ class Auto
   end
 
   # Terminate the bot.
-  def terminate(reason)
-    if reason.nil?
-      reason = "Terminating"
-    end
+  def terminate(reason='Terminating')
     info("Auto is terminating owing to thus: #{reason}")
+
+    # Call bot:onTerminate
+    $m.events.call('bot:onTerminate')
     
     # Disconnect from IRC networks if IRC is in use.
     if @mods.include? 'irc'
-      @sockets.each { |name, obj| obj.quit(reason) }
+      @sockets.each { |name, obj| obj.disconnect(reason) }
     end
 
     # Delete auto.pid
