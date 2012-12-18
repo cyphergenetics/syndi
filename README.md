@@ -39,6 +39,10 @@ Using Auto 4
 You need Ruby 1.9 to run Auto 4. You can get MRI from the [official Ruby
 website](http://www.ruby-lang.org).
 
+Additionally, because Auto employs the light and useful SQLite 3 for database
+management, you must have [SQLite 3](http://www.sqlite.org/) installed, in
+addition to the [sqlite3 Ruby gem](http://rubygems.org/gems/sqlite3).
+
 Open `conf/example.json` and go over the configuration, which is in JSON, 
 specifying the settings to your liking, then save it as `conf/auto.json`.
 This is elaborated in detail on the 
