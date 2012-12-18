@@ -96,14 +96,14 @@ module API
     # Unload a plugin.
     def _unload(object, oclass)
 
-      # Foremost, attempt to call uninitialize()
+      # Foremost, attempt to call deinitialize()
       name = object._name
       begin
-        object.uninitialize
+        object.deinitialize
       rescue NameError => e
-        $m.error("Unloading plugin #{name}: uninitialize() method is missing! (NameError) Serious issues could occur.", false, e)
+        $m.error("Unloading plugin #{name}: deinitialize() method is missing! (NameError) Serious issues could occur.", false, e)
       rescue => e
-        $m.error("Unloading plugin #{name}: uninitialize() call raised an exception! Serious issues could occur.", false, e)
+        $m.error("Unloading plugin #{name}: deinitialize() call raised an exception! Serious issues could occur.", false, e)
       ensure
         # Whatever the outcome, we must destroy the plugin.
         if @plugins.include? name.dc
