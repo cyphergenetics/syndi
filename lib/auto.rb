@@ -70,8 +70,10 @@ class Auto
     puts "* Loading plugins..."
     @log.info("Loading plugins...")
     @extend = API::Extender.new
-    @conf.x['plugins'].each do |plugin|
-      @extend.pload(plugin)
+    if @conf.x.include? 'plugins'
+      @conf.x['plugins'].each do |plugin|
+        @extend.pload(plugin)
+      end
     end
 
     # Create additional instance variables.
@@ -102,7 +104,7 @@ class Auto
           @sockets[name] = IRC::Server.new(name) do |c|
             c.address = hash['address']
             c.port    = hash['port']
-            c.nick    = hash['nickname'] 
+            c.nick    = hash['nickname'][0] 
             c.user    = hash['username']
             c.real    = hash['realName']
             c.ssl     = hash['useSSL']

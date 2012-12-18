@@ -26,6 +26,7 @@ module IRC
       
       $m.irc_parser.listen('001', :one)
       $m.irc_parser.listen('005', :one)
+      $m.irc_parser.listen('433', :one)
       $m.irc_parser.listen('903', :one)
       $m.irc_parser.listen('904', :one)
 
@@ -163,23 +164,44 @@ module IRC
         end # each
 
       end # do
+
+      # 433: ERR_NICKNAMEINUSE
+      $m.events.on(self, 'irc:onRaw1:433') do |irc, data|
+        
+        # Our desired nickname is in use. Check if the config has an alternative.
+        index = $m.conf.x['irc'][irc.s]['nickname'].index(data[3])
+        if $m.conf.x['irc'][irc.s]['nickname'].length > index+1
+          # Change nickname.
+          irc.nick($m.conf.x['irc'][irc.s]['nickname'][index+1])
+          $m.warn("Nickname #{data[3]} is in use on #{irc}. Trying alternative nickname #{$m.conf.x['irc'][irc.s]['nickname'][index+1]}...")
+        else # If there is not one, try to make one.
+          newnick = "#{data[3]}-"
+          irc.nick(newnick)
+          $m.warn("Nickname #{data[3]} is in use on #{irc}. Trying alternative (generated) nickname #{newnick}...")
+        end
+        
+      end
       
       # 903
       $m.events.on(self, 'irc:onRaw1:903') do |irc, data|
+        
         # SASL authentication was successful.
         $m.info("SASL authentication to #{irc} successful.")
         $m.timers.del(irc, irc.sasl_id)
         irc.sasl_id = nil
         irc.snd('CAP END')
+      
       end
 
       # 904
       $m.events.on(self, 'irc:onRaw1:904') do |irc, data|
+        
         # SASL authentication failed.
         $m.info("SASL authentication to #{irc} failed.")
         $m.timers.del(irc, irc.sasl_id)
         irc.sasl_id = nil
         irc.snd('CAP END')
+      
       end
 
     end # def init

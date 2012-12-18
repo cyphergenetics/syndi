@@ -24,8 +24,8 @@
             // Whether to use SSL (true/false)
             "useSSL": true,
             
-            // Nickname the bot should use
-            "nickname": "moobot",
+            // Nicknames the bot should use. If the first nickname is in use, the bot will alternate to the next until successful.
+            "nickname": ["moobot", "altnick"],
             
             // Username the bot should use (as in nick!user@host)
             "username": "Auto",
@@ -64,8 +64,8 @@
             // Whether to use SSL (true/false)
             "useSSL": false,
             
-            // Nickname the bot should use
-            "nickname": "moobot",
+            // Nicknames the bot should use. If the first nickname is in use, the bot will alternate to the next until successful.
+            "nickname": ["moobot", "altnick"],
             
             // Username the bot should use (as in nick!user@host)
             "username": "Auto",
