@@ -6,7 +6,7 @@
 class Auto
 
   attr_reader :opts, :conf, :log, :mods, :sockets, :events, :timers, :irc_parser,
-              :extend
+              :extend, :db
 
   # Create a new instance of Auto.
   # (hash)
@@ -46,6 +46,9 @@ class Auto
     puts "* Starting the timer system..."
     @log.info("Starting the timer system...")
     @timers = API::Timers.new
+
+    # Open the database.
+    @db = SQLite3::Database.new 'auto.db'
 
     # Load core modules.
     puts "* Loading core modules..."
@@ -215,6 +218,9 @@ class Auto
     if @mods.include? 'irc'
       @sockets.each { |name, obj| obj.disconnect(reason) }
     end
+
+    # Close the database.
+    @db.close
 
     # Delete auto.pid
     unless @opts['debug'] or @opts['foreground']

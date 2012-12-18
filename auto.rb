@@ -8,6 +8,7 @@ VERSION = '4.0.0d'
 
 # Require necessary libraries.
 require 'optparse'
+require 'sqlite3'
 
 # Parse options.
 mopts = { 'debug' => false, 'foreground' => false }
