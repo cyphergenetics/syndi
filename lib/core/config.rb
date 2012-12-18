@@ -48,12 +48,19 @@ module Core
         @x = oldconf
         return
       end
+
+      # Ensure it really succeeded.
+      if @x.empty?
+        # Nope. Restore old configuration.
+        @x = oldconf
+        $m.error("Failed to rehash the configuration file (parser produced empty config)! Reverting to old configuration.")
+        return
+      end
       
       # bot:onRehash
       $m.events.call('bot:onRehash')
 
     end
-
 
     #######
     private
