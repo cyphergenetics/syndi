@@ -2,13 +2,17 @@
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the three-clause BSD license.
 
+##############################################################################
+# API::Extender
+#
+# A class which provides basic functions for loading plugins into the runtime,
+# thereby extending the features of the bot beyond those of the core.
+##############################################################################
+
 # Namespace: API
 module API
 
   # Class: Extender
-  #
-  # This API::Extender class is intended to provide a means by which plugins
-  # may enter the runtime.
   class Extender
 
     attr_reader :plugins 
@@ -115,3 +119,5 @@ module API
   end # class Extender
 
 end # module API
+
+# vim: set ts=4 sts=2 sw=2 et:

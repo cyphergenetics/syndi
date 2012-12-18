@@ -2,6 +2,12 @@
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the three-clause BSD license.
 
+###########################################################
+# ruby_core_ext.rb
+#
+# A class which extends the functions of Ruby core classes.
+###########################################################
+
 ###
 # Changing standard class String
 ###

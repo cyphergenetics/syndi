@@ -2,6 +2,12 @@
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the three-clause BSD license.
 
+################################################################
+# API::Plugin
+#
+# A class intended to operate as a basic superclass for plugins.
+################################################################
+
 # Namespace: API
 module API
   
@@ -30,3 +36,5 @@ module API
   end # class Plugin
 
 end # module API
+
+# vim: set ts=4 sts=2 sw=2 et:

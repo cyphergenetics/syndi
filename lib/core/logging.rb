@@ -2,6 +2,13 @@
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the three-clause BSD license.
 
+############################################################################
+# Core::Logging
+#
+# A class which provides a comprehensive yet simple and vital logging system
+# for the core.
+############################################################################
+
 # Entering namespace: Core
 module Core
 
@@ -87,3 +94,4 @@ module Core
 
 end # module Core
 
+# vim: set ts=4 sts=2 sw=2 et:

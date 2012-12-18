@@ -5,6 +5,13 @@
 require 'socket'
 require 'openssl'
 
+#############################################################################
+# IRC::Server
+#
+# A class which maintains a connection to an IRC server and provides a highly
+# usable interface for the IRC server.
+#############################################################################
+
 # Entering namespace: IRC
 module IRC
 

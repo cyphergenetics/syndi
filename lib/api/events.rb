@@ -2,6 +2,14 @@
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the three-clause BSD license.
 
+############################################################################
+# API::Events
+#
+# A class which provides the API the fundamental event system, upon which
+# much of the API is based, and which follows a simple model of broadcasting
+# and hooking onto such broadcasts.
+############################################################################
+
 # Entering namespace: API
 module API
 

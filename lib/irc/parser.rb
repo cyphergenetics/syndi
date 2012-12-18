@@ -2,6 +2,12 @@
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the three-clause BSD license.
 
+#############################################################################
+# IRC::Parser
+#
+# A simple class which provides a basic, foundational parser for IRC traffic.
+#############################################################################
+
 # Entering namespace: IRC
 module IRC
 

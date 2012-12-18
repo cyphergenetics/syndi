@@ -2,6 +2,13 @@
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the three-clause BSD license.
 
+############################################################################
+# API::Timers
+#
+# A simple class which provides the API a fundamental timer system, based on
+# threading.
+############################################################################
+
 # Entering namespace: API
 module API
 
@@ -72,3 +79,5 @@ module API
   end # class Timers
 
 end # module API
+
+# vim: set ts=4 sts=2 sw=2 et:

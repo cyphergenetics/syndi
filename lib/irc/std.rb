@@ -2,6 +2,14 @@
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the three-clause BSD license.
 
+##########################################################################
+# IRC::Std
+#
+# A module which binds to all standard IRC commands and numerics, provides
+# basic IRC functions, and interfaces these to the event system for easy
+# use.
+##########################################################################
+
 # Entering namespace: IRC
 module IRC
 

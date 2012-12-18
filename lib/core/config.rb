@@ -3,6 +3,13 @@
 # Distributed under the terms of the three-clause BSD license.
 require 'json'
 
+############################################################################
+# Core::Config
+#
+# A class which provides a functional, simple interface to JSON for the bot,
+# thereby providing the vital configuration system.
+############################################################################
+
 # Namespace: Core
 module Core
 
@@ -84,3 +91,5 @@ module Core
   end # class Config
 
 end # module Core
+
+# vim: set ts=4 sts=2 sw=2 et:
