@@ -12,7 +12,7 @@ module IRC
   class Server
 
     attr_reader :socket, :in, :out
-    attr_accessor :name, :address, :port, :nick, :user, :real, :pass,
+    attr_accessor :name, :address, :port, :nick, :user, :real, :password,
                   :bind, :ssl, :sasl_id, :connected, :mask, :recvq,
                   :mask, :prefixes, :channel_modes, :max_modes,
                   :await_self_who
@@ -22,15 +22,15 @@ module IRC
     def initialize(name)
       
       # Prepare attributes.
-      @name    = name
-      @address = nil
-      @port    = nil
-      @nick    = nil
-      @user    = nil
-      @real    = nil
-      @pass    = nil
-      @bind    = nil
-      @ssl     = false
+      @name     = name
+      @address  = nil
+      @port     = nil
+      @nick     = nil
+      @user     = nil
+      @real     = nil
+      @password = nil
+      @bind     = nil
+      @ssl      = false
 
       # Yield for configuration.
       yield(self) if block_given?
@@ -93,9 +93,9 @@ module IRC
 
       # Register.
       $m.events.call('irc:onPreConnect', self)
-      pass(@pass) if @pass
+      pass(@password) if @password
       snd('CAP LS')
-      nick(@nick)
+      chgnick(@nick)
       user(@user, Socket.gethostname, @address, @real)
 
     end
@@ -159,7 +159,7 @@ module IRC
 
     # Change nickname.
     # (str)
-    def nick(newnick)
+    def chgnick(newnick)
       if connected?
         @newnick = newnick
       else
