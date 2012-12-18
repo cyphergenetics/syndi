@@ -132,6 +132,12 @@ module IRC
       $m.events.call('irc:onReadReady', self)
 
     end
+
+    # Disconnect from the server.
+    def disconnect(msg='Terminating')
+      $m.events.call('irc:onDisconnect', self)
+      snd("QUIT :#{msg}")
+    end
       
     # Join a channel.
     # (str, [str])
@@ -183,12 +189,6 @@ module IRC
     # (str)
     def pass(password)
       snd("PASS :#{password}")
-    end
-
-    # Disconnect.
-    def quit(msg)
-      $m.events.call('irc:onQuit', self)
-      snd("QUIT :#{msg}")
     end
 
     # Send USER.
