@@ -102,7 +102,9 @@ and be mindful of thus:
 the code as you will; to submit your changes as a contribution, submit a
 [pull request](https://github.com/noxgirl/Auto/pulls) and the team will
 review your changes. If they are acceptable, they will be merged into the main
-repository.
+repository. You may find the 
+[developers' to-do list](https://github.com/noxgirl/Auto/wiki/To-do-List) to be
+a useful tool.
 
 If you desire to be a developer, a history of contributions will be expected.
 Why? Joining the team makes it easier to submit changes, and gives you certain
