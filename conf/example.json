@@ -95,6 +95,6 @@
     These are optional plugins (located in plugins/) intended to extend the bot's features.
     List them like so: if you desire to load plugins/foo.rb, list 'foo'
     */
-    plugins: []
+    "plugins": []
 
 }
