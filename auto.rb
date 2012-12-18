@@ -4,7 +4,7 @@
 # Distributed under the terms of the three-clause BSD license.
 
 # Program variables.
-VERSION = '4.0.0-dev'
+VERSION = '4.0.0d'
 
 # Require necessary libraries.
 require 'optparse'
