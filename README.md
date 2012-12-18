@@ -111,4 +111,8 @@ Why? Joining the team makes it easier to submit changes, and gives you certain
 administrative privileges. Therefore, it is only sensible that you demonstrate
 a history of contributing to Auto 4 before you are approved for this position.
 
+Please note moreover that Auto 3 is maintained by
+[Arinity](https://github.com/arinity), but that I am willing to review your
+contributions to earlier versions of Auto and consider them also.
+
 Thank you. -noxgirl
