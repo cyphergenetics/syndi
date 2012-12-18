@@ -36,8 +36,9 @@ It is advisable to read the documentation on the [wiki](https://github.com/noxgi
 Using Auto 4
 ------------
 
-You need Ruby 1.9 to run Auto 4. You can get MRI from the [official Ruby
-website](http://www.ruby-lang.org).
+You need Ruby 1.9 to run Auto 4. You can get Ruby from the [official Ruby
+website](http://www.ruby-lang.org). Currently, Windows is not supported;
+support is however planned for the future.
 
 Additionally, because Auto employs the light and useful SQLite 3 for database
 management, you must have [SQLite 3](http://www.sqlite.org/) installed, as well
