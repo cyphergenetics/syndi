@@ -5,7 +5,7 @@ by the Auto Project:
 
 -   [noxgirl](https://github.com/noxgirl) \<xoeverlux@gmail.com\>
 
-Past contributors:
+Contributors to earlier versions:
 
 -   Matthew Barksdale \<mattwb65@gmail.com\>
 -   Russell Bradford \<russell@rbradford.me\>
