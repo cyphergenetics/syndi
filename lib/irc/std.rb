@@ -26,6 +26,7 @@ module IRC
       
       $m.irc_parser.listen('001', :one)
       $m.irc_parser.listen('005', :one)
+      $m.irc_parser.listen('352', :one)
       $m.irc_parser.listen('433', :one)
       $m.irc_parser.listen('903', :one)
       $m.irc_parser.listen('904', :one)
@@ -114,6 +115,13 @@ module IRC
         irc.snd("PONG #{data[1]}")
       end
 
+      # PRIVMSG
+      $m.events.on(self, 'irc:onRaw1:PRIVMSG') do |irc, data|
+        puts data
+        
+        # Check if it's a VERSION.
+      end
+
       ### NUMERICS ###
 
       # 005
@@ -165,6 +173,31 @@ module IRC
 
       end # do
 
+      # 352: RPL_WHOREPLY
+      $m.events.on(self, 'irc:onRaw1:352') do |irc, data|
+        
+        # Check if we're awaiting a reply on our self-WHO.
+        if irc.await_self_who
+          
+          # Username
+          irc.user = data[4]
+          # Hostname
+          irc.mask = data[5]
+          # Nickname
+          irc.nick = data[7]
+          # Real name
+          irc.real = data[10..-1]
+
+          irc.await_self_who = false
+
+        end
+
+        # Call irc:onWhoReply
+        # -> (nick, username, host, realname, awaystatus, server)
+        $m.events.call('irc:onWhoReply', data[7], data[4], data[5], data[10..-1], data[8], data[6])
+
+      end
+
       # 433: ERR_NICKNAMEINUSE
       $m.events.on(self, 'irc:onRaw1:433') do |irc, data|
         
@@ -182,7 +215,7 @@ module IRC
         
       end
       
-      # 903
+      # 903: RPL_SASLSUCCESS
       $m.events.on(self, 'irc:onRaw1:903') do |irc, data|
         
         # SASL authentication was successful.
@@ -193,7 +226,7 @@ module IRC
       
       end
 
-      # 904
+      # 904: RPL_SASLFAIL
       $m.events.on(self, 'irc:onRaw1:904') do |irc, data|
         
         # SASL authentication failed.

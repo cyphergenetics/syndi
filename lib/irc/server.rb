@@ -14,7 +14,8 @@ module IRC
     attr_reader :socket, :in, :out
     attr_accessor :name, :address, :port, :nick, :user, :real, :pass,
                   :bind, :ssl, :sasl_id, :connected, :mask, :recvq,
-                  :mask, :prefixes, :channel_modes, :max_modes
+                  :mask, :prefixes, :channel_modes, :max_modes,
+                  :await_self_who
 
     # Create a new instance of IRC::Server.
     # (str)
@@ -41,10 +42,11 @@ module IRC
       @connected = false
 
       # Stateful attributes.
-      @mask          = ''
-      @prefixes      = {}
-      @channel_modes = { list: [], always: [], set: [], never: [] }
-      @max_modes     = 0
+      @mask           = ''
+      @prefixes       = {}
+      @channel_modes  = { list: [], always: [], set: [], never: [] }
+      @max_modes      = 0
+      @await_self_who = false
 
       # Our recvQ.
       @recvq  = []
@@ -260,6 +262,7 @@ module IRC
           
           # Send a WHO on ourselves.
           who(@nick)
+          @await_self_who = true
           
           # Join any channels specified in the configuration.
           if $m.conf.x['irc'][irc.s].include?('autojoin')
