@@ -1,2 +1,3 @@
 logs/*
 conf/auto.json
+*.db
