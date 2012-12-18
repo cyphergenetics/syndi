@@ -117,14 +117,26 @@ module IRC
 
       # PRIVMSG
       $m.events.on(self, 'irc:onRaw1:PRIVMSG') do |irc, data|
-        puts data
+        sender = parse_mask(data[0])
         
-        # Check if it's a VERSION.
+        # Check if it's a CTCP VERSION.
+        if data[3] =~ /^:\001VERSION\001$/
+          irc.notice(sender[0], "\001VERSION Auto #{VERSION} (http://noxgirl.github.com/Auto)\001")
+        else # Else, call msg events.
+          if data[2] == irc.nick
+            #irc:onRecvPrivMsg <- (irc, sender, msg)
+            $m.events.call('irc:onRecvPrivMsg', irc, sender, data[3..-1].sub!(/^:/, ''))
+          else
+            # irc:onRecvChanMsg <- (irc, sender, channel, msg)
+            $m.events.call('irc:onRecvChanMsg', irc, sender, data[2], data[3..-1].sub!(/^:/, ''))
+          end
+        end
+
       end
 
       ### NUMERICS ###
 
-      # 005
+      # 005: RPL_ISUPPORT
       $m.events.on(self, 'irc:onRaw1:005') do |irc, data|
 
         # Iterate through the parameters.
@@ -192,9 +204,8 @@ module IRC
 
         end
 
-        # Call irc:onWhoReply
-        # -> (nick, username, host, realname, awaystatus, server)
-        $m.events.call('irc:onWhoReply', data[7], data[4], data[5], data[10..-1], data[8], data[6])
+        # Call irc:onWhoReply <- (irc, nick, username, host, realname, awaystatus, server)
+        $m.events.call('irc:onWhoReply', irc, data[7], data[4], data[5], data[10..-1], data[8], data[6])
 
       end
 
@@ -205,11 +216,11 @@ module IRC
         index = $m.conf.x['irc'][irc.s]['nickname'].index(data[3])
         if $m.conf.x['irc'][irc.s]['nickname'].length > index+1
           # Change nickname.
-          irc.nick($m.conf.x['irc'][irc.s]['nickname'][index+1])
+          irc.chgnick($m.conf.x['irc'][irc.s]['nickname'][index+1])
           $m.warn("Nickname #{data[3]} is in use on #{irc}. Trying alternative nickname #{$m.conf.x['irc'][irc.s]['nickname'][index+1]}...")
         else # If there is not one, try to make one.
           newnick = "#{data[3]}-"
-          irc.nick(newnick)
+          irc.chgnick(newnick)
           $m.warn("Nickname #{data[3]} is in use on #{irc}. Trying alternative (generated) nickname #{newnick}...")
         end
         
@@ -238,6 +249,13 @@ module IRC
       end
 
     end # def init
+
+    # parse_mask(str): Parse a mask of nick!user@host.
+    # <- (nick, user, host)
+    def self.parse_mask(mask)
+      data = %r{^:([0-9a-zA-Z]+)!(.+)@(.+)$}.match(mask)
+      return data[1], data[2], data[3]
+    end
 
   end # module Std
 
