@@ -109,4 +109,4 @@ Why? Joining the team makes it easier to submit changes, and gives you certain
 administrative privileges. Therefore, it is only sensible that you demonstrate
 a history of contributing to Auto 4 before you are approved for this position.
 
-Thank you. - noxgirl
+Thank you. -noxgirl
