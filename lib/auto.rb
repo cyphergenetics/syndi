@@ -5,8 +5,8 @@
 # Class Auto: Main bot class.
 class Auto
 
-  attr_reader :opts, :conf, :log, :mods, :sockets, :events, :timers, :irc_parser,
-              :extend, :db
+  attr_reader :opts, :conf, :log, :mods, :irc_sockets, :events, :timers, :irc_parser,
+              :extend, :db, :irc_cmd
 
   # Create a new instance of Auto.
   # (hash)
@@ -62,9 +62,11 @@ class Auto
           @irc_parser = IRC::Parser.new
           require_relative 'irc/std.rb'
           IRC::Std.init
+          require_relative 'irc/commands.rb'
+          @irc_cmd = IRC::Commands.new
           @mods << 'irc'
         rescue => e
-          error("Unable to load core module `irc`: #{e}", true)
+          error "Unable to load core module `irc`: #{e}", true
         end
       end
     end
@@ -80,7 +82,7 @@ class Auto
     end
 
     # Create additional instance variables.
-    @sockets = {}
+    @irc_sockets = {}
       
     true
   end
@@ -104,7 +106,7 @@ class Auto
       @conf.x['irc'].each do |name, hash|
         begin
           # Configure the IRC instance.
-          @sockets[name] = IRC::Server.new(name) do |c|
+          @irc_sockets[name] = IRC::Server.new(name) do |c|
             c.address = hash['address']
             c.port    = hash['port']
             c.nick    = hash['nickname'][0] 
@@ -114,7 +116,7 @@ class Auto
           end
 
           # Connect.
-          @sockets[name].connect
+          @irc_sockets[name].connect
         rescue => e
           error("Connection to #{name} failed: #{e}", false, e.backtrace)
         end
@@ -134,7 +136,7 @@ class Auto
       
       # Build a list of sockets.
       sockets = []
-      @sockets.each do |name, obj|
+      @irc_sockets.each do |name, obj|
         unless obj.socket.nil?
           sockets << obj.socket
         end
@@ -145,8 +147,8 @@ class Auto
 
       # Iterate through sockets ready for reading.
       ready_read.each do |socket|
-        name = @sockets.each { |name, tsock| break name if tsock.socket == socket }
-        @sockets[name].recv
+        name = @irc_sockets.each { |name, tsock| break name if tsock.socket == socket }
+        @irc_sockets[name].recv
       end
 
     end
@@ -216,7 +218,7 @@ class Auto
     
     # Disconnect from IRC networks if IRC is in use.
     if @mods.include? 'irc'
-      @sockets.each { |name, obj| obj.disconnect(reason) }
+      @irc_sockets.each { |name, obj| obj.disconnect(reason) }
     end
 
     # Close the database.
