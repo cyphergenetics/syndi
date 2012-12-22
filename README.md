@@ -13,6 +13,11 @@ Contributors to earlier versions:
 -   Russell Bradford \<russell@rbradford.me\>
 -   Liam Smith \<me@liam.co\>
 -   Alyx Wolcott \<contact@alyxw.me\>
+-   Mitchell Cooper \<mitchell@notroll.net\>
+-   Timothy Estes \<tim7967@gmail.com\>
+-   Douglas Freed :[GitHub](https://github.com/dwfreed)
+-   Eitan Adler :[GitHub](https://github.com/grimreaper)
+-   Noah Ridley :[GitHub](https://github.com/nridley)
 
 Description
 -----------
