@@ -20,13 +20,15 @@ This event occurs when the configuration file is successfully reprocessed and re
 
 ### bot:onTerminate `(nil)`
 
-This event occurs when the bot is terminating, immediately prior **irc** module's disconnection from all networks.
+This event occurs when the bot is terminating, immediately prior **irc** module's disconnection
+from all networks.
 
 ## IRC
 
 Common variables are marked with an asterisk (`*`):
-* `irc*` is the [IRC::Server](https://github.com/noxgirl/Auto/wiki/API-Events) object.
-* `sender*` is an array of strings about the sender in the format of `[nick, username, hostmask]`.
+* `irc*` is the {IRC::Server} object.
+* `sender*` and `user*` are the {IRC::Object::User} objects.
+* `msg*` is an [IRC::Object::Message} object.
 
 ### irc:onDisconnect `(irc*)`
 
@@ -34,11 +36,26 @@ This event occurs immediately before the bot disconnects from the given IRC netw
 
 ### irc:onRecvChanMsg `(irc*, sender*, [str] channel, [ary] message)`
 
-This event occurs when a channel the bot is in receives a message. `channel` is the channel in question, and `message` is the body of the message in an array (the message is split into elements by its spaces).
+This event occurs when a channel the bot is in receives a message. `channel` is the channel in
+question, and `message` is the body of the message in an array (the message is split into elements
+by its spaces).
 
 ### irc:onRecvPrivMsg `(irc*, sender*, [str] message)`
 
-This event occurs when the bot receives a private message. `message` is the body of the message in an array (the message is split into elements by its spaces).
+This event occurs when the bot receives a private message. `message` is the body of the message in
+an array (the message is split into elements by its spaces).
+
+### irc:onSelfPreMsg
+
+**->** `(user*, [str] message)`
+
+This event occurs prior to the bot sending a private message.
+
+### irc:onSelfMsg
+
+**->** `(user*, [str] message)`
+
+This event occurs following the bot sending a private message.
 
 ### irc:onWhoReply `[all strs](irc*, nick, username, host, realname, awaystatus, server)`
 
