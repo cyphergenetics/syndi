@@ -58,7 +58,7 @@ module IRC
       # Reply to this message.
       #
       # @param [String] msg The message with which to reply.
-      # @param [Boolean] in_channel If the response should be in-channel (assuming it was received in a channel), specify +true+.
+      # @param [true, false] in_channel If the response should be in-channel (assuming it was received in a channel), specify +true+.
       #   If it should be private regardless of where it was received, specify +false+.
       #
       # @note Essentially reply() exists to simplify the API. 
@@ -76,19 +76,19 @@ module IRC
         
         # Respond in-channel if this was sent to a channel *and* in_channel
         # is specified as true.
-        when false, :public, :msg
+        when false, true, :msg
           irc.msg(@channel, msg)
 
         # Likewise for channel notices. 
-        when false, :public, :notice
-
+        when false, true, :notice
+          
         end
 
       end
 
       # Checks whether the message was received through a channel.
       #
-      # @return [Boolean]
+      # @return [true, false]
       def in_channel?; @channel.nil?; end
 
     end # class Message
@@ -96,3 +96,5 @@ module IRC
   end # module Object
 
 end # module IRC
+
+# vim: set ts=4 sts=2 sw=2 et:

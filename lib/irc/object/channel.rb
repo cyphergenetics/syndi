@@ -18,3 +18,5 @@ module IRC
   end # module Object
 
 end # module IRC
+
+# vim: set ts=4 sts=2 sw=2 et:

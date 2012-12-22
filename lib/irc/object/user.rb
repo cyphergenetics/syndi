@@ -49,7 +49,7 @@ module IRC
       # @param [String] nickname The user's nickname.
       # @param [String] username The user's username or ident.
       # @param [String] hostname The user's hostname or mask.
-      # @param [Boolean] away Whether the user is away: +true+ or +false+.
+      # @param [true, false] away Whether the user is away: +true+ or +false+.
       #
       # @example
       #   user = IRC::Object::User.new(irc, 'missfoo', 'cowmilk', 'the.night.is.lovely', false)
@@ -85,7 +85,7 @@ module IRC
 
       # Update the user's known away status.
       #
-      # @param [Boolean] new The user's new away status, which should be +true+ or +false+.
+      # @param [true, false] new The user's new away status, which should be +true+ or +false+.
       def away=(new)
         if new == true or new == false
           @away = new
@@ -154,3 +154,5 @@ module IRC
   end # module Object
 
 end # module IRC
+
+# vim: set ts=4 sts=2 sw=2 et:
