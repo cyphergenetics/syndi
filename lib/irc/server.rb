@@ -158,14 +158,6 @@ module IRC
       $m.events.call('irc:onBotOutJoin', self, chan, key)
     end
 
-    # Send a message.
-    # (str, str)
-    def msg(target, message)
-      $m.events.call('irc:onBotPreMsg', self, target, message)
-      snd("PRIVMSG #{target} :#{message}")
-      $m.events.call('irc:onBotMsg', self, target, message)
-    end
-
     # Change nickname.
     # (str)
     def chgnick(newnick)
@@ -178,14 +170,6 @@ module IRC
       $m.events.call('irc:onBotPreOutNick', self, newnick)
       snd("NICK :#{newnick}")
       $m.events.call('irc:onBotOutNick', self, newnick)
-    end
-
-    # Send a notice.
-    # (str, str)
-    def notice(target, message)
-      $m.events.call('irc:onBotPreNotice', self, target, message)
-      snd("NOTICE #{target} :#{message}")
-      $m.events.call('irc:onBotNotice', self, target, message)
     end
 
     # Part a channel.
