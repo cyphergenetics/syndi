@@ -16,4 +16,9 @@ event-system changes.
 * [ ] Finish IRC::Commands.
 * [ ] Finish and ensure stability of IRC::Object::User, IRC::Object::Message.
 * [ ] Create IRC::Object::Channel.
-* 
+
+**Plugins**
+
+* [ ] IRC relay.
+* [ ] Last.fm.
+* [ ] Twitter.
