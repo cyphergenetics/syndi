@@ -33,6 +33,11 @@ fundamental structure, which is much cleaner and simpler, and less esoteric.
 
 It is advisable to read the documentation on the [wiki](https://github.com/noxgirl/Auto/wiki).
 
+**Developers** should generate documentation of the code and the API in particular.
+Auto's code is documented with [YARD](http://yardoc.org/). You need the
+[yard gem](https://rubygems.org/gems/yard), as well as the
+[redcarpet gem](https://rubygems.org/gems/redcarpet) for Markdown parsing.
+
 Using Auto 4
 ------------
 
@@ -42,7 +47,7 @@ support is however planned for the future.
 
 Additionally, because Auto employs the light and useful SQLite 3 for database
 management, you must have [SQLite 3](http://www.sqlite.org/) installed, as well
-as the [sqlite3 Ruby gem](http://rubygems.org/gems/sqlite3).
+as the [sqlite3 Ruby gem](https://rubygems.org/gems/sqlite3).
 
 Open `conf/example.json` and go over the configuration, which is in JSON, 
 specifying the settings to your liking, then save it as `conf/auto.json`.
