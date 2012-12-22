@@ -58,7 +58,7 @@ Developing for Auto 4
 ---------------------
 
 Developers are provided extensive documentation of Auto 4 
-[on rubydoc.info](http://rubydoc.info/github/noxgirl/Auto/).
+[on rdoc.info](http://rdoc.info/github/noxgirl/Auto/).
 
 If you should desire to generate your own copy of the documentation, mind that
 Auto uses [YARD](http://yardoc.org/). Obtain the 
