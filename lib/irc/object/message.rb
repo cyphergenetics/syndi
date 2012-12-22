@@ -26,7 +26,7 @@ module IRC
     #   @return [Array<String>] The body of the message, divided into elements by its spaces.
     #
     # @!attribute [r] nature
-    #   @return [Symbol] The nature of the message, `:notice` or `:msg`.
+    #   @return [Symbol] The nature of the message, +:notice+ or +:msg+.
     #
     # @!attribute [r] channel
     #   @return [nil] If this message was received privately and not through a channel, this is nil.
@@ -36,13 +36,15 @@ module IRC
 
       attr_reader :irc, :sender, :body, :nature, :channel
 
+      # @!method new(irc, sender, body, nature, channel)
+      #
       # Process a new message.
       #
       # @param [IRC::Server] irc The server on which the message was received.
       # @param [IRC::Object::User] sender The user from whom the message was received.
       # @param [String] body The body of the message.
-      # @param [Symbol] The nature of the message: either a `:notice` or a `:msg`. Default is `:notice`.
-      # @param [IRC::Object::Channel] If it was received through a channel, the channel.
+      # @param [Symbol] nature The nature of the message: either a +:notice+ or a +:msg+.
+      # @param [IRC::Object::Channel] channel If it was received through a channel, the channel.
       def initialize(irc, sender, body, nature=:notice, channel=nil)
 
         @irc     = irc
@@ -56,9 +58,8 @@ module IRC
       # Reply to this message.
       #
       # @param [String] msg The message with which to reply.
-      # @param [Boolean] in_channel `true` if the response should be in-channel
-      #   (assuming it was received in a channel), `false` if it should be private
-      #   regardless of where it was received.
+      # @param [true] in_channel If the response should be in-channel (assuming it was received in a channel)
+      # @param [false] in_channel If it should be private regardless of where it was received.
       #
       # @note Essentially reply() exists to simplify the API. 
       #   Rather than necessitating that commands use endless, illegible conditional
@@ -68,7 +69,7 @@ module IRC
       # @todo Unfinished.
       def reply(msg, in_channel)
         
-        case @channel.nil, in_channel, @nature
+        case [@channel.nil, in_channel, @nature]
         
         # Respond in-channel if this was sent to a channel *and* in_channel
         # is specified as true.
