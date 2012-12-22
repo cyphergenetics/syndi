@@ -78,6 +78,8 @@ This event occurs after a /WHO has been requested of a user.
 
 ### irc:onWhoReply `[all strs](irc*, nick, username, host, realname, awaystatus, server)`
 
-This event occurs when the bot receives RPL_WHOREPLY (numeric 352) in response to a /WHO. Note that `awaystatus =~ /H/` will be true if the user is not away, while `awaystatus =~ /G/` will be true if the user is away (`H` meaning _here_, `G` meaning _gone_).
+This event occurs when the bot receives **RPL_WHOREPLY** (numeric 352) in response to a /WHO. Note that
+`awaystatus =~ /H/` will be true if the user is not away, while `awaystatus =~ /G/` will be true if the
+user is away (`H` meaning _here_, `G` meaning _gone_).
 
 ## System
