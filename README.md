@@ -4,6 +4,8 @@ Auto 4
 by the Auto Project:
 
 -   [noxgirl](https://github.com/noxgirl) \<xoeverlux@gmail.com\>
+-   [swarley](https://github.com/swarley) \<matthew.b.carey@gmail.com\>
+-   [mattwb65](https://github.com/mattwb65) \<mattwb65@gmail.com\>
 
 Contributors to earlier versions:
 

@@ -64,6 +64,7 @@ class Auto
           IRC::Std.init
           require_relative 'irc/commands.rb'
           require_relative 'irc/object/user.rb'
+          require_relative 'irc/object/message.rb'
           @irc_cmd = IRC::Commands.new
           @mods << 'irc'
         rescue => e

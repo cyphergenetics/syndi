@@ -64,6 +64,8 @@ module IRC
 
     end
 
+    ### BASIC ###
+
     # Connect to the remote server.
     # ()
     def connect
@@ -142,8 +144,10 @@ module IRC
 
     end
 
+    ### INTERFACE ###
+
     # Disconnect from the server.
-    def disconnect(msg='Terminating')
+    def disconnect(msg='Closing connection')
       $m.events.call('irc:onDisconnect', self)
       snd("QUIT :#{msg}")
     end
@@ -189,9 +193,9 @@ module IRC
     # Part a channel.
     # (str, [str])
     def part(chan, msg='Leaving')
-      $m.events.call('irc:onBotPreOutPart', self, chan, msg)
+      $m.events.call('irc:onSelfPrePart', self, chan, msg)
       snd("PART #{chan} :#{msg}")
-      $m.events.call('irc:onBotPrePart', self, chan, msg)
+      $m.events.call('irc:onSelfPart', self, chan, msg)
     end
 
     # Supply server password.
@@ -213,6 +217,28 @@ module IRC
       snd("WHO #{target}")
       $m.events.call('irc:onWho', self, target)
     end
+
+    ### STATE ###
+
+    # Create a user.
+    #
+    def new_user(nickname, username=nil, hostname=nil, away=false)
+      
+      # Check if this user already exists, and if so, issue a warning
+      # and update the already-existing user's data.
+      if user_known? nickname.lc
+        $m.warn("Attempted to introduce user #{nickname}, but user is already known. Updating current data in lieu...")
+        @users[nickname.lc].update(nickname, username, hostname, away)
+      end
+
+
+
+    # Check with a user's existence is known to the IRC state management.
+    def user_known?(nickname)
+      @users.include?(nickname.lc) ? true : false
+    end
+
+    ### RUBY ###
 
     # How we appear in string form.
     # ()

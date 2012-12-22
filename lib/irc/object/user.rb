@@ -70,23 +70,17 @@ module IRC
 
       # Check if their username is known.
       def user_known?
-        if @user == nil then false
-        else true
-        end
+        @user.nil? ? false : true
       end
 
       # Check if their hostname is known.
       def host_known?
-        if @host == nil then false
-        else true
-        end
+        @host.nil? ? false : true
       end
 
       # Check if they are logged in.
       def logged_in?
-        if @account == nil then false
-        else true
-        end
+        @account.nil? ? false : true
       end
 
     end # class User

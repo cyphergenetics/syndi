@@ -27,14 +27,18 @@ module IRC
       $m.irc_parser.listen('AUTHENTICATE', :zero)
       $m.irc_parser.listen('CAP', :one)
       $m.irc_parser.listen('JOIN', :one)
+      $m.irc_parser.listen('KICK', :one)
+      $m.irc_parser.listen('NICK', :one)
       $m.irc_parser.listen('NOTICE', :one)
       $m.irc_parser.listen('PART', :one)
       $m.irc_parser.listen('PING', :zero)
       $m.irc_parser.listen('PRIVMSG', :one)
+      $m.irc_parser.listen('QUIT', :one)
       
       $m.irc_parser.listen('001', :one)
       $m.irc_parser.listen('005', :one)
       $m.irc_parser.listen('352', :one)
+      $m.irc_parser.listen('353', :one)
       $m.irc_parser.listen('433', :one)
       $m.irc_parser.listen('903', :one)
       $m.irc_parser.listen('904', :one)
@@ -118,6 +122,16 @@ module IRC
         end
       end
 
+      # JOIN
+
+      # KICK
+
+      # NICK
+
+      # NOTICE
+
+      # PART
+
       # PING
       $m.events.on(self, 'irc:onRaw0:PING') do |irc, data|
         irc.snd("PONG #{data[1]}")
@@ -133,14 +147,18 @@ module IRC
         else # Else, call msg events.
           if data[2] == irc.nick
             #irc:onRecvPrivMsg <- (irc, sender, msg)
-            $m.events.call('irc:onRecvPrivMsg', irc, sender, data[3..-1].sub!(/^:/, ''))
+            data[3].sub!(/^:/, '')
+            $m.events.call('irc:onRecvPrivMsg', irc, sender, data[3..-1])
           else
             # irc:onRecvChanMsg <- (irc, sender, channel, msg)
-            $m.events.call('irc:onRecvChanMsg', irc, sender, data[2], data[3..-1].sub!(/^:/, ''))
+            data[3].sub!(/^:/, '')
+            $m.events.call('irc:onRecvChanMsg', irc, sender, data[2], data[3..-1])
           end
         end
 
       end
+
+      # QUIT
 
       ### NUMERICS ###
 
@@ -217,6 +235,12 @@ module IRC
 
       end
 
+      # 353: RPL_NAMEREPLY
+      $m.events.on(self, 'irc:onRaw1:353') do |irc, data|
+
+
+      end
+
       # 433: ERR_NICKNAMEINUSE
       $m.events.on(self, 'irc:onRaw1:433') do |irc, data|
         
@@ -263,6 +287,21 @@ module IRC
     def self.parse_mask(mask)
       data = %r{^:([0-9a-zA-Z]+)!(.+)@(.+)$}.match(mask)
       return data[1], data[2], data[3]
+    end
+
+    # array_msg_to_str: Change an array of data (the body of a message) into a united string.
+    def self.array_msg_to_str(array)
+      str = ''
+      array.each do |item|
+        if str == ''
+          str = item
+        else
+          str = "#{str} #{item}"
+        end
+      end
+      str.sub!(/^:/, '')
+
+      str
     end
 
   end # module Std
