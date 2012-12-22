@@ -26,6 +26,7 @@ from all networks.
 ## IRC
 
 Common variables are marked with an asterisk (`*`):
+
 * `irc*` is the {IRC::Server} object.
 * `sender*` and `user*` are the {IRC::Object::User} objects.
 * `msg*` is an [IRC::Object::Message} object.
