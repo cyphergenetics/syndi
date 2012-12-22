@@ -127,9 +127,7 @@ module IRC
       @in += data.length
       
       # Split the data.
-      recv = data.scan(/(.+\r\n)/)
-      data.gsub!(/(.+\r\n)/, '')
-      recv.flatten!
+      recv, data = data.split(/(?<=\r\n)/, 2)
 
       # Check if there's a remainder in the recvQ.
       if @recvqm != ''
