@@ -1,5 +1,5 @@
 logs/*
 conf/auto.json
 *.db
-doc/*
+yardoc/*
 .yardoc

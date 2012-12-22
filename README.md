@@ -33,21 +33,14 @@ yet ready to supersede Auto v3.
 Come stability, Auto 4 will supersede Auto 3. The most notable change is in its
 fundamental structure, which is much cleaner and simpler, and less esoteric.
 
-It is advisable to read the documentation on the [wiki](https://github.com/noxgirl/Auto/wiki).
-
-**Developers** should generate documentation of the code and the API in particular.
-Auto's code is documented with [YARD](http://yardoc.org/). You need the
-[yard gem](https://rubygems.org/gems/yard), as well as the
-[redcarpet gem](https://rubygems.org/gems/redcarpet) for Markdown parsing. Run
-`yard doc` in the top directory. Please see the [Project](#Project) section and
-CONTRIBUTING.md when considering submitting a contribution.
 
 Using Auto 4
 ------------
 
 You need Ruby 1.9 to run Auto 4. You can get Ruby from the [official Ruby
 website](http://www.ruby-lang.org). Currently, Windows is not supported;
-support is however planned for the future.
+support is however planned for the future. You are advised to consult the
+documentation provided by the [wiki](https://github.com/noxgirl/Auto/wiki).
 
 Additionally, because Auto employs the light and useful SQLite 3 for database
 management, you must have [SQLite 3](http://www.sqlite.org/) installed, as well
@@ -60,6 +53,23 @@ This is elaborated in detail on the
 wiki page.
 
 Start Auto 4 by running `ruby auto.rb`.
+
+Developing for Auto 4
+---------------------
+
+Developers are provided extensive documentation of Auto 4 
+[on rubydoc.info](http://rubydoc.info/github/noxgirl/Auto/).
+
+If you should desire to generate your own copy of the documentation, mind that
+Auto uses [YARD](http://yardoc.org/). Obtain the 
+[yard gem](https://rubygems.org/gems/yard) and the 
+[redcarpet gem](https://rubygems.org/gems/redcarpet); then, run `yardoc` in the
+main directory.
+
+We advise you to consult with especial the {file:doc/Contributing.md Standards of Contributing}.
+
+Events are documented in {file:doc/Events.md API Events}. See also the [Project](#Project)
+section below.
 
 Support
 -------

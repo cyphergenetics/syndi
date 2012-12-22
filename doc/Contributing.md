@@ -1,3 +1,7 @@
+# @markup markdown
+# @title Standards of Contributing
+# @author noxgirl
+
 Standards of Contributing
 =========================
 
@@ -26,6 +30,5 @@ username at minimum.
 For indentation, ensure that you use spaces in lieu of tabs, two to be exact.
 
 Vim users, observe the modelines each file contains:
-```
-# vim: set ts=4 sts=2 sw=2 et:
-```
+
+    # vim: set ts=4 sts=2 sw=2 et:
