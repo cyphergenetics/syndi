@@ -1,0 +1,8 @@
+--title "Auto 4"
+--verbose
+--debug
+lib/*
+lib/api/*
+lib/core/*
+lib/irc/*
+lib/irc/object/*
