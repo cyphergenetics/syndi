@@ -9,7 +9,8 @@ module IRC
   module Object
 
     # A class which represents an individual user on IRC, and which provides
-    # useful data regarding said user.
+    # useful data regarding said user, and methods using which to interact
+    # with the user.
     #
     # @since 4.0.0
     # @api IRC
