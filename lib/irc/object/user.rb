@@ -15,6 +15,9 @@ module IRC
     # @api IRC
     # @author noxgirl
     #
+    # @!attribute irc
+    #   @return [IRC::Server] The server on which the user is located.
+    #
     # @!attribute nick
     #   @return [String] The user's nickname.
     #
@@ -37,19 +40,21 @@ module IRC
     #   @return [false] If the user is present.
     class User
 
-      attr_reader :nick, :user, :host, :account, :away
+      attr_reader :irc, :nick, :user, :host, :account, :away
 
       # Process a new user.
       #
+      # @param [IRC::Server] irc The server the user is on.
       # @param [String] nickname The user's nickname.
       # @param [String] username The user's username or ident.
       # @param [String] hostname The user's hostname or mask.
       # @param [Boolean] away Whether the user is away: +true+ or +false+.
       #
       # @example
-      #   user = IRC::Object::User.new('missfoo', 'cowmilk', 'the.night.is.lovely', false)
-      def initialize(nickname, username=nil, hostname=nil, away=false)
+      #   user = IRC::Object::User.new(irc, 'missfoo', 'cowmilk', 'the.night.is.lovely', false)
+      def initialize(irc, nickname, username=nil, hostname=nil, away=false)
 
+        @irc     = irc
         @nick    = nickname
         @user    = username
         @host    = hostname
@@ -118,6 +123,30 @@ module IRC
       # @return [true] If known.
       # @return [false] If Unknown.
       def logged_in?; @account.nil? ? false : true; end
+
+      # Send a private message to the user.
+      #
+      # @param [String] msg The message which to send.
+      def msg(msg)
+        $m.events.call('irc:onPreMsgUser', self, msg)
+        irc.snd "PRIVMSG #@nick :#{msg}"
+        $m.events.call('irc:onMsgUser', self, msg)
+      end
+
+      # Send a notice to the user.
+      #
+      # @param [String] notice The notice which to send.
+      def notice(notice)
+        $m.events.call('irc:onPreNoticeUser', self, msg)
+        irc.snd "NOTICE #@nick :#{msg}"
+        $m.events.call('irc:onNoticeUser', self, msg)
+      end
+
+      # Request a /WHO of the user.
+      def who
+        irc.snd "WHO #@nick"
+        $m.events.call('irc:onWhoUser', self)
+      end
 
     end # class User
 
