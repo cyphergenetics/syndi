@@ -370,6 +370,9 @@ module IRC
     # Bind default handlers.
     #
     # - RPL_WELCOME (005)
+    #
+    # @todo Make the traditional method of identifying with services use the
+    #   new API model, since the old one is deprecated.
     def bind_default_handlers
 
       # RPL_WELCOME
