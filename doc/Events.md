@@ -58,6 +58,18 @@ This event occurs prior to the bot sending a private message to a user.
 
 This event occurs following the bot sending a private message to a user.
 
+### irc:onPreNick
+
+**->** `(irc*, [str] nickname)`
+
+This event occurs before the bot attempts to change its nickname to `nickname`.
+
+### irc:onNick
+
+**->** `(irc*, [str] nickname)`
+
+This event occurs after the bot attempts to change its nickname to `nickname`.
+
 ### irc:onPreNoticeUser
 
 **->** `(user*, [str] notice)`

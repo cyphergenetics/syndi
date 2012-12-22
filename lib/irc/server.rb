@@ -1,28 +1,100 @@
 # Auto 4
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the three-clause BSD license.
-
 require 'socket'
 require 'openssl'
-
-#############################################################################
-# IRC::Server
-#
-# A class which maintains a connection to an IRC server and provides a highly
-# usable interface for the IRC server.
-#############################################################################
 
 # Entering namespace: IRC
 module IRC
 
-  # Class Server: A connection to an IRC server.
+  # A class which maintains a connection to an IRC server and provides a highly
+  # usable interface for the IRC server.
+  #
+  # @api IRC
+  # @since 4.0.0
+  # @author noxgirl
+  #
+  # @!attribute [r] socket
+  #   @return [TCPSocket] The TCP socket being used for the connection.
+  #
+  # @!attribute [r] in
+  #   @return [Integer] The number of bytes received from the socket.
+  #
+  # @!attribute [r] out
+  #   @return [Integer] The number of bytes sent to the socket.
+  #
+  #
+  # @!attribute name
+  #   @return [String] The name of the server as specified by configuration.
+  #
+  # @!attribute address
+  #   @return [String] The address used to connect to the server.
+  #
+  # @!attribute port
+  #   @return [Integer] The port used to connect to the server
+  #
+  # @!attribute nick
+  #   @return [String] The nickname of the bot on the server.
+  #
+  # @!attribute user
+  #   @return [String] The username of the bot on the server.
+  #
+  # @!attribute real
+  #   @return [String] The real name of the bot on the server.
+  #
+  # @!attribute password
+  #   @return [String] If needed, the password used to connect to the server
+  #   @return [nil] If not needed.
+  #
+  # @!attribute bind
+  #   @return [String] If desired, the address to which to bind for this socket
+  #   @return [nil] If not desired.
+  #   @note This appears to be unused at the moment.
+  #
+  # @!attribute ssl
+  #   @return [true, false] If SSL should [not] be used for the connection.
+  #
+  # @!attribute sasl_id
+  #   @return [String] If SASL is desired, the username with which to authenticate.
+  #   @return [nil] If not used.
+  #   @note This is seemingly deprecated?
+  #
+  # @!attribute connected
+  #   @return [true, false] Whether or not we are connected to the server.
+  #
+  # @!attribute mask
+  #   @return [String] The bot's own hostname or mask on the IRC server.
+  #
+  # @!attribute recvq
+  #   @return [Array<String>] The socket's receive queue, which is comprised of an array
+  #     of strings which are pending processing.
+  #
+  #
+  # @!attribute prefixes
+  #
+  # @!attribute channel_modes
+  #
+  # @!attribute max_modes
+  #
+  # @!attribute await_self_who
+  #   @return [true, false] Whether or not we are awaiting for a response to a /WHO on ourselves.
+  #
+  # @!attribute channels
+  #   @return [Hash{String => IRC::Object::Channel}] A list of channels in which we reside,
+  #     with each key being the channel's name in all-lowercase, and the respective values
+  #     being of {IRC::Object::Channel IRC::Object::Channel}.
+  #
+  # @!attribute users
+  #   @return [Hash{String => IRC::Object::User}] A list of users who are known to us,
+  #     with each key being the user's nickname in all-lowercase, and the respective values
+  #     being of {IRC::Object::User IRC::Object::User}.
   class Server
 
     attr_reader :socket, :in, :out
     attr_accessor :name, :address, :port, :nick, :user, :real, :password,
                   :bind, :ssl, :sasl_id, :connected, :mask, :recvq,
-                  :mask, :prefixes, :channel_modes, :max_modes,
-                  :await_self_who
+                  :prefixes, :channel_modes, :max_modes,
+                  :await_self_who, :channels, :users
 
     # Create a new instance of IRC::Server.
     # (str)
@@ -40,7 +112,7 @@ module IRC
       @ssl      = false
 
       # Yield for configuration.
-      yield(self) if block_given?
+      yield(self) if block_given? or raise ArgumentError, "IRC::Server unable to initialize because it was not configured."
 
       # Additional instance attributes.
       @in        = 0
@@ -54,6 +126,8 @@ module IRC
       @channel_modes  = { list: [], always: [], set: [], never: [] }
       @max_modes      = 0
       @await_self_who = false
+      @channels       = {}
+      @users          = {}
 
       # Our recvQ.
       @recvq  = []
@@ -158,18 +232,26 @@ module IRC
       $m.events.call('irc:onBotOutJoin', self, chan, key)
     end
 
-    # Change nickname.
-    # (str)
-    def chgnick(newnick)
+    # @!method nickname=(new)
+    #
+    #   Send /NICK to change the bot's nickname on the server.
+    #
+    #   @note If the nickname is in use, the bot will append a hyphen and retry,
+    #     repeating until success is achieved.
+    #
+    #   @param [String] new The new nickname.
+    def nickname=(new)
+
       if connected?
-        @newnick = newnick
+        @newnick = new
       else
-        @nick = newnick
+        @nick = new
       end
       
-      $m.events.call('irc:onBotPreOutNick', self, newnick)
-      snd("NICK :#{newnick}")
-      $m.events.call('irc:onBotOutNick', self, newnick)
+      $m.events.call('irc:onPreNick', self, new)
+      snd("NICK :#{new}")
+      $m.events.call('irc:onNick', self, new)
+    
     end
 
     # Part a channel.
