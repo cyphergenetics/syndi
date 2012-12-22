@@ -17,7 +17,6 @@ Contributors to earlier versions:
 -   Timothy Estes \<tim7967@gmail.com\>
 -   Douglas Freed :[GitHub](https://github.com/dwfreed)
 -   Eitan Adler :[GitHub](https://github.com/grimreaper)
--   Noah Ridley :[GitHub](https://github.com/nridley)
 
 Description
 -----------
