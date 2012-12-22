@@ -213,7 +213,7 @@ module IRC
         @users[nickname.lc].update(nickname, username, hostname, away)
       end
 
-
+    end
 
     # Check with a user's existence is known to the IRC state management.
     def user_known?(nickname)
