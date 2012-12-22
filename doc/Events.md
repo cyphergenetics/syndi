@@ -31,9 +31,24 @@ Common variables are marked with an asterisk (`*`):
 * `sender*` and `user*` are the {IRC::Object::User} objects.
 * `msg*` is an {IRC::Object::Message} object.
 
-### irc:onDisconnect `(irc*)`
+### irc:onDisconnect
+**->** `(irc*, [str] reason)`
 
 This event occurs immediately before the bot disconnects from the given IRC network.
+
+### irc:onPreJoin
+
+**->** `(irc*, [str] channel, [str] key)`
+
+This event occurs immediately before the bot attempts to join a channel. `key` will be nil if it is
+unneeded. See irc:onJoinChan for a successful /JOIN.
+
+### irc:onJoin
+
+**->** `(irc*, [str] channel, [str] key)`
+
+This event occurs immediately after the bot attempts to join a channel. `key` will be nil if it is
+unneeded. See irc:onJoinChan for a successful /JOIN.
 
 ### irc:onRecvChanMsg `(irc*, sender*, [str] channel, [ary] message)`
 
@@ -81,6 +96,12 @@ This event occurs prior to the bot sending a notice to a user.
 **->** `(user*, [str] notice)`
 
 This event occurs following the bot sending a notice to a user.
+
+### irc:onWhoSelf
+
+**->** `(irc*)`
+
+This event occurs when the bot requests a /WHO of itself.
 
 ### irc:onWhoUser
 

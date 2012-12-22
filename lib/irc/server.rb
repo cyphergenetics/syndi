@@ -40,7 +40,7 @@ module IRC
   #   @return [String] The username of the bot on the server.
   #
   # @!attribute real
-  #   @return [String] The real name of the bot on the server.
+  #   @return [String] The real name or GECOS of the bot on the server.
   #
   # @!attribute password
   #   @return [String] If needed, the password used to connect to the server
@@ -71,10 +71,19 @@ module IRC
   #
   #
   # @!attribute prefixes
+  #   @return [Hash{String => String}] The IRC server's supported prefixes, with the key being
+  #     the channel mode which represents the prefix, and the value being the prefix.
   #
   # @!attribute channel_modes
+  #   @return [Hash{Symbol => Array<String>}] The IRC server's supported channel modes, divided as thus:
+  #
+  #     - +:list+   = A list of modes which add/remove a nickname or mask from a channel list, such as ops and bans.
+  #     - +:always+ = A llst of modes which change a channel setting, and always have a parameter.
+  #     - +:set+    = A list of modes which change a channel setting, and which have a parameter only when set.
+  #     - +:never+ = A list of modes which change a channel setting, and which never have a parameter.
   #
   # @!attribute max_modes
+  #   @return [Integer] The maximum number of mode changes which may be specified in a /MODE query.
   #
   # @!attribute await_self_who
   #   @return [true, false] Whether or not we are awaiting for a response to a /WHO on ourselves.
@@ -96,8 +105,27 @@ module IRC
                   :prefixes, :channel_modes, :max_modes,
                   :await_self_who, :channels, :users
 
-    # Create a new instance of IRC::Server.
-    # (str)
+    # Produce a new instance of {IRC::Server}.
+    #
+    # @param [String] name The name of the server to which we should connect.
+    #
+    # @yieldparam [IRC::Server] c This instance, intended for configuration of the
+    #   attributes.
+    #
+    # Configuration attributes are +address+, +port+, +nick+, +user+, +real+,
+    # +password+, +bind+, and +ssl+.
+    #
+    #
+    # @example
+    #   irc = IRC::Server.new('Freenode') do |c|
+    #     c.address = 'irc.freenode.net'
+    #     c.port    = 7000
+    #     c.nick    = 'cowmoon'
+    #     c.user    = 'foo1'
+    #     c.real    = "The night is lovely."
+    #     c.bind    = 'localhost'
+    #     c.ssl     = true
+    #   end
     def initialize(name)
       
       # Prepare attributes.
@@ -140,8 +168,7 @@ module IRC
 
     ### BASIC ###
 
-    # Connect to the remote server.
-    # ()
+    # Establish (or attempt to) a connection with the server.
     def connect
 
       # Check for missing attributes.
@@ -178,21 +205,21 @@ module IRC
       $m.events.call('irc:onPreConnect', self)
       pass(@password) if @password
       snd('CAP LS')
-      chgnick(@nick)
+      nickname = @nick
       user(@user, Socket.gethostname, @address, @real)
 
     end
 
     # Send data to the socket.
-    # (str)
+    #
+    # @param [String] data The string of data, which should not exceed 512 in length.
     def snd(data)
       $m.foreground("#@name << #{data}")
       @socket.write("#{data}\r\n")
       @out += "#{data}\r\n".length
     end
 
-    # Receive data from the socket.
-    # ()
+    # Receive data from the socket, and push it into the recvQ.
     def recv
 
       # Read the data.
@@ -219,27 +246,29 @@ module IRC
     ### INTERFACE ###
 
     # Disconnect from the server.
+    #
+    # @param [String] msg Reason for disconnect. 
     def disconnect(msg='Closing connection')
-      $m.events.call('irc:onDisconnect', self)
-      snd("QUIT :#{msg}")
+      $m.events.call('irc:onDisconnect', self, msg)
+      snd "QUIT :#{msg}"
     end
       
-    # Join a channel.
-    # (str, [str])
+    # Join a channel on the server.
+    #
+    # @param [String] chan Channel to join.
+    # @param [String] key Key to join, if necessary.
     def join(chan, key=nil)
-      $m.events.call('irc:onBotPreOutJoin', self, chan, key)
-      snd("JOIN #{chan}#{key.nil? ? '' : key}")
-      $m.events.call('irc:onBotOutJoin', self, chan, key)
+      $m.events.call('irc:onPreJoin', self, chan, key)
+      snd "JOIN #{chan}#{key.nil? ? '' : key}"
+      $m.events.call('irc:onJoin', self, chan, key)
     end
 
-    # @!method nickname=(new)
+    # Send /NICK to change the bot's nickname on the server.
     #
-    #   Send /NICK to change the bot's nickname on the server.
+    # @note If the nickname is in use, the bot will append a hyphen and retry,
+    #   repeating until success is achieved.
     #
-    #   @note If the nickname is in use, the bot will append a hyphen and retry,
-    #     repeating until success is achieved.
-    #
-    #   @param [String] new The new nickname.
+    # @param [String] new The new nickname.
     def nickname=(new)
 
       if connected?
@@ -249,43 +278,43 @@ module IRC
       end
       
       $m.events.call('irc:onPreNick', self, new)
-      snd("NICK :#{new}")
+      snd "NICK :#{new}"
       $m.events.call('irc:onNick', self, new)
     
     end
 
-    # Part a channel.
-    # (str, [str])
-    def part(chan, msg='Leaving')
-      $m.events.call('irc:onSelfPrePart', self, chan, msg)
-      snd("PART #{chan} :#{msg}")
-      $m.events.call('irc:onSelfPart', self, chan, msg)
-    end
-
     # Supply server password.
-    # (str)
-    def pass(password)
-      snd("PASS :#{password}")
+    #
+    # @param [String] pass
+    def pass(password); snd "PASS :#{password}"; end
+
+    # Send /USER.
+    #
+    # @param [String] username The bot's username or ident.
+    # @param [String] hostname The bot's hostname.
+    # @param [String] server Address of the remote server.
+    # @param [String] realname The bot's real name or GECOS.
+    def user(username, hostname=Socket.gethostname, server, realname)
+      snd "USER #{username} #{hostname} #{server} :#{realname}"
     end
 
-    # Send USER.
-    # (str, str, str, str)
-    def user(username, hostname, server, realname)
-      snd("USER #{username} #{hostname} #{server} :#{realname}")
-    end
-
-    # Send a WHO.
-    # (str)
-    def who(target)
-      $m.events.call('irc:onPreWho', self, target)
-      snd("WHO #{target}")
-      $m.events.call('irc:onWho', self, target)
+    # Request a /WHO on ourselves.
+    def who
+      snd("WHO #@nick")
+      @await_self_who = true
+      $m.events.call('irc:onWhoSelf', self)
     end
 
     ### STATE ###
 
-    # Create a user.
+    # Introduce a new user.
     #
+    # @param [String] nickname The nickname of the user.
+    # @param [String] username The username or ident of the user.
+    # @param [String] hostname The hostname or mask of the user.
+    # @param [true, false] Whether the user is away.
+    #
+    # @todo Unfinished.
     def new_user(nickname, username=nil, hostname=nil, away=false)
       
       # Check if this user already exists, and if so, issue a warning
@@ -297,7 +326,11 @@ module IRC
 
     end
 
-    # Check with a user's existence is known to the IRC state management.
+    # Check if a user's existence is known to the IRC state management.
+    #
+    # @param [String] nickname
+    #
+    # @return [true, false]
     def user_known?(nickname)
       @users.include?(nickname.lc) ? true : false
     end
@@ -305,7 +338,6 @@ module IRC
     ### RUBY ###
 
     # How we appear in string form.
-    # ()
     def to_s
       @name
     end
@@ -318,7 +350,6 @@ module IRC
     #######
 
     # Check the presence of all attributes.
-    # ()
     def attribute_check
       raise(Error, "Missing server address")  unless @address
       raise(Error, "Missing server port")     unless @port
@@ -328,15 +359,17 @@ module IRC
     end
 
     # Check if we are connected.
-    # () -> bool
+    #
+    # @return [true, false]
     def connected?
-      Return false unless @socket
+      return false unless @socket
       return false unless @connected
       true
     end
 
     # Bind default handlers.
-    # ()
+    #
+    # - RPL_WELCOME (005)
     def bind_default_handlers
 
       # RPL_WELCOME
@@ -357,9 +390,8 @@ module IRC
                 "#{$m.conf.x['irc'][irc.s]['nickIdentify']['command']} #{$m.conf.x['irc'][irc.s]['nickIdentify']['password']}")
           end
           
-          # Send a WHO on ourselves.
-          who(@nick)
-          @await_self_who = true
+          # Send a /WHO on ourselves.
+          who
           
           # Join any channels specified in the configuration.
           if $m.conf.x['irc'][irc.s].include?('autojoin')
@@ -368,11 +400,12 @@ module IRC
 
           # Final event.
           $m.events.call('irc:onPostProcessConnect', self)
-        end
+        
+        end # if irc == self
       
-      end
+      end # on RPL_WELCOME
 
-    end
+    end # def bind_default_handlers
 
   end # class Server
 
