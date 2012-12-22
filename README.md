@@ -39,7 +39,8 @@ It is advisable to read the documentation on the [wiki](https://github.com/noxgi
 Auto's code is documented with [YARD](http://yardoc.org/). You need the
 [yard gem](https://rubygems.org/gems/yard), as well as the
 [redcarpet gem](https://rubygems.org/gems/redcarpet) for Markdown parsing. Run
-`yard doc` in the top directory.
+`yard doc` in the top directory. Please see the [Project](#Project) section and
+CONTRIBUTING.md when considering submitting a contribution.
 
 Using Auto 4
 ------------
