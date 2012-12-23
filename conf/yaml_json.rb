@@ -37,8 +37,8 @@ end
 # @return [Hash{}] The configuration data in a Hash.
 def process_json(data)
 
-  data.gsub!(/"(?:[^"\\]|\\.)*"/, '')
-  JSON.parse!(data)
+  data.gsub!(/(#[^"\n\r]*(?:"[^"\n\r]*"[^"\n\r]*)*[\r\n]|\/\*([^*]|\*(?!\/))*?\*\/)(?=[^"]*(?:"[^"]*"[^"]*)*$)/, '')
+  JSON.parse(data)
 
 end
 

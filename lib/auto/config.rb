@@ -112,7 +112,7 @@ module Auto
       if @type == :json
 
         # Strip comments out of the data.
-        data.gsub!(/\/\**\*\/|\/\/.[\r]\n/, '')
+        data.gsub!(/(#[^"\n\r]*(?:"[^"\n\r]*"[^"\n\r]*)*[\r\n]|\/\*([^*]|\*(?!\/))*?\*\/)(?=[^"]*(?:"[^"]*"[^"]*)*$)/, '')
 
         # Process the JSON.
         begin
