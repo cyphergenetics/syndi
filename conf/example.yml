@@ -1,0 +1,73 @@
+---
+
+# Auto 4 example YAML configuration file
+# Please see https://github.com/noxgirl/Auto/wiki/Configuring-Auto-with-YAML
+
+# Core modules to load.
+#
+# irc: IRC protocol support.
+modules:
+- irc
+
+# List of IRC servers to which to connect.
+irc:
+  # Server name, followed by properties.
+  freenode:
+    
+    # Server address.
+    address: irc.freenode.net
+    
+    # Server port.
+    port: 7000
+    
+    # Whether to use SSL: true or false.
+    useSSL: true
+    
+    # Nicknames. Auto will use the first one, and if it fails, it will try
+    # each one until success is achieved.
+    nickname:
+    - moobot
+    - altnick
+    
+    # Username or ident.
+    username: Auto
+    
+    # Real name or GECOS.
+    realName: Auto
+    
+    # SASL options. Remove this if you don't want to use SASL or the server
+    # does not support it.
+    SASL:
+      # Timeout in seconds. 15s is reasonable.
+      timeout: 15
+      # Account as which to identify.
+      username: moobot
+      # Password for the account.
+      password: moopass
+
+    # List of channels to join automatically.
+    autojoin:
+    - name: ! '#autoproject' # The channel name. Don't forget the ! and quotes because channels have octothorpes.
+      key: '' # Key, if necessary.
+
+  # Another server. Add as many as you wish.
+  Rizon:
+    
+    address: irc.rizon.net
+    port: 6667
+    useSSL: false
+    nickname:
+    - moobot
+    - altnick
+    username: Auto
+    realName: Auto
+
+    # Identify the traditional way; that is, by privately messaging a service.
+    nickIdentify:
+      # The name of the service--usually NickServ.
+      service: NickServ
+      # The command to use--usually identify.
+      command: identify
+      # The password to use. If the server uses Atheme, we suggest putting the accountname followed by
+      # the password here, so that identification never fails.
+      password: moopass
