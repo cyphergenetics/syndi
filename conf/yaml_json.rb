@@ -89,7 +89,7 @@ if filename =~ /\.yml$/
 
   File.open(output, 'w') { |o| to_json(h, o) }
   
-  puts "Converted #{filename} to JSON and wrote to #{new}."
+  puts "Converted #{filename} to JSON and wrote to #{output}."
 
 # JSON
 elsif filename =~ /\.json$/
@@ -100,7 +100,7 @@ elsif filename =~ /\.json$/
 
   File.open(output, 'w') { |o| to_yaml(h, o) }
   
-  puts "Converted #{filename} to YAML and wrote to #{new}."
+  puts "Converted #{filename} to YAML and wrote to #{output}."
 
 else
 
