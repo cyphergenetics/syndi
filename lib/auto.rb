@@ -25,12 +25,7 @@ class Auto
     @log.info("Logging started")
 
     ## Load configuration ##
-
-    # Foremost, check for an alternate file.
-    confpath = 'conf/auto.json'
-    if @opts.include?('altconf')
-      confpath = @opts['altconf']
-    end
+    confpath = @opts['altconf'] || 'conf/auto.json'
 
     # Process it.
     puts "* Reading the configuration file #{confpath}..."
@@ -57,14 +52,12 @@ class Auto
     @conf.x['modules'].each do |mod|
       if mod == 'irc'
         begin
-          require_relative 'irc/server.rb'
-          require_relative 'irc/parser.rb'
+          path = File.expand_path(File.dirname __FILE__) << "/irc/"
+          %w{server parser std commands object/user object/message}.each do |file|
+            require (path + file + ".rb")
+          end
           @irc_parser = IRC::Parser.new
-          require_relative 'irc/std.rb'
           IRC::Std.init
-          require_relative 'irc/commands.rb'
-          require_relative 'irc/object/user.rb'
-          require_relative 'irc/object/message.rb'
           @irc_cmd = IRC::Commands.new
           @mods << 'irc'
         rescue => e
