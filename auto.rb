@@ -57,6 +57,7 @@ require_relative 'lib/core/config.rb'
 require_relative 'lib/api/plugin.rb'
 require_relative 'lib/api/timers.rb'
 require_relative 'lib/api/events.rb'
+require_relative 'lib/api/resource/eventswrapper.rb'
 require_relative 'lib/api/extender.rb'
 
 # Create an instance of Auto.
