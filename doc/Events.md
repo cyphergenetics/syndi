@@ -31,7 +31,14 @@ Common variables are marked with an asterisk (`*`):
 * `sender*` and `user*` are the {IRC::Object::User} objects.
 * `msg*` is an {IRC::Object::Message} object.
 
+### irc:introduceUser
+
+**->** `(user*)`
+
+This event occurs when a new user, `user`, is introduced to the bot.
+
 ### irc:onDisconnect
+
 **->** `(irc*, [str] reason)`
 
 This event occurs immediately before the bot disconnects from the given IRC network.

@@ -313,15 +313,30 @@ module IRC
     # @param [String] username The username or ident of the user.
     # @param [String] hostname The hostname or mask of the user.
     # @param [true, false] Whether the user is away.
-    #
-    # @todo Unfinished.
     def new_user(nickname, username=nil, hostname=nil, away=false)
       
       # Check if this user already exists, and if so, issue a warning
       # and update the already-existing user's data.
-      if user_known? nickname.lc
+      if user_known? nickname
+        
         $m.warn("Attempted to introduce user #{nickname}, but user is already known. Updating current data in lieu...")
-        @users[nickname.lc].update(nickname, username, hostname, away)
+        @users[nickname.lc].nick = nickname
+        @users[nickname.lc].user = username
+        @users[nickname.lc].host = hostname
+        @users[nickname.lc].away = away
+      
+      else
+        
+        # Create the user.
+        u = IRC::Object::User.new(irc, nickname, username, hostname, away)
+        @users[nickname.lc] = u
+        $m.events.call('irc:introduceUser', u)
+
+        # Request more data if needed.
+        if not u.host_known?
+          u.who
+        end
+
       end
 
     end
