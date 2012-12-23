@@ -14,7 +14,9 @@ This event occurs when a plugin, `plugin`, is successfully initialized.
 
 This event occurs when a plugin, `plugin`, is unloaded from the runtime.
 
-### bot:onRehash `(nil)`
+### bot:onRehash
+
+**->** `(nil)`
 
 This event occurs when the configuration file is successfully reprocessed and reloaded.
 
