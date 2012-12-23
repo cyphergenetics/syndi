@@ -50,11 +50,14 @@ Additionally, because Auto employs the light and useful SQLite 3 for database
 management, you must have [SQLite 3](http://www.sqlite.org/) installed, as well
 as the [sqlite3 Ruby gem](https://rubygems.org/gems/sqlite3).
 
-Open `conf/example.json` and go over the configuration, which is in JSON, 
-specifying the settings to your liking, then save it as `conf/auto.json`.
-This is elaborated in detail on the 
-[Configuring Auto](https://github.com/noxgirl/Auto/wiki/Configuring-Auto)
-wiki page.
+Open `conf/example.yml` and go over the configuration, which is in YAML,
+specifying the settings to your liking, then save it as `conf/auto.yml`.
+See [Configuring Auto](https://github.com/noxgirl/Auto/wiki/Configuring-Auto).
+
+If YAML is not pleasing to you, Auto has support for **JSON**. There is no
+wiki page for this, however, so you will have to configure `conf/example.json`
+using your own intuition. Save it as `conf/auto.json`, and start Auto with the
+-j (--json) switch.
 
 Start Auto 4 by running `ruby auto.rb`.
 
