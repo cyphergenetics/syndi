@@ -14,7 +14,9 @@ This event occurs when a plugin, `plugin`, is successfully initialized.
 
 This event occurs when a plugin, `plugin`, is unloaded from the runtime.
 
-### bot:onRehash `(nil)`
+### bot:onRehash
+
+**->** `(nil)`
 
 This event occurs when the configuration file is successfully reprocessed and reloaded.
 
@@ -31,7 +33,14 @@ Common variables are marked with an asterisk (`*`):
 * `sender*` and `user*` are the {IRC::Object::User} objects.
 * `msg*` is an {IRC::Object::Message} object.
 
+### irc:introduceUser
+
+**->** `(user*)`
+
+This event occurs when a new user, `user`, is introduced to the bot.
+
 ### irc:onDisconnect
+
 **->** `(irc*, [str] reason)`
 
 This event occurs immediately before the bot disconnects from the given IRC network.
