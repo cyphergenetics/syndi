@@ -25,12 +25,15 @@ class Auto
     @log.info("Logging started")
 
     ## Load configuration ##
-    confpath = @opts['altconf'] || 'conf/auto.json'
+    confpath = @opts['altconf'] || 'conf/auto.yml'
+    if @opts['json']
+      confpath = 'conf/auto.json' unless @opts.include? 'altconf'
+    end
 
     # Process it.
     puts "* Reading the configuration file #{confpath}..."
     @log.info("Reading the configuration file #{confpath}...")
-    @conf = Core::Config.new(confpath)
+    @conf = Auto::Config.new(confpath)
 
     # Start the event system.
     puts "* Starting the event system..."

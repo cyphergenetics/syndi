@@ -11,7 +11,7 @@ require 'optparse'
 require 'sqlite3'
 
 # Parse options.
-mopts = { 'debug' => false, 'foreground' => false }
+mopts = { 'debug' => false, 'foreground' => false, 'json' => false }
 OptionParser.new do |opts|
 
   # Set banner.
@@ -22,7 +22,7 @@ OptionParser.new do |opts|
   opts.separator "Options:"
 
   # Configuration file.
-  opts.on('-c', '--config', "Specify a configuration file path other than conf/auto.json") do |path|
+  opts.on('-c', '--config', "Specify a configuration file path other than conf/auto.{yml,json}") do |path|
     mopts['altconf'] = path
   end
 
@@ -31,6 +31,11 @@ OptionParser.new do |opts|
 
   # Foreground flag.
   opts.on('-f', '--foreground', "Do not fork into the background.") { |v| mopts['foreground'] = true }
+
+  # JSON flag.
+  opts.on('-j', '--json', "Use JavaScript Object Notation (JSON) for configuration. (Default file is conf/auto.json)") do |v|
+    mopts['json'] = true
+  end
 
   # Version flag.
   opts.on('-v', '--version', "Print version and exit.") do |v|
@@ -53,7 +58,7 @@ Dir.chdir(File.dirname(__FILE__))
 require_relative 'lib/ruby_core_ext.rb'
 require_relative 'lib/auto.rb'
 require_relative 'lib/core/logging.rb'
-require_relative 'lib/core/config.rb'
+require_relative 'lib/auto/config.rb'
 require_relative 'lib/api/plugin.rb'
 require_relative 'lib/api/timers.rb'
 require_relative 'lib/api/events.rb'
