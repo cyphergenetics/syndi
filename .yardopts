@@ -1,6 +1,7 @@
 --title "Auto 4"
 -o yardoc
 lib/*
+lib/auto/*
 lib/api/*
 lib/api/resource/*
 lib/core/*
