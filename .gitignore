@@ -1,5 +1,6 @@
 logs/*
 conf/auto.json
+ocnf/auto.yml
 *.db
 yardoc/*
 .yardoc
