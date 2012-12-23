@@ -15,6 +15,7 @@ module IRC
 
   # Entering namespace: Std
   module Std
+    include API::Resource::EventsWrapper
 
     # Bind to all standard IRC commands.
     # ()
@@ -50,7 +51,7 @@ module IRC
       ### COMMANDS ###
       
       # AUTHENTICATE
-      $m.events.on(self, 'irc:onRaw0:AUTHENTICATE') do |irc, data|
+      ev_on(self, 'irc:onRaw0:AUTHENTICATE') do |irc, data|
         
         if data[1] == '+'
           # Import Base64.
@@ -88,7 +89,7 @@ module IRC
       end
       
       # CAP
-      $m.events.on(self, 'irc:onRaw1:CAP') do |irc, data|
+      ev_on(self, 'irc:onRaw1:CAP') do |irc, data|
         # LS
         if data[3] == 'LS'
           req = []
@@ -133,12 +134,12 @@ module IRC
       # PART
 
       # PING
-      $m.events.on(self, 'irc:onRaw0:PING') do |irc, data|
+      ev_on(self, 'irc:onRaw0:PING') do |irc, data|
         irc.snd("PONG #{data[1]}")
       end
 
       # PRIVMSG
-      $m.events.on(self, 'irc:onRaw1:PRIVMSG') do |irc, data|
+      ev_on(self, 'irc:onRaw1:PRIVMSG') do |irc, data|
         sender = parse_mask(data[0])
         
         # Check if it's a CTCP VERSION.
@@ -163,7 +164,7 @@ module IRC
       ### NUMERICS ###
 
       # 005: RPL_ISUPPORT
-      $m.events.on(self, 'irc:onRaw1:005') do |irc, data|
+      ev_on(self, 'irc:onRaw1:005') do |irc, data|
 
         # Iterate through the parameters.
         data[3..-1].each do |param|
@@ -212,7 +213,7 @@ module IRC
       end # do
 
       # 352: RPL_WHOREPLY
-      $m.events.on(self, 'irc:onRaw1:352') do |irc, data|
+      ev_on(self, 'irc:onRaw1:352') do |irc, data|
         
         # Check if we're awaiting a reply on our self-WHO.
         if irc.await_self_who
@@ -236,13 +237,13 @@ module IRC
       end
 
       # 353: RPL_NAMEREPLY
-      $m.events.on(self, 'irc:onRaw1:353') do |irc, data|
+      ev_on(self, 'irc:onRaw1:353') do |irc, data|
 
 
       end
 
       # 433: ERR_NICKNAMEINUSE
-      $m.events.on(self, 'irc:onRaw1:433') do |irc, data|
+      ev_on(self, 'irc:onRaw1:433') do |irc, data|
         
         # Our desired nickname is in use. Check if the config has an alternative.
         index = $m.conf.x['irc'][irc.s]['nickname'].index(data[3])
@@ -259,7 +260,7 @@ module IRC
       end
       
       # 903: RPL_SASLSUCCESS
-      $m.events.on(self, 'irc:onRaw1:903') do |irc, data|
+      ev_on(self, 'irc:onRaw1:903') do |irc, data|
         
         # SASL authentication was successful.
         $m.info("SASL authentication to #{irc} successful.")
@@ -270,7 +271,7 @@ module IRC
       end
 
       # 904: RPL_SASLFAIL
-      $m.events.on(self, 'irc:onRaw1:904') do |irc, data|
+      ev_on(self, 'irc:onRaw1:904') do |irc, data|
         
         # SASL authentication failed.
         $m.info("SASL authentication to #{irc} failed.")
