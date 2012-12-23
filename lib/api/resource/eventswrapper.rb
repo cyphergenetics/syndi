@@ -32,7 +32,7 @@ module API
       #   end
       #
       # @see API::Events#on
-      def self.ev_on(callero, event, &callback)
+      def ev_on(callero, event, &callback)
         $m.events.on(callero, event, callback)
       end
 
@@ -49,7 +49,7 @@ module API
       #   ev_call 'foo:cowMoo', "the cows", "go moo", [1, 3, 5]
       #
       # @see API::Events#call
-      def self.ev_call(event, *args)
+      def ev_call(event, *args)
         $m.events.call(event, *args)
       end
 
@@ -59,7 +59,7 @@ module API
       # @param [String] id The unique identifier string of the hook.
       #
       # @see API::Events#del
-      def self.ev_drop(creatoro, id)
+      def ev_drop(creatoro, id)
         $m.events.del(creatoro, id)
       end
 
