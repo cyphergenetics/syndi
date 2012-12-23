@@ -337,13 +337,9 @@ module IRC
 
     ### RUBY ###
 
-    # How we appear in string form.
-    def to_s
-      @name
-    end
-    def s
-      @name
-    end
+    def to_s; @name; end
+    def s; @name; end
+    def inspect; "#<IRC::Server: #@name>"; end
 
     #######
     private

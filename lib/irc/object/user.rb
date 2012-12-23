@@ -148,6 +148,9 @@ module IRC
         irc.snd "WHO #@nick"
         $m.events.call('irc:onWhoUser', self)
       end
+    
+      def to_s; @nick; end
+      def inspect; "#<IRC::Object::User: irc=#@irc nick=#@nick account=#@account>"; end
 
     end # class User
 
