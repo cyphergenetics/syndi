@@ -2,6 +2,7 @@
 -o yardoc
 lib/*
 lib/api/*
+lib/api/resource/*
 lib/core/*
 lib/irc/*
 lib/irc/object/*
