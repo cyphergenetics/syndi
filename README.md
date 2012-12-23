@@ -57,7 +57,7 @@ See [Configuring Auto](https://github.com/noxgirl/Auto/wiki/Configuring-Auto).
 If YAML is not pleasing to you, Auto has support for **JSON**. There is no
 wiki page for this, however, so you will have to configure `conf/example.json`
 using your own intuition. Save it as `conf/auto.json`, and start Auto with the
--j (--json) switch.
+`-j` (`--json`) switch.
 
 Start Auto 4 by running `ruby auto.rb`.
 
