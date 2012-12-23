@@ -13,6 +13,7 @@ module IRC
 
   # Class: Commands
   class Commands
+    include API::Resource::EventsWrapper
 
     attr_reader :list
     
@@ -33,7 +34,7 @@ module IRC
       end
 
       # Listen for channel messages.
-      $m.events.on(self, 'irc:onRecvChanMsg') do |irc, sender, chan, msg|
+      ev_on(self, 'irc:onRecvChanMsg') do |irc, sender, chan, msg|
         
         prefix = Regexp.escape(@prefix)
         # First check if this might be a command.
@@ -68,7 +69,7 @@ module IRC
       end
 
       # Listen for private messages.
-      $m.events.on(self, 'irc:onRecvPrivMsg') do |irc, sender, msg|
+      ev_on(self, 'irc:onRecvPrivMsg') do |irc, sender, msg|
 
         # Check if this is a command.
         command = msg[0].uc
