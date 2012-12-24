@@ -39,9 +39,9 @@ module Auto
       @path = filepath
       
       # Determine the type: YAML or JSON.
-      if filepath =~ /\.yml$/
+      if File.extname(filepath) == '.yml'
         @type = :yaml
-      elsif filepath =~ /\.json$/
+      elsif File.extname(filepath) == '.json'
         @type = :json
       else
         raise ConfigError, "Unknown file type on #{filepath}."

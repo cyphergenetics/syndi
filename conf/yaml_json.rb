@@ -81,7 +81,7 @@ unless File.exists? filename
 end
 
 # It's YAML.
-if filename =~ /\.yml$/
+if File.extname(filename) == '.yml'
   
   f = File.open(filename, 'r')
   h = process_yaml(f.read)
@@ -92,7 +92,7 @@ if filename =~ /\.yml$/
   puts "Converted #{filename} to JSON and wrote to #{output}."
 
 # JSON
-elsif filename =~ /\.json$/
+elsif File.extname(filename) == '.json'
 
   f = File.open(filename, 'r')
   h = process_json(f.read)
