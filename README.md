@@ -87,8 +87,9 @@ documentation on the [wiki](https://github.com/noxgirl/Auto/wiki).
 If the wiki fails to address your needs, please either:
 
 1. Ideally, use the [issue management hub](https://github.com/noxgirl/Auto/issues), **or**
-2. Join the **unofficial** IRC chatroom at 
-[##noxchat on irc.freenode.net](http://webchat.freenode.net/?randomnick=1&channels=##noxchat&prompt=1)
+2. Use the [official forums](http://rubyforge.org/forum/?group_id=10312), **or**
+3. Join the _unofficial_ IRC chatroom at 
+[##nox on irc.freenode.net](http://webchat.freenode.net/?randomnick=1&channels=##nox&prompt=1)
 
 License
 -------
