@@ -36,14 +36,13 @@ yet ready to supersede Auto v3.
 Come stability, Auto 4 will supersede Auto 3. The most notable change is in its
 fundamental structure, which is much cleaner and simpler, and less esoteric.
 
-
 Using Auto 4
 ------------
 
-You need Ruby 1.9 to run Auto 4. You can get Ruby from the [official Ruby
-website](http://www.ruby-lang.org). Currently, Windows is not supported;
-support is however planned for the future. You are advised to consult the
-documentation provided by the [wiki](https://github.com/noxgirl/Auto/wiki).
+You need [Ruby 1.9](http://www.ruby-lang.org/en/downloads/) to use Auto.
+Currently, Windows is unsupported; support is however planned for the future. 
+You are advised to consult the documentation provided by the 
+[wiki](https://github.com/Auto/Auto/wiki).
 
 Additionally, because Auto employs the light and useful SQLite 3 for database
 management, you must have [SQLite 3](http://www.sqlite.org/) installed, as well
@@ -51,12 +50,12 @@ as the [sqlite3 Ruby gem](https://rubygems.org/gems/sqlite3).
 
 Open `conf/example.yml` and go over the configuration, which is in YAML,
 specifying the settings to your liking, then save it as `conf/auto.yml`.
-See [Configuring Auto](https://github.com/noxgirl/Auto/wiki/Configuring-Auto).
+See [Configuring Auto](https://github.com/Auto/Auto/wiki/Configuring-Auto).
 
 If YAML is not pleasing to you, Auto has support for **JSON**. There is no
 wiki page for this, however, so you will have to configure `conf/example.json`
 using your own intuition. Save it as `conf/auto.json`, and start Auto with the
-`-j` (`--json`) switch.
+`-j` (`--json`) switch (which is effectively an alias for `--config=conf/auto.json`).
 
 Start Auto 4 by running `ruby auto.rb`.
 
@@ -64,7 +63,7 @@ Developing for Auto 4
 ---------------------
 
 Developers are provided extensive documentation of Auto 4 
-[on rdoc.info](http://rdoc.info/github/noxgirl/Auto/).
+[on rdoc.info](http://rdoc.info/github/Auto/Auto/).
 
 If you should desire to generate your own copy of the documentation, mind that
 Auto uses [YARD](http://yardoc.org/). Obtain the 
@@ -81,11 +80,11 @@ Support
 -------
 
 If you should find yourself in need of support, please foremost consult with the
-documentation on the [wiki](https://github.com/noxgirl/Auto/wiki).
+documentation on the [wiki](https://github.com/Auto/Auto/wiki).
 
 If the wiki fails to address your needs, please either:
 
-1. Ideally, use the [issue management hub](https://github.com/noxgirl/Auto/issues), **or**
+1. Ideally, use the [issue management hub](https://github.com/Auto/Auto/issues), **or**
 2. Use the [official forums](http://rubyforge.org/forum/?group_id=10312), **or**
 3. Join the _unofficial_ IRC chatroom at 
 [##nox on irc.freenode.net](http://webchat.freenode.net/?randomnick=1&channels=##nox&prompt=1)
@@ -125,25 +124,23 @@ Project
 -------
 
 Auto 4 is maintained by the Auto Project, of which [noxgirl](https://github.com/noxgirl)
-is the head developer. If you are interested in volunteering to join the team
-and aid with Auto, please contact her [by e-mail](mailto://xoeverlux@gmail.com)
-and be mindful of thus:
+is the head. If you are interested in volunteering to join the team and aid
+with Auto, please contact her [by e-mail](mailto://xoeverlux@gmail.com) and be
+mindful of thus:
 
 **Anyone** may contribute to Auto. Fork the repository using GitHub; change
 the code as you will; to submit your changes as a contribution, submit a
-[pull request](https://github.com/noxgirl/Auto/pulls) and the team will
-review your changes. If they are acceptable, they will be merged into the main
-repository. You may find the 
-[developers' to-do list](https://github.com/noxgirl/Auto/wiki/To-do-List) to be
-a useful tool.
+[pull request](https://github.com/Auto/Auto/pulls) and the team will review
+your changes. If they are acceptable, they will be merged into the main 
+repository.
 
 If you desire to be a developer, a history of contributions will be expected.
 Why? Joining the team makes it easier to submit changes, and gives you certain
 administrative privileges. Therefore, it is only sensible that you demonstrate
 a history of contributing to Auto 4 before you are approved for this position.
 
-Please note moreover that Auto 3 is maintained by
-[Arinity](https://github.com/arinity), but that I am willing to review your
-contributions to earlier versions of Auto and consider them also.
+Please note moreover that any contributions to
+[Auto-legacy](https://github.com/Auto/Auto-legacy) will be additionally
+considered.
 
 Thank you. -noxgirl
