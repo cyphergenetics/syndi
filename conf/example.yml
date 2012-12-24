@@ -48,7 +48,7 @@ irc:
     # List of channels to join automatically.
     autojoin:
     - name: '#autoproject' # The channel name. Don't forget the quotes because channels have octothorpes.
-      key: '' # Key, if necessary.
+      key: ~ # Key, if necessary.
 
   # Another server. Add as many as you wish.
   Rizon:
