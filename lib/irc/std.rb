@@ -143,7 +143,11 @@ module IRC
         
         # Check if it's a CTCP VERSION.
         if data[3] =~ /^:\001VERSION\001$/
-          irc.notice(sender[0], "\001VERSION Auto #{VERSION} (http://noxgirl.github.com/Auto)\001")
+          if defined? REVISION
+            irc.notice(sender[0], "\001VERSION Auto #{VERSION}-#{REVISION} (http://git.io/autobot)\001")
+          else
+            irc.notice(sender[0], "\001VERSION Auto #{VERSION} (http://git.io/autobot)\001")
+          end 
         else # Else, call msg events.
           if data[2] == irc.nick
             #irc:onRecvPrivMsg <- (irc, sender, msg)
