@@ -4,7 +4,8 @@
 # Distributed under the terms of the three-clause BSD license.
 
 # Program variables.
-VERSION = '4.0.0d'
+VERSION = '4.0.0'
+if Dir.exists? '.git/' then REVISION = File.open(".git/refs/heads/master").first[0..7] end
 
 # Require necessary libraries.
 require 'optparse'
