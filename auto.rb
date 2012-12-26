@@ -84,13 +84,15 @@ STARTTIME = time
 
 # We survived? We survived! Fork into the background if not in debug or foreground.
 unless mopts['debug'] or mopts['foreground']
+  
   puts "Forking into the background..."
+  
   # Direct all incoming data on STDIN and outgoing data on STDOUT/STDERR to /dev/null.
-  $stdin = File.open('/dev/null')
+  $stdin  = File.open('/dev/null')
   $stdout = File.open('/dev/null', 'w')
   $stderr = File.open('/dev/null', 'w')
   # Fork and retrieve the PID.
-  pid = fork
+  pid     = fork
 
 
   # Save it to auto.pid.
