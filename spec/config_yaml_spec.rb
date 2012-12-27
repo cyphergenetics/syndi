@@ -117,6 +117,7 @@ describe "A configuration using YAML" do
     File.open('.temp.yaml_config.yml', 'w') do |io|
       io.write BAD_CONF
     end
+    @conf.rehash!
     @conf.x.should.equal HASH_ORIGINAL
   end
 
