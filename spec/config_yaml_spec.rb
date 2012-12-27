@@ -43,13 +43,12 @@ EOF
   end
 
   it 'should have correctly processed data' do
-    @conf.x.should.equal (
-                      :foo => {
-                          :cat      => ['meow', 'purr'],
-                          :cow      => ['moo'],
-                          :dinosaur => ['rawr']
-                               }
-                         )
+    @conf.x.should.equal(:foo => {
+                            :cat      => ['meow', 'purr'],
+                            :cow      => ['moo'],
+                            :dinosaur => ['rawr']
+                          }
+                        )
   end
 
   it 'should respond to rehash!()' do
