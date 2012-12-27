@@ -2,6 +2,9 @@
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the three-clause BSD license.
 
+# Directives for Ruby Make (rake)
+# to test/compile Auto 4
+
 task :default => [:testing]
 
 task :testing do 
@@ -12,3 +15,5 @@ task :testing do
     sh "bacon #{inc} #{t}"
   end
 end
+
+# vim: set ts=4 sts=2 sw=2 et:
