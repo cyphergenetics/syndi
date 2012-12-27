@@ -122,7 +122,9 @@ EOF
   end
 
   after do
-    File.delete('.temp.yaml_config.yml')
+    File.delete '.temp.yaml_config.yml'
   end
+    
+  File.delete '.temp.yaml_config.yml'
 
 end

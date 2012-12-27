@@ -108,7 +108,9 @@ EOF
   end
 
   after do
-    File.delete('.temp.json_config.json')
+    File.delete '.temp.json_config.json'
   end
+    
+  File.delete '.temp.json_config.json'
 
 end
