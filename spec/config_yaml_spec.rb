@@ -4,7 +4,11 @@
 require 'bacon'
 require 'spec/test_helpers'
 
-ORIGINAL_CONF = <<EOF
+require 'auto/config'
+
+describe "A configuration using YAML" do
+
+  YAML_ORIGINAL_CONF = <<EOF
 ---
 # This is a comment; unicorns are lovely
 foo:
@@ -21,7 +25,7 @@ foo:
 
 EOF
 
-NEW_CONF = <<EOF
+  YAML_NEW_CONF = <<EOF
 ---
 # This is a comment; unicorns are lovely
 foo:
@@ -41,7 +45,7 @@ foo:
 
 EOF
 
-BAD_CONF = <<EOF
+  YAML_BAD_CONF = <<EOF
 THIS ARE RUBBISH
 
 THAT W!LL F41L
@@ -49,7 +53,7 @@ THAT W!LL F41L
 ...0R SHOULD
 EOF
 
-HASH_ORIGINAL = {
+  YAML_HASH_ORIGINAL = {
                   'foo' => {
                             'cat'      => ['meow', 'purr'],
                             'cow'      => ['moo'],
@@ -57,7 +61,7 @@ HASH_ORIGINAL = {
                            }
                 }
 
-HASH_NEW      = {
+  YAML_HASH_NEW      = {
                   'foo' => {
                             'cat'      => ['meow', 'purr'],
                             'cow'      => ['moo'],
@@ -66,13 +70,9 @@ HASH_NEW      = {
                            }
                 }
 
-require 'auto/config'
-
-describe "A configuration using YAML" do
-
   before do
     File.open('.temp.yaml_config.yml', 'w') do |io|
-      io.write ORIGINAL_CONF
+      io.write YAML_ORIGINAL_CONF
     end
     
     @conf = Auto::Config.new('.temp.yaml_config.yml')
@@ -95,30 +95,30 @@ describe "A configuration using YAML" do
   end
 
   it 'should have correctly processed data' do
-    @conf.x.should.equal HASH_ORIGINAL
+    @conf.x.should.equal YAML_HASH_ORIGINAL
   end
 
   it 'should rehash on rehash!()' do
     File.open('.temp.yaml_config.yml', 'w') do |io|
-      io.write NEW_CONF
+      io.write YAML_NEW_CONF
     end
     @conf.rehash!
-    @conf.x.should.equal HASH_NEW
+    @conf.x.should.equal YAML_HASH_NEW
   end
 
   it 'should fail on rehash!() if data is bad' do
     File.open('.temp.yaml_config.yml', 'w') do |io|
-      io.write BAD_CONF
+      io.write YAML_BAD_CONF
     end
     @conf.rehash!.should.equal 0
   end
 
   it 'should should revert to old data if rehash!() fails' do
     File.open('.temp.yaml_config.yml', 'w') do |io|
-      io.write BAD_CONF
+      io.write YAML_BAD_CONF
     end
     @conf.rehash!
-    @conf.x.should.equal HASH_ORIGINAL
+    @conf.x.should.equal YAML_HASH_ORIGINAL
   end
 
   after do
