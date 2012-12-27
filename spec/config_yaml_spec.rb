@@ -2,10 +2,9 @@
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the three-clause BSD license.
 require 'bacon'
-require 'spec/auto/auto'
-require 'auto/config'
+require 'spec/test_helpers'
 
-$m = Spec::Auto::Auto.new
+require 'auto/config'
 
 describe "A new Auto::Config using YAML" do
 
