@@ -8,4 +8,7 @@ end
 class ConfigError < Generic
 end
 
+class LogError < Generic
+end
+
 # vim: set ts=4 sts=2 sw=2 et:
