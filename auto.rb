@@ -60,7 +60,7 @@ Dir.chdir(File.dirname(__FILE__))
 # Require our libraries.
 require_relative 'lib/auto/rubyext/string.rb'
 require_relative 'lib/auto.rb'
-require_relative 'lib/core/logging.rb'
+require_relative 'lib/auto/logger.rb'
 require_relative 'lib/auto/config.rb'
 require_relative 'lib/api/plugin.rb'
 require_relative 'lib/api/timers.rb'
