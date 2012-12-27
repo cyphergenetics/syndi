@@ -94,7 +94,7 @@ THAT W!LL F41L
 ...0R SHOULD
 EOF
     end
-    @conf.rehash!.should.equal false
+    @conf.rehash!.should.equal 0
   end
 
   it 'should should revert to old data if rehash!() fails' do
