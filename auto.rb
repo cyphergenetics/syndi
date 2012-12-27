@@ -6,6 +6,7 @@
 # Program variables.
 VERSION = '4.0.0'
 if Dir.exists? '.git/' then REVISION = File.open(".git/refs/heads/master").first[0..7] end
+$:.unshift File.expand_path('lib')
 
 # Require necessary libraries.
 require 'optparse'
