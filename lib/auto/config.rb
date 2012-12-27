@@ -3,6 +3,7 @@
 # Distributed under the terms of the three-clause BSD license.
 autoload :JSON, 'json'
 autoload :YAML, 'yaml'
+require 'auto/exceptions'
 
 # Namespace: Auto
 module Auto
@@ -16,15 +17,16 @@ module Auto
   # @author noxgirl
   # @author swarley
   #
-  # @!attribute x
+  # @!attribute conf
   #   @return [Hash{}] This is the hash which contains the data parsed from
   #     the configuration file.
+  #   @see #x
   #
   # @!attribute type
   #   @return [Symbol] Type of configuration: +:yaml+ or +:json+.
   class Config
     
-    attr_reader :x, :type
+    attr_reader :conf, :type
 
     # Produce a new instance, and attempt to parse.
     #
@@ -39,7 +41,7 @@ module Auto
       @path = filepath
       
       # Determine the type: YAML or JSON.
-      if File.extname(filepath) == '.yml'
+      if    File.extname(filepath) == '.yml'
         @type = :yaml
       elsif File.extname(filepath) == '.json'
         @type = :json
@@ -61,22 +63,22 @@ module Auto
       $m.debug("Configuration file is rehashing.")
 
       # Keep the old configuration in case of issues.
-      oldconf = @x
-      @x = {}
+      oldconf = @conf
+      @conf      = {}
 
       # Rehash.
       begin
         parse!
       rescue => e
         $m.error("Failed to rehash the configuration file! Reverting to old configuration.", false, e)
-        @x = oldconf
+        @conf = oldconf
         return
       end
 
       # Ensure it really succeeded.
-      if @x.empty?
+      if @conf.empty?
         # Nope. Restore old configuration.
-        @x = oldconf
+        @conf = oldconf
         $m.error("Failed to rehash the configuration file (parser produced empty config)! Reverting to old configuration.")
         return
       end
@@ -84,6 +86,14 @@ module Auto
       # bot:onRehash
       $m.events.call('bot:onRehash')
 
+    end
+
+    # Return data of @conf.
+    #
+    # @return [Hash{}] The configuration data.
+    # @see @conf
+    def x
+      @conf
     end
 
     #######
@@ -133,7 +143,7 @@ module Auto
 
       end
 
-      @x = conf
+      @conf = conf
 
     end # def parse
 
