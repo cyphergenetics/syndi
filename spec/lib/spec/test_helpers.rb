@@ -4,6 +4,6 @@
 
 require 'spec/auto'
 
-$m = Auto::Auto.new
+$m = Spec::Auto::Auto.new
 
 # vim: set ts=4 sts=2 sw=2 et:
