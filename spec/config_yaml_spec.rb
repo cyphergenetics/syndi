@@ -4,13 +4,7 @@
 require 'bacon'
 require 'spec/test_helpers'
 
-require 'auto/config'
-
-describe "A configuration using YAML" do
-
-  before do
-    File.open('.temp.yaml_config.yml', 'w') do |io|
-      io.write <<EOF
+ORIGINAL_CONF = <<EOF
 ---
 # This is a comment; unicorns are lovely
 foo:
@@ -24,8 +18,61 @@ foo:
 
   dinosaur:
   - rawr
-      
+
 EOF
+
+NEW_CONF = <<EOF
+---
+# This is a comment; unicorns are lovely
+foo:
+
+  cat:
+  - meow
+  - purr
+
+  cow:
+  - moo
+
+  dinosaur:
+  - rawr
+
+  bunny:
+  - unimaginable cuteness that forces you to coo
+
+EOF
+
+BAD_CONF = <<EOF
+THIS ARE RUBBISH
+
+THAT W!LL F41L
+
+...0R SHOULD
+EOF
+
+HASH_ORIGINAL = {
+                  'foo' => {
+                            'cat'      => ['meow', 'purr'],
+                            'cow'      => ['moo'],
+                            'dinosaur' => ['rawr']
+                           }
+                }
+
+HASH_NEW      = {
+                  'foo' => {
+                            'cat'      => ['meow', 'purr'],
+                            'cow'      => ['moo'],
+                            'dinosaur' => ['rawr'],
+                            'bunny'    => ['unimaginable cuteness that forces you to coo']
+                           }
+                }
+
+require 'auto/config'
+
+describe "A configuration using YAML" do
+
+  before do
+    File.open('.temp.yaml_config.yml', 'w') do |io|
+      io.write ORIGINAL_CONF
     end
     
     @conf = Auto::Config.new('.temp.yaml_config.yml')
@@ -48,67 +95,29 @@ EOF
   end
 
   it 'should have correctly processed data' do
-    @conf.x.should.equal('foo' => {
-                            'cat'      => ['meow', 'purr'],
-                            'cow'      => ['moo'],
-                            'dinosaur' => ['rawr']
-                          }
-                        )
+    @conf.x.should.equal HASH_ORIGINAL
   end
 
   it 'should rehash on rehash!()' do
     File.open('.temp.yaml_config.yml', 'w') do |io|
-      io.write <<EOF
----
-# This is a comment; unicorns are lovely
-foo:
-
-  cat:
-  - meow
-  - purr
-
-  cow:
-  - moo
-
-  dinosaur:
-  - rawr
-
-  bunny:
-  - unimaginable cuteness that forces you to coo
-      
-EOF
+      io.write NEW_CONF
     end
     @conf.rehash!
-    @conf.x.should.equal('foo' => {
-                            'cat'      => ['meow', 'purr'],
-                            'cow'      => ['moo'],
-                            'dinosaur' => ['rawr'],
-                            'bunny'    => ['unimaginable cuteness that forces you to coo']
-                          }
-                        )
+    @conf.x.should.equal HASH_NEW
   end
 
   it 'should fail on rehash!() if data is bad' do
     File.open('.temp.yaml_config.yml', 'w') do |io|
-      io.write <<EOF
-THIS ARE RUBBISH
-
-THAT W!LL F41L
-
-...0R SHOULD
-EOF
+      io.write BAD_CONF
     end
     @conf.rehash!.should.equal 0
   end
 
   it 'should should revert to old data if rehash!() fails' do
-    @conf.x.should.equal('foo' => {
-                            'cat'      => ['meow', 'purr'],
-                            'cow'      => ['moo'],
-                            'dinosaur' => ['rawr'],
-                            'bunny'    => ['unimaginable cuteness that forces you to coo']
-                          }
-                        )
+    File.open('.temp.yaml_config.yml', 'w') do |io|
+      io.write BAD_CONF
+    end
+    @conf.x.should.equal HASH_ORIGINAL
   end
 
   after do
