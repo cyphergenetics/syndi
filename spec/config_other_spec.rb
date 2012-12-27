@@ -9,7 +9,7 @@ require 'auto/config'
 describe "A base configuration" do
 
   it 'should raise ConfigError on initialize if a non-existent file was provided' do
-    should.raise(ConfigError) { Auto::Config.new('.temp.file_no_exist.file') }
+    should.raise(ConfigError) { Auto::Config.new('.temp.file_no_exist.yml') }
   end
 
   it 'should raise ConfigError on initialize if the file\'s extension is not recognized' do
