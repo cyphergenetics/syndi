@@ -5,8 +5,10 @@
 module Spec
   module Auto
     class Auto
-      [:debug,:warn,:error,:log,:info,:foreground].each do |x| 
-        define_singleton_method(x) {|*args| nil }
+      def initialize
+        [:debug,:warn,:error,:log,:info,:foreground].each do |x| 
+          define_singleton_method(x) {|*args| nil }
+        end
       end
     end
   end
