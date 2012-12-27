@@ -50,9 +50,9 @@ module Auto
       end
 
       # Produce our methods.
-      [:error, :warning, :info, :debug].each do |method|
-        define_singleton_method(method) do |msg|
-          log(method.to_s.uc, msg)
+      [:error, :warning, :info, :debug].each do |meth|
+        define_singleton_method(meth) do |msg|
+          log(meth.to_s.uc, msg)
         end
       end
 
