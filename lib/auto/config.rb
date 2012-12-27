@@ -72,7 +72,7 @@ module Auto
       rescue => e
         $m.error("Failed to rehash the configuration file! Reverting to old configuration.", false, e)
         @conf = oldconf
-        return
+        return 0
       end
 
       # Ensure it really succeeded.
@@ -80,7 +80,7 @@ module Auto
         # Nope. Restore old configuration.
         @conf = oldconf
         $m.error("Failed to rehash the configuration file (parser produced empty config)! Reverting to old configuration.")
-        return
+        return 0
       end
       
       # bot:onRehash
@@ -94,6 +94,14 @@ module Auto
     # @see @conf
     def x
       @conf
+    end
+
+    # Return value of @conf[key].
+    #
+    # @return [Object] Value of @conf[key].
+    # @see @conf
+    def [](key)
+      @conf[key]
     end
 
     #######
