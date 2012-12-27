@@ -117,7 +117,6 @@ module Auto
       # Ensure foremost that the configuration file exists.
       unless File.exists? @path
         raise ConfigError, "Configuration file '#@path' does not exist!"
-        return
       end
 
       # Get the data from the file.
