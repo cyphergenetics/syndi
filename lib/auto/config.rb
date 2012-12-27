@@ -64,7 +64,7 @@ module Auto
 
       # Keep the old configuration in case of issues.
       oldconf = @conf
-      @conf      = {}
+      @conf   = {}
 
       # Rehash.
       begin
@@ -76,7 +76,7 @@ module Auto
       end
 
       # Ensure it really succeeded.
-      if @conf.empty?
+      if @conf.empty? or @conf.class != Hash
         # Nope. Restore old configuration.
         @conf = oldconf
         $m.error("Failed to rehash the configuration file (parser produced empty config)! Reverting to old configuration.")
