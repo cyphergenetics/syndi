@@ -9,14 +9,14 @@ by the Auto Project:
 
 Contributors to earlier versions:
 
--   Matthew Barksdale \<mattwb65@gmail.com\>
--   Russell Bradford \<russell@rbradford.me\>
--   Liam Smith \<me@liam.co\>
--   Alyx Wolcott \<contact@alyxw.me\>
--   Mitchell Cooper \<mitchell@notroll.net\>
--   Timothy Estes \<tim7967@gmail.com\>
--   Douglas Freed :[GitHub](https://github.com/dwfreed)
--   Eitan Adler :[GitHub](https://github.com/grimreaper)
+-   [Russell Bradford](https://github.com/RussellB28) \<russell@rbradford.me\>
+-   [Liam Smith](https://github.com/liamsmithuk) \<me@liam.co\>
+-   [Alyx Wolcott](https://github.com/alyx) \<contact@alyxw.me\>
+-   [Mitchell Cooper](https://github.com/cooper) \<mitchell@notroll.net\>
+-   [Timothy Estes](https://github.com/tim7967) \<tim7967@gmail.com\>
+-   [Douglas Freed](https://github.com/dwfreed)
+-   [Eitan Adler](https://github.com/grimreaper)
+-   [Clay Freeman](https://github.com/clayfreeman) \<admin@clayfreeman.com\>
 
 Description
 -----------
