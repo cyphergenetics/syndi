@@ -9,6 +9,6 @@ task :testing do
   tests = [ File.join(%w[ spec *spec.rb ]) ]
   
   tests.each do |t|
-    sh "bacon -q #{inc} #{t}"
+    sh "bacon #{inc} #{t}"
   end
 end
