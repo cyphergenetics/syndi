@@ -43,6 +43,10 @@ EOF
     @conf.x.should.equal @conf.conf
   end
 
+  it 'should point [x] to @conf[x]' do
+    @conf['foo'].should.equal @conf.conf['foo']
+  end
+
   it 'should have correctly processed data' do
     @conf.x.should.equal('foo' => {
                             'cat'      => ['meow', 'purr'],
