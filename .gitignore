@@ -1,7 +1,19 @@
+# Exclude logs
 logs/*
+
+# and configuration files
 conf/auto.json
 ocnf/auto.yml
+
+# and databases
 *.db
+
+# and documentation suites
 yardoc/*
 .yardoc
+
+# and temporary files likely made by rake
+.temp.*
+
+# and stuff
 Gemfile.lock
