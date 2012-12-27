@@ -1,4 +1,3 @@
-# @markup markdown
 # @title API Events
 
 API Events

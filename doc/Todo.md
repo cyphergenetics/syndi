@@ -1,4 +1,3 @@
-# @markup markdown
 # @title Developers' To-Do List
 
 Developers' To-Do List

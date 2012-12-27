@@ -1,4 +1,3 @@
-# @markup markdown
 # @title Standards of Contributing
 # @author noxgirl
 

@@ -1,4 +1,3 @@
-# @markup markdown
 # @title Upgrade Auto 3 to 4
 
 Upgrade Auto 3 to 4
