@@ -43,7 +43,8 @@ OptionParser.new do |opts|
   opts.on('-v', '--version', "Print version and exit.") do |v|
     puts <<VERSION
 Auto #{VERSION}
-https://github.com/noxgirl/Auto
+#{"Git revision: #{REVISION}\n" if defined? REVISION}
+http://git.io/autobot
 VERSION
     exit 0
   end
