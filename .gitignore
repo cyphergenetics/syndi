@@ -4,3 +4,4 @@ ocnf/auto.yml
 *.db
 yardoc/*
 .yardoc
+Gemfile.lock
