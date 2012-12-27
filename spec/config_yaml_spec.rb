@@ -87,11 +87,11 @@ describe "A configuration using YAML" do
   end
 
   it 'should have #x, a pointer to @conf' do
-    @conf.x.should.equal @conf.conf
+    @conf.x.should.be.same_as @conf.conf
   end
 
   it 'should point [x] to @conf[x]' do
-    @conf['foo'].should.equal @conf.conf['foo']
+    @conf['foo'].should.be.same_as @conf.conf['foo']
   end
 
   it 'should have correctly processed data' do
