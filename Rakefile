@@ -8,5 +8,7 @@ task :testing do
   inc   = "-i #{File.join(%w[ spec lib ])} -i lib"
   tests = [ File.join(%w[ spec *spec.rb ]) ]
   
-  sh "bacon -q #{inc} #{tests}"
+  tests.each do |t|
+    sh "bacon -q #{inc} #{t}"
+  end
 end
