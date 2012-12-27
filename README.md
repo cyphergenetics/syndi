@@ -57,7 +57,7 @@ wiki page for this, however, so you will have to configure `conf/example.json`
 using your own intuition. Save it as `conf/auto.json`, and start Auto with the
 `-j` (`--json`) switch (which is effectively an alias for `--config=conf/auto.json`).
 
-Start Auto 4 by running `ruby auto.rb`.
+If `rake` succeeds, run Auto 4 with `ruby auto.rb`.
 
 Developing for Auto 4
 ---------------------
