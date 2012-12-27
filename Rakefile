@@ -5,5 +5,8 @@
 task :default => [:testing]
 
 task :testing do 
-  sh "bacon -q -i lib/ spec/*spec.rb"
+  inc   = "-i #{File.join(%w[ spec lib ])} -i lib"
+  tests = [ File.join(%w[ spec *spec.rb ]) ]
+  
+  sh "bacon -q #{inc} #{tests}"
 end
