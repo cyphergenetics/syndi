@@ -5,5 +5,5 @@
 task :default => [:testing]
 
 task :testing do 
-  sh "bacon -i -q lib/ spec/*spec.rb"
+  sh "bacon -q -i lib/ spec/*spec.rb"
 end
