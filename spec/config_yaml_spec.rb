@@ -2,8 +2,10 @@
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the three-clause BSD license.
 require 'bacon'
-
+require 'spec/auto/auto'
 require 'auto/config'
+
+$m = Spec::Auto::Auto.new
 
 describe "A new Auto::Config using YAML" do
 
@@ -51,8 +53,16 @@ EOF
                         )
   end
 
-  it 'should respond to rehash!()' do
-    @conf.should.respond.to :rehash!
+  it 'should rehash on rehash!()' do
+  end
+
+  it 'should have successfully updated @conf after rehash!()' do
+  end
+
+  it 'should fail to rehash!() if data is bad' do
+  end
+
+  it 'should revert to old data if rehash!() fails' do
   end
 
   after do
