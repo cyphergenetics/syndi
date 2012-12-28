@@ -9,12 +9,12 @@ Auto 4.0 _Phoenix_
 
 See also **Contributors** below.
 
-**Latest**: 4.0.0d (codename _Phoenix_)
-**Homepage**: http://git.io/autobot
-**Git**: https://github.com/Auto/Auto
+**Latest**:         4.0.0d (codename _Phoenix_)
+**Homepage**:       http://git.io/autobot
+**Git**:            https://github.com/Auto/Auto
 
-**Copyright**: 2009-2013, Auto Project
-**License**: New BSD (see **LICENSE.md**)
+**Copyright**:      2009-2013, Auto Project
+**License**:        New BSD (see **LICENSE.md**)
 
 Description
 -----------
