@@ -1,22 +1,20 @@
-Auto 4
-======
+Auto 4.0 _Phoenix_
+==================
 
-by the Auto Project:
+**by the Auto Project**:
 
 -   [noxgirl](https://github.com/noxgirl) \<xoeverlux@gmail.com\>
 -   [swarley](https://github.com/swarley) \<matthew.b.carey@gmail.com\>
 -   [mattwb65](https://github.com/mattwb65) \<mattwb65@gmail.com\>
 
-Contributors to earlier versions:
+See also **Contributors** below.
 
--   [Russell Bradford](https://github.com/RussellB28) \<russell@rbradford.me\>
--   [Liam Smith](https://github.com/liamsmithuk) \<me@liam.co\>
--   [Alyx Wolcott](https://github.com/alyx) \<contact@alyxw.me\>
--   [Mitchell Cooper](https://github.com/cooper) \<mitchell@notroll.net\>
--   [Timothy Estes](https://github.com/tim7967) \<tim7967@gmail.com\>
--   [Douglas Freed](https://github.com/dwfreed)
--   [Eitan Adler](https://github.com/grimreaper)
--   [Clay Freeman](https://github.com/clayfreeman) \<admin@clayfreeman.com\>
+**Latest**: 4.0.0d (codename _Phoenix_)
+**Homepage**: http://git.io/autobot
+**Git**: https://github.com/Auto/Auto
+
+**Copyright**: 2009-2013, Auto Project
+**License**: New BSD (see **LICENSE.md**)
 
 Description
 -----------
@@ -89,36 +87,19 @@ If the wiki fails to address your needs, please either:
 3. Join the _unofficial_ IRC chatroom at 
 [##nox on irc.freenode.net](http://webchat.freenode.net/?randomnick=1&channels=##nox&prompt=1)
 
-License
--------
+Contributors
+------------
 
-Auto 4 is free software distributed under the three-clause BSD license:
+Contributors to earlier versions:
 
-    Copyright (c) 2013, Auto Project
-    All rights reserved.
-
-    Redistribution and use in source and binary forms, with or without modification, are permitted
-    provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions
-      and the following disclaimer.
-    
-    * Redistributions in binary form must reproduce the above copyright notice, this list of
-      conditions and the following disclaimer in the documentation and/or other materials provided
-      with the distribution.
-    
-    * Neither the name of the Auto Project nor the names of its contributors may be used to endorse
-      or promote products derived from this software without specific prior written permission.
-    
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
-    IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
-    AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
-    CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-    CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-    SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-    THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
-    OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-    POSSIBILITY OF SUCH DAMAGE.
+-   [Russell Bradford](https://github.com/RussellB28) \<russell@rbradford.me\>
+-   [Liam Smith](https://github.com/liamsmithuk) \<me@liam.co\>
+-   [Alyx Wolcott](https://github.com/alyx) \<contact@alyxw.me\>
+-   [Mitchell Cooper](https://github.com/cooper) \<mitchell@notroll.net\>
+-   [Timothy Estes](https://github.com/tim7967) \<tim7967@gmail.com\>
+-   [Douglas Freed](https://github.com/dwfreed)
+-   [Eitan Adler](https://github.com/grimreaper)
+-   [Clay Freeman](https://github.com/clayfreeman) \<admin@clayfreeman.com\>
 
 Project
 -------
