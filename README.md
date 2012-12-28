@@ -9,7 +9,7 @@ Auto 4.0 _Phoenix_
 
 See also **Contributors** below.
 
-**Latest**:             4.0.0d (codename _Phoenix_)  
+**Latest**:             4.0.0d (codename _Phoenix_) [![Build Status](https://travis-ci.org/Auto/Auto.png?branch=master)](https://travis-ci.org/Auto/Auto)  
 **Homepage**:           http://git.io/autobot  
 **Git**:                https://github.com/Auto/Auto  
 **Wiki**:               https://github.com/Auto/Auto/wiki  
@@ -55,7 +55,7 @@ wiki page for this, however, so you will have to configure `conf/example.json`
 using your own intuition. Save it as `conf/auto.json`, and start Auto with the
 `-j` (`--json`) switch (which is effectively an alias for `--config=conf/auto.json`).
 
-If `rake` succeeds, run Auto 4 with `ruby auto.rb`.
+Run Auto 4 with `ruby auto.rb`.
 
 Developing for Auto 4
 ---------------------
