@@ -6,3 +6,12 @@ rvm:
   - 1.9.3
   - rbx-19mode
   - jruby-19mode
+
+# Specify our active developers
+#
+# noxgirl: xoeverlux@gmail.com
+# swarley: matthew.b.carey@gmail.com
+notifications:
+  recipients:
+  - xoeverlux@gmail.com
+  - matthew.b.carey@gmail.com
