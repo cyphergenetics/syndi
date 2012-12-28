@@ -14,7 +14,7 @@ See also **Contributors** below.
 **Git**:                https://github.com/Auto/Auto  
 **Wiki**:               https://github.com/Auto/Auto/wiki  
 **Docs**:               http://rdoc.info/github/Auto/Auto/  
-**Mailing List**:       autobot-news@googlegroups.com (news concerning Auto)  
+**Mailing List**:       [autobot-news](https://groups.google.com/forum/#!forum/autobot-news) (news concerning Auto)  
 **Issue Hub**:          https://github.com/Auto/Auto/issues
 
 **Copyright**:          2009-2013, Auto Project  
