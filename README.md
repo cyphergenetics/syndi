@@ -15,7 +15,7 @@ See also **Contributors** below.
 **Git**:                https://github.com/Auto/Auto  
 **Wiki**:               https://github.com/Auto/Auto/wiki  
 **Docs**:               http://rdoc.info/github/Auto/Auto/  
-**Mailing List**:       [autobot-news](https://groups.google.com/forum/#!forum/autobot-news) (news concerning Auto)  
+**Mailing Group**:      [autobot-talk](https://groups.google.com/forum/?fromgroups=autobot-talk#!forum/autobot-talk)  
 **Issue Hub**:          https://github.com/Auto/Auto/issues
 
 **Copyright**:          2009-2013, Auto Project  
@@ -83,10 +83,12 @@ documentation on the [wiki](https://github.com/Auto/Auto/wiki).
 
 If the wiki fails to address your needs, please either:
 
-1. Ideally, use the [issue management hub](https://github.com/Auto/Auto/issues), **or**
-2. Use the [official forums](http://rubyforge.org/forum/?group_id=10312), **or**
-3. Join the _unofficial_ IRC chatroom at 
+1. Ideally, post to the [autobot-talk](https://groups.google.com/forum/?fromgroups=autobot-talk#!forum/autobot-talk)
+   group under the _support_ category, **or**
+2. Join the _unofficial_ IRC chatroom at 
 [##nox on irc.freenode.net](http://webchat.freenode.net/?randomnick=1&channels=##nox&prompt=1)
+
+**Bugs** should be reported on the [issue management hub](https://github.com/Auto/Auto/issues).
 
 Contributors
 ------------
