@@ -7,4 +7,5 @@ lib/api/resource/*
 lib/core/*
 lib/irc/*
 lib/irc/object/*
+- LICENSE.md
 - doc/*
