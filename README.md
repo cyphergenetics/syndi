@@ -11,7 +11,11 @@ See also **Contributors** below.
 
 **Latest**:             4.0.0d (codename _Phoenix_)  
 **Homepage**:           http://git.io/autobot  
-**Git**:                https://github.com/Auto/Auto
+**Git**:                https://github.com/Auto/Auto  
+**Wiki**:               https://github.com/Auto/Auto/wiki  
+**Docs**:               http://rdoc.info/github/Auto/Auto/  
+**Mailing List**:       autobot-news@googlegroups.com (news concerning Auto)  
+**Issue Hub**:          https://github.com/Auto/Auto/issues
 
 **Copyright**:          2009-2013, Auto Project  
 **License**:            New BSD (see **LICENSE.md**)
