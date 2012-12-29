@@ -12,8 +12,12 @@ describe "The API event system" do
     @events = Auto::API::Events.new
   end
 
-  it 'should return an ID after creating a new event with on()' do
-    @events.on(self, 'fooBar') { nil }.class.should.equal String
+  it 'should return identification data after creating a new event with on()' do
+    @events.on(self, 'fooBar') { nil }.class.should.equal Array
+  end
+
+  it 'should return sufficient identification data' do
+    @events.on(self, 'meowCat') { nil }.length.should.equal 4
   end
 
   it 'should trigger all hooks of an event when said event is called' do
@@ -32,10 +36,10 @@ describe "The API event system" do
     @order.should.equal 'ABC'
   end
 
-  it 'should delete an event given its ID' do
+  it 'should delete an event given its identification data' do
     @deleted = true
     id = @events.on(self, 'unicornEvent') { @deleted = false }
-    @events.del(self, id)
+    @events.del(id)
     @events.call('unicornEvent')
     @deleted.should.be.true
   end
