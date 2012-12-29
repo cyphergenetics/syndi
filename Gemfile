@@ -6,7 +6,7 @@
 
 source :rubygems
 
-gem "sqlite3"
-gem "bacon"
+gem 'bacon'
+gem 'sequel'
 
 # vim: set ts=4 sts=2 sw=2 et:
