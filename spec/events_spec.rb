@@ -13,32 +13,32 @@ describe "The API event system" do
   end
 
   it 'should return identification data after creating a new event with on()' do
-    @events.on(self, 'fooBar') { nil }.class.should.equal Array
+    @events.on('fooBar') { nil }.class.should.equal Array
   end
 
   it 'should return sufficient identification data' do
-    @events.on(self, 'meowCat') { nil }.length.should.equal 4
+    @events.on('meowCat') { nil }.length.should.equal 3
   end
 
   it 'should trigger all hooks of an event when said event is called' do
     @ok = false
-    @events.on(self, 'bunnyEvent') { @ok = true }
+    @events.on('bunnyEvent') { @ok = true }
     @events.call('bunnyEvent')
     @ok.should.be.true
   end
 
   it 'should trigger events in the order of highest to lowest priority' do
     @order = ''
-    @events.on(self, 'kittenEvent', 5) { @order << 'C' }
-    @events.on(self, 'kittenEvent', 1) { @order << 'A' }
-    @events.on(self, 'kittenEvent', 3) { @order << 'B' }
+    @events.on('kittenEvent', 5) { @order << 'C' }
+    @events.on('kittenEvent', 1) { @order << 'A' }
+    @events.on('kittenEvent', 3) { @order << 'B' }
     @events.call('kittenEvent')
     @order.should.equal 'ABC'
   end
 
   it 'should delete an event given its identification data' do
     @deleted = true
-    id = @events.on(self, 'unicornEvent') { @deleted = false }
+    id = @events.on('unicornEvent') { @deleted = false }
     @events.del(id)
     @events.call('unicornEvent')
     @deleted.should.be.true
