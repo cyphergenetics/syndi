@@ -55,7 +55,7 @@ module Auto
     # No reason to use symbols here since the array is only generated
     # as often as this class is reloaded.
     %w[error warning info debug].each do |meth|
-      define_method(meth) {|msg| log(meth.us, msg) }
+      define_method(meth) {|msg| log(meth.uc, msg) }
     end
 
     #######
