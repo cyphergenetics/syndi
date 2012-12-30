@@ -26,24 +26,25 @@ module Auto
 
       # Listen for (hook onto) an event.
       #
-      # @param [Object] clr The object of the caller, or +self+ in the calling code.
       # @param [String] event The name of the event for which to listen.
       # @param [Integer] priority The priority of the event from 1-5, 1 being utmost priority.
       #
       # @yield [...] The arguments that will be yielded to the block vary by event.
       #   Please consult the {file:doc/Events.md API Events} document.
       #
-      # @return [String] A unique identifier string. Keep this if you need to destroy
-      #   the hook later.
+      # @return [Array(String, Integer, String)] Identification data including a unique string. Keep 
+      #   this if you need to destroy the hook later.
       #
       # @example
-      #   events.on(self, 'irc:onDisconnect') do |irc|
+      #   events.on 'irc:onDisconnect' do |irc|
       #     puts "I'm dying!"
       #   end
-      def on(clr, event, priority=3, &cb)
+      #
+      # @see API::Helper::Events#ev_on
+      def on(event, priority=3, &cb)
 
         # Priority must be in the range of 1-5.
-        unless 1..5 === priority
+        unless (1..5).include? priority
           return 0
         end
 
@@ -52,43 +53,61 @@ module Auto
           new_event event
         end
 
-        # Create a container for this calling object if it doesn't already exist.
-        unless @events[event][priority].has_key? clr
-          @events[event][priority][clr] = {}
-        end
-
         # Generate a unique ID for this hook.
         id = ''
         10.times { id += get_rand_char }
-        while @events[event][priority][clr].has_key? id
+        while @events[event][priority].has_key? id
           id = ''
           10.times { id += get_rand_char }
         end
 
         # Create the hook in memory.
-        @events[event][priority][clr][id] = cb
+        @events[event][priority][id] = cb
 
-        id
+        [event, priority, id]
 
       end
 
-      # Call/broadcast an event.
+      # Broadcast an event and associated arguments.
       #
-      # 
+      # The arguments are globbed into an array from the list passed to the
+      # method, so be sure to format your call correctly.
+      #
+      # @param [String] event The name of the event being braodcasted.
+      # @param [Array] args A list of arguments which should be passed to
+      #   the listeners. (splat)
+      #
+      # @example
+      #   events.call('foo:cowMoo', "the cows", "go moo", [1, 3, 5])
+      #
+      # @see API::Helper::Events#ev_do
       def call(evnt, *args)
         # Check if any hooks exist for this event.
         if @events.include? evnt
           # Iterate through the hooks.
-          @events[evnt].each_value do |objekt|
-            objekt.each_value { |block| block.call(*args) }
+          @events[evnt].each_key do |priority|
+            @events[evnt][priority].each_value do |prc| 
+              Thread.new(prc) do |process|
+                process.call(*args)
+              end.join
+            end
           end
         end
       end
 
       # Delete a hook or listener.
-      def del(clr, id)
-        if @events.has_key? clr
-          @events[clr].delete(id)
+      #
+      # @param [Array(String, Integer, String)] id The identification data of the hook,
+      #   as provided by #on.
+      #
+      # @see API::Helper::Events#ev_del
+      def del(id)
+        event, priority, hook = id
+
+        if @events.has_key? event
+          if @events[event][priority].has_key? hook
+            @events[event][priority].delete(hook)
+          end
         end
 
         tidy!
@@ -106,7 +125,7 @@ module Auto
         chrs[rand(chrs.length)]
       end
 
-      # Add a new event to the hash.
+      # Add a new event to the @events hash.
       #
       # @param [String] event Event name.
       def new_event(event)
@@ -125,7 +144,7 @@ module Auto
           empty = true
           empty = lists.each_value { |v| break false if not v.empty? }
           if empty
-            @events.delete[name]
+            @events.delete name
             next
           end
         end
