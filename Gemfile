@@ -6,6 +6,7 @@
 
 source :rubygems
 
+gem 'rake'
 gem 'bacon'
 gem 'sequel'
 gem 'colored'
