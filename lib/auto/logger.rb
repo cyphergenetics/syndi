@@ -49,13 +49,13 @@ module Auto
         end
       end
 
-      # Produce our methods.
-      [:error, :warning, :info, :debug].each do |meth|
-        define_singleton_method(meth) do |msg|
-          log(meth.to_s.uc, msg)
-        end
-      end
+    end
 
+    # Methods for logging, ERROR, WARNING, INFO, and DEBUG.
+    # No reason to use symbols here since the array is only generated
+    # as often as this class is reloaded.
+    %w[error warning info debug].each do |meth|
+      define_method(meth) {|msg| log(meth.us, msg) }
     end
 
     #######
