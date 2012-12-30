@@ -1,5 +1,7 @@
 --title "Auto 4"
 -o yardoc
+--protected
+--private
 lib/*
 lib/auto/*
 lib/api/*
