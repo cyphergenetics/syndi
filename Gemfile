@@ -8,5 +8,6 @@ source :rubygems
 
 gem 'bacon'
 gem 'sequel'
+gem 'colored'
 
 # vim: set ts=4 sts=2 sw=2 et:
