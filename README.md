@@ -83,10 +83,10 @@ documentation on the [wiki](https://github.com/Auto/Auto/wiki).
 
 If the wiki fails to address your needs, please either:
 
-1. Ideally, post to the [autobot-talk](https://groups.google.com/group/autobot-talk)
+1. Post to the [autobot-talk](https://groups.google.com/group/autobot-talk)
    group under the _support_ category, **or**
-2. Join the _unofficial_ IRC chatroom at 
-[##nox on irc.freenode.net](http://webchat.freenode.net/?randomnick=1&channels=##nox&prompt=1)
+2. Join the official IRC chatroom at 
+[#auto on irc.freenode.net](http://webchat.freenode.net/?randomnick=1&channels=#auto&prompt=1)
 
 **Bugs** should be reported on the [issue management hub](https://github.com/Auto/Auto/issues).
 
