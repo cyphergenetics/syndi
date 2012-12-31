@@ -123,7 +123,7 @@ module Auto
           end
         end
 
-        tidy!
+        tidy
       end
 
       # Terminate all active threads.
@@ -159,7 +159,7 @@ module Auto
       end
 
       # Tidy up.
-      def tidy!
+      def tidy
         @events.each do |name, lists|
           empty = true
           empty = lists.each_value { |v| break false if not v.empty? }
