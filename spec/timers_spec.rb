@@ -13,21 +13,21 @@ describe 'The API timer system' do
     @clock = Auto::API::Timers.new
   end
 
-  it 'should have a publicly viewable array of threads' do
-    @clock.threads.class.should.equal Array
+  it 'should have a publicly viewable hash of timers' do
+    @clock.timers.class.should.equal Hash
   end
 
   it 'should correctly execute once-only timers' do
     @meow = false
     @clock.spawn(3, :once) { @meow = true }
-    sleep 3
+    sleep 4
     @meow.should.be.true
-  do
+  end
 
   it 'and repeating timers' do
     @moo = 1
-    @clock.spawn(2, :every) { @moo += 1; exit if @moo = 3 }
-    sleep 4
+    @clock.spawn(2, :every) { @moo += 1; self.die if @moo == 3 }
+    sleep 5
     @moo.should.equal 3
   end
 
@@ -35,7 +35,7 @@ describe 'The API timer system' do
     @rawr = true
     timer = @clock.spawn(3, :once) { @rawr = false }
     @clock.del timer
-    sleep 3
+    sleep 4
     @rawr.should.be.true
   end
 

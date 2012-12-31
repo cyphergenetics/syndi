@@ -2,82 +2,91 @@
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the three-clause BSD license.
 
-############################################################################
-# API::Timers
-#
-# A simple class which provides the API a fundamental timer system, based on
-# threading.
-############################################################################
+require 'thread'
 
-# Entering namespace: API
-module API
+# Entering namespace: Auto
+module Auto
 
-  # Class Timers: Timer system.
-  class Timers
+  # Entering namespace: API
+  module API
+
+    # A simple class which provides the API a fundamental timer system, based on
+    # threading.
+    #
+    # @api Auto
+    # @since 4.0.0
+    # @author noxgirl
+    #
+    # @!attribute [r] timers
+    #   @return [Hash{String => Thread}] List of threads.
+    class Timers < Auto::API::Object
     
-    attr_reader :timers
+      attr_reader :timers
 
-    # Create a new instance of API::Timers.
-    # ()
-    def initialize
-      @timers = {}
-    end
+      # Create a new instance of Auto::API::Timers.
+      def initialize
+        @timers = {}
+      end
 
-    # Spawn a new timer.
-    # (obj, num, sym, splat) {}
-    def spawn(clr, time, type, *args, &cb)
+      # Spawn a new timer.
+      #
+      # @param [Integer] time Number of seconds before this is executed, or in between executions.
+      # @param [Symbol] type Either +:once+ to execute a timer once and destroy it, or +:every+
+      #   to repeat.
+      # @param [Array<>] args An array of arguments which to pass to the block when executed. (splat)
+      #
+      # @yield [...] The arguments which were provided in the timer's creation.
+      #
+      # @return [String] A unique identification string representing the timer. Useful if you wish
+      #   to terminate it in the future.
+      #
+      # @example
+      #   => timer = timers.spawn(15, :once, 'cow') { |animal| puts animal }
+      #   # after 15 seconds...
+      #   'animal'
+      #
+      # @see Auto::API::Helper::Timers#clock_do
+      def spawn(time, type, *args, &cb)
 
-      # Create a new container for this caller if it doesn't already exist.
-      @timers[clr] = {} unless @timers.has_key? clr
-      
-      # Generate a unique ID for this timer.
-      id = ''
-      10.times { id += get_rand_char }
-      while @timers[clr].has_key? id
+        # Generate a unique ID for this timer.
         id = ''
         10.times { id += get_rand_char }
+        while @timers.has_key? id
+          id = ''
+          10.times { id += get_rand_char }
+        end
+
+        # Create a new thread containing the timer.
+        if    type == :once
+          @timers[id] = Thread.new { sleep time; cb.call(*args) }
+        elsif type == :every
+          @timers[id] = Thread.new { loop { sleep time; cb.call(*args) } }
+        else
+          return
+        end
+
+        id
+
       end
 
-      # Create a new thread containing the timer.
-      # NOTE: This is probably not the best way to do this, but meh.
-      if type == :once
-        @timers[clr][id] = Thread.new { sleep time; cb.call(*args) }
-      elsif type == :every
-        @timers[clr][id] = Thread.new { loop { sleep time; cb.call(*args) } }
-      else
-        return
-      end
-
-      id
-
-    end
-
-    # Delete a timer.
-    # (obj, id)
-    def del(clr, id)
-      # Does a container exist for this caller?
-      if @timers.has_key? clr
+      # Delete a timer.
+      #
+      # @param [String] id The unique identification string of the timer, as provided
+      #   by {#spawn}.
+      #
+      # @see Auto::API::Helper::Timers#clock_stop
+      def del(id)
         # Does the timer exist?
-        if @timers[clr].has_key? id
-          @timers[clr][id].kill
-          @timers[clr].delete(id)
+        if @timers.has_key? id
+          @timers[id].kill
+          @timers.delete id
         end
       end
-    end
 
-    #######
-    private
-    #######
+    end # class Timers
 
-    # Get a random character.
-    # () -> char
-    def get_rand_char
-      chrs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".split(//)
-      chrs[rand(chrs.length)]
-    end
+  end # module API
 
-  end # class Timers
-
-end # module API
+end # module Auto
 
 # vim: set ts=4 sts=2 sw=2 et:
