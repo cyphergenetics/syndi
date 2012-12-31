@@ -103,6 +103,7 @@ Contributors to earlier versions:
 -   [Douglas Freed](https://github.com/dwfreed)
 -   [Eitan Adler](https://github.com/grimreaper)
 -   [Clay Freeman](https://github.com/clayfreeman) \<admin@clayfreeman.com\>
+-   [Connor Youngquist](https://github.com/TheNull) \<thenull2.0@gmail.com\>
 
 Project
 -------
