@@ -48,7 +48,7 @@ module Auto
       #     puts "I'm dying!"
       #   end
       #
-      # @see API::Helper::Events#ev_on
+      # @see Auto::API::Helper::Events#ev_on
       def on(event, priority=3, &cb)
 
         # Priority must be in the range of 1-5.
@@ -88,7 +88,7 @@ module Auto
       # @example
       #   events.call('foo:cowMoo', "the cows", "go moo", [1, 3, 5])
       #
-      # @see API::Helper::Events#ev_do
+      # @see Auto::API::Helper::Events#ev_do
       def call(event, *args)
         # Check if any hooks exist for this event.
         if @events.include? event
@@ -108,7 +108,7 @@ module Auto
       # @param [Array(String, Integer, String)] id The identification data of the hook,
       #   as provided by #on.
       #
-      # @see API::Helper::Events#ev_del
+      # @see Auto::API::Helper::Events#ev_del
       def del(id)
         event, priority, hook = id
 
