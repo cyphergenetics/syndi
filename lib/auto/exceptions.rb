@@ -11,4 +11,7 @@ end
 class LogError < Generic
 end
 
+class DatabaseError < Generic
+end
+
 # vim: set ts=4 sts=2 sw=2 et:
