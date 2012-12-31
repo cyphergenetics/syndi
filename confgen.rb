@@ -1,9 +1,117 @@
-# Auto 4
-# Copyright (c) 2013, Auto Project
-# Distributed under the terms of the three-clause BSD license.
+require "highline/import"
 
-require "optparse"
-require "readline"
+config = {}
+
+def gen_q(depth, question, default_string="")
+  string = ("|  " * depth)
+  string << " `- " unless depth.zero?
+  string << question << "\n"
+  string << gen_p(depth) << " " << default_string << "  "
+  string.chomp(" ")
+end
+
+def gen_p(depth)
+  string = (" |  "*depth)
+  string << ((depth.zero?) ? "|-" : " |-")
+  string.strip
+end
+
+def add_server
+  depth  = 0
+  server = {}
+  # We need the following information
+  # - Server Name    [String]
+  # - Address        [String]
+  # - Port           [Integer]
+  # - SSL?           [Boolean]
+  # - NickNames      [Array<String>]
+  # - Username       [String]
+  # - Realname       [String]
+  # - SASL:          [Array<Integer,String,String>]
+  #   - timeout      [Integer]
+  #   - username     [String]
+  #   - password     [String]
+  # - Identification [Array<String>]
+  #   - Service      [String]
+  #   - Command      [String]
+  #   - password     [String]
+  # - Autojoin       [Array<String>]
+  #   - channel name [String]
+  #   - key          [String]
+  name = ask gen_q(depth, "What is the name of the network you are adding?")
+  depth += 1
+  server["address"] = ask(gen_q(depth, "What is the address of #{name}?"))
+  server["port"]    = ask(gen_q(depth, "What is the port of #{name}?", "[<%= color('6667', BOLD) %>]")) do |q|
+    q.default  = nil
+    q.validate = /^\d*$/
+  end || 6667
+  server["useSSL"]  = ask(gen_q(depth, "Does this server use SSL?", "[<%= color('y', RED) %>/<%= color('N', BOLD, GREEN) %>]")) do |q|
+    q.case = :down
+    q.limit = 1
+    q.responses[:not_valid] = proc { say("#{gen_p depth} Defaulting to <%= color('No', BOLD, RED) %>") }
+    q.answer_type = proc {|x| if x == 'y' then true else false end }
+  end
+  nicknames = [ask(gen_q(depth, "What nicknames would you like to use? List in descending priority.")) {|q| q.default = nil }]
+  if nicknames.first.empty?
+    say(gen_p(depth) << "Defaulting to 'Auto'")
+    nicknames = ["Auto"]
+  else
+    until (nick = ask(gen_p(depth) << "  ")).empty?
+        nicknames << nick
+    end
+  end
+  server["nickname"] = nicknames
+  server["username"] = ask(gen_q(depth, "What username would you like to use?", "[<%= color('Auto', BOLD) %>]"))
+  server["username"] = "Auto" if server["username"].empty?
+  server["realName"] = ask(gen_q(depth, "What realname would you like to use?", "[<%= color('Auto IRC Bot', BOLD) %>]"))
+  server["realName"] = "Auto IRC Bot" if server["realName"].empty?
+  do_auth = ask(gen_q(depth, "Will you be authenticating with a login system? (SASL/NickServ)", "[<%= color('Y', BOLD, GREEN) %>/<%= color('n', RED) %>]")) do |q|
+    q.case        = :down
+    q.limit       = 1
+    q.answer_type = proc {|x| if x == 'n' then false else true end }
+  end
+
+  if do_auth
+    depth += 1
+    type = ask("|   |   `- What system will you be using?\n|   |   |- [SASL/<%= color('NickServ', BOLD) %>]  ") do |q|
+      q.case     = :down
+      q.responses[:not_valid] = proc {
+        say("Please enter either [SASL/<%= color('NickServ', BOLD) %>] (NickServ is the default)")
+      }
+      q.answer_type = proc {|x| if x == "sasl" then :SASL else :NickServ end }
+    end
+    depth += 1
+    if type == :SASL
+      server["SASL"] = {}
+      server["SASL"]["timeout"] = ask("|   |   `- How long before a timeout occurs?\n|   |   |- [<%= color('15', BOLD) %>]  ") {|q| q.validate = /^\d*$/ } || 15
+      server["SASL"]["username"] = ask("|   |   `- What username will you submit to authenticate with?\n|   |   |-  ")
+      server["SASL"]["password"] = ask("|   |   `- What password will you submit to authenticate with?\n|   |   |-  ") {|q| q.echo = "*" }
+    else
+      server["nickIdentify"] = {}
+      server["nickIdentify"]["service"] = ask("|   |   `- What is the name of the service you will be authenticating with?\n|   |   |- [<%= color('NickServ', BOLD) %>] ")||"NickServ"
+      server["nickIdentify"]["command"] = ask("|   |   `- What is the command to authenticate with said service?\n|   |   |- [<%= color('identify', BOLD) %>]  ") ||"identify"
+      server["nickIdentify"]["password"] = ask("|   |   `- What is the password you will use to authenticate?\n|   |   |- ") {|q| q.echo = "*" }
+    end
+    depth -= 2
+  end
+
+  channel = ask(gen_q(depth, "What channels would you like to join automatically? (Place any key needed after the name, separated by a space)")) do |q|
+    q.validate = /^[^\w]/ # Check to make sure it at least isn't a plain word. Just in case we have a & or ! type channel prefix.
+    q.default  = nil
+  end
+
+  if channel.nil?
+    channels = []
+  else
+    channels = [{"name" => channel.split.first, "key" => channel.split(/\s/, 2).last}]
+    until (chan = ask(gen_p(depth) << "  ")).empty?
+      channels << {"name" => chan.split.first, "key" => chan.split(/\s/, 2).last}
+    end
+  end
+
+  {name => server}
+end
+
 
 CONFGEN_VERSION = 0.1
 
@@ -13,7 +121,6 @@ options[:irc] = true
 options[:yaml] = true
 options[:output] = $stdout
 
-parser = 
 OptionParser.new do |opt|
   opt.banner = "Usage: ./#$0 [-syj] output_file"
 
@@ -44,6 +151,10 @@ OptionParser.new do |opt|
   end
 
   opt.on("--no-jabber", "Do not create a configuration for Jabber. This is the default.") do
+    options[:jabber] = true
+  end
+
+  opt.on("--no-jabber", "Do not create a configuration for Jabber. This is the default.") do
     options[:jabber] = false
   end
 
@@ -60,168 +171,27 @@ OptionParser.new do |opt|
   opt.on("-o FILE", "--output FILE", "The name of the configuration output. This defaults to STDOUT") do |string|
     options[:output] = File.open(string, "a+")
   end
-end
-
-parser.parse(ARGV)
-
-if options[:shell]
-  #shell mode parsing
-end
-
-# Otherwise, start asking questions
-
-# Empty Hash, this will contain the items that will be output as YAML/JSON
-output = {}
-
-if options[:jabber]
-  output["modules"] = ["jabber"]
-else
-  output["modules"] = ["irc"]
-end
-
-# First, ask about the plugins you're going to load
-
-# Add the files from the module directory as auto completion options.
-Dir.chdir("plugins/#{output["modules"].first}")
-FILES = Dir["*"]
-Dir.chdir("../../")
-
-Readline.completion_proc = proc {|string| FILES.grep(/^#{Regexp.escape string}/) }
-plugs = [Readline.readline("What plugins would you like to load? [Submit an empty line when you are done.]\n`- > ")]
-until (plug = Readline.readline(" | > ").strip).empty?
-  plugs << plug
-end
-
-output["plugins"] = plugs
-
-
-def add_server()
-  settings = {}
-  name = Readline.readline("What is the name of the server you are adding?\n`- > ")
- 
-  settings["address"] = Readline.readline("  |- What is the address of the server? ").strip
-
-  port = port_num()
-  if port.nil?
-    port = port_num until !port.nil?
-  end
-  settings["port"] = port
-  
-  ssl = use_ssl()
-  if ssl.nil?
-    ssl = use_ssl() until !ssl.nil?
-  end
-  settings["useSSL"] = ssl
-  
-  puts "  |- What nicknames would you like for the bot to use? List in descending priority"
-  nick = Readline.readline("  |  `- > ")
-  if nick.strip.empty?
-    nicks = ["Auto"]
-    puts "Defaulting to [Auto]"
-  else
-    nicks = [nick]
-    nicks << nick until (nick = Readline.readline("  |    |- ")).strip.empty?
-  end
-
-  settings["nickname"] = nicks
-
-  settings["username"] = Readline.readline("  |- What username do you wish to use? ").strip
-
-  settings["realname"] = Readline.readline("  |- What realname do you wish to use? ").strip
-
-  auth = authentication
-  if auth
-    settings.merge!(auth)
-  end
-
-  return [name, settings]
-end
-
-def port_num()
-  port = Readline.readline("  |- What port will the connection be on? [6667] ") 
-  if port.strip.empty?
-    return 6667
-  elsif port.to_i != 0
-    return port.to_i
-  else
-    puts "Please try again with a numerical answer."
-    return nil
-  end
-end
-
-def use_ssl()
-  s = Readline.readline("  |- Does this server use SSL? [y/N] ")
-  if s.downcase =~ /^(?:y|n)/
-    return (s.downcase =~ /^y/) ? true : false
-  elsif s.strip.empty?
-    return false
-  else
-    puts "Please try again with a Y (Yes) or N (No) answer."
-    return nil
-  end
-end
-
-def authentication()
-  prc = lambda {
-    r = Readline.readline("  |- Will you be authenticating? [Y/n] ").downcase
-    if r =~ /^(?:y|n)/
-      (r =~ /^y/) ? true : false
-    elsif r.strip.empty?
-      true
-    else
-      nil
-    end
-  }
-  ans = prc.call
-  ans = prc.call until !ans.nil?
-  if ans
-    prc = lambda {
-      r = Readline.readline("  |  `- What form of authentication will you use? [SASL/\e[2mNickServ\e[0m] ").downcase
-      if r =~ /^(?:sasl|nickserv)/
-        (r =~ /^sasl/) ? :sasl : :nickserv
-      elsif r.strip.empty?
-        :nickserv
-      else
-        nil
-      end
-    }
-    ans = prc.call
-    ans = prc.call until !ans.nil?
-    if ans == :sasl
-      return {"SASL" => {"timeout" => 15, "username" => Readline.readline("  |  |  |- What username will you use to identify? "),
-              "password" => Readline.readline("  |  |  |- What password will you use to identify? ")}}
-    else
-      return {"nickIdentify" => {"service" => "NickServ", "command" => "identify", "password" => Readline.readline("  |   |  `- What is the password you will be using? ")}}
-    end
-  end
-end
+end.parse(ARGV)
 
 at_exit do
-  if options[:json]
-    require "json"
-    options[:output].puts JSON.dump(output)
-  else
+  if options[:yaml]
     require "yaml"
-    options[:output].puts YAML.dump(output)
+    options[:output].puts YAML.dump(config)
+  else
+    require "json"
+    options[:output].puts JSON.dump(config)
   end
 end
 
-begin
-  if options[:irc]
-    output["irc"] = {}
-    server = add_server()
-    output["irc"][server[0]] = server[1]
-    until Readline.readline("Add another server? [Y/n] ").downcase =~ /^n/
-      server = add_server
-      output["irc"][server[0]] = server[1]
-    end
+if options[:irc]
+  prc = proc do
+    config.merge! add_server
+    ask("Would you like to add another server?\n|- [y/<%= color('N', BOLD, RED) %>]  ") {|q| q.answer_type = proc {|x| if x =~ /n/i then false else true end } }
   end
-  if options[:jabber]
-    # Shit if I know
-  end
-rescue Interrupt
-  print "\n"
-  exit
+  x = true
+  x = prc.call while x
 end
 
-# vim: set ts=4 sts=2 sw=2 et:
+if options[:jabber]
+  # Shit if I know
+end
