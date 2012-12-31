@@ -5,6 +5,7 @@
 lib/*
 lib/auto/*
 lib/auto/api/*
+lib/auto/api/helper/*
 lib/irc/*
 lib/irc/object/*
 - LICENSE.md
