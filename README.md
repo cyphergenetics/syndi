@@ -19,7 +19,7 @@ See also **Contributors** below.
 **Issue Hub**:          https://github.com/Auto/Auto/issues
 
 **Copyright**:          2009-2013, Auto Project  
-**License**:            New BSD (see **LICENSE.md**)
+**License**:            FreeBSD (see **LICENSE.md**)
 
 Synopsis
 --------
