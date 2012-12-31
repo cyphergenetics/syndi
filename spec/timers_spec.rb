@@ -16,7 +16,7 @@ describe 'The API timer system' do
   it 'and repeating timers' do
   end
 
-  it 'should terminate a timer with #del'
+  it 'should terminate a timer with #del' do
   end
 
 end
