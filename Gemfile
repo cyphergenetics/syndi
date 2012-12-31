@@ -7,8 +7,9 @@
 source :rubygems
 
 gem 'rake'
-gem 'bacon'
+gem 'bacon', :group => [:development, :test]
 gem 'sequel'
 gem 'colored'
+gem "highline", :group => [:confgen]
 
 # vim: set ts=4 sts=2 sw=2 et:

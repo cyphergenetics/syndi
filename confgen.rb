@@ -1,9 +1,4 @@
-begin
-  require "highline/import"
-rescue LoadError
-  puts "Please install highline to use this tool."
-  exit
-end
+require "highline/import"
 
 config = {}
 
