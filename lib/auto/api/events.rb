@@ -3,6 +3,7 @@
 # Distributed under the terms of the three-clause BSD license.
 
 require 'thread'
+require 'auto/api/object'
 
 # Entering namespace: Auto
 module Auto
@@ -22,7 +23,7 @@ module Auto
     #
     # @!attribute [r] threads
     #   @return [Array] An array of threads used by {#call}.
-    class Events
+    class Events < Auto::API::Object
 
       attr_reader :threads
 
@@ -136,14 +137,6 @@ module Auto
       #######
       private
       #######
-
-      # Get a random character.
-      #
-      # @return [String] A random character.
-      def get_rand_char
-        chrs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".split(//)
-        chrs[rand(chrs.length)]
-      end
 
       # Add a new event to the @events hash.
       #
