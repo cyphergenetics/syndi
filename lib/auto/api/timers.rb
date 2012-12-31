@@ -19,6 +19,8 @@ module Auto
     #
     # @!attribute [r] timers
     #   @return [Hash{String => Thread}] List of threads.
+    #
+    # @see Auto::API::Helper::Timers
     class Timers < Auto::API::Object
     
       attr_reader :timers
