@@ -81,6 +81,9 @@ module Auto
       # The arguments are globbed into an array from the list passed to the
       # method, so be sure to format your call correctly.
       #
+      # If a hook returns +false+, all subsequent hook executions will be
+      # forestalled from occurring.
+      #
       # @param [String] event The name of the event being broadcasted.
       # @param [Array] args A list of arguments which should be passed to
       #   the listeners. (splat)
@@ -94,10 +97,11 @@ module Auto
         if @events.include? event
           $m.debug("A thread is spawning for the sake of a broadcast of event {#{event}}.")
           @threads << Thread.new(event) do |evnt|
+            status = nil
             # Iterate through the hooks.
             @events[evnt].each_key do |priority|
               @events[evnt][priority].each_value do |prc|
-                prc.call(*args)
+                status = prc.call(*args) unless status == false
               end # each hook
             end # each priority
           end # thread
