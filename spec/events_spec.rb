@@ -38,6 +38,15 @@ describe "The API event system" do
     @order.should.equal 'ABC'
   end
 
+  it 'should permit hooks of higher priority to block subsequent hook executions' do
+    @good = true
+    @events.on('dragonEvent', 1) { false }
+    @events.on('dragonEvent', 3) { @good = false }
+    @events.call('dragonEvent')
+    @events.threads.each { |thr| thr.join }
+    @good.should.be.true
+  end
+
   it 'should delete an event given its identification data' do
     @deleted = true
     id = @events.on('unicornEvent') { @deleted = false }
