@@ -6,8 +6,8 @@
 
 source :rubygems
 
-gem 'rake'
-gem 'bacon'
+gem 'rake', :group => [:test]
+gem 'bacon', :group => [:test]
 gem 'sequel'
 gem 'colored'
 gem "highline", :group => [:confgen]
