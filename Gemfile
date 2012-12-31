@@ -7,7 +7,7 @@
 source :rubygems
 
 gem 'rake'
-gem 'bacon', :group => [:development, :test]
+gem 'bacon'
 gem 'sequel'
 gem 'colored'
 gem "highline", :group => [:confgen]
