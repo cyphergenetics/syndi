@@ -5,7 +5,13 @@
 require 'bacon'
 require 'spec/test_helpers'
 
+require 'auto/api/timers'
+
 describe 'The API timer system' do
+
+  before do
+    clock = Auto::API::Timers.new
+  end
 
   it 'should have a publicly viewable array of threads' do
   end
