@@ -4,9 +4,7 @@
 --private
 lib/*
 lib/auto/*
-lib/api/*
-lib/api/resource/*
-lib/core/*
+lib/auto/api/*
 lib/irc/*
 lib/irc/object/*
 - LICENSE.md
