@@ -43,7 +43,7 @@ module Auto
       # @example
       #   => timer = timers.spawn(15, :once, 'cow') { |animal| puts animal }
       #   # after 15 seconds...
-      #   'animal'
+      #   'cow'
       #
       # @see Auto::API::Helper::Timers#clock_do
       def spawn(time, type, *args, &cb)
