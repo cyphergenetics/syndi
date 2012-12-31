@@ -2,6 +2,8 @@
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the three-clause BSD license.
 
+require 'thread'
+
 # Entering namespace: Auto
 module Auto
 
@@ -19,9 +21,12 @@ module Auto
     # @see Auto::API::Helper::Events
     class Events
 
+      attr_reader :threads
+
       # Create a new instance of Auto::API::Events.
       def initialize
-        @events = {}
+        @events  = {}
+        @threads = []
       end
 
       # Listen for (hook onto) an event.
@@ -53,12 +58,12 @@ module Auto
           new_event event
         end
 
-        # Generate a unique ID for this hook.
+        # Generate a unique pseudorandom ID for this hook.
         id = ''
-        10.times { id += get_rand_char }
+        12.times { id += get_rand_char }
         while @events[event][priority].has_key? id
           id = ''
-          10.times { id += get_rand_char }
+          12.times { id += get_rand_char }
         end
 
         # Create the hook in memory.
@@ -73,7 +78,7 @@ module Auto
       # The arguments are globbed into an array from the list passed to the
       # method, so be sure to format your call correctly.
       #
-      # @param [String] event The name of the event being braodcasted.
+      # @param [String] event The name of the event being broadcasted.
       # @param [Array] args A list of arguments which should be passed to
       #   the listeners. (splat)
       #
@@ -81,18 +86,18 @@ module Auto
       #   events.call('foo:cowMoo', "the cows", "go moo", [1, 3, 5])
       #
       # @see API::Helper::Events#ev_do
-      def call(evnt, *args)
+      def call(event, *args)
         # Check if any hooks exist for this event.
-        if @events.include? evnt
-          # Iterate through the hooks.
-          @events[evnt].each_key do |priority|
-            @events[evnt][priority].each_value do |prc| 
-              Thread.new(prc) do |process|
-                process.call(*args)
-              end.join
-            end
-          end
-        end
+        if @events.include? event
+          @threads << Thread.new(event) do |evnt|
+            # Iterate through the hooks.
+            @events[evnt].each_key do |priority|
+              @events[evnt][priority].each_value do |prc|
+                prc.call(*args)
+              end # each hook
+            end # each priority
+          end # thread
+        end # whether this event exists
       end
 
       # Delete a hook or listener.
@@ -111,6 +116,13 @@ module Auto
         end
 
         tidy!
+      end
+
+      # Terminate all active threads.
+      def die
+        @threads.each do |thr|
+          thr.kill if thr.active?
+        end
       end
 
       #######
@@ -144,6 +156,7 @@ module Auto
           empty = true
           empty = lists.each_value { |v| break false if not v.empty? }
           if empty
+            # Drop the event.
             @events.delete name
             next
           end

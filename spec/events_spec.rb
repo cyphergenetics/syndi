@@ -24,6 +24,7 @@ describe "The API event system" do
     @ok = false
     @events.on('bunnyEvent') { @ok = true }
     @events.call('bunnyEvent')
+    @events.threads.each { |thr| thr.join }
     @ok.should.be.true
   end
 
@@ -33,6 +34,7 @@ describe "The API event system" do
     @events.on('kittenEvent', 1) { @order << 'A' }
     @events.on('kittenEvent', 3) { @order << 'B' }
     @events.call('kittenEvent')
+    @events.threads.each { |thr| thr.join }
     @order.should.equal 'ABC'
   end
 
