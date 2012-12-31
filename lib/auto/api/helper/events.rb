@@ -11,12 +11,14 @@ module Auto
     # Namespace: Helper
     module Helper
 
-      # A domain-specific language (DSL) wrapper for simple usage of the events
+      # A domain-specific language (DSL) wrapper mixin for simple usage of the events
       # system, {Auto::API::Events}.
       #
       # @api DSL
       # @author noxgirl
       # @since 4.0.0
+      #
+      # @see Auto::API::Events
       module Events
 
         # @see Auto::API::Events#on
