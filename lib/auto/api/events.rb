@@ -19,6 +19,9 @@ module Auto
     # @author noxgirl
     #
     # @see Auto::API::Helper::Events
+    #
+    # @!attribute [r] threads
+    #   @return [Array] An array of threads used by #call.
     class Events
 
       attr_reader :threads
