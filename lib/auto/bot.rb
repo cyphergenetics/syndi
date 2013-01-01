@@ -40,9 +40,12 @@ module Auto
   #     adapted databases are subclasses of Sequel::Database).
   #   @return [Sequel::Postgres::Database] If the database is PostgreSQL (note: all
   #     adapted databases are subclasses of Sequel::Database).
+  #
+  # @!attribute [r] libs
+  #   @return [Array<String>] List of loaded core libraries.
   class Bot
 
-    attr_reader :opts, :log, :conf, :events, :clock, :db, :irc_sockets, :irc_parser,
+    attr_reader :opts, :log, :conf, :events, :clock, :db, :libs, :irc_sockets, :irc_parser,
                 :extend, :irc_cmd
 
     # Create a new instance of Auto.
@@ -123,28 +126,27 @@ module Auto
         raise DatabaseError, "Unrecognized database type: #{@conf['database']['type']}"
       end
 
+      # Load core libraries.
+      puts '* Loading core libraries..'.bold
+      @log.info("Loading core libraries...")
+      @libs = []
+      @conf.x['libraries'].each do |lib|
+        if lib == 'irc'
 
-    # Load core modules.
-    puts "* Loading core modules..."
-    @log.info("Loading core modules...")
-    @mods = []
-    @conf.x['modules'].each do |mod|
-      if mod == 'irc'
-
-        begin
-          path = File.expand_path(File.dirname __FILE__) << "/irc/"
-          %w{server parser std commands object/user object/message}.each do |file|
-            require (path + file + ".rb")
+          begin
+            path = File.expand_path(File.dirname __FILE__) << "/irc/"
+            %w{server parser std commands object/user object/message}.each do |file|
+              require (path + file + ".rb")
+            end
+            @irc_parser = IRC::Parser.new
+            IRC::Std.init
+            @irc_cmd = IRC::Commands.new
+            @libs << 'irc'
+          rescue => e
+            error "Unable to load core library `irc`: #{e}", true, e.backtrace
           end
-          @irc_parser = IRC::Parser.new
-          IRC::Std.init
-          @irc_cmd = IRC::Commands.new
-          @mods << 'irc'
-        rescue => e
-          error "Unable to load core module `irc`: #{e}", true
         end
       end
-    end
 
     # Load plugins.
     puts "* Loading plugins..."
