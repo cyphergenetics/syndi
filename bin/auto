@@ -3,21 +3,22 @@
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the FreeBSD license (LICENSE.md).
 
-# Program variables.
-VERSION = '4.0.0'
-if Dir.exists? '.git/' then REVISION = File.open(".git/refs/heads/master").first[0..7] end
-$:.unshift File.expand_path('lib')
+gitdir = File.join(File.dirname(__FILE__), '..', '.git')
+if Dir.exists? gitdir
+  REVISION = File.open(File.join(gitdir, 'refs', 'heads', 'master')).first[0..7]
+end
+$:.unshift File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 # Require necessary libraries.
 require 'optparse'
-require 'sqlite3'
+require 'auto'
 
 # Parse options.
 mopts = { 'debug' => false, 'foreground' => false, 'json' => false }
 OptionParser.new do |opts|
 
   # Set banner.
-  opts.banner = "Usage: ruby #$0 [options]"
+  opts.banner = "Usage: #$0 [options]"
 
   # Set separator.
   opts.separator ''
@@ -42,9 +43,9 @@ OptionParser.new do |opts|
   # Version flag.
   opts.on('-v', '--version', "Print version and exit.") do |v|
     puts <<VERSION
-Auto #{VERSION}
+Auto #{Auto::VERSION} #{Auto::CODENAME}
 #{"Git revision: #{REVISION}\n" if defined? REVISION}
-http://git.io/autobot
+http://auto.autoproj.org
 VERSION
     exit 0
   end
@@ -52,36 +53,41 @@ VERSION
 end.parse!
 
 # Begin start up.
-puts "* Auto #{VERSION} starting..."
+puts "* Auto #{Auto::VERSION} starting...".bold
 
 # Enter main directory.
-Dir.chdir(File.dirname(__FILE__))
+Dir.chdir(File.join(File.dirname(__FILE__), '..'))
 
 # Create an instance of Auto.
-$m = Auto.new(mopts)
-status = $m.init
+begin
+  $m = Auto::Bot.new(mopts)
+  status = $m.init
+rescue => e
+  puts 'An error occurred!'.red.bold
+  puts e
+  puts e.backtrace
+end
 
 # Check our status.
-time = nil
 if status
   time = Time.now
-  puts "* Auto started @ #{time}"
+  puts "* Auto started @ #{time}".green.bold
   $m.log.info("Auto started @ #{time}")
 else
-  puts "Start up failed! Read above for errors."
-  exit 0
+  puts "Start up failed! Read above for errors.".red.bold
+  exit 1
 end
 STARTTIME = time
 
 # We survived? We survived! Fork into the background if not in debug or foreground.
 unless mopts['debug'] or mopts['foreground']
   
-  puts "Forking into the background..."
+  puts "Forking into the background...".bold
   
   # Direct all incoming data on STDIN and outgoing data on STDOUT/STDERR to /dev/null.
-  $stdin  = File.open('/dev/null')
-  $stdout = File.open('/dev/null', 'w')
-  $stderr = File.open('/dev/null', 'w')
+  $stdin  = File.open '/dev/null'
+  $stdout = File.open '/dev/null', 'w'
+  $stderr = File.open '/dev/null', 'w'
   # Fork and retrieve the PID.
   pid     = fork
 
