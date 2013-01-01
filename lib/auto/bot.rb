@@ -43,6 +43,9 @@ module Auto
   #
   # @!attribute [r] libs
   #   @return [Array<String>] List of loaded core libraries.
+  #
+  # @!attribute [r] netloop
+  #   @return [Thread] The thread in which #main_loop is running.
   class Bot
 
     attr_reader :opts, :log, :conf, :events, :clock, :db, :libs, :irc_sockets, :irc_parser,
@@ -113,7 +116,7 @@ module Auto
         if @conf['database']['type'] == 'mysql'
           adapter = :mysql
         else
-          adapter = :pgsql
+          adapter = :postgres
         end
 
         @db = Sequel.connect(:adapter  => adapter, 
@@ -141,173 +144,184 @@ module Auto
             @irc_parser = IRC::Parser.new
             IRC::Std.init
             @irc_cmd = IRC::Commands.new
+            @irc_sockets = {}
             @libs << 'irc'
           rescue => e
-            error "Unable to load core library `irc`: #{e}", true, e.backtrace
+            error "Unable to iload core library `irc`: #{e}", true, e.backtrace
           end
         end
       end
 
-    # Load plugins.
-    puts "* Loading plugins..."
-    @log.info("Loading plugins...")
-    @extend = API::Extender.new
-    if @conf.x.include? 'plugins'
-      @conf.x['plugins'].each do |plugin|
-        @extend.pload(plugin)
-      end
+      # Load plugins.
+      # @todo Plugin loading needs improvement.
+      #puts "* Loading plugins..."
+      #@log.info("Loading plugins...")
+      #@extend = API::Extender.new
+      #if @conf.x.include? 'plugins'
+      #  @conf.x['plugins'].each do |plugin|
+      #    @extend.pload(plugin)
+      #  end
+      #end
+
+      true
     end
 
-    # Create additional instance variables.
-    @irc_sockets = {}
-      
-    true
-  end
+    # Start the bot.
+    def start
 
-  # Start the bot.
-  # ()
-  def start
-
-    # Check if the irc core module is loaded.
-    if @mods.include?('irc')
-      # Prepare for incoming data.
-      $m.events.on(self, 'irc:onReadReady') do |irc|
-        until irc.recvq.length == 0
-          line = irc.recvq.shift.chomp
-          foreground("#{irc} >> #{line}")
-          @irc_parser.parse(irc, line)
+      # Check if the irc core library is loaded.
+      if @libs.include?('irc')
+        # Prepare for incoming data.
+        $m.events.on(self, 'irc:onReadReady') do |irc|
+          until irc.recvq.length == 0
+            line = irc.recvq.shift.chomp
+            foreground("#{irc} >> #{line}")
+            @irc_parser.parse(irc, line)
+          end
         end
-      end
         
-      # Iterate through each IRC server in the config, and connect to them.
-      @conf.x['irc'].each do |name, hash|
-        begin
-          # Configure the IRC instance.
-          @irc_sockets[name] = IRC::Server.new(name) do |c|
-            c.address = hash['address']
-            c.port    = hash['port']
-            c.nick    = hash['nickname'][0] 
-            c.user    = hash['username']
-            c.real    = hash['realName']
-            c.ssl     = hash['useSSL']
+        # Iterate through each IRC server in the config, and connect to them.
+        @conf.x['irc'].each do |name, hash|
+          begin
+            # Configure the IRC instance.
+            @irc_sockets[name] = IRC::Server.new(name) do |c|
+              c.address = hash['address']
+              c.port    = hash['port']
+              c.nick    = hash['nickname'][0] 
+              c.user    = hash['username']
+              c.real    = hash['realName']
+              c.ssl     = hash['useSSL']
+            end
+
+            # Connect.
+            @irc_sockets[name].connect
+          rescue => e
+            error("Connection to #{name} failed: #{e}", false, e.backtrace)
           end
+        end
+      end
 
-          # Connect.
-          @irc_sockets[name].connect
-        rescue => e
-          error("Connection to #{name} failed: #{e}", false, e.backtrace)
+      # Throw the program into the main loop.
+      debug("Producing a thread and entering the main loop...")
+      @netloop = Thread.new { main_loop }
+      @netloop.join
+
+    end
+
+    # Main loop.
+    def main_loop
+
+      loop do
+      
+        # Build a list of sockets.
+        sockets = []
+        @irc_sockets.each do |name, obj|
+          unless obj.socket.nil?
+            sockets << obj.socket
+          end
+        end
+      
+        # Call #select.
+        ready_read, ready_write, ready_err = IO.select(sockets, [], [], nil)
+
+        # Iterate through sockets ready for reading.
+        ready_read.each do |socket|
+          name = @irc_sockets.each { |name, tsock| break name if tsock.socket == socket }
+          @irc_sockets[name].recv
+        end
+
+      end
+
+    end
+
+    # Produce an error message.
+    #
+    # @param [String] msg The message.
+    # @param [true, false] fatal Whether this error is fatal (will kill the program).
+    # @param [Array<String>] bt Backtrace.
+    def error(msg, fatal=false, bt=nil)
+      # Print it to STDERR.
+      STDERR.puts "ERROR: #{msg}".red
+      unless bt.nil?
+        STDERR.puts "Backtrace:"
+        STDERR.puts bt
+      end
+
+      # Log it.
+      @log.error(msg)
+
+      @netloop.die and exit 1 if fatal
+    end
+
+    # Produce a warning message.
+    #
+    # @param [String] msg The message.
+    def warn(msg)
+      # Log it.
+      @log.warning(msg)
+
+      # Foreground it.
+      foreground("Warning: #{msg}".red, false)
+    end
+
+    # Produce information.
+    #
+    # @param [String] msg The message.
+    def info(msg)
+      @log.info(msg)
+      foreground(">>> #{msg}".green, false)
+    end
+
+    # Produce a message for foreground mode.
+    #
+    # @param [String] msg The message.
+    # @param [true, false] log Whether to log it as well as print to STDOUT.
+    def foreground(msg, log=true)
+      if @opts['foreground']
+        puts "[F] #{msg}"
+        @log.info("[F] #{msg}") if log
+      else
+        if @opts['debug']
+          debug(msg, log)
         end
       end
     end
 
-    # Throw the program into the main loop.
-    main_loop()
-
-  end
-
-  # Main loop.
-  # ()
-  def main_loop
-
-    loop do
-      
-      # Build a list of sockets.
-      sockets = []
-      @irc_sockets.each do |name, obj|
-        unless obj.socket.nil?
-          sockets << obj.socket
-        end
-      end
-      
-      # Call select().
-      ready_read, ready_write, ready_err = IO.select(sockets, [], [], nil)
-
-      # Iterate through sockets ready for reading.
-      ready_read.each do |socket|
-        name = @irc_sockets.each { |name, tsock| break name if tsock.socket == socket }
-        @irc_sockets[name].recv
-      end
-
-    end
-
-  end
-
-  # Produce an error message.
-  # (str, [bool], [str])
-  def error(msg, fatal=false, bt=nil)
-    # Print it to STDERR.
-    STDERR.puts "ERROR: #{msg}"
-    if !bt.nil?
-      STDERR.puts "Backtrace:"
-      STDERR.puts bt
-    end
-
-    # Log it.
-    @log.error(msg)
-
-    exit 1 if fatal
-  end
-
-  # Produce a warning message.
-  # (str)
-  def warn(msg)
-    # Log it.
-    @log.warning(msg)
-
-    # Foreground it.
-    foreground(msg, false)
-  end
-
-  # Produce information.
-  # (str)
-  def info(msg)
-    @log.info(msg)
-    foreground(msg, false)
-  end
-
-  # Produce a message for foreground mode.
-  # (str, [bool])
-  def foreground(msg, log=true)
-    if @opts['foreground']
-      puts "[F] #{msg}"
-      @log.info("[F] #{msg}") if log
-    else
+    # Produce a debug message.
+    #
+    # @param [String] msg The message.
+    # @param [true, false] log Whether to log it as well as print to STDOUT.
+    def debug(msg, log=false)
       if @opts['debug']
-        debug(msg, log)
+        puts "[D] #{msg}".blue
+        @log.debug(msg) if log
       end
     end
-  end
 
-  # Produce a debug message.
-  def debug(msg, log=false)
-    if @opts['debug']
-      puts "[D] #{msg}"
-      @log.debug(msg) if log
-    end
-  end
+    # Terminate the bot.
+    #
+    # @param [String] reason The reason for termination.
+    def terminate(reason='Terminating')
+      info("Auto is terminating owing to thus: #{reason}")
 
-  # Terminate the bot.
-  def terminate(reason='Terminating')
-    info("Auto is terminating owing to thus: #{reason}")
-
-    # Call bot:onTerminate
-    $m.events.call('bot:onTerminate')
+      # Call bot:onTerminate
+      $m.events.call('bot:onTerminate')
     
-    # Disconnect from IRC networks if IRC is in use.
-    if @mods.include? 'irc'
-      @irc_sockets.each { |name, obj| obj.disconnect(reason) }
+      # Disconnect from IRC networks if IRC is in use.
+      if @libs.include? 'irc'
+        @irc_sockets.each { |name, obj| obj.disconnect(reason) }
+      end
+
+      # Close the database.
+      @db.close
+
+      # Delete auto.pid
+      unless @opts['debug'] or @opts['foreground']
+        File.delete('auto.pid')
+      end
+
+      exit 0
     end
-
-    # Close the database.
-    @db.close
-
-    # Delete auto.pid
-    unless @opts['debug'] or @opts['foreground']
-      File.delete('auto.pid')
-    end
-
-    exit 0
-  end
 
   end # class Bot
 
