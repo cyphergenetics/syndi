@@ -198,6 +198,14 @@ module Auto
         ERR_NOSERVICEHOST       = 492
         ERR_BADCHANMASK         = 476
 
+        # additional RFC2812 numerics
+        RPL_WELCOME             = 001
+        RPL_YOURHOST            = 002
+        RPL_CREATED             = 003
+        RPL_MYINFO              = 004
+        RPL_ISUPPORT            = 005 # ISUPPORT favored over BOUNCE
+        RPL_BOUNCE              = 010 # here in lieu of 005
+
       end # module Numerics
 
     end # module Std
