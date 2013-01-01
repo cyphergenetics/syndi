@@ -6,7 +6,7 @@ require 'spec/auto/api'
 
 module Spec
   module Auto
-    class Auto
+    class Bot
       attr_reader :events
       def initialize
         [:debug,:warn,:error,:log,:info,:foreground].each do |x| 

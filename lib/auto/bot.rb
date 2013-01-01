@@ -1,52 +1,116 @@
 # Auto 4
 # Copyright (c) 2013, Auto Project
-# Distributed under the terms of the three-clause BSD license.
+# Distributed under the terms of the FreeBSD license (LICENSE.md).
 
-# Class Auto: Main bot class.
-class Auto
+require 'colored'
+require 'sequel'
 
-  attr_reader :opts, :conf, :log, :mods, :irc_sockets, :events, :timers, :irc_parser,
-              :extend, :db, :irc_cmd
+require 'auto/logger'
+require 'auto/config'
 
-  # Create a new instance of Auto.
-  # (hash)
-  def initialize(opts)
-    # Save options.
-    @opts = opts
-  end
+require 'auto/api'
 
-  # Initialize Auto.
-  # ()
-  def init
-    
-    # Before anything else, start logging.
-    puts "* Starting logging..."
-    @log = Core::Logging.new
-    @log.info("Logging started")
+# Namespace: Auto
+module Auto
 
-    ## Load configuration ##
-    confpath = @opts['altconf'] || 'conf/auto.yml'
-    if @opts['json']
-      confpath = 'conf/auto.json' unless @opts.include? 'altconf'
+  VERSION = '4.0.0d'
+
+  # This is the central class of Auto, providing all core functionality.
+  #
+  # @!attribute [r] opts
+  #   @return [Hash{String => Object}] The options hash.
+  #
+  #
+  # @!attribute [r] log
+  #   @return [Auto::Logger] The logging instance.
+  #
+  # @!attribute [r] conf
+  #   @return [Auto::Config] The configuration instance.
+  #
+  # @!attribute [r] events
+  #   @return [Auto::API::Events] The event system instance.
+  #
+  # @!attribute [r] clock
+  #   @return [Auto::API::Timers] The timer system instance.
+  class Auto
+
+    attr_reader :opts, :conf, :log, :mods, :irc_sockets, :events, :clock, :irc_parser,
+                :extend, :db, :irc_cmd
+
+    # Create a new instance of Auto.
+    #
+    # @param [Hash{String => Object}] opts A hash of options.
+    def initialize(opts)
+      # Save options.
+      @opts = opts
     end
 
-    # Process it.
-    puts "* Reading the configuration file #{confpath}..."
-    @log.info("Reading the configuration file #{confpath}...")
-    @conf = Auto::Config.new(confpath)
+    # Initialize this instance.
+    def init
+    
+      # Before anything else, start logging.
+      puts '* Starting logging...'.bold
+      @log = Auto::Logger.new
+      @log.info("Logging started at #{Time.now}")
 
-    # Start the event system.
-    puts "* Starting the event system..."
-    @log.info("Starting the event system...")
-    @events = API::Events.new
+      ## Load configuration ##
+      confpath = @opts['altconf'] || File.join(%w[conf auto.yml])
+      if @opts['json']
+        confpath = File.join(%w[conf auto.json]) unless @opts.include? 'altconf'
+      end
 
-    # Start the timer system.
-    puts "* Starting the timer system..."
-    @log.info("Starting the timer system...")
-    @timers = API::Timers.new
+      # Process it.
+      puts "* Reading the configuration file #{confpath}...".bold
+      @log.info("Reading the configuration file #{confpath}...")
+      @conf = Auto::Config.new(File.expand_path(confpath))
 
-    # Open the database.
-    @db = SQLite3::Database.new 'auto.db'
+      # Start the event system.
+      puts '* Starting the event system...'.bold
+      @log.info("Starting the event system...")
+      @events = Auto::API::Events.new
+
+      # Start the timer system.
+      puts '* Starting the timer system...'.bold
+      @log.info("Starting the timer system...")
+      @clock = Auto::API::Timers.new
+
+      ## Initialize the database ##
+      puts '* Initializing database...'.bold
+      @log.info('Initializing database...')
+      @db = nil
+
+      case @conf['database']['type'] # check the database type in the config
+      
+      when 'sqlite' # it's SQLite
+        
+        if @conf['database'].include? 'name'
+          name = @conf['database']['name']
+        else
+          name = 'auto.db'
+        end
+
+        @db = Sequel.sqlite(name)
+
+      when 'mysql', 'postgres'
+
+        %[username password hostname name].each do |d|
+          unless @conf['database'].include? d
+            raise DatabaseError, "Insufficient configuration. For MySQL and PostgreSQL, we need the username, password, hostname, and name directives."
+          end
+        end
+
+        if @conf['database']['type'] == 'mysql'
+          adapter = :mysql
+        else
+          adapter = :pgsql
+        end
+
+
+
+      else
+        raise DatabaseError, "Unrecognized database type: #{@conf['database']['type']}"
+      end
+
 
     # Load core modules.
     puts "* Loading core modules..."
@@ -54,6 +118,7 @@ class Auto
     @mods = []
     @conf.x['modules'].each do |mod|
       if mod == 'irc'
+
         begin
           path = File.expand_path(File.dirname __FILE__) << "/irc/"
           %w{server parser std commands object/user object/message}.each do |file|
