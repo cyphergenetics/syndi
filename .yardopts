@@ -6,6 +6,8 @@ lib/*
 lib/auto/*
 lib/auto/api/*
 lib/auto/api/helper/*
+lib/auto/irc/*
+lib/auto/irc/std/*
 lib/irc/*
 lib/irc/object/*
 - LICENSE.md
