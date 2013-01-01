@@ -13,7 +13,8 @@ require 'auto/api'
 # Namespace: Auto
 module Auto
 
-  VERSION = '4.0.0d'
+  VERSION  = '4.0.0d'
+  CODENAME = 'Phoenix'
 
   # This is the central class of Auto, providing all core functionality.
   #
