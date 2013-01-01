@@ -15,5 +15,8 @@ yardoc/*
 # and temporary files likely made by rake
 .temp.*
 
+# and generated gems
+*.gem
+
 # and stuff
 Gemfile.lock
