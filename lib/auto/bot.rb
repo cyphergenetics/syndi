@@ -32,10 +32,18 @@ module Auto
   #
   # @!attribute [r] clock
   #   @return [Auto::API::Timers] The timer system instance.
-  class Auto
+  #
+  # @!attribute [r] db
+  #   @return [Sequel::SQLite::Database] If the database is SQLite (note: all
+  #     adapted databases are subclasses of Sequel::Database).
+  #   @return [Sequel::MySQL::Database] If the database is MySQL (note: all
+  #     adapted databases are subclasses of Sequel::Database).
+  #   @return [Sequel::Postgres::Database] If the database is PostgreSQL (note: all
+  #     adapted databases are subclasses of Sequel::Database).
+  class Bot
 
-    attr_reader :opts, :conf, :log, :mods, :irc_sockets, :events, :clock, :irc_parser,
-                :extend, :db, :irc_cmd
+    attr_reader :opts, :log, :conf, :events, :clock, :db, :irc_sockets, :irc_parser,
+                :extend, :irc_cmd
 
     # Create a new instance of Auto.
     #
@@ -105,7 +113,11 @@ module Auto
           adapter = :pgsql
         end
 
-
+        @db = Sequel.connect(:adapter  => adapter, 
+                             :host     => @conf['database']['hostname'],
+                             :database => @conf['database']['name'],
+                             :user     => @conf['database']['username'],
+                             :password => @conf['database']['passname'])
 
       else
         raise DatabaseError, "Unrecognized database type: #{@conf['database']['type']}"
@@ -294,8 +306,9 @@ module Auto
 
     exit 0
   end
-      
 
-end # class Auto
+  end # class Bot
+
+end # module Auto
 
 # vim: set ts=4 sts=2 sw=2 et:
