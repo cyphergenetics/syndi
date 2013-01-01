@@ -57,17 +57,6 @@ puts "* Auto #{VERSION} starting..."
 # Enter main directory.
 Dir.chdir(File.dirname(__FILE__))
 
-# Require our libraries.
-require_relative 'lib/auto/rubyext/string.rb'
-require_relative 'lib/auto.rb'
-require_relative 'lib/auto/logger.rb'
-require_relative 'lib/auto/config.rb'
-require_relative 'lib/api/plugin.rb'
-require_relative 'lib/api/timers.rb'
-require_relative 'lib/api/events.rb'
-require_relative 'lib/api/resource/eventswrapper.rb'
-require_relative 'lib/api/extender.rb'
-
 # Create an instance of Auto.
 $m = Auto.new(mopts)
 status = $m.init
@@ -112,10 +101,8 @@ Signal.trap('TERM') { $m.terminate("Caught SIGTERM") }
 # Catch SIGINT
 Signal.trap('INT') { $m.terminate("Caught Ctrl-C") }
 
-# Catch SIGUSR1 (rehash) [if not on Windows]
-unless RUBY_PLATFORM.dc =~ /win32/
-  Signal.trap('USR1') { $m.conf.rehash! }
-end
+# Catch SIGHUP (rehash)
+Signal.trap('HUP') { $m.conf.rehash! }
 
 ### END SIGNALS ###
 
