@@ -1,12 +1,12 @@
 {
 
     /*
-    Core modules to load
-    ["mod1", "mod2"]
+    Core libraries to load
+    ["lib1", "lib2"]
 
-    irc: IRC functionality.
+    irc: IRC framework.
     */
-    "modules": ["irc"],
+    "libraries": ["irc"],
 
     /* 
     irc module: IRC networks 

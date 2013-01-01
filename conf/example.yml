@@ -3,10 +3,10 @@
 # Auto 4 example YAML configuration file
 # Please see https://github.com/noxgirl/Auto/wiki/Configuring-Auto
 
-# Core modules to load.
+# Core libraries to load.
 #
-# irc: IRC protocol support.
-modules:
+# irc: IRC protocol framework.
+libraries:
 - irc
 
 # List of IRC servers to which to connect.
