@@ -1,5 +1,4 @@
 --title "Auto 4"
--o yardoc
 --protected
 --private
 lib/*
@@ -11,4 +10,4 @@ lib/auto/irc/std/*
 lib/irc/*
 lib/irc/object/*
 - LICENSE.md
-- doc/*
+- docs/*
