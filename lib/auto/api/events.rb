@@ -39,7 +39,7 @@ module Auto
       # @param [Integer] priority The priority of the event from 1-5, 1 being utmost priority.
       #
       # @yield [...] The arguments that will be yielded to the block vary by event.
-      #   Please consult the {file:doc/Events.md API Events} document.
+      #   Please consult with the {file:docs/Events.md events specification} for details by event.
       #
       # @return [Array(String, Integer, String)] Identification data including a unique string. Keep 
       #   this if you need to destroy the hook later.
@@ -50,6 +50,7 @@ module Auto
       #   end
       #
       # @see Auto::API::Helper::Events#ev_on
+      # @see file:docs/Events.md
       def on(event, priority=3, &cb)
 
         # Priority must be in the range of 1-5.

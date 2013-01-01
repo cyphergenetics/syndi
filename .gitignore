@@ -9,7 +9,7 @@ ocnf/auto.yml
 *.db
 
 # and documentation suites
-yardoc/*
+doc/*
 .yardoc
 
 # and temporary files likely made by rake

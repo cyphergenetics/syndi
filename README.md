@@ -70,9 +70,9 @@ Auto uses [YARD](http://yardoc.org/). Obtain the
 [redcarpet gem](https://rubygems.org/gems/redcarpet); then, run `yardoc` in the
 main directory.
 
-We advise you to consult with especial the {file:doc/Contributing.md Standards of Contributing}.
+We advise you to consult with especial the {file:docs/Contributing.md Standards of Contributing}.
 
-Events are documented in {file:doc/Events.md API Events}. See also the [Project](#Project)
+Events are documented in {file:docs/Events.md API Events}. See also the [Project](#Project)
 section below.
 
 Support
