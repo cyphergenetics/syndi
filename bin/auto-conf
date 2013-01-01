@@ -156,10 +156,6 @@ OptionParser.new do |opt|
   end
 
   opt.on("--no-jabber", "Do not create a configuration for Jabber. This is the default.") do
-    options[:jabber] = true
-  end
-
-  opt.on("--no-jabber", "Do not create a configuration for Jabber. This is the default.") do
     options[:jabber] = false
   end
 
