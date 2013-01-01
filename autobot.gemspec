@@ -2,37 +2,52 @@
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the FreeBSD license (LICENSE.md).
 
+require_relative 'lib/auto.rb'
+
 Gem::Specification.new do |s|
   
-  s.name          = 'autobot'
-  s.version       = '4.0.0d'
-  s.date          = '2013-01-01'
+  s.name    = 'autobot'
+  s.version = Auto::VERSION
+
+  s.date          = Time.now.strftime '%Y-%m-%d'
   s.summary       = 'An advanced, automated multi-protocol bot which uses plugins.'
-  s.description   = <<EOD
-A simple and smart multi-protocol bot (currently supports IRC) which allows for
-easy extension by means of its plugin API.
-EOD
-  s.authors       = ['noxgirl', 'swarley']
+  s.description   = <<-EOD
+    A simple and smart multi-protocol bot (currently supports IRC) which allows for
+    easy extension by means of its plugin API.
+  EOD
+  s.authors       = %w[
+    noxgirl
+    swarley
+  ]
   s.email         = 'autobot-talk@googlegroups.com'
   s.homepage      = 'http://auto.autoproj.org'
   s.license       = 'FreeBSD'
 
-  s.files         = %w[
+  s.files         = Dir.glob("{docs,bin,lib,spec}/**/*") + %w[
     README.md
     LICENSE.md
     Gemfile
     Rakefile
-  ] + Dir['doc/*'] + Dir['lib/**/*.rb'] + Dir['bin/*']
-  s.bindir        = 'bin'
-  s.executables   = ['auto', 'auto-conf']
+    .yardopts
+  ]
+  s.executables   = %w[auto auto-conf]
 
   s.required_ruby_version = '>= 1.9.2'
-  s.post_install_message  = <<EOM
-Thanks for installing Auto!
+  s.post_install_message  = <<-EOM
+    Thanks for installing Auto!
 
-We suggest that, if you're not already consulting it, you read the installation guide.
-Moreover, you should typically now run `auto-conf` to make a configuration file.
-EOM
+    We suggest that, if you're not already consulting it, you read the installation guide:
+    https://github.com/Auto/Auto/wiki/Install-Guide
+
+    Moreover, you should typically now run `auto-conf` to produce a configuration file.
+  EOM
+
+  s.add_runtime_dependency 'colored',  '>= 1.2'
+  s.add_runtime_dependency 'sequel',   '>= 3.42'
+  s.add_runtime_dependency 'highline', '>= 1.6'
+  
+  s.add_development_dependency 'rake',  '>= 0.9'
+  s.add_development_dependency 'bacon', '>= 1.2'
 
 end
 
