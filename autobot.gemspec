@@ -23,13 +23,13 @@ Gem::Specification.new do |s|
   s.homepage      = 'http://auto.autoproj.org'
   s.license       = 'FreeBSD'
 
-  s.files         = Dir.glob("{docs,bin,lib,spec}/**/*") + %w[
+  s.files         = Dir.glob("{bin,lib,doc}/**/*") + %w[
     README.md
     LICENSE.md
     Gemfile
-    Rakefile
     .yardopts
   ]
+  s.test_files    = Dir.glob("spec/**/*") + 'Rakefile'
   s.executables   = %w[auto auto-conf]
 
   s.required_ruby_version = '>= 1.9.2'
