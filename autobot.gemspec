@@ -2,7 +2,7 @@
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the FreeBSD license (LICENSE.md).
 
-require_relative 'lib/auto.rb'
+require './lib/auto.rb'
 
 Gem::Specification.new do |s|
   
