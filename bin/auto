@@ -5,7 +5,10 @@
 
 # Forbid root.
 if ENV.include? 'USER'
-  puts "It is forbidden to run Auto as the root user!" and exit 1 if ENV['USER'] == 'root'
+  if ENV['USER'] == 'root'
+    puts "It is forbidden to run Auto as the root user!"
+    exit 1
+  end
 end
 
 # Check whether we're installed as a gem or a standalone
