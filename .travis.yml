@@ -8,11 +8,8 @@ rvm:
   - rbx-19mode
   - jruby-19mode
 
-# Specify our active developers
-#
-# noxgirl: xoeverlux@gmail.com
-# swarley: matthew.b.carey@gmail.com
+# Notify the official IRC channel
+# i.e. irc.freenode.net #auto
 notifications:
-  recipients:
-  - xoeverlux@gmail.com
-  - matthew.b.carey@gmail.com
+  irc:
+    - irc.freenode.net#auto
