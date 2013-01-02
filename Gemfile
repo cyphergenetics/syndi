@@ -10,6 +10,7 @@ source :rubygems
 
 gem 'sequel', '>= 3.42'
 gem 'colored', '>= 1.2'
+gem 'slop', '>= 3.3'
 gem 'highline', '>= 1.6', :group => [:conf]
 
 group :test do
