@@ -17,7 +17,7 @@ require 'slop'
 require 'auto'
 
 # Parse options.
-opts = Slop.parse(:banner => 'Usage: bin/auto [options]') do
+opts = Slop.parse(:banner => "Usage: #$0 [options]") do
   on :h, :help, 'Display this help message.' do
     puts self
     exit 0
