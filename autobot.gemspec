@@ -48,10 +48,9 @@ Moreover, you should typically now run `auto-conf` to produce a configuration fi
   s.add_runtime_dependency 'highline', '>= 1.6'
   s.add_runtime_dependency 'slop',     '>= 3.3'
   
-  s.add_development_dependency 'rake',           '>= 0.9'
-  s.add_development_dependency 'bacon',          '>= 1.2'
-  s.add_development_dependency 'mocha',          '>= 0.13'
-  s.add_development_dependency 'mocha-on-bacon', '>= 0.2'
+  s.add_development_dependency 'rake',  '>= 0.9'
+  s.add_development_dependency 'bacon', '>= 1.2'
+  s.add_development_dependency 'facon', '>= 0.5'
 
 end
 

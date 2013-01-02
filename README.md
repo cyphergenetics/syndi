@@ -61,8 +61,7 @@ Needed for testing and development:
 
 * [rake](https://rubygems.org/gems/rake)
 * [bacon](https://rubygems.org/gems/bacon)
-* [mocha](https://rubygems.org/gems/mocha)
-* [mocha-on-bacon](https://rubygems.org/gems/mocha-on-bacon)
+* [facon](https://rubygems.org/gems/facon)
 
 Depending on the database management system you are using, you need:
 
