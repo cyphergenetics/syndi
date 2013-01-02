@@ -35,12 +35,12 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 1.9.2'
   s.post_install_message  = <<-EOM
-    Thanks for installing Auto!
+Thanks for installing Auto!
 
-    We suggest that, if you're not already consulting it, you read the installation guide:
-    https://github.com/Auto/Auto/wiki/Install-Guide
+We suggest that, if you're not already consulting it, you read the installation guide:
+https://github.com/Auto/Auto/wiki/Install-Guide
 
-    Moreover, you should typically now run `auto-conf` to produce a configuration file.
+Moreover, you should typically now run `auto-conf` to produce a configuration file.
   EOM
 
   s.add_runtime_dependency 'colored',  '>= 1.2'
