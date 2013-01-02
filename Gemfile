@@ -4,8 +4,6 @@
 
 # Gemfile
 
-ruby '1.9.2'
-
 source :rubygems
 
 gem 'sequel', '>= 3.42'
