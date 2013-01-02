@@ -32,7 +32,7 @@ http://auto.autoproj.org
   on :d, :debug, 'Execute with debugging enabled.'
   on :f, :foreground, 'Do not fork into the background.'
   on :j, :json, 'Seek a JSON configuration file in lieu of a YAML one.'
-  on :c, :config=, 'Specify a particular configuration file.'
+  on :c, :conf=, 'Specify a particular configuration file.'
 end
 
 # Begin start up.
