@@ -27,7 +27,7 @@ module Auto
   # This is the central class of Auto, providing all core functionality.
   #
   # @!attribute [r] opts
-  #   @return [Hash{String => Object}] The options hash.
+  #   @return [Slop] The options object.
   #
   #
   # @!attribute [r] log
@@ -77,10 +77,25 @@ module Auto
       @log.info("Logging started at #{Time.now}")
 
       ## Load configuration ##
-      confpath = @opts['altconf'] || File.join(%w[conf auto.yml])
-      if @opts['json']
-        confpath = File.join(%w[conf auto.json]) unless @opts.include? 'altconf'
+
+      # Try to find the file
+      # conf/ is given precedence over ~/.config/autobot/
+      confpath = nil
+      if @opts.json?
+        if File.exists? File.join(%w[conf auto.json])
+          confpath = File.join(%w[conf auto.json])
+        elsif File.exists? File.join(Dir.home, '.config', 'autobot', 'auto.json')
+          confpath = File.join(Dir.home, '.config', 'autobot', 'auto.json')
+        end
+      else
+        if File.exists? File.join(%w[conf auto.yml])
+          confpath = File.join(%w[conf auto.yml])
+        elsif File.exists? File.join(Dir.home, '.config', 'autobot', 'auto.yml')
+          confpath = File.join(Dir.home, '.config', 'autobot', 'auto.yml')
+        end
       end
+      confpath = @opts[:conf] if @opts.conf? # --conf=FILE has supreme precedence
+      error('Could not find a configuration file', true) if confpath.nil?
 
       # Process it.
       puts "* Reading the configuration file #{confpath}...".bold
@@ -286,11 +301,11 @@ module Auto
     # @param [String] msg The message.
     # @param [true, false] log Whether to log it as well as print to STDOUT.
     def foreground(msg, log=true)
-      if @opts['foreground']
+      if @opts.foreground?
         puts "[F] #{msg}"
         @log.info("[F] #{msg}") if log
       else
-        if @opts['debug']
+        if @opts.debug?
           debug(msg, log)
         end
       end
@@ -301,7 +316,7 @@ module Auto
     # @param [String] msg The message.
     # @param [true, false] log Whether to log it as well as print to STDOUT.
     def debug(msg, log=false)
-      if @opts['debug']
+      if @opts.debug?
         puts "[D] #{msg}".blue
         @log.debug(msg) if log
       end
@@ -325,7 +340,7 @@ module Auto
       @db.close
 
       # Delete auto.pid
-      unless @opts['debug'] or @opts['foreground']
+      unless @opts.debug? or @opts.foreground?
         File.delete('auto.pid')
       end
 
