@@ -11,6 +11,9 @@ rvm:
 # Notify the official IRC channel
 # i.e. irc.freenode.net #auto
 notifications:
+  email:
+    on_success: never
+    on_failure: never
   irc:
     channels:
       - 'irc.freenode.net#auto'
