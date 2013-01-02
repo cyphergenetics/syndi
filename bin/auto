@@ -16,6 +16,11 @@ end
 require 'slop'
 require 'auto'
 
+# Forbid root.
+if ENV.include? 'USER'
+  puts "It is forbidden to run Auto as the root user.".red.bold and exit 1 if ENV['USER'] == 'root'
+end
+
 # Parse options.
 opts = Slop.parse(:banner => "Usage: #$0 [options]") do
   on :h, :help, 'Display this help message.' do
