@@ -104,6 +104,13 @@ module Auto
       @log.info("Reading the configuration file #{confpath}...")
       @conf = Auto::Config.new(File.expand_path(confpath))
 
+      # Move to ~/.config/autobot if we're a gem.
+      if Auto.gem?
+        Dir.mkdir File.join(Dir.home, '.config') if !Dir.exists? File.join(Dir.home, '.config')
+        Dir.mkdir File.join(Dir.home, '.config', 'autobot') if !Dir.exists? File.join(Dir.home, '.config', 'autobot')
+        Dir.chdir File.join(Dir.home, '.config', 'autobot')
+      end
+
       # Start the event system.
       puts '* Starting the event system...'.bold
       @log.info("Starting the event system...")
