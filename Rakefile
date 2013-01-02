@@ -6,6 +6,7 @@
 # to test/compile Auto 4
 
 task :default => [:testing]
+task :gem => [:default, :make_gem, :release_gem]
 
 desc "Test the application"
 task :testing do 
@@ -30,6 +31,14 @@ end
 
 desc "Push this release to rubygems."
 task :pushgem => :gem do
+  sh "gem push #{Dir["*.gem"].last}"
+end
+
+task :make_gem do
+  sh "gem build #{Dir["*.gemspec"].first}"
+end
+
+task :release_gem do
   sh "gem push #{Dir["*.gem"].last}"
 end
 

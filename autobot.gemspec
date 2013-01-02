@@ -2,7 +2,8 @@
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the FreeBSD license (LICENSE.md).
 
-require './lib/auto.rb'
+$:.unshift File.expand_path(File.join(File.dirname(__FILE__), 'lib'))
+require 'auto'
 
 Gem::Specification.new do |s|
   
@@ -29,7 +30,7 @@ Gem::Specification.new do |s|
     Gemfile
     .yardopts
   ]
-  s.test_files    = Dir.glob("spec/**/*") + 'Rakefile'
+  s.test_files    = Dir.glob("spec/**/*") + ['Rakefile']
   s.executables   = %w[auto auto-conf]
 
   s.required_ruby_version = '>= 1.9.2'
