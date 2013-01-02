@@ -14,8 +14,15 @@ require 'auto/api'
 # Namespace: Auto
 module Auto
 
-  VERSION  = '4.0.0-alpha.0.1'
-  CODENAME = 'Phoenix'
+  VERSIONSPEC  = {
+    major: 4,
+    minor: 0,
+    patch: 0,
+    pre:   'a.0.1'
+  }
+  VERSION      = "#{VERSIONSPEC[:major]}.#{VERSIONSPEC[:minor]}.#{VERSIONSPEC[:patch]}"
+  VERSION.concat '.'+VERSIONSPEC[:pre] if VERSIONSPEC.include? :pre
+  CODENAME     = 'Phoenix'
 
   # This is the central class of Auto, providing all core functionality.
   #
