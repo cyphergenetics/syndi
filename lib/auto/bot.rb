@@ -80,15 +80,16 @@ module Auto
 
       # Try to find the file
       # conf/ is given precedence over ~/.config/autobot/
+      # unless we're installed as a gem, in which case conf/ is ignored
       confpath = nil
       if @opts.json?
-        if File.exists? File.join(%w[conf auto.json])
+        if File.exists? File.join(%w[conf auto.json]) and !Auto.gem?
           confpath = File.join(%w[conf auto.json])
         elsif File.exists? File.join(Dir.home, '.config', 'autobot', 'auto.json')
           confpath = File.join(Dir.home, '.config', 'autobot', 'auto.json')
         end
       else
-        if File.exists? File.join(%w[conf auto.yml])
+        if File.exists? File.join(%w[conf auto.yml]) and !Auto.gem?
           confpath = File.join(%w[conf auto.yml])
         elsif File.exists? File.join(Dir.home, '.config', 'autobot', 'auto.yml')
           confpath = File.join(Dir.home, '.config', 'autobot', 'auto.yml')
