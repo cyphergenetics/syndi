@@ -36,28 +36,56 @@ Auto has a three-year history of service, dating back to December of 2009.
 and now the Auto Project presents this fourth major revision, 4.0 _Phoenix_,
 intended to supersede 3.0 as a superior version.
 
-Using Auto 4
+Requirements
 ------------
 
-You need [Ruby 1.9](http://www.ruby-lang.org/en/downloads/) to use Auto.
-Currently, Windows is unsupported; support is however planned for the future. 
-You are advised to consult the documentation provided by the 
-[wiki](https://github.com/Auto/Auto/wiki).
+You need at least [Ruby 1.9.2](http://www.ruby-lang.org/en/downloads/).
 
-Additionally, because Auto employs the light and useful SQLite 3 for database
-management, you must have [SQLite 3](http://www.sqlite.org/) installed, as well
-as the [sqlite3 Ruby gem](https://rubygems.org/gems/sqlite3).
+To make life easier, we suggest you install [bundler](https://rubygems.org/gems/bundler),
+run `bundle install --without test` (exclude `--without test` if you wish to
+develop/test), and then install your database gem (see below).
 
-Open `conf/example.yml` and go over the configuration, which is in YAML,
-specifying the settings to your liking, then save it as `conf/auto.yml`.
-See [Configuring Auto](https://github.com/Auto/Auto/wiki/Configuring-Auto).
+Users of the [autobot](https://rubygems.org/gems/autobot) gem need only concern
+themselves with their database gem (see below).
 
-If YAML is not pleasing to you, Auto has support for **JSON**. There is no
-wiki page for this, however, so you will have to configure `conf/example.json`
-using your own intuition. Save it as `conf/auto.json`, and start Auto with the
-`-j` (`--json`) switch (which is effectively an alias for `--config=conf/auto.json`).
+Mandatory Ruby gems:
 
-Run Auto 4 with `ruby auto.rb`.
+* [sequel](https://rubygems.org/gems/sequel)
+* [slop](https://rubygems.org/gems/slop)
+* [colored](https://rubygems.org/gems/colored)
+
+Needed for testing and development:
+
+* [rake](https://rubygems.org/gems/rake)
+* [bacon](https://rubygems.org/gems/bacon)
+* [mocha](https://rubygems.org/gems/mocha)
+* [mocha-on-bacon](https://rubygems.org/gems/mocha-on-bacon)
+
+Depending on the database management system you are using, you need:
+
+* **SQLite** (suggested): [sqlite3](https://rubygems.org/gems/sqlite3)
+* **MySQL**: [mysqlplus](https://rubygems.org/gems/mysqlplus)
+* **PostgreSQL**: [pg](https://rubygems.org/gems/pg)
+
+Quickstart
+----------
+
+Configure Auto:
+
+    $ bin/auto-conf
+
+Now start your bot:
+
+    $ bin/auto
+
+**Note** that if you installed the [autobot](https://rubygems.org/gem/autobot)
+gem, you mustn't include `bin/` in your commands (e.g. just use `auto`).
+
+For full installation directions, see [the guide](https://github.com/Auto/Auto/wiki/Install-Guide).
+
+You may wish to browse the [community-maintained wiki](https://github.com/Auto/Auto/wiki),
+join the [autobot-talk mailing group](https://groups.google.com/group/autobot-talk),
+and join the official IRC channel, [#auto on irc.freenode.net](irc://irc.freenode.net/#auto).
 
 Developing for Auto 4
 ---------------------
