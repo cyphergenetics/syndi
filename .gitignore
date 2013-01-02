@@ -17,6 +17,3 @@ doc/*
 
 # and generated gems
 *.gem
-
-# and stuff
-Gemfile.lock
