@@ -348,6 +348,14 @@ module Auto
     end
 
   end # class Bot
+  
+  # Whether we're installed as a gem.
+  #
+  # @return [true, false]
+  def self.gem? 
+    res = File.expand_path(__FILE__) =~ /#{Regexp.escape File.join(Dir.home, '.gem')}/
+    res.nil? ? false : true
+  end
 
 end # module Auto
 
