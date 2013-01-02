@@ -6,6 +6,7 @@
 # to test/compile Auto 4
 
 task :default => [:testing]
+task :gem => [:default, :make_gem, :release_gem]
 
 task :testing do 
   inc   = "-i #{File.join(%w[ spec lib ])} -i lib"
@@ -14,6 +15,14 @@ task :testing do
   tests.each do |t|
     sh "bacon #{inc} #{t}"
   end
+end
+
+task :make_gem do
+  sh "gem build #{Dir["*.gemspec"].first}"
+end
+
+task :release_gem do
+  sh "gem push #{Dir["*.gem"].last}"
 end
 
 # vim: set ts=4 sts=2 sw=2 et:
