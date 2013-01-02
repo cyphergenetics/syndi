@@ -5,7 +5,7 @@
 
 require "highline/import"
 
-config = {}
+config = {"libraries" => []}
 
 def gen_q(depth, question, default_string="")
   string = ("|  " * depth)
@@ -127,7 +127,7 @@ options[:yaml] = true
 options[:output] = $stdout
 
 OptionParser.new do |opt|
-  opt.banner = "Usage: ./#$0 [-syj] output_file"
+  opt.banner = "Usage: ./#$0 [-syjvh,--[no-]irc,--[no-]jabber] [-o FILE]"
 
   opt.on("-s", "--shell", "Generate a configuration via a console.") do
     options[:shell] = true
@@ -170,6 +170,24 @@ OptionParser.new do |opt|
   end
 
   opt.on("-o FILE", "--output FILE", "The name of the configuration output. This defaults to STDOUT") do |string|
+    string.strip!
+    case File.extname(string)
+    when ".yml"
+      options[:yaml] = true
+      options[:json] = false
+    when ".json"
+      options[:yaml] = false
+      options[:json] = true
+    when ""
+      if options[:yml]
+        string.concat ".yml"
+      else
+        string.concat ".json"
+      end
+    else
+      puts "`#{string}` is not an acceptable file name. Please choose a .yml or .json output name"
+      exit
+    end
     options[:output] = File.open(string, "a+")
   end
 end.parse(ARGV)
@@ -185,6 +203,7 @@ at_exit do
 end
 
 if options[:irc]
+  config["libraries"] << "irc"
   prc = proc do
     config.merge! add_server
     ask("Would you like to add another server?\n|- [y/<%= color('N', BOLD, RED) %>]  ") {|q| q.answer_type = proc {|x| if x =~ /n/i then false else true end } }
@@ -194,6 +213,7 @@ if options[:irc]
 end
 
 if options[:jabber]
+  config["libraries"] << "jabber"
   # Shit if I know
 end
 
