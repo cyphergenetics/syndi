@@ -3,14 +3,14 @@ Change Log
 
 Developers, this is produced employing thus:
     
-    $ git log <starting hash>..<ending hash> --pretty=format:"[%h] %cn \<%ce\>  %nDate: %cd  %n_%s_%n"
+    $ git log <starting hash>..<ending hash> --no-merges --pretty=format:"[%h] %cn \<%ce\>  %nDate: %cd  %n_%s_%n"
 
 4.0.0.a.0.1 [pre-alpha 1]
 -------------------------
 
 [9eb21fe] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 18:25:53 2013 -0700  
-_Purge the very outdated to-do. [ci skip]_
+_Purge the very outdated to-do._
 
 [e784449] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 18:23:27 2013 -0700  
@@ -66,7 +66,7 @@ _Merge branch 'master' of github.com:Auto/Auto_
 
 [237d355] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 17:34:58 2013 -0700  
-_Updated example YAML configuration. Todo: JSON. [ci skip]_
+_Updated example YAML configuration. Todo: JSON._
 
 [da5d1cc] Matthew Carey \<matthew.b.carey@gmail.com\>  
 Date: Tue Jan 1 19:31:53 2013 -0500  
@@ -86,7 +86,7 @@ _Auto::Bot fixed, sort of._
 
 [40cee35] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 15:17:57 2013 -0700  
-_New example configuration files. [ci skip]_
+_New example configuration files._
 
 [26482f9] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 15:10:18 2013 -0700  
@@ -106,7 +106,7 @@ _This is kind of uh, needed._
 
 [5bd5c3f] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 13:51:49 2013 -0700  
-_Fixing documentation. [ci skip]_
+_Fixing documentation._
 
 [ec05498] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 13:45:58 2013 -0700  
@@ -114,7 +114,7 @@ _Merge branch 'master' of github.com:Auto/Auto_
 
 [2c4678a] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 13:45:47 2013 -0700  
-_Fine you win. [ci skip]_
+_Fine you win._
 
 [b59ef2d] Matthew Carey \<matthew.b.carey@gmail.com\>  
 Date: Tue Jan 1 15:45:45 2013 -0500  
@@ -122,11 +122,11 @@ _Fixing an issue in auto-conf caused by lazy typing habits._
 
 [7d8d0f7] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 13:41:29 2013 -0700  
-_Fixing files. [ci skip]_
+_Fixing files._
 
 [684b372] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 13:21:18 2013 -0700  
-_A more sensible gemspec. [ci skip]_
+_A more sensible gemspec._
 
 [6abff07] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 12:52:35 2013 -0700  
@@ -134,7 +134,7 @@ _Moving Auto::Auto to Auto::Bot and tossing in more of this incomplete code..._
 
 [dbdaef5] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 04:56:33 2013 -0700  
-_Ignore *.gem. [ci skip]_
+_Ignore *.gem._
 
 [02b0aca] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 04:55:43 2013 -0700  
@@ -158,11 +158,11 @@ _confgen.rb -> bin/auto-conf_
 
 [659b9a8] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 04:23:06 2013 -0700  
-_auto.rb -> bin/auto [ci skip]_
+_auto.rb -> bin/auto_
 
 [d728f46] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 04:22:33 2013 -0700  
-_Note licensing change. [ci skip]_
+_Note licensing change._
 
 [cd35c7d] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 04:17:56 2013 -0700  
@@ -174,11 +174,11 @@ _Happy 2013_
 
 [ba76552] noxgirl \<xoeverlux@gmail.com\>  
 Date: Mon Dec 31 22:47:31 2012 -0700  
-_Somehow these escaped my git add. [ci skip]_
+_Somehow these escaped my git add._
 
 [fb633fb] noxgirl \<xoeverlux@gmail.com\>  
 Date: Mon Dec 31 22:40:05 2012 -0700  
-_Updated YARD options. [ci skip]_
+_Updated YARD options._
 
 [426a7eb] noxgirl \<xoeverlux@gmail.com\>  
 Date: Mon Dec 31 22:37:14 2012 -0700  
@@ -194,11 +194,11 @@ _A module of IRC numerics per the RFC1459 and IRCv3.1 specifications._
 
 [02a8978] noxgirl \<xoeverlux@gmail.com\>  
 Date: Mon Dec 31 10:34:17 2012 -0700  
-_And that should do it [ci skip]_
+_And that should do it_
 
 [64bb013] noxgirl \<xoeverlux@gmail.com\>  
 Date: Mon Dec 31 10:33:28 2012 -0700  
-_Update the mocks also [ci skip]_
+_Update the mocks also_
 
 [568748b] noxgirl \<xoeverlux@gmail.com\>  
 Date: Mon Dec 31 10:32:18 2012 -0700  
@@ -206,11 +206,11 @@ _This didn't even have the notice, or the modeline..._
 
 [1fdc070] noxgirl \<xoeverlux@gmail.com\>  
 Date: Mon Dec 31 10:31:21 2012 -0700  
-_And here [ci skip]_
+_And here_
 
 [a81ea72] noxgirl \<xoeverlux@gmail.com\>  
 Date: Mon Dec 31 10:29:50 2012 -0700  
-_Reflect licensing change [ci skip]_
+_Reflect licensing change_
 
 [02c7ef1] noxgirl \<xoeverlux@gmail.com\>  
 Date: Mon Dec 31 10:09:25 2012 -0700  
@@ -226,19 +226,19 @@ _Added DatabaseError exception._
 
 [0ee36a4] noxgirl \<xoeverlux@gmail.com\>  
 Date: Mon Dec 31 08:28:50 2012 -0700  
-_Auto::API to simplify the API. [ci skip]_
+_Auto::API to simplify the API._
 
 [7883ec7] noxgirl \<xoeverlux@gmail.com\>  
 Date: Mon Dec 31 07:54:15 2012 -0700  
-_And next is Auto::Auto... [ci skip]_
+_And next is Auto::Auto..._
 
 [f3aa741] noxgirl \<xoeverlux@gmail.com\>  
 Date: Mon Dec 31 07:24:04 2012 -0700  
-_Updated docs. [ci skip]_
+_Updated docs._
 
 [5081fc6] noxgirl \<xoeverlux@gmail.com\>  
 Date: Mon Dec 31 07:21:31 2012 -0700  
-_Updated docs. [ci skip]_
+_Updated docs._
 
 [2fca87a] noxgirl \<xoeverlux@gmail.com\>  
 Date: Mon Dec 31 07:20:57 2012 -0700  
@@ -250,7 +250,7 @@ _Purge the old API:: namespace, which is rubbish._
 
 [5258122] noxgirl \<xoeverlux@gmail.com\>  
 Date: Mon Dec 31 07:15:46 2012 -0700  
-_Um, this will output 'cow' not 'animal.' [ci skip]_
+_Um, this will output 'cow' not 'animal.'_
 
 [4c60592] noxgirl \<xoeverlux@gmail.com\>  
 Date: Mon Dec 31 07:13:38 2012 -0700  
@@ -262,11 +262,11 @@ _-.-_
 
 [1ac99ff] noxgirl \<xoeverlux@gmail.com\>  
 Date: Mon Dec 31 07:02:50 2012 -0700  
-_Populated the specifications. [ci skip]_
+_Populated the specifications._
 
 [47f829c] noxgirl \<xoeverlux@gmail.com\>  
 Date: Mon Dec 31 06:57:05 2012 -0700  
-_We need a new instance of Auto::API::Timers with which to work. [ci skip]_
+_We need a new instance of Auto::API::Timers with which to work._
 
 [38b993e] noxgirl \<xoeverlux@gmail.com\>  
 Date: Mon Dec 31 06:55:41 2012 -0700  
@@ -290,7 +290,7 @@ _Auto::API::Object, created to eliminate repetition._
 
 [37b0998] noxgirl \<xoeverlux@gmail.com\>  
 Date: Sun Dec 30 21:57:19 2012 -0700  
-_Updated YARD options. [ci skip]_
+_Updated YARD options._
 
 [8508cee] noxgirl \<xoeverlux@gmail.com\>  
 Date: Sun Dec 30 21:56:04 2012 -0700  
@@ -318,11 +318,11 @@ _Report this as debug data._
 
 [c87a8f0] noxgirl \<xoeverlux@gmail.com\>  
 Date: Sun Dec 30 19:31:07 2012 -0700  
-_Add a link here. [ci skip]_
+_Add a link here._
 
 [1c0248b] noxgirl \<xoeverlux@gmail.com\>  
 Date: Sun Dec 30 19:28:35 2012 -0700  
-_These are in the Auto:: namespace. [ci skip]_
+_These are in the Auto:: namespace._
 
 [4ff4910] noxgirl \<xoeverlux@gmail.com\>  
 Date: Sun Dec 30 19:24:54 2012 -0700  
@@ -410,7 +410,7 @@ _Change our dependencies to bacon and sequel._
 
 [dc35b15] noxgirl \<xoeverlux@gmail.com\>  
 Date: Fri Dec 28 08:19:52 2012 -0700  
-_...compact this link sensibly... [ci skip]_
+_...compact this link sensibly..._
 
 [0697867] noxgirl \<xoeverlux@gmail.com\>  
 Date: Fri Dec 28 07:49:27 2012 -0700  
@@ -418,19 +418,19 @@ _Updates. Note autobot-talk_
 
 [c11a56a] noxgirl \<xoeverlux@gmail.com\>  
 Date: Fri Dec 28 03:08:48 2012 -0700  
-_The DNS has successfully propagated, so point homepage to http://auto.autoproj.org. [ci skip]_
+_The DNS has successfully propagated, so point homepage to http://auto.autoproj.org._
 
 [8e73b45] noxgirl \<xoeverlux@gmail.com\>  
 Date: Fri Dec 28 01:39:37 2012 -0700  
-_Unfinished Auto::API::Events [ci skip]_
+_Unfinished Auto::API::Events_
 
 [cbcccb3] noxgirl \<xoeverlux@gmail.com\>  
 Date: Thu Dec 27 23:03:33 2012 -0700  
-_Added Gemnasium, because why not [ci skip]_
+_Added Gemnasium, because why not_
 
 [f8a761c] noxgirl \<xoeverlux@gmail.com\>  
 Date: Thu Dec 27 22:53:13 2012 -0700  
-_Specify our active developers. [ci skip]_
+_Specify our active developers._
 
 [62a7990] noxgirl \<xoeverlux@gmail.com\>  
 Date: Thu Dec 27 20:12:17 2012 -0700  
@@ -438,7 +438,7 @@ _Note the build page._
 
 [9d287b2] noxgirl \<xoeverlux@gmail.com\>  
 Date: Thu Dec 27 20:10:49 2012 -0700  
-_Added a build status image. [ci skip]_
+_Added a build status image._
 
 [21a718c] noxgirl \<xoeverlux@gmail.com\>  
 Date: Thu Dec 27 20:04:31 2012 -0700  
