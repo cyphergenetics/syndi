@@ -68,8 +68,7 @@ unless mopts['debug'] or mopts['foreground']
   
   # Direct all incoming data on STDIN and outgoing data on STDOUT/STDERR to /dev/null.
   $stdin  = File.open '/dev/null'
-  $stdout = File.open '/dev/null', 'w'
-  $stderr = File.open '/dev/null', 'w'
+  $stdout = $stderr = File.open '/dev/null', 'w'
   # Fork and retrieve the PID.
   pid     = fork
 
@@ -80,18 +79,14 @@ unless mopts['debug'] or mopts['foreground']
   end
 end
 
-### SIGNALS ###
+# Signals
+sig = {
+  'TERM' => proc { $m.terminate('Caught termination signal') },
+  'INT'  => proc { $m.terminate('Ctrl-C pressed') },
+  'HUP'  => proc { $m.conf.rehash }
+}
+sig.each { |signal, prc| Signal.trap(signal) { prc.call } }
 
-# Catch SIGTERM
-Signal.trap('TERM') { $m.terminate("Caught SIGTERM") }
-
-# Catch SIGINT
-Signal.trap('INT') { $m.terminate("Caught Ctrl-C") }
-
-# Catch SIGHUP (rehash)
-Signal.trap('HUP') { $m.conf.rehash! }
-
-# The following should capture all exceptions that are not otherwise caught:
 begin
   $m.start
 rescue => e
