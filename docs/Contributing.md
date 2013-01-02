@@ -31,3 +31,12 @@ For indentation, ensure that you use spaces in lieu of tabs, two to be exact.
 Vim users, observe the modelines each file contains:
 
     # vim: set ts=4 sts=2 sw=2 et:
+
+**Language**
+
+In documentation, commit messages, and other such things, we require compliance
+with these three rules:
+
+1. No obscene language.
+2. It must be legible.
+3. It must be grammatically correct at least to a reasonable degree.
