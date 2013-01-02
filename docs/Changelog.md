@@ -1,3 +1,13 @@
+Change Log
+==========
+
+Developers, this is produced employing thus:
+    
+    $ git log <starting hash>..<ending hash> --no-merges --pretty=format:"[%h] %cn \<%ce\>  %nDate: %cd  %n_%s_%n"
+
+4.0.0.a.0.1 [pre-alpha 1]
+-------------------------
+
 [9eb21fe] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 18:25:53 2013 -0700  
 _Purge the very outdated to-do._
