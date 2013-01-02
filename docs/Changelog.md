@@ -1,28 +1,10 @@
-Change Log
-==========
-
-Developers, this is produced employing thus:
-    
-    $ git log <starting hash>..<ending hash> --no-merges --pretty=format:"[%h] %cn \<%ce\>  %nDate: %cd  %n_%s_%n"
-
-4.0.0.a.0.1 [pre-alpha 1]
--------------------------
-
 [9eb21fe] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 18:25:53 2013 -0700  
 _Purge the very outdated to-do._
 
-[e784449] noxgirl \<xoeverlux@gmail.com\>  
-Date: Tue Jan 1 18:23:27 2013 -0700  
-_Merge branch 'master' of github.com:Auto/Auto_
-
 [4c9e890] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 18:23:18 2013 -0700  
 _Okay, fixed versioning._
-
-[5534cf5] Matthew Carey \<matthew.b.carey@gmail.com\>  
-Date: Tue Jan 1 20:22:29 2013 -0500  
-_Merge branch 'master' of github.com:Auto/Auto_
 
 [9e1cdb0] Matthew Carey \<matthew.b.carey@gmail.com\>  
 Date: Tue Jan 1 20:22:22 2013 -0500  
@@ -48,10 +30,6 @@ _Oops, sorry babe. I messed up your naming._
 Date: Tue Jan 1 20:03:18 2013 -0500  
 _Changing the Rakefile a little more and adding desc lines to allow rake -T to give some obvious information._
 
-[10c258e] Matthew Carey \<matthew.b.carey@gmail.com\>  
-Date: Tue Jan 1 20:02:45 2013 -0500  
-_Merge branch 'master' of github.com:Auto/Auto_
-
 [4242a84] Matthew Carey \<matthew.b.carey@gmail.com\>  
 Date: Tue Jan 1 20:02:07 2013 -0500  
 _Changing the Rakefile a little more and adding desc lines to allow rake -T to give some obvious information._
@@ -59,10 +37,6 @@ _Changing the Rakefile a little more and adding desc lines to allow rake -T to g
 [deea55e] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 18:00:31 2013 -0700  
 _Fixed gemspec and added rake task 'gem' per my loveybear's suggestion._
-
-[7442d7c] noxgirl \<xoeverlux@gmail.com\>  
-Date: Tue Jan 1 17:35:34 2013 -0700  
-_Merge branch 'master' of github.com:Auto/Auto_
 
 [237d355] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 17:34:58 2013 -0700  
@@ -107,10 +81,6 @@ _This is kind of uh, needed._
 [5bd5c3f] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 13:51:49 2013 -0700  
 _Fixing documentation._
-
-[ec05498] noxgirl \<xoeverlux@gmail.com\>  
-Date: Tue Jan 1 13:45:58 2013 -0700  
-_Merge branch 'master' of github.com:Auto/Auto_
 
 [2c4678a] noxgirl \<xoeverlux@gmail.com\>  
 Date: Tue Jan 1 13:45:47 2013 -0700  
@@ -680,10 +650,6 @@ _Make this more sensible._
 Date: Wed Dec 26 21:09:08 2012 -0500  
 _Fixing syntax error in spec. Tests still fail._
 
-[253e68c] noxgirl \<xoeverlux@gmail.com\>  
-Date: Wed Dec 26 19:05:45 2012 -0700  
-_Merge branch 'master' of github.com:Auto/Auto_
-
 [72c234f] noxgirl \<xoeverlux@gmail.com\>  
 Date: Wed Dec 26 19:05:35 2012 -0700  
 _I don't know what to do with this; I'm tired_
@@ -704,17 +670,9 @@ _yay I love you loveybear_
 Date: Wed Dec 26 18:26:57 2012 -0700  
 _ok_
 
-[5d7404a] noxgirl \<xoeverlux@gmail.com\>  
-Date: Wed Dec 26 18:25:02 2012 -0700  
-_Merge branch 'master' of github.com:Auto/Auto_
-
 [eee1661] noxgirl \<xoeverlux@gmail.com\>  
 Date: Wed Dec 26 18:24:49 2012 -0700  
 _Note rake usage_
-
-[77658e7] Matthew Carey \<matthew.b.carey@gmail.com\>  
-Date: Wed Dec 26 20:24:32 2012 -0500  
-_t Merge branch 'master' of github.com:Auto/Auto_
 
 [9729583] Matthew Carey \<matthew.b.carey@gmail.com\>  
 Date: Wed Dec 26 20:24:20 2012 -0500  
@@ -807,10 +765,6 @@ _output not new. I'm dumb_
 [28162bb] Matthew Carey \<matthew.b.carey@gmail.com\>  
 Date: Sun Dec 23 17:19:38 2012 -0500  
 _Changed the regular expression for eliminating comments. Also changed the JSON parse method call. <3 autumn_
-
-[50a1e66] Matthew Carey \<matthew.b.carey@gmail.com\>  
-Date: Sun Dec 23 17:13:55 2012 -0500  
-_Merge branch 'master' of github.com:noxgirl/Auto_
 
 [b5e5efb] Matthew Carey \<matthew.b.carey@gmail.com\>  
 Date: Sun Dec 23 17:13:48 2012 -0500  
@@ -1260,10 +1214,6 @@ _New Core::Config, reflecting new JSON standard. [codebase broken]_
 Date: Sat Dec 15 19:19:23 2012 -0700  
 _Group SASL information into a single block._
 
-[f02300b] noxgirl \<xoeverlux@gmail.com\>  
-Date: Sat Dec 15 19:18:19 2012 -0700  
-_Merge branch 'master' of github.com:noxgirl/Auto_
-
 [582c918] noxgirl \<xoeverlux@gmail.com\>  
 Date: Sat Dec 15 19:15:29 2012 -0700  
 _Group SASL information into a single block._
@@ -1387,5 +1337,3 @@ _Pointer to documentation._
 [ad622f6] noxgirl \<xoeverlux@gmail.com\>  
 Date: Sat Dec 15 14:10:05 2012 -0700  
 _Updated README._
-
-**Start of Auto 4.x**
