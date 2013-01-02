@@ -25,12 +25,12 @@ task :make_gem do
 end
 
 desc "Install the gem"
-task :install => :gem do
+task :install => :make_gem do
   sh "gem install #{Dir["*.gemspec"].last}"
 end
 
 desc "Push this release to rubygems."
-task :release_gem => :gem do
+task :release_gem => :make_gem do
   sh "gem push #{Dir["*.gem"].last}"
 end
 
