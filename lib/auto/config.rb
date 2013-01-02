@@ -82,8 +82,8 @@ module Auto
       $m.events.call('bot:onRehash')
 
     # This rescue is applicable to anything that happens in here. Since if it is reached, there really was an error in general.
-    rescue => e
-      $m.error("Failed to rehash configuration file! Reverting to old configuration.", false, e)
+    rescue => e 
+      $m.error("Failed to rehash configuration file! Reverting to old configuration.", false, e.backtrace)
       @conf = oldconf
       return 0
     end
@@ -128,14 +128,15 @@ module Auto
       # JSON
       if @type == :json
 
-        # Strip comments out of the data.
-        data.gsub!(/(#[^"\n\r]*(?:"[^"\n\r]*"[^"\n\r]*)*[\r\n]|\/\*([^*]|\*(?!\/))*?\*\/)(?=[^"]*(?:"[^"]*"[^"]*)*$)/, '')
+        # Strip comments out of the data. This is dirty and needs a better
+        # fix with string awareness.
+        data.gsub!(/(?:\/\/.*\n)|(?:\/\*.*\*\/)/, '')
 
         # Process the JSON.
         begin
           conf = JSON.parse!(data)
         rescue => e
-          raise ConfigError, "Failed to process the JSON in '#@path'", e
+          raise ConfigError, "Failed to process the JSON in '#@path'", e.backtrace
         end
 
       else # Must be YAML
