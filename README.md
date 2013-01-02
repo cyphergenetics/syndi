@@ -36,6 +36,9 @@ Auto has a three-year history of service, dating back to December of 2009.
 and now the Auto Project presents this fourth major revision, 4.0 _Phoenix_,
 intended to supersede 3.0 as a superior version.
 
+Currently, it supports the IRCv3 protocol, with planned support for the XMPP
+protocol.
+
 Requirements
 ------------
 
