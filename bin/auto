@@ -3,6 +3,11 @@
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the FreeBSD license (LICENSE.md).
 
+# Forbid root.
+if ENV.include? 'USER'
+  puts "It is forbidden to run Auto as the root user.".red.bold and exit 1 if ENV['USER'] == 'root'
+end
+
 # Check whether we're installed as a gem or a standalone
 unless File.expand_path(__FILE__) =~ /^#{Regexp.escape File.join(Dir.home, '.gem')}/
   gitdir = File.join(File.dirname(__FILE__), '..', '.git')
@@ -15,11 +20,6 @@ end
 # Require necessary libraries.
 require 'slop'
 require 'auto'
-
-# Forbid root.
-if ENV.include? 'USER'
-  puts "It is forbidden to run Auto as the root user.".red.bold and exit 1 if ENV['USER'] == 'root'
-end
 
 # Parse options.
 opts = Slop.parse(:banner => "Usage: #$0 [options]") do
