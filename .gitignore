@@ -2,8 +2,8 @@
 logs/*
 
 # and configuration files
-conf/auto.json
-ocnf/auto.yml
+auto.json
+auto.yml
 
 # and databases
 *.db
