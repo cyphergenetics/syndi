@@ -63,7 +63,7 @@ else
   puts "Start up failed! Read above for errors.".red.bold
   exit 1
 end
-STARTTIME = time
+STARTTIME = time.freeze
 
 # We survived? We survived! Fork into the background if not in debug or foreground.
 unless opts.debug? or opts.foreground?

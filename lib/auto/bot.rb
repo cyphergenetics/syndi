@@ -19,10 +19,11 @@ module Auto
     minor: 0,
     patch: 0,
     pre:   'a.0.1'
-  }
+  }.freeze
   VERSION      = "#{VERSIONSPEC[:major]}.#{VERSIONSPEC[:minor]}.#{VERSIONSPEC[:patch]}"
   VERSION.concat '.'+VERSIONSPEC[:pre] if VERSIONSPEC.include? :pre
-  CODENAME     = 'Phoenix'
+  VERSION.freeze
+  CODENAME     = 'Phoenix'.freeze
 
   # This is the central class of Auto, providing all core functionality.
   #
