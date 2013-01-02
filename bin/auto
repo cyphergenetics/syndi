@@ -4,7 +4,7 @@
 # Distributed under the terms of the FreeBSD license (LICENSE.md).
 
 # Check whether we're installed as a gem or a standalone
-unless File.expand_path(__FILE__) =~ /#{Regexp.escape File.join(Dir.home, '.gem')}/
+unless File.expand_path(__FILE__) =~ /^#{Regexp.escape File.join(Dir.home, '.gem')}/
   gitdir = File.join(File.dirname(__FILE__), '..', '.git')
   if Dir.exists? gitdir
     REVISION = File.open(File.join(gitdir, 'refs', 'heads', 'master')).first[0..7] # Note the git revision

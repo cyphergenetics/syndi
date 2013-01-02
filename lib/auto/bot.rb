@@ -354,7 +354,7 @@ module Auto
   #
   # @return [true, false]
   def self.gem? 
-    res = File.expand_path(__FILE__) =~ /#{Regexp.escape File.join(Dir.home, '.gem')}/
+    res = File.expand_path(__FILE__) =~ /^#{Regexp.escape File.join(Dir.home, '.gem')}/
     res.nil? ? false : true
   end
 
