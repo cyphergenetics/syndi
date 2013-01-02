@@ -63,7 +63,7 @@ end
 STARTTIME = time
 
 # We survived? We survived! Fork into the background if not in debug or foreground.
-unless mopts['debug'] or mopts['foreground']
+unless opts.debug? or opts.foreground?
   puts "Forking into the background...".bold
   
   # Direct all incoming data on STDIN and outgoing data on STDOUT/STDERR to /dev/null.
