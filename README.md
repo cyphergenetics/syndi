@@ -13,6 +13,7 @@ See also **Contributors** below.
 [![Build Status](https://travis-ci.org/Auto/Auto.png?branch=master)](https://travis-ci.org/Auto/Auto) [![Dependency Status](https://gemnasium.com/Auto/Auto.png)](https://gemnasium.com/Auto/Auto)  
 **Homepage**:           http://auto.autoproj.org  
 **Git**:                https://github.com/Auto/Auto  
+**RubyGems**:           https://rubygems.org/gems/autobot  
 **Wiki**:               https://github.com/Auto/Auto/wiki  
 **Docs**:               http://rdoc.info/github/Auto/Auto/  
 **Mailing Group**:      [autobot-talk](https://groups.google.com/group/autobot-talk)  
