@@ -29,7 +29,7 @@ Auto is automated bot software, developed per thus philosophy:
 
 * _Friendly_ to users, and to developers.
 * _Simple_, _smart_, and _clean_.
-* _Minimal_ but _extendable_.
+* _Minimal_ but _extensible_.
 
 Auto has a three-year history of service, dating back to December of 2009.
 [Auto 3.0](https://github.com/Auto/Auto-legacy) was the last stable release,
