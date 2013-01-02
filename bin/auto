@@ -3,11 +3,14 @@
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the FreeBSD license (LICENSE.md).
 
-gitdir = File.join(File.dirname(__FILE__), '..', '.git')
-if Dir.exists? gitdir
-  REVISION = File.open(File.join(gitdir, 'refs', 'heads', 'master')).first[0..7]
+# Check whether we're installed as a gem or a standalone
+unless File.expand_path(__FILE__) =~ /#{Regexp.escape File.join(Dir.home, '.gem')}/
+  gitdir = File.join(File.dirname(__FILE__), '..', '.git')
+  if Dir.exists? gitdir
+    REVISION = File.open(File.join(gitdir, 'refs', 'heads', 'master')).first[0..7] # Note the git revision
+  end
+  $:.unshift File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib')) # Add the Auto libraries to LOAD_PATH
 end
-$:.unshift File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 # Require necessary libraries.
 require 'slop'
