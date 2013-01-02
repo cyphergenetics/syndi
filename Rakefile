@@ -20,7 +20,7 @@ task :testing do
 end
 
 desc "Create a gem from the gemspec."
-task :gem do
+task :make_gem do
   sh "gem build #{Dir["*.gemspec"].first}"
 end
 
