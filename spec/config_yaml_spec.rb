@@ -76,6 +76,7 @@ EOF
     end
     
     @conf = Auto::Config.new('.temp.yaml_config.yml')
+    $m.spec_reset
   end
 
   it 'should have a type of YAML' do
@@ -99,7 +100,10 @@ EOF
   end
 
   it 'should rehash on rehash!()' do
-    $m.should.receive(:error)
+    $m.should.receive(:debug)
+    $m.should.receive(:events).times(2)
+    $m.events.should.receive(:call)
+
     File.open('.temp.yaml_config.yml', 'w') do |io|
       io.write YAML_NEW_CONF
     end
@@ -108,6 +112,7 @@ EOF
   end
 
   it 'should fail on rehash!() if data is bad' do
+    $m.should.receive(:debug)
     $m.should.receive(:error)
     File.open('.temp.yaml_config.yml', 'w') do |io|
       io.write YAML_BAD_CONF
@@ -117,6 +122,8 @@ EOF
 
   it 'should should revert to old data if rehash!() fails' do
     $m.should.receive(:error)
+    $m.should.receive(:debug)
+    
     File.open('.temp.yaml_config.yml', 'w') do |io|
       io.write YAML_BAD_CONF
     end
@@ -126,6 +133,7 @@ EOF
 
   after do
     File.delete '.temp.yaml_config.yml'
+    $m.spec_reset
   end
     
   File.delete '.temp.yaml_config.yml'
