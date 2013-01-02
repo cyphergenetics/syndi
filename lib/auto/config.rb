@@ -41,9 +41,10 @@ module Auto
       @path = filepath
       
       # Determine the type: YAML or JSON.
-      if    File.extname(filepath) == '.yml'
+      case File.extname(filepath)
+      when ".yml"
         @type = :yaml
-      elsif File.extname(filepath) == '.json'
+      when ".json"
         @type = :json
       else
         raise ConfigError, "Unknown file type on #{filepath}."
@@ -66,14 +67,8 @@ module Auto
       oldconf = @conf
       @conf   = {}
 
-      # Rehash.
-      begin
-        parse!
-      rescue => e
-        $m.error("Failed to rehash the configuration file! Reverting to old configuration.", false, e)
-        @conf = oldconf
-        return 0
-      end
+      # Rehash
+      parse!
 
       # Ensure it really succeeded.
       if @conf.empty? or @conf.class != Hash
@@ -86,6 +81,11 @@ module Auto
       # bot:onRehash
       $m.events.call('bot:onRehash')
 
+    # This rescue is applicable to anything that happens in here. Since if it is reached, there really was an error in general.
+    rescue => e
+      $m.error("Failed to rehash configuration file! Reverting to old configuration.", false, e)
+      @conf = oldconf
+      return 0
     end
 
     # Return data of @conf.
