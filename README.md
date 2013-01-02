@@ -9,7 +9,7 @@ Auto 4.0 _Phoenix_
 
 See also **Contributors** below.
 
-**Latest**:             4.0.0d (codename _Phoenix_)
+**Latest**:             4.0.0.a.0.1 (pre-alpha 1) "Phoenix"
 [![Build Status](https://travis-ci.org/Auto/Auto.png?branch=master)](https://travis-ci.org/Auto/Auto) [![Dependency Status](https://gemnasium.com/Auto/Auto.png)](https://gemnasium.com/Auto/Auto)  
 **Homepage**:           http://auto.autoproj.org  
 **Git**:                https://github.com/Auto/Auto  
