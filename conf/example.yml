@@ -1,7 +1,6 @@
 ---
 
 # Auto 4 example YAML configuration file
-# Please see https://github.com/noxgirl/Auto/wiki/Configuring-Auto
 
 # Core libraries to load.
 #
@@ -71,3 +70,56 @@ irc:
       # The password to use. If the server uses Atheme, we suggest putting the accountname followed by
       # the password here, so that identification never fails.
       password: moopass
+
+# Database configuration
+#
+# In addition to the 'sequel' Ruby gem, you will need some additional gem(s) depending
+# upon the database management system of your choice:
+#
+# SQLite users: sqlite3
+# MySQL users: mysqlplus
+# Postgres users: pg
+#
+# If your DBMS is not supported and you would like it to be, we'll consider a feature
+# request which you may submit either to the mailing group (http://j.mp/autotalk), or
+# to the issue hub (https://github.com/Auto/Auto/issues). Alas, we regret to inform
+# our users that the official database model hasn't support for NoSQL systems, so such
+# NoSQL database management systems as MongoDB, Redis, CouchDB, Cassandra, etc. cannot
+# be officially supported at this time, although that's not to say a plugin is
+# incapable of extending Auto to support them.
+database:
+
+  # The type of database.
+  #
+  # sqlite (recommended): A very simple SQL database system which outputs to a file.
+  # [needs] name
+  #
+  # mysql: A popular SQL system based on a network server/client model.
+  # [needs] name, hostname, username, password
+  #
+  # postgres: An advanced SQL system popularly employed as an alternative to MySQL.
+  # [needs] name, hostname, username, password
+  type: sqlite
+
+  # Database name. 
+  #
+  # SQLite users should provide a path to a file (e.g., you may use 'auto.db'
+  # to write to /path/to/auto/installation/auto.db, or perhaps '/home/your_home_dir/autobot.db')
+  #
+  # MySQL and Postgres users should provide the name of the database; e.g. 'autobot'
+  name: auto.db
+
+  # Hostname to which to connect.
+  #
+  # This is needed only for MySQL and Postgres.
+  hostname: localhost
+
+  # Username as which to authenticate.
+  #
+  # This is needed only for MySQL and Postgres.
+  username: auto
+
+  # Password associated with this username.
+  #
+  # This is needed only for MySQL and Postgres.
+  password: insecurepassword123
