@@ -8,20 +8,20 @@ module Auto
   # namespace IRC
   module IRC
 
-    # namespace Spec
-    module Spec
+    # namespace Std
+    module Std
 
       # namespace IRCd
       module IRCd
 
-        # Universal specifications (per RFC1459).
-        class Universal
+        # Specifications for ircd-hybrid.
+        class Hybrid < Universal
         
-        end # class Universal
+        end # class Hybrid
 
       end # module IRCd
 
-    end # module Spec
+    end # module Std
 
   end # module IRC
 

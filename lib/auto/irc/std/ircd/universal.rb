@@ -8,20 +8,20 @@ module Auto
   # namespace IRC
   module IRC
 
-    # namespace Spec
-    module Spec
+    # namespace Std
+    module Std
 
       # namespace IRCd
       module IRCd
 
-        # Specifications for ShadowIRCd.
-        class Shadow < Charybdis
+        # Universal specifications (per RFC1459).
+        class Universal
         
-        end # class Shadow
+        end # class Universal
 
       end # module IRCd
 
-    end # module Spec
+    end # module Std
 
   end # module IRC
 

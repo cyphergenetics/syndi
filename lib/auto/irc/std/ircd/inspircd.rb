@@ -8,20 +8,20 @@ module Auto
   # namespace IRC
   module IRC
 
-    # namespace Spec
-    module Spec
+    # namespace Std
+    module Std
 
       # namespace IRCd
       module IRCd
 
-        # Specifications for Bahamut.
-        class Bahamut < Universal
+        # Specifications for InspIRCd.
+        class InspIRCd < Universal
         
-        end # class Bahamut
+        end # class InspIRCd
 
       end # module IRCd
 
-    end # module Spec
+    end # module Std
 
   end # module IRC
 

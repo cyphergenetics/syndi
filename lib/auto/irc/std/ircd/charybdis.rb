@@ -8,20 +8,20 @@ module Auto
   # namespace IRC
   module IRC
 
-    # namespace Spec
-    module Spec
+    # namespace Std
+    module Std
 
       # namespace IRCd
       module IRCd
 
-        # Specifications for ircd-ratbox.
-        class Ratbox < Universal
+        # Specifications for charybdis-ircd.
+        class Charybdis < Ratbox
         
-        end # class Ratbox
+        end # class Charybdis
 
       end # module IRCd
 
-    end # module Spec
+    end # module Std
 
   end # module IRC
 

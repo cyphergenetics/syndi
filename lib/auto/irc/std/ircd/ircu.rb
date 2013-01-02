@@ -8,20 +8,20 @@ module Auto
   # namespace IRC
   module IRC
 
-    # namespace Spec
-    module Spec
+    # namespace Std
+    module Std
 
       # namespace IRCd
       module IRCd
 
-        # Specifications for snircd.
-        class Snircd < IRCu
+        # Specifications for IRCu.
+        class IRCu < Universal
         
-        end # class Snircd
+        end # class IRCu
 
       end # module IRCd
 
-    end # module Spec
+    end # module Std
 
   end # module IRC
 

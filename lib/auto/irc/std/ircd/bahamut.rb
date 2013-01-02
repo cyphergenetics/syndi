@@ -8,20 +8,20 @@ module Auto
   # namespace IRC
   module IRC
 
-    # namespace Spec
-    module Spec
+    # namespace Std
+    module Std
 
       # namespace IRCd
       module IRCd
 
-        # Specifications for ircd-hybrid.
-        class Hybrid < Universal
+        # Specifications for Bahamut.
+        class Bahamut < Universal
         
-        end # class Hybrid
+        end # class Bahamut
 
       end # module IRCd
 
-    end # module Spec
+    end # module Std
 
   end # module IRC
 

@@ -8,20 +8,20 @@ module Auto
   # namespace IRC
   module IRC
 
-    # namespace Spec
-    module Spec
+    # namespace Std
+    module Std
 
       # namespace IRCd
       module IRCd
 
-        # Specifications for UnrealIRCd.
-        class Unreal < Universal
+        # Specifications for ircd-ratbox.
+        class Ratbox < Universal
         
-        end # class Unreal
+        end # class Ratbox
 
       end # module IRCd
 
-    end # module Spec
+    end # module Std
 
   end # module IRC
 

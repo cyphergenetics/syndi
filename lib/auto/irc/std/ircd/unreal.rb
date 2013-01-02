@@ -8,20 +8,20 @@ module Auto
   # namespace IRC
   module IRC
 
-    # namespace Spec
-    module Spec
+    # namespace Std
+    module Std
 
       # namespace IRCd
       module IRCd
 
-        # Specifications for IRCu.
-        class IRCu < Universal
+        # Specifications for UnrealIRCd.
+        class Unreal < Universal
         
-        end # class IRCu
+        end # class Unreal
 
       end # module IRCd
 
-    end # module Spec
+    end # module Std
 
   end # module IRC
 
