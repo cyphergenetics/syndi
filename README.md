@@ -87,22 +87,14 @@ You may wish to browse the [community-maintained wiki](https://github.com/Auto/A
 join the [autobot-talk mailing group](https://groups.google.com/group/autobot-talk),
 and join the official IRC channel, [#auto on irc.freenode.net](irc://irc.freenode.net/#auto).
 
-Developing for Auto 4
----------------------
+Developing
+----------
 
 Developers are provided extensive documentation of Auto 4 
 [on rdoc.info](http://rdoc.info/github/Auto/Auto/).
 
-If you should desire to generate your own copy of the documentation, mind that
-Auto uses [YARD](http://yardoc.org/). Obtain the 
-[yard gem](https://rubygems.org/gems/yard) and the 
-[redcarpet gem](https://rubygems.org/gems/redcarpet); then, run `yardoc` in the
-main directory.
-
-We advise you to consult with especial the {file:docs/Contributing.md Standards of Contributing}.
-
-Events are documented in {file:docs/Events.md API Events}. See also the [Project](#Project)
-section below.
+With especial, peruse the [Developing for Auto](http://rdoc.info/github/Auto/Auto/file/docs/Developing.md)
+document.
 
 Support
 -------
@@ -133,28 +125,3 @@ Contributors to earlier versions:
 -   [Eitan Adler](https://github.com/grimreaper)
 -   [Clay Freeman](https://github.com/clayfreeman) \<admin@clayfreeman.com\>
 -   [Connor Youngquist](https://github.com/TheNull) \<thenull2.0@gmail.com\>
-
-Project
--------
-
-Auto 4 is maintained by the Auto Project, of which [noxgirl](https://github.com/noxgirl)
-is the head. If you are interested in volunteering to join the team and aid
-with Auto, please contact her [by e-mail](mailto://xoeverlux@gmail.com) and be
-mindful of thus:
-
-**Anyone** may contribute to Auto. Fork the repository using GitHub; change
-the code as you will; to submit your changes as a contribution, submit a
-[pull request](https://github.com/Auto/Auto/pulls) and the team will review
-your changes. If they are acceptable, they will be merged into the main 
-repository.
-
-If you desire to be a developer, a history of contributions will be expected.
-Why? Joining the team makes it easier to submit changes, and gives you certain
-administrative privileges. Therefore, it is only sensible that you demonstrate
-a history of contributing to Auto 4 before you are approved for this position.
-
-Please note moreover that any contributions to
-[Auto-legacy](https://github.com/Auto/Auto-legacy) will be additionally
-considered.
-
-Thank you. -noxgirl
