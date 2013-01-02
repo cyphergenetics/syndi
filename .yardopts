@@ -1,13 +1,6 @@
---title "Auto 4"
+--title "Auto 4.0 Phoenix"
 --protected
 --private
-lib/*
-lib/auto/*
-lib/auto/api/*
-lib/auto/api/helper/*
-lib/auto/irc/*
-lib/auto/irc/std/*
-lib/irc/*
-lib/irc/object/*
+lib/**/*.rb
 - LICENSE.md
 - docs/*
