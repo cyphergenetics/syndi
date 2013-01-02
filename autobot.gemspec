@@ -47,8 +47,10 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'sequel',   '>= 3.42'
   s.add_runtime_dependency 'highline', '>= 1.6'
   
-  s.add_development_dependency 'rake',  '>= 0.9'
-  s.add_development_dependency 'bacon', '>= 1.2'
+  s.add_development_dependency 'rake',           '>= 0.9'
+  s.add_development_dependency 'bacon',          '>= 1.2'
+  s.add_development_dependency 'mocha',          '>= 0.13'
+  s.add_development_dependency 'mocha-on-bacon', '>= 0.2'
 
 end
 
