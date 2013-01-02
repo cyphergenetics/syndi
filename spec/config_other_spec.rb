@@ -1,12 +1,15 @@
 # Auto 4
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the FreeBSD license (LICENSE.md).
-require 'bacon'
-require 'spec/test_helpers'
+require(File.join(File.expand_path(File.dirname(__FILE__)), 'helper.rb'))
 
 require 'auto/config'
 
 describe "A base configuration" do
+
+  before do
+    $m.should.receive(:debug)
+  end
 
   it 'should raise ConfigError on initialize if a non-existent file was provided' do
     should.raise(ConfigError) { Auto::Config.new('.temp.file_no_exist.yml') }

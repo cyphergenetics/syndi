@@ -1,8 +1,7 @@
 # Auto 4
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the FreeBSD license (LICENSE.md).
-require 'bacon'
-require 'spec/test_helpers'
+require(File.join(File.expand_path(File.dirname(__FILE__)), 'helper.rb'))
 
 require 'auto/api/events'
 
@@ -21,6 +20,7 @@ describe "The API event system" do
   end
 
   it 'should trigger all hooks of an event when said event is called' do
+    $m.should.receive(:debug)
     @ok = false
     @events.on('bunnyEvent') { @ok = true }
     @events.call('bunnyEvent')
@@ -29,6 +29,7 @@ describe "The API event system" do
   end
 
   it 'should trigger events in the order of highest to lowest priority' do
+    $m.should.receive(:debug)
     @order = ''
     @events.on('kittenEvent', 5) { @order << 'C' }
     @events.on('kittenEvent', 1) { @order << 'A' }
@@ -39,6 +40,7 @@ describe "The API event system" do
   end
 
   it 'should permit hooks of higher priority to block subsequent hook executions' do
+    $m.should.receive(:debug)
     @good = true
     @events.on('dragonEvent', 1) { false }
     @events.on('dragonEvent', 3) { @good = false }

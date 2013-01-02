@@ -1,8 +1,7 @@
 # Auto 4
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the FreeBSD license (LICENSE.md).
-require 'bacon'
-require 'spec/test_helpers'
+require(File.join(File.expand_path(File.dirname(__FILE__)), 'helper.rb'))
 
 require 'auto/config'
 
@@ -85,6 +84,7 @@ EOF
   end
 
   it 'should rehash on rehash!()' do
+    $m.should.receive(:error)
     File.open('.temp.json_config.json', 'w') do |io|
       io.write JSON_NEW_CONF
     end
@@ -93,6 +93,7 @@ EOF
   end
 
   it 'should fail on rehash!() if data is bad' do
+    $m.should.receive(:error)
     File.open('.temp.json_config.json', 'w') do |io|
       io.write JSON_BAD_CONF
     end
@@ -100,6 +101,7 @@ EOF
   end
 
   it 'should should revert to old data if rehash!() fails' do
+    $m.should.receive(:error)
     File.open('.temp.json_config.json', 'w') do |io|
       io.write JSON_BAD_CONF
     end
