@@ -4,6 +4,7 @@
 
 require 'colored'
 require 'sequel'
+require 'auto/rubyext/string'
 
 require 'auto/logger'
 require 'auto/config'
@@ -13,7 +14,7 @@ require 'auto/api'
 # Namespace: Auto
 module Auto
 
-  VERSION  = '4.0.0d'
+  VERSION  = '4.0.0-alpha.0.1'
   CODENAME = 'Phoenix'
 
   # This is the central class of Auto, providing all core functionality.
