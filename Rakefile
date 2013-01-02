@@ -10,7 +10,7 @@ task :gem => [:default, :make_gem, :release_gem]
 
 desc "Test the application"
 task :testing do 
-  inc   = "-i #{File.join(%w[ spec lib ])} -i lib"
+  inc   = "-i lib"
   tests = [ File.join(%w[ spec *spec.rb ]) ]
   
   tests.each do |t|
