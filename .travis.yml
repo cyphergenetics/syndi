@@ -12,4 +12,7 @@ rvm:
 # i.e. irc.freenode.net #auto
 notifications:
   irc:
-    - irc.freenode.net#auto
+    channels:
+      - 'irc.freenode.net#auto'
+    on_success: change
+    on_failure: always
