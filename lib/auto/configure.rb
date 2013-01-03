@@ -36,29 +36,6 @@ module Auto
 
     end
 
-    # Yield a depth-formatted question.
-    #
-    # @param [Integer] depth Degree of identation.
-    # @param [String] message The message.
-    #
-    # @return [String] Newly formatted message.
-    def yield_q(depth, message)
-      indent = '>'
-      depth.times { indent.concat '>>' }
-      "#{indent} #{message}"
-    end
-
-    # Yield a depth-formatted field.
-    #
-    # @param [Integer] depth Degree of indentation.
-    #
-    # @return [String] Newly formatted field.
-    def yield_f(depth)
-      indent = '>'
-      depth.times { indent.concat '>>' }
-      "#{depth}: "
-    end
-
     # Initiate configuration.
     def start
       
@@ -149,7 +126,7 @@ Caution: The specified file will be overwritten if it already exists.
       end
 
       # Ask for a path.
-      path = ask(yield_q(0, "To where should the configuration be written? [<%= color('#{File.join(autodir, 'auto.yml')}', BOLD) %>] "), Pathname) do |q|
+      path = ask(">>> To where should the configuration be written? [<%= color('#{File.join(autodir, 'auto.yml')}', BOLD) %>] ", Pathname) do |q|
         
         # Default is ~/.config/autobot/auto.yml
         q.default  = File.join(autodir, 'auto.yml')
