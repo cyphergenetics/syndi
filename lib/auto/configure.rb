@@ -90,7 +90,7 @@ Let us begin!
     # Configure libraries.
     def conf_libraries
      
-
+    end
 
     # Dump configuration.
     def dump
@@ -169,6 +169,7 @@ Caution: The specified file will be overwritten if it already exists.
 
         # A proc to be called in the event of an invalid path
         q.responses[:not_valid] = proc do
+          
           # Choose an emergency file in ~/.config/autobot/ to which to save.
           emerg_file = File.join(autodir, "auto.yml.#{Time.now.strftime('%s')}")
           puts "Invalid path! Attempting to write to #{emerg_file}.....".red
