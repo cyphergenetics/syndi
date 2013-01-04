@@ -20,8 +20,11 @@ Slop.parse(:banner => "Usage: #$0 [options]") do
   end
   on :v, :version, 'Display version.' do
     puts <<-EOV
-Auto Configuration Generator (for YAML)
+Auto Configure
 Version #{Auto::Configure::VERSION}
+
+http://auto.autoproj.org
+https://github.com/Auto/Auto/wiki/Auto-Configure
     EOV
     exit 0
   end
