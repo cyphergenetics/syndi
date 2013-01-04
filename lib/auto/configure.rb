@@ -230,6 +230,7 @@ Let us begin!
 
     # Configure the database.
     def conf_database
+      @conf['database'] = Hash.new
     
       msg = <<-eom
 >> Auto supports three database management systems: SQLite 3, MySQL, and Postgres.
