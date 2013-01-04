@@ -61,7 +61,7 @@ command below for `gem install sqlite3`:
 
 For detailed installation instructions, see
 [the guide](https://github.com/Auto/Auto/wiki/Install-Guide). This will guide
-you to using such things as configuring Auto manually, installing a standalone
+you to such things as configuring Auto manually, installing a standalone
 copy, and building from git.
 
 Developing
