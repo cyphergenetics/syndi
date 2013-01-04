@@ -37,10 +37,39 @@ and now the Auto Project presents this fourth major revision, 4.0 _Phoenix_,
 intended to supersede 3.0 as a superior version.
 
 Currently, it supports the IRCv3 protocol, with planned support for the XMPP
-protocol.
+protocol. You can use it on many networks, including the six largest: Freenode,
+QuakeNet, UnderNet, EFnet, DALnet, and IRCnet.
 
-Requirements
-------------
+Quickstart
+----------
+
+This will install the latest [pre]release:
+
+    $ gem install autobot --pre
+    $ gem install sqlite3
+    $ auto-conf
+    $ auto
+
+If you would prefer to use **MySQL** or **Postgres**, substitute the respective
+command below for `gem install sqlite3`:
+
+    $ gem install mysqlplus
+
+**or**
+
+    $ gem install pg
+
+For detailed installation instructions, see
+[the guide](https://github.com/Auto/Auto/wiki/Install-Guide).
+
+You may wish to browse the [community-maintained wiki](https://github.com/Auto/Auto/wiki),
+join the [autobot-talk mailing group](https://groups.google.com/group/autobot-talk),
+and join the official IRC channel, [#auto on irc.freenode.net](irc://irc.freenode.net/#auto).
+
+Standalone
+----------
+
+### Requirements
 
 You need at least [Ruby 1.9.2](http://www.ruby-lang.org/en/downloads/).
 
@@ -69,25 +98,20 @@ Depending on the database management system you are using, you need:
 * **MySQL**: [mysqlplus](https://rubygems.org/gems/mysqlplus)
 * **PostgreSQL**: [pg](https://rubygems.org/gems/pg)
 
-Quickstart
-----------
+### Installation
 
-Configure Auto:
-
-    $ bin/auto-conf
-
-Now start your bot:
+Using your editor of choice, open `conf/example.yml` and specify the settings
+to your liking. Then, save as `conf/auto.yml` and start Auto:
 
     $ bin/auto
 
-**Note** that if you installed the [autobot](https://rubygems.org/gem/autobot)
-gem, you mustn't include `bin/` in your commands (e.g. just use `auto`).
+If you would prefer to use **JSON** in lieu of YAML, modify instead `conf/example.json`
+and save it as `conf/auto.json`. Invoke Auto with the `-j` (`--json`) flag:
 
-For full installation directions, see [the guide](https://github.com/Auto/Auto/wiki/Install-Guide).
+    $ bin/auto -j
 
-You may wish to browse the [community-maintained wiki](https://github.com/Auto/Auto/wiki),
-join the [autobot-talk mailing group](https://groups.google.com/group/autobot-talk),
-and join the official IRC channel, [#auto on irc.freenode.net](irc://irc.freenode.net/#auto).
+Again, refer to [the guide](https://github.com/Auto/Auto/wiki/Install-Guide)
+for more information.
 
 Developing
 ----------

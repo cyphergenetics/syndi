@@ -12,7 +12,7 @@ describe "A configuration using JSON" do
     // This is a comment; swarley+noxgirl=<3
     "foo": {
             "cat": ["meow","purr"],
-            "cow": ["moo"/* my loveybear wrote a really cool regexp that strips these comments*/],
+            "cow": ["/* moo */"/* my loveybear wrote a really cool regexp that strips these comments*/],
             "dinosaur": /* weirdly placed comments ftw */ ["rawr"]
            }
 }
@@ -41,7 +41,7 @@ EOF
   JSON_HASH_ORIGINAL = {
                   'foo' => {
                             'cat'      => ['meow', 'purr'],
-                            'cow'      => ['moo'],
+                            'cow'      => ['/* moo */'],
                             'dinosaur' => ['rawr']
                            }
                 }
