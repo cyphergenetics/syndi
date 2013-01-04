@@ -98,7 +98,7 @@ Let us begin!
       # We need a name.
       name = @hl.ask("#$S What is the name of this IRC server?  ")
       while @conf['irc'].include? name
-        puts "You've already specified that server. Use a different name.".bold
+        puts "You've already specified that server. Use a different name.".red.bold
         name = @hl.ask("#$S What is the name of this IRC server?")
       end
 
@@ -115,7 +115,17 @@ Let us begin!
       nicks = @hl.ask("#$S What nicknames should I use on <%= color('#{name}', :blue, :bold) %> (list in descending priority)?  ",
                       lambda { |str| str.split(/,\s*/) }) do |q|
         q.default  = 'auto'
-        q.validate = /[\w\d\[\]\{\}\^\-\_\`]+/
+      end
+      nicksvalid = true
+      nicks.each { |n| nicksvalid = false unless n =~ /^[\w\d\[\]\{\}\^\-\_\`]+$/ }
+      until nicksvalid
+        puts "You entered an invalid nickname. Try again.".red.bold
+        nicks = @hl.ask("#$S What nicknames should I use on <%= color('#{name}', :blue, :bold) %> (list in descending priority)?  ",
+                      lambda { |str| str.split(/,\s*/) }) do |q|
+          q.default  = 'auto'
+        end
+        nicksvalid = true
+        nicks.each { |n| nicksvalid = false unless n =~ /^[\w\d\[\]\{\}\^\-\_\`]+$/ }
       end
 
       # What username?
