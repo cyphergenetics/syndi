@@ -5,6 +5,6 @@
 # Gemfile
 
 source :rubygems
-gemspec :development => :dev
+gemspec :development_group => :dev
 
 # vim: set ts=4 sts=2 sw=2 et:
