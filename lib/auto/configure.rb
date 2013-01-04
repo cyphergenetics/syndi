@@ -6,6 +6,8 @@ require 'colored'
 require 'highline'
 require 'yaml'
 
+$S = '>>>'.blue
+
 # namespace Auto
 module Auto
 
@@ -46,9 +48,7 @@ I am going to assist you in configuring your installation of Auto. :) I suggest
 that, if you're not already reading it, you consult the installation guide:
 https://github.com/Auto/Auto/wiki/Install-Guide
 
-When specifying lists, pressing <Enter> or <Return> will end that element and
-go to the next one. If the key is pressed while not providing data, that list
-will be terminated.
+When specifying lists, separate elements by commas.
 
 Remember, if you need additional help, you're free to use the mailing list at
 https://groups.google.com/group/autobot-talk, or to join the official IRC
@@ -60,13 +60,77 @@ Let us begin!
 
       conf_libraries
 
-      dump
+      # Uncomment dump and remove the puts when Auto::Configure is done.
+      #dump
+      puts @conf
 
     end
 
     # Configure libraries.
     def conf_libraries
-     
+      puts ">>> Currently, the only available library is the IRC library. I will load this automatically.".cyan.bold
+      @conf['libraries'] = ['irc']
+
+      conf_irclib
+    end
+
+    # Configure the IRC library.
+    def conf_irclib
+
+      # Create the configuration hash.
+      @conf['irc'] = {}
+
+      # Add the first server.
+      conf_add_server
+
+      # Add subsequent servers.
+      another = @hl.agree("#$S Would you like to add another IRC server? [<%= color('y', :green) %>/<%= color('N', :red) %>]  ") { |q| q.default = 'n' }
+      while another
+        conf_add_server
+        another = @hl.agree("#$S Would you like to add another IRC server? [<%= color('y', :green) %>/<%= color('N', :red) %>]  ") { |q| q.default = 'n' }
+      end
+
+    end
+
+    # Add an IRC server.
+    def conf_add_server
+
+      # We need a name.
+      name = @hl.ask("#$S What is the name of this IRC server?  ")
+      while @conf['irc'].include? name
+        puts "You've already specified that server. Use a different name.".bold
+        name = @hl.ask("#$S What is the name of this IRC server?")
+      end
+
+      # We need an address.
+      address = @hl.ask("#$S What is the address of <%= color('#{name}', :blue, :bold) %>?  ")
+
+      # And a port.
+      port = @hl.ask("#$S What is the port of <%= color('#{name}', :blue, :bold) %>? [<%= color('6667', :bold) %>]  ", Integer) { |q| q.default = 6667 }
+
+      # Does it use SSL?
+      ssl = @hl.agree("#$S Does <%= color('#{address}:#{port}', :blue, :bold) %> use SSL? [<%= color('y', :green) %>/<%= color('N', :red) %>]  ") { |q| q.default = 'n' }
+      
+      # What nickname(s) should we use?
+      nicks = @hl.ask("#$S What nicknames should I use on <%= color('#{name}', :blue, :bold) %> (list in descending priority)? [<%= color('auto', :bold) %>]  ",
+                      lambda { |str| str.split(/,\s*/) }) do |q|
+        q.default  = 'auto'
+        q.validate = /[\w\d\[\]\{\}\^\-\_\`\,]+/
+      end
+
+      # What username?
+      user = @hl.ask("#$S What username should I use on <%= color('#{name}', :blue, :bold) %>? [<%= color('auto', :bold) %>]  ") { |q| q.default = 'auto' }
+
+
+      # Save the data.
+      @conf['irc'][name] = {
+        'address'  => address,
+        'port'     => port,
+        'useSSL'   => ssl,
+        'nickname' => nicks,
+        'username' => user
+      }
+      
     end
 
     # Dump configuration.
@@ -126,7 +190,7 @@ Caution: The specified file will be overwritten if it already exists.
       end
 
       # Ask for a path.
-      path = ask(">>> To where should the configuration be written? [<%= color('#{File.join(autodir, 'auto.yml')}', BOLD) %>] ", Pathname) do |q|
+      path = @hl.ask("#$S To where should the configuration be written? [<%= color('#{File.join(autodir, 'auto.yml')}', :bold) %>]  ", Pathname) do |q|
         
         # Default is ~/.config/autobot/auto.yml
         q.default  = File.join(autodir, 'auto.yml')
@@ -168,5 +232,19 @@ Caution: The specified file will be overwritten if it already exists.
   end # class Configure
 
 end # module Auto
+
+# This will fix a certain undesirable output.
+#
+# HighLine::Question#append_default appends an ugly manifestation of the
+# default answer. Auto::Configure, however, uses a prettier one.
+#
+# Therefore, by effectively destroying #append_default, Auto's should be used.
+class HighLine
+  class Question
+    def append_default
+      nil
+    end
+  end
+end
 
 # vim: set ts=4 sts=2 sw=2 et:
