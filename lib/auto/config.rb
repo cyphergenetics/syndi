@@ -162,8 +162,7 @@ module Auto
         data = strip_js_comments!(data)
 
         # Process the JSON.
-        begin
-          STDOUT.puts data
+        begin 
           conf = JSON.parse(data)
         rescue => e
           raise ConfigError, "Failed to process the JSON in '#@path'", e.backtrace
