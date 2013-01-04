@@ -11,6 +11,16 @@ autoload 'Auto::Configure::Change', 'auto/configure/upgrade'
 
 $S = '>>>'.blue
 
+
+# Check To make sure that we have a decent ruby version. There is no reason to support a
+# version that has reached EOL.
+if RUBY_VERSION < "1.9"
+  puts <<-EOM
+The version of ruby that you are using is out dated. Please upgrade to a version of at least
+1.9.1 to run auto. The ruby source code is located here http://ruby-lang.org/en/downloads
+  EOM
+end
+
 # namespace Auto
 module Auto
 
@@ -116,17 +126,13 @@ Let us begin!
       
       # What nickname(s) should we use?
       nicks = @hl.ask("#$S What nicknames should I use on <%= color('#{name}', :blue, :bold) %> (list in descending priority)?  ",
-                      lambda { |str| str.split(/,\s*/) }) do |q|
-        q.default  = 'auto'
-      end
+                      -> { |str| str.split(/,\s*/) }) { |q| q.default  = 'auto' }
       nicksvalid = true
       nicks.each { |n| nicksvalid = false unless n =~ /^[\w\d\[\]\{\}\^\-\_\`]+$/ }
       until nicksvalid
         puts "You entered an invalid nickname. Try again.".red.bold
         nicks = @hl.ask("#$S What nicknames should I use on <%= color('#{name}', :blue, :bold) %> (list in descending priority)?  ",
-                      lambda { |str| str.split(/,\s*/) }) do |q|
-          q.default  = 'auto'
-        end
+                        -> { |str| str.split(/,\s*/) }) { |q| q.default  = 'auto' }
         nicksvalid = true
         nicks.each { |n| nicksvalid = false unless n =~ /^[\w\d\[\]\{\}\^\-\_\`]+$/ }
       end
