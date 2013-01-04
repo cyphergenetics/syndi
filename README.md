@@ -18,7 +18,7 @@ Auto 4.0 _Phoenix_
 + [Issue Hub](https://github.com/Auto/Auto/issues)
 
 **Documentation** is available for the [latest git](http://rdoc.info/github/Auto/Auto),
-and [this release]((http://auto-bot.sourceforge.net/doc/4.0.0.a.0.2/).
+and [this release](http://auto-bot.sourceforge.net/doc/4.0.0.a.0.2/).
 
 Our official IRC channel is [#auto on irc.freenode.net](irc://irc.freenode.net/#auto).
 
