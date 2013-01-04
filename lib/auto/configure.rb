@@ -129,13 +129,13 @@ Let us begin!
       
       # What nickname(s) should we use?
       nicks = @hl.ask("#$S What nicknames should I use on <%= color('#{name}', :blue, :bold) %> (list in descending priority)?  ",
-                      -> { |str| str.split(/,\s*/) }) { |q| q.default  = 'auto' }
+                      ->(str) { str.split(/,\s*/) }) { |q| q.default  = 'auto' }
       nicksvalid = true
       nicks.each { |n| nicksvalid = false unless n =~ /^[\w\d\[\]\{\}\^\-\_\`]+$/ }
       until nicksvalid
         puts "You entered an invalid nickname. Try again.".red.bold
         nicks = @hl.ask("#$S What nicknames should I use on <%= color('#{name}', :blue, :bold) %> (list in descending priority)?  ",
-                        -> { |str| str.split(/,\s*/) }) { |q| q.default  = 'auto' }
+                        ->(str) { str.split(/,\s*/) }) { |q| q.default  = 'auto' }
         nicksvalid = true
         nicks.each { |n| nicksvalid = false unless n =~ /^[\w\d\[\]\{\}\^\-\_\`]+$/ }
       end
