@@ -6,7 +6,8 @@ require 'colored'
 require 'highline'
 require 'yaml'
 
-autoload 'Auto::Configure::Upgrade', 'auto/configure/upgrade'
+#autoload 'Auto::Configure::Upgrade', 'auto/configure/upgrade'
+autoload 'Auto::Configure::Change', 'auto/configure/upgrade'
 
 $S = '>>>'.blue
 
@@ -15,7 +16,7 @@ module Auto
 
   # A library for configuration generation. It depends upon the highline gem.
   #
-  # @version 1.01
+  # @version 1.02
   # @author swarley
   # @author noxgirl
   #
@@ -27,6 +28,7 @@ module Auto
   class Configure
 
     VERSION = '1.01'.freeze
+    AUTODIR = File.join(Dir.home, '.config', 'autobot')
 
     attr_accessor :hl, :conf
 
@@ -61,6 +63,7 @@ Let us begin!
       puts greeting.yellow.bold
 
       conf_libraries
+      conf_database
 
       dump
 
@@ -216,6 +219,54 @@ Let us begin!
       {'name' => name, 'key' => key}
     end
 
+    # Configure the database.
+    def conf_database
+    
+      msg = <<-eom
+>> Auto supports three database management systems: SQLite 3, MySQL, and Postgres.
+>> If you use SQLite 3, you need the 'sqlite3' gem.
+>> If you use MySQL, you need the 'mysqlplus' gem.
+>> If you use Postgres, you need the 'pg' gem.
+>> See https://github.com/Auto/Auto/wiki/Install-Guide for more information.
+      eom
+      puts msg.cyan
+
+      type = @hl.ask("#$S What database management system should I use? (sqlite, mysql, or postgres)  ") do |q|
+        q.default  = 'sqlite'
+        q.validate = /^(sqlite|mysql|postgres)$/
+      end
+      @conf['database']['type'] = type
+
+      if type == 'sqlite'
+      
+        file = @hl.ask("#$S What should be the filename of the database? (relative to <%= color('#{AUTODIR}', :blue, :bold) %>)  ") do |q|
+          q.default = File.join AUTODIR, 'auto.db'
+        end
+
+        unless Dir.exists File.dirname(file)
+          puts "Warning: Directory #{File.dirname(file)} does not exist.".red.bold
+        end
+
+        @conf['database']['name'] = file
+
+      else # mysql and pg
+
+        address = @hl.ask("#$S What is the host address of the <%= color('#{type}', :blue, :bold) %> server?  ") { |q| q.default = 'localhost' }
+        name = @hl.ask("#$S What is the database name on the <%= color('#{type}', :blue, :bold) %> server?  ") { |q| q.default = 'auto' }
+        username = @hl.ask("#$S What username should I use to connect to <%= color('#{type}', :blue, :bold) %> server?  ") { |q| q.default = 'auto' }
+        password = @hl.ask("#$S What is the password for <%= color('#{username}', :blue, :bold) %>?  ") { |q| q.echo = false }
+
+        @conf['database'].merge!({
+          'address'  => address,
+          'name'     => name,
+          'username' => username,
+          'password' => password
+        })
+
+      end
+
+    end
+
     # Dump configuration.
     def dump
 
@@ -260,16 +311,15 @@ Caution: The specified file will be overwritten if it already exists.
 
       # Save our directories of interest into easily accessible variables.
       configdir = File.join(Dir.home, '.config')
-      autodir   = File.join(Dir.home, '.config', 'autobot')
 
       # Ensure that said directories exist regardless of any other conditions.
       unless Dir.exists? configdir
         puts "~ Creating missing directory #{configdir}".magenta
         Dir.mkdir configdir
       end
-      unless Dir.exists? autodir
-        puts "~ Creating missing directory #{autodir}".magenta
-        Dir.mkdir autodir
+      unless Dir.exists? AUTODIR
+        puts "~ Creating missing directory #{AUTODIR}".magenta
+        Dir.mkdir AUTODIR
       end
 
       # Ask for a path.
