@@ -20,7 +20,7 @@ module Auto
   # @!attribute conf
   #   @return [Hash{}] This is the hash which contains the data parsed from
   #     the configuration file.
-  #   @see #x
+  #   @see #[]
   #
   # @!attribute type
   #   @return [Symbol] Type of configuration: +:yaml+ or +:json+.
@@ -91,7 +91,7 @@ module Auto
     # Return data of @conf.
     #
     # @return [Hash{}] The configuration data.
-    # @see @conf
+    # @deprecated Use {#[]} in lieu.
     def x
       @conf
     end
