@@ -9,22 +9,29 @@ describe "IRC entities" do
 
   before do
     @ircmock = mock("A mock of Auto::IRC::Server", :nick => 'unicorn', :user => 'nyan', :mask => 'alyx.is.a.goose.autoproj.org')
-    @ent     = Auto::IRC::Object::Entity.new(@ircmock, :channel)
+    @ent     = Auto::IRC::Object::Entity.new(@ircmock, :channel, 'jonathantaylor')
   end
 
   it 'should respond to #channel?' do
+    @ent.channel?.should.be.true
   end
 
   it 'should respond to #user?' do
+    @ent.user?.should.be.false
   end
 
   it 'should have a readable Auto::IRC::Server object' do
+    @ent.irc.class.should.equal Facon::Mock # technically this isn't Auto::IRC::Server but... Elizacat is a cart
   end
 
   it 'should send a msg on #msg' do
+    @ent.msg 'le Oshawott'
+    @ircmock.should.receive(:snd).with(':unicorn!nyan@alyx.is.a.goose.autoproj.org PRIVMSG jonathantaylor :le Oshawott')
   end
 
   it 'should divide messages which are too long' do
+    @ent.msg 'der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt'
+    @ircmock.should.receive(:snd).times(2)
   end
 
 end
