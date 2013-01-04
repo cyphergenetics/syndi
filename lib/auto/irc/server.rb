@@ -286,7 +286,7 @@ module Auto
           @nick = new
         end
       
-        ev_do 'irc:onPreNick', self, new)
+        ev_do 'irc:onPreNick', self, new
         snd "NICK :#{new}"
         ev_do 'irc:onNick', self, new
     
