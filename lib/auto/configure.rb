@@ -60,7 +60,6 @@ Let us begin!
 
       conf_libraries
 
-      p @conf
       dump
 
     end
