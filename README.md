@@ -3,7 +3,7 @@ Auto 4.0 _Phoenix_
 
 **by the [Auto Project](#contributors)**
 
-**Latest**:             4.0.0.a.0.1 (pre-alpha 1) "Phoenix"  
+**Latest**:             4.0.0.a.0.2 (prealpha 2) "Phoenix"  
 [![Build Status](https://travis-ci.org/Auto/Auto.png?branch=master)](https://travis-ci.org/Auto/Auto) [![Dependency Status](https://gemnasium.com/Auto/Auto.png)](https://gemnasium.com/Auto/Auto)  
 
 **Copyright**:          2009-2013, Auto Project  
@@ -18,7 +18,7 @@ Auto 4.0 _Phoenix_
 + [Issue Hub](https://github.com/Auto/Auto/issues)
 
 **Documentation** is available for the [latest git](http://rdoc.info/github/Auto/Auto),
-and [latest release]((http://rdoc.info/github/Auto/Auto).
+and [this release]((http://auto-bot.sourceforge.net/doc/4.0.0.a.0.2/).
 
 Our official IRC channel is [#auto on irc.freenode.net](irc://irc.freenode.net/#auto).
 

@@ -5,7 +5,326 @@ Developers, this is produced employing thus:
     
     $ git log <starting hash>..<ending hash> --no-merges --pretty=format:"[%h] %cn \<%ce\>  %nDate: %cd  %n_%s_%n"
 
-4.0.0.a.0.1 [pre-alpha 1]
+4.0.0.a.0.2 (prealpha 2)
+------------------------
+
+[063bb0c] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 00:55:07 2013 -0700  
+_Freeze this String_
+
+[35acbf3] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 00:50:14 2013 -0700  
+_Typo_
+
+[b266cbc] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 00:42:05 2013 -0700  
+_Simplified README_
+
+[366634c] noxgirl \<xoeverlux@gmail.com\>  
+Date: Thu Jan 3 23:08:39 2013 -0700  
+_Auto::Config#x is deprecated in favor of #[]._
+
+[33d681e] noxgirl \<xoeverlux@gmail.com\>  
+Date: Thu Jan 3 23:02:05 2013 -0700  
+_Added Auto::FULLVERSION which includes the codename._
+
+[9c52ef6] noxgirl \<xoeverlux@gmail.com\>  
+Date: Thu Jan 3 22:59:31 2013 -0700  
+_Use FULLVERSION in lieu of VERSION._
+
+[189ebef] noxgirl \<xoeverlux@gmail.com\>  
+Date: Thu Jan 3 22:58:47 2013 -0700  
+_Fix --version on non-git installations._
+
+[9b9db3c] noxgirl \<xoeverlux@gmail.com\>  
+Date: Thu Jan 3 22:55:50 2013 -0700  
+_Apparently creating references is considered to be modification and therefore we must do this to use this frozen String._
+
+[93dff7d] Matthew Carey \<matthew.b.carey@gmail.com\>  
+Date: Fri Jan 4 00:40:21 2013 -0500  
+_Whoops.. Left in some debugging instructions.._
+
+[b0976e0] noxgirl \<xoeverlux@gmail.com\>  
+Date: Thu Jan 3 22:38:39 2013 -0700  
+_oops..._
+
+[2aafda7] noxgirl \<xoeverlux@gmail.com\>  
+Date: Thu Jan 3 22:36:22 2013 -0700  
+_config_json_spec: This tests the JSON parser more comprehensively_
+
+[dfe5cb4] Matthew Carey \<matthew.b.carey@gmail.com\>  
+Date: Fri Jan 4 00:33:48 2013 -0500  
+_Vastly improving the stripping technique. Please try to break it so I can improve further. Auto::Config#strip_js_comments and Auto::Config#strip_js_comments! have been added._
+
+[0301d55] noxgirl \<xoeverlux@gmail.com\>  
+Date: Thu Jan 3 22:32:18 2013 -0700  
+_config_json_spec: This tests the JSON parser more comprehensively_
+
+[b1adee8] noxgirl \<xoeverlux@gmail.com\>  
+Date: Thu Jan 3 22:23:52 2013 -0700  
+_This should point to auto/irc/library so we can be lazy_
+
+[617fa5e] noxgirl \<xoeverlux@gmail.com\>  
+Date: Thu Jan 3 20:06:07 2013 -0700  
+_Rename auto-conf-new to auto-conf, disposing of the old one._
+
+[7468039] noxgirl \<xoeverlux@gmail.com\>  
+Date: Thu Jan 3 20:02:58 2013 -0700  
+_Made the nickname sanity check sensible. Granted, it could use some tidying._
+
+[11bcd6e] noxgirl \<xoeverlux@gmail.com\>  
+Date: Thu Jan 3 19:55:21 2013 -0700  
+_Okay, nicely automated default output!_
+
+[abcb7be] noxgirl \<xoeverlux@gmail.com\>  
+Date: Thu Jan 3 19:31:28 2013 -0700  
+_Auto::Configure: more directives, and a HighLine modifier to dispose of the ugly default manifestation._
+
+[2b91266] noxgirl \<xoeverlux@gmail.com\>  
+Date: Thu Jan 3 14:11:49 2013 -0700  
+_Removed useless indentation_
+
+[5d3c617] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 18:38:05 2013 -0700  
+_Added -p/--plugin which will be used in the future for something related to plugin configuration._
+
+[6cd0eb3] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 18:35:02 2013 -0700  
+_The quickstart gem method will be the suggested method of installation upon pre-alpha 2._
+
+[8c72a5d] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 18:09:29 2013 -0700  
+_Tidying a little bit._
+
+[e2ab7f8] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 18:04:07 2013 -0700  
+_An executable for the new library, Auto::Configure._
+
+[0ee747a] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 18:02:37 2013 -0700  
+_Beginnings of new Auto::Configure library_
+
+[e5c5407] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 17:06:02 2013 -0700  
+_This isn't being used since all specs which use it merely repeat it for themselves in a slightly more complicated manner._
+
+[bc70412] Matthew Carey \<matthew.b.carey@gmail.com\>  
+Date: Wed Jan 2 17:24:40 2013 -0500  
+_Fixed the YAML spec file. All tests are passing locally_
+
+[466c18c] Matthew Carey \<matthew.b.carey@gmail.com\>  
+Date: Wed Jan 2 17:18:21 2013 -0500  
+_Fixing json spec._
+
+[30b8cbc] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 13:22:04 2013 -0700  
+_Unfinished, broken specs_
+
+[7a4935d] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 12:46:40 2013 -0700  
+_spec/lib is deprecated in favor of spec/helper_
+
+[090e53f] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 11:22:13 2013 -0700  
+_One more email and I will..._
+
+[d208a54] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 11:06:52 2013 -0700  
+_One more fix to the Travis template._
+
+[11584b7] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 11:02:04 2013 -0700  
+_Better template._
+
+[ca81319] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 10:57:16 2013 -0700  
+_New spec/helper._
+
+[35549ec] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 10:53:53 2013 -0700  
+_Preparing spec/lib for purge._
+
+[2919f59] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 10:50:06 2013 -0700  
+_While we are no longer dependent upon mocha and mocha-on-bacon, we are now dependent upon facon >= 0.5_
+
+[6f72c99] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 10:11:25 2013 -0700  
+_No need to notify of every success._
+
+[6f527d0] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 10:07:42 2013 -0700  
+_Point Travis-CI notifications to irc.freenode.net #auto so as to relieve swarley and me of the constant messages to our inboxes._
+
+[14964a2] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 09:24:20 2013 -0700  
+_This is more sensible._
+
+[e41e0dd] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 09:23:30 2013 -0700  
+_Remove coloring from forbid root._
+
+[a8a8f61] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 09:22:52 2013 -0700  
+_The forbid root statement needs to be a smidgen higher._
+
+[ebf2317] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 09:18:40 2013 -0700  
+_Move to ~/.config/autobot/ if being ran as a gem._
+
+[b927cb9] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 09:16:12 2013 -0700  
+_Forbid root user._
+
+[1b88366] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 08:53:38 2013 -0700  
+_Use the top-level program name in the banner._
+
+[ca8f844] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 08:38:45 2013 -0700  
+_Make the essential constants immutable._
+
+[522980e] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 08:25:38 2013 -0700  
+_Move the IRCd:: classes from the ::IRC::Spec:: namespace into ::IRC::Std::_
+
+[1cf29cc] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 08:10:01 2013 -0700  
+_Base specification, Auto::IRC::Spec::IRCd::Hybrid (subclass of Universal)._
+
+[0e66917] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 08:08:08 2013 -0700  
+_Base specification, Auto::IRC::Spec::IRCd::Snircd (subclass of IRCu)._
+
+[cf372e6] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 08:01:31 2013 -0700  
+_Base specification, Auto::IRC::Spec::IRCd::IRCu (subclass of Universal._
+
+[ff3df92] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 07:54:59 2013 -0700  
+_Base specification, Auto::IRC::Spec::IRCd::Bahamut (subclass of Universal)._
+
+[862c33c] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 07:50:32 2013 -0700  
+_Base IRC daemon specifications: Universal > Ratbox, InspIRCd, Unreal. Ratbox > Charybdis > Shadow. We could probably use specs for such other common daemons as ircu and hybrid._
+
+[4add681] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 07:18:15 2013 -0700  
+_Match ONLY if at the beginning of a string._
+
+[2a23854] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 07:15:18 2013 -0700  
+_Disregard conf/ if we're installed as a gem._
+
+[af768bd] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 07:13:16 2013 -0700  
+_Added Auto#gem?_
+
+[b3db128] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 07:08:45 2013 -0700  
+_Added a check for gem/standalone._
+
+[62d4f4d] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 07:01:10 2013 -0700  
+_Made Auto::Bot smart in config hunt._
+
+[b56a4a4] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 06:58:13 2013 -0700  
+_Renamed --config to --conf._
+
+[de4d4c4] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 06:35:12 2013 -0700  
+_Why are we ignoring Gemfile.lock? It is desirable._
+
+[7ee9800] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 04:46:44 2013 -0700  
+_A third party pointed out that the README managed to lose its protocol list_
+
+[be50222] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 03:47:17 2013 -0700  
+_Changes_
+
+[20464d9] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 03:46:52 2013 -0700  
+_Fixed changelog_
+
+[95d7994] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 03:40:39 2013 -0700  
+_Fixed .gitignore_
+
+[38baa4e] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 03:39:11 2013 -0700  
+_Fixed Gemfile_
+
+[a878911] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 03:27:00 2013 -0700  
+_cl_
+
+[e4f218a] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 01:48:26 2013 -0700  
+_Fix the gemspec._
+
+[dfaa4ac] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 00:34:22 2013 -0700  
+_This, likely, should be GenericError._
+
+[e94eaa0] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 00:30:45 2013 -0700  
+_Just document everything._
+
+[fb5b1cb] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 00:11:24 2013 -0700  
+_Fix this_
+
+[4042eef] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 00:08:29 2013 -0700  
+_Even better!_
+
+[9816732] noxgirl \<xoeverlux@gmail.com\>  
+Date: Wed Jan 2 00:01:17 2013 -0700  
+_Better README!_
+
+[876d354] noxgirl \<xoeverlux@gmail.com\>  
+Date: Tue Jan 1 23:42:56 2013 -0700  
+_Oopsie._
+
+[e06f075] noxgirl \<xoeverlux@gmail.com\>  
+Date: Tue Jan 1 23:37:56 2013 -0700  
+_Even better!_
+
+[3ace6ab] noxgirl \<xoeverlux@gmail.com\>  
+Date: Tue Jan 1 23:30:18 2013 -0700  
+_slop is now a dependency._
+
+[1acc57e] noxgirl \<xoeverlux@gmail.com\>  
+Date: Tue Jan 1 23:19:11 2013 -0700  
+_Simplified options._
+
+[bab533a] noxgirl \<xoeverlux@gmail.com\>  
+Date: Tue Jan 1 22:19:01 2013 -0700  
+_Better organized the Gemfile and added mocha and mocha-on-bacon to testing dependencies._
+
+[43ad8a2] noxgirl \<xoeverlux@gmail.com\>  
+Date: Tue Jan 1 22:18:08 2013 -0700  
+_Added mocha and mocha-on-bacon to dependencies._
+
+[65b2b49] noxgirl \<xoeverlux@gmail.com\>  
+Date: Tue Jan 1 21:38:38 2013 -0700  
+_Add the RubyGems URL._
+
+[cbe40ac] noxgirl \<xoeverlux@gmail.com\>  
+Date: Tue Jan 1 21:17:00 2013 -0700  
+_Purged the Travis ignore tags and added --no-merge to the command for next time._
+
+[4e89762] noxgirl \<xoeverlux@gmail.com\>  
+Date: Tue Jan 1 21:10:04 2013 -0700  
+_Here are some rules for language in commits, docs, etc._
+
+[77ce77f] noxgirl \<xoeverlux@gmail.com\>  
+Date: Tue Jan 1 18:48:27 2013 -0700  
+_Fixed changelog._
+
+4.0.0.a.0.1 (prealpha 1)
 -------------------------
 
 [9eb21fe] noxgirl \<xoeverlux@gmail.com\>  
@@ -1347,3 +1666,5 @@ _Pointer to documentation._
 [ad622f6] noxgirl \<xoeverlux@gmail.com\>  
 Date: Sat Dec 15 14:10:05 2012 -0700  
 _Updated README._
+
+**Start of Auto 4.x**
