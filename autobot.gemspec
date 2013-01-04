@@ -8,7 +8,7 @@ require 'auto'
 Gem::Specification.new do |s|
   
   s.name    = 'autobot'
-  s.version = Auto::VERSION
+  s.version = "#{Auto::VERSION}"
 
   s.date          = Time.now.strftime '%Y-%m-%d'
   s.summary       = 'An advanced, automated multi-protocol bot which uses plugins.'
