@@ -15,15 +15,16 @@ require 'auto/api'
 module Auto
 
   VERSIONSPEC  = {
-    major: 4,
-    minor: 0,
-    patch: 0,
-    pre:   'a.0.1'
+    major:    4,
+    minor:    0,
+    patch:    0,
+    pre:      'a.0.1',
+    codename: 'phoenix'
   }.freeze
   VERSION      = "#{VERSIONSPEC[:major]}.#{VERSIONSPEC[:minor]}.#{VERSIONSPEC[:patch]}"
   VERSION.concat '.'+VERSIONSPEC[:pre] if VERSIONSPEC.include? :pre
   VERSION.freeze
-  CODENAME     = 'Phoenix'.freeze
+  FULLVERSION = "#{VERSION}+#{VERSIONSPEC[:codename]}"
 
   # This is the central class of Auto, providing all core functionality.
   #
