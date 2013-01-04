@@ -13,7 +13,7 @@ end
 require 'auto/configure'
 
 # Parse options.
-Slop.parse(:banner => "Usage: #$0 [options]") do
+opts = Slop.parse(:banner => "Usage: #$0 [options]") do
   on :h, :help, 'Display this help message.' do
     puts self
     exit 0
@@ -29,6 +29,7 @@ https://github.com/Auto/Auto/wiki/Auto-Configure
     exit 0
   end
 
+  on :m, :modify, 'Modify your existing configuration.'
   on :p, :plugin, 'Plugin configuration.' do
     puts "This will be used in the future for something related to plugin configuration."
     exit 0
@@ -37,6 +38,11 @@ end
 
 # Configure.
 autoconf = Auto::Configure.new
-autoconf.generate
+
+if opts.modify?
+  autoconf.modify
+else
+  autoconf.generate
+end
 
 # vim: set ts=4 sts=2 sw=2 et:
