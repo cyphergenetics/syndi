@@ -108,6 +108,36 @@ module Auto
     private
     #######
 
+    # A constant for detecting comments and strings in JSON files
+    COMMENT_REGEXP = %r{(?:/\'(?:[^\'\\]|\\.)*\')|(?:\"(?:[^\"\\]|\\.)*\")|(?://.*\n)|(?:/\*(?m-ix:.)+?\*/)}
+
+    # Strip comments from JSON configuration text. This will not preserve
+    # the string passed to it.
+    #
+    # @argument [String] text The configuration data to strip.
+    #
+    # @return [String] The stripped configuration text.
+    def strip_js_comments!(text)
+      # Output string
+      out = ""
+      until (match_data = text.match(COMMENT_REGEXP)).nil?
+        off = match_data.offset(0)
+        # Check to see if it starts with /, if so then return up to the lower limit, otherwise to the upper.
+        out << text[0...off[(match_data.to_s[0] != '/') ? 1 : 0]]
+        # Delete the text that we were dealing with.
+        text[0...off[1]] = ''
+      end
+      # Append anything left
+      text = (out << text)
+    end
+
+    # The same as strip_js_comments! with original string preservation.
+    # @see strip_js_comments!
+    def strip_js_comments(text)
+      # Preserve
+      strip_js_comments!(text.clone)
+    end
+
     # Parse the configuration file, and output the data to {#x}.
     #
     # @raise [ConfigError] If the file does not exist.
@@ -128,13 +158,13 @@ module Auto
       # JSON
       if @type == :json
 
-        # Strip comments out of the data. This is dirty and needs a better
-        # fix with string awareness.
-        data.gsub!(/(?:\/\/.*\n)|(?:\/\*.*\*\/)/, '')
+        # Strip comments out of the data.
+        data = strip_js_comments!(data)
 
         # Process the JSON.
         begin
-          conf = JSON.parse!(data)
+          STDOUT.puts data
+          conf = JSON.parse(data)
         rescue => e
           raise ConfigError, "Failed to process the JSON in '#@path'", e.backtrace
         end
