@@ -55,7 +55,7 @@ end
 # @param [Hash{}] conf The configuration Hash.
 # @param [IO] out IO object to which to write.
 def to_json(conf, out)
-  JSON.dump(conf, out)
+  out.write JSON.pretty_generate(conf)
 end
 
 if ARGV.length < 2
@@ -80,32 +80,18 @@ unless File.exists? filename
   exit
 end
 
-# It's YAML.
-if File.extname(filename) == '.yml'
-  
-  f = File.open(filename, 'r')
-  h = process_yaml(f.read)
-  f.close
+input = File.read(filename)
 
-  File.open(output, 'w') { |o| to_json(h, o) }
-  
-  puts "Converted #{filename} to JSON and wrote to #{output}."
+ft_in, ft_out  = case File.extname(filename)
+                 when '.yml' then ["json", "yaml"]
+                 when '.json' then ["yaml", "json"]
+                 else
+                   # Unknown file type.
+                   puts "Unknown file type for #{filename}"
+                   exit
+                 end
 
-# JSON
-elsif File.extname(filename) == '.json'
+# This effectively calls to_#{filetype}
+File.open(output, 'w') {|o| send("to_" << ft_in, send("process_" << ft_out, input), o) }
 
-  f = File.open(filename, 'r')
-  h = process_json(f.read)
-  f.close
-
-  File.open(output, 'w') { |o| to_yaml(h, o) }
-  
-  puts "Converted #{filename} to YAML and wrote to #{output}."
-
-else
-
-  # Unknown file type.
-  puts "Unknown file type for #{filename}"
-  exit
-
-end
+puts "Converted #{filename} to #{ft_in.upcase} and wrote to #{output}."
