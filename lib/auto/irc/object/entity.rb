@@ -14,7 +14,12 @@ module Auto
       # @api IRC
       # @since 4.0.0
       # @author noxgirl
+      #
+      # @!attribute [r] irc
+      #   @return [Auto::IRC::Server] The IRC server on which this entity exists.
       class Entity
+
+        attr_reader :irc
 
         # New instance.
         #
