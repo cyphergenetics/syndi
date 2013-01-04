@@ -6,6 +6,8 @@ require 'colored'
 require 'highline'
 require 'yaml'
 
+autoload 'Auto::Configure::Upgrade', 'auto/configure/upgrade'
+
 $S = '>>>'.blue
 
 # namespace Auto
@@ -39,7 +41,7 @@ module Auto
     end
 
     # Initiate configuration.
-    def start
+    def generate
       
       greeting = <<-EOM
 Greetings! ^.^
