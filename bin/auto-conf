@@ -29,7 +29,7 @@ https://github.com/Auto/Auto/wiki/Auto-Configure
     exit 0
   end
 
-  on :p, :plugin, 'Install a plugin.' do
+  on :p, :plugin, 'Install a plugin.'
   on :s, :shell, 'Modify and interact with your existing configuration.'
 end
 
