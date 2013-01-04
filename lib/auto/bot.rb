@@ -24,7 +24,7 @@ module Auto
   VERSION      = "#{VERSIONSPEC[:major]}.#{VERSIONSPEC[:minor]}.#{VERSIONSPEC[:patch]}"
   VERSION.concat '.'+VERSIONSPEC[:pre] if VERSIONSPEC.include? :pre
   VERSION.freeze
-  FULLVERSION = "#{VERSION}+#{VERSIONSPEC[:codename]}".freeze
+  FULLVERSION = "#{VERSION}-#{VERSIONSPEC[:codename]}".freeze
 
   # This is the central class of Auto, providing all core functionality.
   #
