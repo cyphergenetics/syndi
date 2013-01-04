@@ -1,14 +1,19 @@
+PATH
+  remote: .
+  specs:
+    autobot (4.0.0.a.0.2)
+      colored (>= 1.2)
+      highline (>= 1.6)
+      sequel (>= 3.42)
+      slop (>= 3.3)
+
 GEM
   remote: http://rubygems.org/
   specs:
     bacon (1.2.0)
     colored (1.2)
+    facon (0.5.0)
     highline (1.6.15)
-    metaclass (0.0.1)
-    mocha (0.13.1)
-      metaclass (~> 0.0.1)
-    mocha-on-bacon (0.2.1)
-      mocha (>= 0.9.8)
     rake (10.0.3)
     sequel (3.42.0)
     slop (3.3.3)
@@ -17,11 +22,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  autobot!
   bacon (>= 1.2)
-  colored (>= 1.2)
-  highline (>= 1.6)
-  mocha (>= 0.13)
-  mocha-on-bacon (>= 0.2)
+  facon (>= 0.5)
   rake (>= 0.9)
-  sequel (>= 3.42)
-  slop (>= 3.3)
