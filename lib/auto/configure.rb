@@ -181,7 +181,7 @@ Let us begin!
           command  = @hl.ask("#$S What command should I use to identify?  ") { |q| q.default = 'IDENTIFY' }
           password = @hl.ask("#$S What password should I use?  ")
 
-          @conf[irc][name]['nickIdentify'] = {
+          @conf['irc'][name]['nickIdentify'] = {
             'service'  => service,
             'command'  => command,
             'password' => password
