@@ -32,7 +32,7 @@ opts = Slop.parse(:banner => "Usage: #$0 [options]") do
   end
   on :v, :version, 'Display version and exit.' do
     puts <<-EOV
-Auto #{Auto::VERSION}
+Auto #{Auto::FULLVERSION}
 #{"Git revision: #{REVISION}\n" if defined? REVISION}
 http://auto.autoproj.org
     EOV
