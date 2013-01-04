@@ -57,7 +57,7 @@ module Auto
         #   user = Auto::IRC::Object::User.new(irc, 'missfoo', 'cowmilk', 'the.night.is.lovely', false)
         def initialize(irc, nickname, username=nil, hostname=nil, away=false)
 
-          super(irc, :user) # Entity#initialize
+          super(irc, :user, nickname) # Entity#initialize
           @nick    = nickname
           @user    = username
           @host    = hostname
@@ -127,7 +127,6 @@ module Auto
         # @return [false] If Unknown.
         def logged_in?; @account.nil? ? false : true; end
 
-        def to_s; @nick; end
         def inspect; "#<Auto::IRC::Object::User: irc=#@irc nick=#@nick account=#@account>"; end
 
       end # class User
