@@ -179,7 +179,7 @@ Let us begin!
 
           service  = @hl.ask("#$S What service should I message?  ") { |q| q.default = 'NickServ' }
           command  = @hl.ask("#$S What command should I use to identify?  ") { |q| q.default = 'IDENTIFY' }
-          password = @hl.ask("#$S What password should I use?  ")
+          password = @hl.ask("#$S What password should I use?  ") { |q| q.echo = false }
 
           @conf['irc'][name]['nickIdentify'] = {
             'service'  => service,
