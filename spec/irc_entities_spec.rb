@@ -8,8 +8,8 @@ require 'auto/irc/object/entity'
 describe "IRC entities" do
 
   before do
-    @ircmock = mock("A mock of Auto::IRC::Server", :nick => 'unicorn', :user => 'nyan', :mask => 'alyx.is.a.goose.autoproj.org')
-    @ent     = Auto::IRC::Object::Entity.new(@ircmock, :channel, 'jonathantaylor')
+    @ircmock  = mock("A mock of Auto::IRC::Server", :nick => 'unicorn', :user => 'nyan', :mask => 'alyx.is.a.goose.autoproj.org')
+    @ent      = Auto::IRC::Object::Entity.new(@ircmock, :channel, 'jonathantaylor')
   end
 
   it 'should respond to #channel?' do
@@ -25,12 +25,16 @@ describe "IRC entities" do
   end
 
   it 'should send a msg on #msg' do
-    @ircmock.should.receive(:snd).with(':unicorn!nyan@alyx.is.a.goose.autoproj.org PRIVMSG jonathantaylor :le Oshawott')
+    @ircmock.should.receive(:snd).with('PRIVMSG jonathantaylor :le Oshawott')
+    $m.should.receive(:events).times 2
+    $m.events.should.receive(:call).with('irc:onMsg', @ent, 'le Oshawott')
     @ent.msg 'le Oshawott'
   end
 
   it 'should divide messages which are too long' do
-    @ircmock.should.receive(:snd).times(2)
+    @ircmock.should.receive(:snd).times 2
+    $m.should.receive(:events).times 2
+    $m.events.should.receive(:call)
     @ent.msg 'der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt der Welt'
   end
 
