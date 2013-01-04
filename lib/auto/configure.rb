@@ -84,10 +84,10 @@ Let us begin!
       conf_add_server
 
       # Add subsequent servers.
-      another = @hl.agree("#$S Would you like to add another IRC server? [<%= color('y', :green) %>/<%= color('N', :red) %>]  ") { |q| q.default = 'n' }
+      another = @hl.agree("#$S Would you like to add another IRC server?  ") { |q| q.default = 'n' }
       while another
         conf_add_server
-        another = @hl.agree("#$S Would you like to add another IRC server? [<%= color('y', :green) %>/<%= color('N', :red) %>]  ") { |q| q.default = 'n' }
+        another = @hl.agree("#$S Would you like to add another IRC server?  ") { |q| q.default = 'n' }
       end
 
     end
@@ -106,20 +106,20 @@ Let us begin!
       address = @hl.ask("#$S What is the address of <%= color('#{name}', :blue, :bold) %>?  ")
 
       # And a port.
-      port = @hl.ask("#$S What is the port of <%= color('#{name}', :blue, :bold) %>? [<%= color('6667', :bold) %>]  ", Integer) { |q| q.default = 6667 }
+      port = @hl.ask("#$S What is the port of <%= color('#{name}', :blue, :bold) %>?  ", Integer) { |q| q.default = 6667 }
 
       # Does it use SSL?
-      ssl = @hl.agree("#$S Does <%= color('#{address}:#{port}', :blue, :bold) %> use SSL? [<%= color('y', :green) %>/<%= color('N', :red) %>]  ") { |q| q.default = 'n' }
+      ssl = @hl.agree("#$S Does <%= color('#{address}:#{port}', :blue, :bold) %> use SSL?  ") { |q| q.default = 'n' }
       
       # What nickname(s) should we use?
-      nicks = @hl.ask("#$S What nicknames should I use on <%= color('#{name}', :blue, :bold) %> (list in descending priority)? [<%= color('auto', :bold) %>]  ",
+      nicks = @hl.ask("#$S What nicknames should I use on <%= color('#{name}', :blue, :bold) %> (list in descending priority)?  ",
                       lambda { |str| str.split(/,\s*/) }) do |q|
         q.default  = 'auto'
-        q.validate = /[\w\d\[\]\{\}\^\-\_\`\,]+/
+        q.validate = /[\w\d\[\]\{\}\^\-\_\`]+/
       end
 
       # What username?
-      user = @hl.ask("#$S What username should I use on <%= color('#{name}', :blue, :bold) %>? [<%= color('auto', :bold) %>]  ") { |q| q.default = 'auto' }
+      user = @hl.ask("#$S What username should I use on <%= color('#{name}', :blue, :bold) %>?  ") { |q| q.default = 'auto' }
 
 
       # Save the data.
@@ -190,7 +190,7 @@ Caution: The specified file will be overwritten if it already exists.
       end
 
       # Ask for a path.
-      path = @hl.ask("#$S To where should the configuration be written? [<%= color('#{File.join(autodir, 'auto.yml')}', :bold) %>]  ", Pathname) do |q|
+      path = @hl.ask("#$S To where should the configuration be written?  ", Pathname) do |q|
         
         # Default is ~/.config/autobot/auto.yml
         q.default  = File.join(autodir, 'auto.yml')
@@ -236,13 +236,31 @@ end # module Auto
 # This will fix a certain undesirable output.
 #
 # HighLine::Question#append_default appends an ugly manifestation of the
-# default answer. Auto::Configure, however, uses a prettier one.
+# default answer.
 #
-# Therefore, by effectively destroying #append_default, Auto's should be used.
+# This destroys that provided by HighLine::Question and in lieu uses a prettier
+# one.
 class HighLine
   class Question
     def append_default
-      nil
+      str = ''
+      if @default == 'y'
+        str = "<%= color('Y', :green) %>/<%= color('n', :red) %>"
+      elsif @default == 'n'
+        str = "<%= color('y', :green) %>/<%= color('N', :red) %>"
+      else
+        str = "<%= color('#@default', :bold) %>"
+      end
+
+      if @question =~ /([\t ]+)\Z/
+        @question << "[#{str}]#{$1}"
+      elsif @question == ""
+        @question << "[#{str}]  "
+      elsif @question[-1, 1] == "\n"
+        @question[-2, 0] =  "  [#{str}]"
+      else
+        @question << "  [#{str}]"
+      end
     end
   end
 end
