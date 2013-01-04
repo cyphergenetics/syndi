@@ -6,9 +6,6 @@ require 'colored'
 require 'highline'
 require 'yaml'
 
-#autoload 'Auto::Configure::Upgrade', 'auto/configure/upgrade'
-autoload 'Auto::Configure::Change', 'auto/configure/upgrade'
-
 $S = '>>>'.blue
 
 # namespace Auto
@@ -27,7 +24,13 @@ module Auto
   #   @return [Hash{}] The configuration hash.
   class Configure
 
-    VERSION = '1.01'.freeze
+    autoload :Shell, 'auto/configure/shell'
+    # Load the shell.
+    def shell
+      Auto::Configure::Shell.new
+    end
+
+    VERSION = '1.02'.freeze
     AUTODIR = File.join(Dir.home, '.config', 'autobot')
 
     attr_accessor :hl, :conf

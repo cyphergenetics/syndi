@@ -29,18 +29,15 @@ https://github.com/Auto/Auto/wiki/Auto-Configure
     exit 0
   end
 
-  on :m, :modify, 'Modify your existing configuration.'
-  on :p, :plugin, 'Plugin configuration.' do
-    puts "This will be used in the future for something related to plugin configuration."
-    exit 0
-  end
+  on :p, :plugin, 'Install a plugin.' do
+  on :s, :shell, 'Modify and interact with your existing configuration.'
 end
 
 # Configure.
 autoconf = Auto::Configure.new
 
-if opts.modify?
-  autoconf.modify
+if opts.shell?
+  autoconf.shell.go
 else
   autoconf.generate
 end
