@@ -13,7 +13,7 @@ module Auto
 
   # A library for configuration generation. It depends upon the highline gem.
   #
-  # @version 1.00
+  # @version 1.01
   # @author swarley
   # @author noxgirl
   #
@@ -24,7 +24,7 @@ module Auto
   #   @return [Hash{}] The configuration hash.
   class Configure
 
-    VERSION = '1.00'.freeze
+    VERSION = '1.01'.freeze
 
     attr_accessor :hl, :conf
 
@@ -60,9 +60,8 @@ Let us begin!
 
       conf_libraries
 
-      # Uncomment dump and remove the puts when Auto::Configure is done.
-      #dump
-      puts @conf
+      p @conf
+      dump
 
     end
 
@@ -81,19 +80,19 @@ Let us begin!
       @conf['irc'] = {}
 
       # Add the first server.
-      conf_add_server
+      conf_irc_add_server
 
       # Add subsequent servers.
       another = @hl.agree("#$S Would you like to add another IRC server?  ") { |q| q.default = 'n' }
       while another
-        conf_add_server
+        conf_irc_add_server
         another = @hl.agree("#$S Would you like to add another IRC server?  ") { |q| q.default = 'n' }
       end
 
     end
 
     # Add an IRC server.
-    def conf_add_server
+    def conf_irc_add_server
 
       # We need a name.
       name = @hl.ask("#$S What is the name of this IRC server?  ")
@@ -131,6 +130,8 @@ Let us begin!
       # What username?
       user = @hl.ask("#$S What username should I use on <%= color('#{name}', :blue, :bold) %>?  ") { |q| q.default = 'auto' }
 
+      # What GECOS?
+      gecos = @hl.ask("#$S What real name or GECOS should I use on <%= color('#{name}', :blue, :bold) %>?  ") { |q| q.default = 'Auto (http://auto.autoproj.org)' }
 
       # Save the data.
       @conf['irc'][name] = {
@@ -138,9 +139,80 @@ Let us begin!
         'port'     => port,
         'useSSL'   => ssl,
         'nickname' => nicks,
-        'username' => user
+        'username' => user,
+        'realName' => gecos
       }
+
+      # Should we use SASL?
+      sasl = @hl.agree("#$S Should I use SASL to authenticate with services on <%= color('#{name}', :blue, :bold) %>?  ") { |q| q.default = 'n' }
+
+      if sasl
+        
+        sasl_user = @hl.ask("#$S What username (i.e. accountname) should I use in SASL authentication?  ")
+        sasl_pass = @hl.ask("#$S What is the password for <%= color('#{sasl_user}', :blue, :bold) %>?  ") { |q| q.echo = false }
+        sasl_to   = @hl.ask("#$S After how many seconds should SASL authentication time out?  ", Integer) { |q| q.default = 15 }
+
+        @conf['irc'][name]['SASL'] = {
+          'username' => sasl_user,
+          'password' => sasl_pass,
+          'timeout'  => sasl_to,
+        }
+
+      else
+        # Perhaps NickServ or some other service?
+        auth = @hl.agree("#$S OK. Should I identify with a service (e.g. NickServ)?  ") { |q| q.default = 'n' }
+
+        if auth
+
+          service  = @hl.ask("#$S What service should I message?  ") { |q| q.default = 'NickServ' }
+          command  = @hl.ask("#$S What command should I use to identify?  ") { |q| q.default = 'IDENTIFY' }
+          password = @hl.ask("#$S What password should I use?  ")
+
+          @conf[irc][name]['nickIdentify'] = {
+            'service'  => service,
+            'command'  => command,
+            'password' => password
+          }
+
+        end
+
+      end
+
+      # Setup autojoin.
+      conf_irc_autojoin name
       
+    end
+
+    # Configure autojoin.
+    #
+    # @param [String] name Name of IRC server.
+    def conf_irc_autojoin(name)
+      another = @hl.agree("#$S Should I automatically join a channel on <%= color('#{name}', :blue, :bold) %>?  ") { |q| q.default = 'y' }
+      @conf['irc'][name]['autojoin'] = []
+
+      while another
+        @conf['irc'][name]['autojoin'] << conf_irc_add_channel
+        another = @hl.agree("#$S Should I automatically join another channel?  ") { |q| q.default = 'n' }
+      end
+    end
+
+    # Add an IRC channel.
+    #
+    # @param [String] server The name of the IRC server.
+    def conf_irc_add_channel
+      
+      # What's it called?
+      name = @hl.ask("#$S What is the name of the channel?  ") { |q| q.default = '#auto' }
+
+      # Does it use a key?
+      usekey = @hl.agree("#$S Does <%= color('#{name}', :blue, :bold) %> use a key (+k)?  ") { |q| q.default = 'n' }
+      key    = nil
+
+      if usekey
+        key = @hl.ask("#$S What is the key?  ")
+      end
+
+      {'name' => name, 'key' => key}
     end
 
     # Dump configuration.
@@ -200,7 +272,7 @@ Caution: The specified file will be overwritten if it already exists.
       end
 
       # Ask for a path.
-      path = @hl.ask("#$S To where should the configuration be written?  ", Pathname) do |q|
+      path = @hl.ask("#$S To where should the configuration be written?  ", String) do |q|
         
         # Default is ~/.config/autobot/auto.yml
         q.default  = File.join(autodir, 'auto.yml')
