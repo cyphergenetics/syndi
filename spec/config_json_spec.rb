@@ -22,7 +22,7 @@ EOF
 {
     // This is a comment; swarley+noxgirl=<3
     "foo": {
-            "cat": ["meow","//purr"],
+            "cat": ["meow","purr"],
             "cow": ["moo"/* my loveybear wrote a really cool regexp that strips these comments*/],
             "dinosaur": /* weirdly placed comments ftw */ ["rawr"],
             "bunny": /* OMG BUNNIES <3 */ ["unimaginable cuteness that forces you to coo"]
@@ -40,7 +40,7 @@ EOF
 
   JSON_HASH_ORIGINAL = {
                   'foo' => {
-                            'cat'      => ['meow', 'purr'],
+                            'cat'      => ['meow', '//purr'],
                             'cow'      => ['/* moo */'],
                             'dinosaur' => ['rawr']
                            }
