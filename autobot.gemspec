@@ -29,6 +29,8 @@ Gem::Specification.new do |s|
     LICENSE.md
     Gemfile
     .yardopts
+    conf/example.yml
+    conf/example.json
   ]
   s.test_files    = Dir.glob("spec/**/*") + ['Rakefile']
   s.executables   = %w[auto auto-conf]
