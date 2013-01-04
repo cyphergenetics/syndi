@@ -37,6 +37,6 @@ end
 
 # Configure.
 autoconf = Auto::Configure.new
-autoconf.start
+autoconf.generate
 
 # vim: set ts=4 sts=2 sw=2 et:
