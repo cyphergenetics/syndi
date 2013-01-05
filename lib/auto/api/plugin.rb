@@ -85,7 +85,7 @@ module Auto
         @author  = c.author
 
         # Check for compatibility.
-        if c.auto =~ /^(~>\s*)([\d\.abcr]+)$/ # ~>
+        if c.auto =~ /^(~>\s*)([\d\.abcr]{2,})$/ # ~>
         
           ver = $2
           if ver >= Auto::VERSION # must be later than or equal to current
@@ -103,7 +103,7 @@ module Auto
             raise PluginError, "Plugin #@name v#@version demands Auto #{c.auto}; current version is #{Auto::VERSION}. Incompatible! Aborting load!"
           end # if ver >=
 
-        elsif c.auto =~ /^(>=\s*)([\d\.abcr]+)$/ # >=
+        elsif c.auto =~ /^(>=\s*)([\d\.abcr]{2,})$/ # >=
         
           ver = $2
           unless ver >= Auto::VERSION # must be later than or equal to current
