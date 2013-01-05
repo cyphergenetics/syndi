@@ -89,7 +89,7 @@ module Auto
         if conf.auto =~ /^(~>\s*)((?:[\dabcr])(?:\.[\dabcr]))+$/ # ~>
         
           ver = $2
-          if ver >= Auto::VERSION # must be later than or equal to current
+          if Gem::Version.new(ver.dup) >= Gem::Version.new(Auto::VERSION.dup) # must be later than or equal to current
             
             # Split current version and plugin-demanded version by '.'.
             verarr  = Auto::VERSION.split(/\./)
@@ -100,6 +100,8 @@ module Auto
               raise PluginError, "Plugin #@name v#@version demands Auto #{conf.auto}; current version is #{Auto::VERSION}. Incompatible! Aborting load!"
             end
 
+            @auto = conf.auto
+          
           else
             raise PluginError, "Plugin #@name v#@version demands Auto #{conf.auto}; current version is #{Auto::VERSION}. Incompatible! Aborting load!"
           end # if ver >=
@@ -111,6 +113,8 @@ module Auto
             raise PluginError, "Plugin #@name v#@version demands Auto #{conf.auto}; current version is #{Auto::VERSION}. Incompatible! Aborting load!"
           end
         
+          @auto = conf.auto
+
         else
           raise PluginError, "Plugin #@name v#@version cannot be checked for compatibility. Aborting load!"
         end # compat check
