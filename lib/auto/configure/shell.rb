@@ -10,6 +10,13 @@ module Auto
     # in contrast to generation of an entirely new one.
     class Shell
 
+      # A list of commands.
+      COMMANDS = {
+        'lib.add'                     => "Add a library to loading.",
+        'lib.ls'                      => "Display a list of libraries currently loaded and available.",
+        'lib.rm'                      => "Remove a library from loading."
+      }
+
       # @param [HighLine] hl HighLine instance.
       def initialize(hl)
         @hl = hl
@@ -32,20 +39,25 @@ https://github.com/Auto/Auto/wiki/Auto-Configure for guidance.
 
         if path.nil?
           
-
+        end
         
       end
 
       # Begin.
       def go
 
+        # Produce le menu.
         @hl.choose do |menu|
           puts ">> See 'help' for assistance using this shell.".green
 
           menu.prompt ">> Please enter an action:  "
 
-          # lib add
-          menu.choice('lib.add', "Add a library to load.") { act 'lib.add' }
+          # add all of our commands
+          COMMANDS.each_pair do |cmd, help|
+            menu.choice(cmd, help) { act cmd }
+          end
+
+        end
 
       end
 
@@ -56,9 +68,18 @@ https://github.com/Auto/Auto/wiki/Auto-Configure for guidance.
 
         when 'lib.add'
           
+        when 'lib.ls'
 
-  end
+        when 'lib.rm'
 
+        end
 
+      end # def act
+
+    end # class Shell
+
+  end # class Configure
+
+end # class Auto
 
 # vim: set ts=4 sts=2 sw=2 et:
