@@ -37,7 +37,7 @@ module Auto
     autoload :Shell, 'auto/configure/shell'
     # Load the shell.
     def shell
-      Auto::Configure::Shell.new
+      Auto::Configure::Shell.new(@hl)
     end
 
     VERSION = '1.02'.freeze
