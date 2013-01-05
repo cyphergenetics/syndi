@@ -37,7 +37,8 @@ end
 autoconf = Auto::Configure.new
 
 if opts.shell?
-  autoconf.shell.go
+  #autoconf.shell.go
+  puts "Auto Configure Shell is currently disabled.".red
 else
   autoconf.generate
 end
