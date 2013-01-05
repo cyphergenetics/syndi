@@ -17,23 +17,23 @@ describe 'The API timer system' do
 
   it 'should correctly execute once-only timers' do
     @meow = false
-    @clock.spawn(3, :once) { @meow = true }
-    sleep 4
+    @clock.spawn(0.01, :once) { @meow = true }
+    sleep 0.02
     @meow.should.be.true
   end
 
   it 'and repeating timers' do
     @moo = 1
-    @clock.spawn(2, :every) { @moo += 1; self.die if @moo == 3 }
-    sleep 5
+    @clock.spawn(0.01, :every) { @moo += 1; self.die if @moo == 3 }
+    sleep 0.04
     @moo.should.equal 3
   end
 
   it 'should terminate a timer with #del' do
     @rawr = true
-    timer = @clock.spawn(3, :once) { @rawr = false }
+    timer = @clock.spawn(0.01, :once) { @rawr = false }
     @clock.del timer
-    sleep 4
+    sleep 0.02
     @rawr.should.be.true
   end
 
