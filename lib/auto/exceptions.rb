@@ -14,4 +14,7 @@ end
 class DatabaseError < GenericError
 end
 
+class PluginError < GenericError
+end
+
 # vim: set ts=4 sts=2 sw=2 et:
