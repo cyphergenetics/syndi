@@ -12,7 +12,7 @@ gem 'highline', '~> 1.6'
 gem 'slop',     '~> 3.3'
 
 group :dev do
-  gem 'rake',  '~> 0.10'
+  gem 'rake',  '~> 10.0'
   gem 'bacon', '~> 1.2'
   gem 'facon', '~> 0.5'
 end
