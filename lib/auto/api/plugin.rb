@@ -118,6 +118,21 @@ module Auto
         else
           raise PluginError, "Plugin #@name v#@version cannot be checked for compatibility. Aborting load!"
         end # compat check
+
+        # If we've made it this far, it's sufficiently compatible with the API.
+        # Now, we need to extend this plugin with our domain-specific language (DSL).
+        self.extend Auto::DSL::Base # this is the base
+        case @library
+        
+        when 'irc'
+          self.extend Auto::DSL::IRC
+        when 'multi'
+          # the specifications for multilib DSL functionality are yet undecided
+        else
+          # If it's a library we don't comprehend, exception time, it is.
+          raise PluginError, "Plugin #@name v#@version demands '#{@library}' library, which I do not understand. Aborting load!"
+        
+        end
         
       end # def configure
 
