@@ -4,6 +4,7 @@
 
 require 'ostruct'
 require 'auto/exceptions'
+require 'auto/bot'
 
 module Auto
 
@@ -78,14 +79,14 @@ module Auto
           end
         end
 
-        @name    = c.name
-        @summary = c.summary
-        @version = c.version
-        @library = c.library
-        @author  = c.author
+        @name    = conf.name
+        @summary = conf.summary
+        @version = conf.version
+        @library = conf.library
+        @author  = conf.author
 
         # Check for compatibility.
-        if c.auto =~ /^(~>\s*)([\d\.abcr]{2,})$/ # ~>
+        if conf.auto =~ /^(~>\s*)((?:[\dabcr])(?:\.[\dabcr]))+$/ # ~>
         
           ver = $2
           if ver >= Auto::VERSION # must be later than or equal to current
@@ -96,18 +97,18 @@ module Auto
 
             # Must be no later than the current minor version
             unless verarr[1] <= pverarr[1]
-              raise PluginError, "Plugin #@name v#@version demands Auto #{c.auto}; current version is #{Auto::VERSION}. Incompatible! Aborting load!"
+              raise PluginError, "Plugin #@name v#@version demands Auto #{conf.auto}; current version is #{Auto::VERSION}. Incompatible! Aborting load!"
             end
 
           else
-            raise PluginError, "Plugin #@name v#@version demands Auto #{c.auto}; current version is #{Auto::VERSION}. Incompatible! Aborting load!"
+            raise PluginError, "Plugin #@name v#@version demands Auto #{conf.auto}; current version is #{Auto::VERSION}. Incompatible! Aborting load!"
           end # if ver >=
 
-        elsif c.auto =~ /^(>=\s*)([\d\.abcr]{2,})$/ # >=
+        elsif conf.auto =~ /^(>=\s*)((?:[\dabcr])(?:\.[\dabcr]))+$/ # >=
         
           ver = $2
           unless ver >= Auto::VERSION # must be later than or equal to current
-            raise PluginError, "Plugin #@name v#@version demands Auto #{c.auto}; current version is #{Auto::VERSION}. Incompatible! Aborting load!"
+            raise PluginError, "Plugin #@name v#@version demands Auto #{conf.auto}; current version is #{Auto::VERSION}. Incompatible! Aborting load!"
           end
         
         else
