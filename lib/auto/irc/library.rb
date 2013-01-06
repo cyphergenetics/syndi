@@ -35,14 +35,14 @@ module Auto
         # Start connections when Auto is started.
         $m.events.on :start, self.method(:start)
 
-        # Prepare for incoming data. (I'm unsure what this is ATM)
-        #$m.events.on(self, 'irc:onReadReady') do |irc|
-        #  until irc.recvq.length == 0
-        #    line = irc.recvq.shift.chomp
-        #    foreground("#{irc} >> #{line}")
-        #    @irc_parser.parse(irc, line)
-        #  end
-        #end
+        # Prepare for incoming IRC traffic.
+        @events.on :net_receive do |irc|
+          until recvq.length == 0
+            line = irc.recvq.shift.chomp
+            $m.foreground("{irc_recv} #{irc} >> #{line}")
+            @events.call :receive, irc, line # send it out to :receive
+          end
+        end
         
       end # def initialize
 
