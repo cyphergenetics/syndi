@@ -4,7 +4,9 @@ Auto 4.0 _Phoenix_
 **by the [Auto Project](#contributors)**
 
 **Latest**:             4.0.0.a.0.2 (prealpha 2) "Phoenix"  
-[![Build Status](https://travis-ci.org/Auto/Auto.png?branch=master)](https://travis-ci.org/Auto/Auto) [![Dependency Status](https://gemnasium.com/Auto/Auto.png)](https://gemnasium.com/Auto/Auto)  
+[![Build Status](https://travis-ci.org/Auto/Auto.png?branch=master)](https://travis-ci.org/Auto/Auto)
+[![Dependency Status](https://gemnasium.com/Auto/Auto.png)](https://gemnasium.com/Auto/Auto)
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/Auto/Auto)
 
 **Copyright**:          2009-2013, Auto Project  
 **License**:            FreeBSD (see **LICENSE.md**)
