@@ -16,6 +16,10 @@ module Auto
 
   # This is the central class of Auto, providing all core functionality.
   #
+  # It should be additionally noted that for each loaded core library, a readable
+  # instance attribute of the library's name will exist, typically pointing to
+  # an instance of its respective Library class. (e.g. @irc = <Auto::IRC::Library>)
+  #
   # @!attribute [r] opts
   #   @return [Slop] The options object.
   #
@@ -47,8 +51,7 @@ module Auto
   #   @return [Thread] The thread in which #main_loop is running.
   class Bot
 
-    attr_reader :opts, :log, :conf, :events, :clock, :db, :libs, :irc_sockets, :irc_parser,
-                :extend, :irc_cmd
+    attr_reader :opts, :log, :conf, :events, :clock, :db, :libs, :irc_sockets
 
     # Create a new instance of Auto.
     #
@@ -56,6 +59,13 @@ module Auto
     def initialize(opts)
       # Save options.
       @opts = opts
+      
+      # Move to ~/.config/autobot if we're a gem.
+      if Auto.gem?
+        Dir.mkdir File.join(Dir.home, '.config') if !Dir.exists? File.join(Dir.home, '.config')
+        Dir.mkdir File.join(Dir.home, '.config', 'autobot') if !Dir.exists? File.join(Dir.home, '.config', 'autobot')
+        Dir.chdir File.join(Dir.home, '.config', 'autobot')
+      end
     end
 
     # Initialize this instance.
@@ -66,43 +76,12 @@ module Auto
       @log = Auto::Logger.new
       @log.info("Logging started at #{Time.now}")
 
-      ## Load configuration ##
+      # Load configuration
+      load_config
 
-      # Try to find the file
-      # conf/ is given precedence over ~/.config/autobot/
-      # unless we're installed as a gem, in which case conf/ is ignored
-      confpath = nil
-      if @opts.json?
-        if File.exists? File.join(%w[conf auto.json]) and !Auto.gem?
-          confpath = File.join(%w[conf auto.json])
-        elsif File.exists? File.join(Dir.home, '.config', 'autobot', 'auto.json')
-          confpath = File.join(Dir.home, '.config', 'autobot', 'auto.json')
-        end
-      else
-        if File.exists? File.join(%w[conf auto.yml]) and !Auto.gem?
-          confpath = File.join(%w[conf auto.yml])
-        elsif File.exists? File.join(Dir.home, '.config', 'autobot', 'auto.yml')
-          confpath = File.join(Dir.home, '.config', 'autobot', 'auto.yml')
-        end
-      end
-      confpath = @opts[:conf] if @opts.conf? # --conf=FILE has supreme precedence
-      error('Could not find a configuration file', true) if confpath.nil?
-
-      # Process it.
-      puts "* Reading the configuration file #{confpath}...".bold
-      @log.info("Reading the configuration file #{confpath}...")
-      @conf = Auto::Config.new(File.expand_path(confpath))
-
-      # Move to ~/.config/autobot if we're a gem.
-      if Auto.gem?
-        Dir.mkdir File.join(Dir.home, '.config') if !Dir.exists? File.join(Dir.home, '.config')
-        Dir.mkdir File.join(Dir.home, '.config', 'autobot') if !Dir.exists? File.join(Dir.home, '.config', 'autobot')
-        Dir.chdir File.join(Dir.home, '.config', 'autobot')
-      end
-
-      # Start the event system.
-      puts '* Starting the event system...'.bold
-      @log.info("Starting the event system...")
+      # Initialize the central event system
+      puts '* Starting the central event system...'.bold
+      @log.info("Starting the central event system...")
       @events = Auto::API::Events.new
 
       # Start the timer system.
@@ -110,60 +89,11 @@ module Auto
       @log.info("Starting the timer system...")
       @clock = Auto::API::Timers.new
 
-      ## Initialize the database ##
-      puts '* Initializing database...'.bold
-      @log.info('Initializing database...')
-      @db = nil
-
-      case @conf['database']['type'] # check the database type in the config
-      
-      when 'sqlite' # it's SQLite
-        
-        if @conf['database'].include? 'name'
-          name = @conf['database']['name']
-        else
-          name = 'auto.db'
-        end
-
-        @db = Sequel.sqlite(name)
-
-      when 'mysql', 'postgres'
-
-        %[username password hostname name].each do |d|
-          unless @conf['database'].include? d
-            raise DatabaseError, "Insufficient configuration. For MySQL and PostgreSQL, we need the username, password, hostname, and name directives."
-          end
-        end
-
-        if @conf['database']['type'] == 'mysql'
-          adapter = :mysql
-        else
-          adapter = :postgres
-        end
-
-        @db = Sequel.connect(:adapter  => adapter, 
-                             :host     => @conf['database']['hostname'],
-                             :database => @conf['database']['name'],
-                             :user     => @conf['database']['username'],
-                             :password => @conf['database']['passname'])
-
-      else
-        raise DatabaseError, "Unrecognized database type: #{@conf['database']['type']}"
-      end
+      # Initialize the database
+      load_database
 
       # Load core libraries.
       load_libraries
-
-      # Load plugins.
-      # @todo Plugin loading needs improvement.
-      #puts "* Loading plugins..."
-      #@log.info("Loading plugins...")
-      #@extend = API::Extender.new
-      #if @conf.x.include? 'plugins'
-      #  @conf.x['plugins'].each do |plugin|
-      #    @extend.pload(plugin)
-      #  end
-      #end
 
       true
     end
@@ -329,6 +259,36 @@ module Auto
     private
     #######
 
+    # Load the configuration.
+    def load_config
+
+      # Try to find the file
+      # conf/ is given precedence over ~/.config/autobot/
+      # unless we're installed as a gem, in which case conf/ is ignored
+      confpath = nil
+      if @opts.json?
+        if File.exists? File.join(%w[conf auto.json]) and !Auto.gem?
+          confpath = File.join(%w[conf auto.json])
+        elsif File.exists? File.join(Dir.home, '.config', 'autobot', 'auto.json')
+          confpath = File.join(Dir.home, '.config', 'autobot', 'auto.json')
+        end
+      else
+        if File.exists? File.join(%w[conf auto.yml]) and !Auto.gem?
+          confpath = File.join(%w[conf auto.yml])
+        elsif File.exists? File.join(Dir.home, '.config', 'autobot', 'auto.yml')
+          confpath = File.join(Dir.home, '.config', 'autobot', 'auto.yml')
+        end
+      end
+      confpath = @opts[:conf] if @opts.conf? # --conf=FILE has supreme precedence
+      error('Could not find a configuration file', true) if confpath.nil?
+
+      # Process it.
+      puts "* Reading the configuration file #{confpath}...".bold
+      @log.info("Reading the configuration file #{confpath}...")
+      @conf = Auto::Config.new(File.expand_path(confpath))
+
+    end
+
     # Load Auto libraries.
     def load_libraries
       
@@ -348,11 +308,48 @@ module Auto
 
         begin
           instance_variable_set "@#{lib}".to_sym, require("auto/#{lib}")
+          attr_reader "@#{lib}".to_sym
           @libs.push lib
         rescue => e
           error "Failed to load core library '#{lib}': #{e}", true, e.backtrace
         end
 
+      end
+
+    end
+
+    # Load database.
+    def load_database
+
+      puts '* Initializing database...'.bold
+      @log.info('Initializing database...')
+      @db = nil
+
+      case @conf['database']['type'] # check the database type in the config
+      
+      when 'sqlite' # it's SQLite
+        
+        name =  @conf['database']['name'] || 'auto.db'
+        @db = Sequel.sqlite(name)
+
+      when 'mysql', 'postgres' # for MySQL and Postgres
+
+        %[username password hostname name].each do |d|
+          unless @conf['database'].include? d
+            raise DatabaseError, "Insufficient configuration. For MySQL and PostgreSQL, we need the username, password, hostname, and name directives."
+          end
+        end
+
+        adapter = @conf['database']['type'].to_sym
+
+        @db = Sequel.connect(:adapter  => adapter, 
+                             :host     => @conf['database']['hostname'],
+                             :database => @conf['database']['name'],
+                             :user     => @conf['database']['username'],
+                             :password => @conf['database']['passname'])
+
+      else
+        raise DatabaseError, "Unrecognized database type: #{@conf['database']['type']}"
       end
 
     end
