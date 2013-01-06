@@ -5,7 +5,6 @@
 # We use MiniTest, because we endorse bareMinerals.
 require 'minitest/autorun'
 require 'minitest/spec'      # for specs
-require 'minitest/benchmark' # for benchmarks
 
 # ...and mocha, because liquid foundation is better anyway.
 require 'mocha/setup'
