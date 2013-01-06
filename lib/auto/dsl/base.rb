@@ -24,12 +24,47 @@ module Auto
       # @see Auto::API::Timers#del
       def clock_stop(*args); $m.clock.del(*args);   end
 
+      # Hook onto an event.
+      #
+      # @param [Symbol] system The events system to access.
+      # @param [Symbol] event The event onto which to hook.
+      #
       # @see Auto::API::Events#on
-      def ev_on(*args); $m.events.on(*args);   end
+      def on(system, event, &prc)
+        if system == :auto # central system
+          $m.events.on(event, prc)
+        else
+          $m.instance_variable_get("@#{system.to_s}").events.on(event, prc)
+        end
+      end
+      
+      # Emit an event.
+      #
+      # @param [Symbol] system The events system to access.
+      # @param [Symbol] event The event onto which to hook.
+      #
       # @see Auto::API::Events#call
-      def ev_do(*args); $m.events.call(*args); end
+      def emit(system, event, *args)
+        if system == :auto # central system
+          $m.events.call(event, *args)
+        else
+          $m.instance_variable_get("@#{system.to_s}").events.call(event, *args)
+        end
+      end
+      
+      # Delete a hook.
+      #
+      # @param [Symbol] system The events system to access.
+      # @param [Array(Symbol, Integer, String)] hook The identification data of the hook.
+      #
       # @see Auto::API::Events#del
-      def ev_rm(*args); $m.events.del(*args);  end
+      def undo_on(system, hook)
+        if system == :auto # central system
+          $m.events.del(hook)
+        else
+          $m.instance_variable_get("@#{system.to_s}").events.del(hook)
+        end
+      end
 
     end # module Base
 
