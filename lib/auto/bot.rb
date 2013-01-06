@@ -152,27 +152,7 @@ module Auto
       end
 
       # Load core libraries.
-      puts '* Loading core libraries..'.bold
-      @log.info("Loading core libraries...")
-      @libs = []
-      @conf.x['libraries'].each do |lib|
-        if lib == 'irc'
-
-          begin
-            path = File.expand_path(File.dirname __FILE__) << "/irc/"
-            %w{server parser std commands object/user object/message}.each do |file|
-              require (path + file + ".rb")
-            end
-            @irc_parser = IRC::Parser.new
-            IRC::Std.init
-            @irc_cmd = IRC::Commands.new
-            @irc_sockets = {}
-            @libs << 'irc'
-          rescue => e
-            error "Unable to iload core library `irc`: #{e}", true, e.backtrace
-          end
-        end
-      end
+      load_libraries
 
       # Load plugins.
       # @todo Plugin loading needs improvement.
@@ -345,16 +325,40 @@ module Auto
       exit 0
     end
 
+    #######
+    private
+    #######
+
+    # Load Auto libraries.
+    def load_libraries
+      
+      puts '* Loading core libraries..'.bold
+      @log.info("Loading core libraries...")
+      @libs = []
+
+      # Iterate through each configured library.
+      @conf['libraries'].each do |lib|
+        lib.dc!
+
+        if @libs.include? lib
+          # Don't load a library more than once!
+          error("Cannot load library twice (#{lib})! Please fix your configuration.")
+          next
+        end
+
+        begin
+          instance_variable_set "@#{lib}".to_sym, require("lib/#{lib}")
+          @libs.push lib
+        rescue => e
+          error "Failed to load core library '#{lib}': #{e}", true, e.backtrace
+        end
+
+      end
+
+    end
+
   end # class Bot
   
-  # Whether we're installed as a gem.
-  #
-  # @return [true, false]
-  def self.gem? 
-    res = File.expand_path(__FILE__) =~ /^#{Regexp.escape File.join(Dir.home, '.gem')}/
-    res.nil? ? false : true
-  end
-
 end # module Auto
 
 # vim: set ts=4 sts=2 sw=2 et:
