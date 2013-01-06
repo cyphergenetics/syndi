@@ -57,6 +57,14 @@ on the server and initiate connection.
 This event occurs when there is data in the connection's receive queue waiting
 to be processed.
 
+### :receive |irc, data|
+
+**irc** (_Auto::IRC::Server_): The IRC connection.  
+**data** (_String_): The line of data.
+
+This event occurs when data has been removed from the receive queue and is ready
+for processing, with newlines and carriage returns stripped.
+
 ### :disconnect |irc, reason|
 
 **irc** (_Auto::IRC::Server_): The IRC connection.  
