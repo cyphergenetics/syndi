@@ -6,6 +6,7 @@ require 'ostruct'
 require 'socket'
 require 'openssl'
 require 'auto/api/helper/events'
+require 'auto/dsl/base'
 
 # namespace Auto
 module Auto
@@ -106,9 +107,9 @@ module Auto
     #     with each key being the user's nickname in all-lowercase, and the respective values
     #     being of {IRC::Object::User IRC::Object::User}.
     class Server
-      include Auto::API::Helper::Events
+      include Auto::DSL::Base
 
-      attr_reader :socket, :in, :out, :type
+      attr_reader   :socket, :in, :out, :type
       attr_accessor :name, :address, :port, :nick, :user, :real, :password,
                     :bind, :ssl, :sasl_id, :connected, :mask, :recvq,
                     :prefixes, :channel_modes, :max_modes,
@@ -172,9 +173,6 @@ module Auto
         @recvq  = []
         @recvqm = ''
 
-        # Default handlers.
-        bind_default_handlers
-
       end
 
       # Establish (or attempt to) a connection with the server.
@@ -211,9 +209,9 @@ module Auto
         @socket = socket
 
         # Register.
-        ev_do 'irc:onPreConnect', self
-        pass(@password) if @password
-        snd('CAP LS')
+        emit :irc, :preconnect, self
+        pass( @password if @password
+        snd 'CAP LS'
         nickname = @nick
         user(@user, Socket.gethostname, @address, @real)
 
@@ -222,8 +220,8 @@ module Auto
       # Send data to the socket.
       #
       # @param [String] data The string of data, which should not exceed 512 in length.
-      def snd(data)
-        $m.foreground("#@name << #{data}")
+      def snd data
+        $m.foreground("{irc-send} #@name << #{data}")
         @socket.write("#{data}\r\n")
         @out += "#{data}\r\n".length
       end
@@ -246,9 +244,9 @@ module Auto
         end
         @recvqm = data if data != ''
 
-        # Lastly, push the data to the recvQ and call irc:onReadReady.
+        # Lastly, push the data to the recvQ and call :net_receive.
         @recvq.push(*recv)
-        ev_do 'irc:onReadReady', self
+        emit :irc, :net_receive, self
 
       end
 
@@ -258,7 +256,7 @@ module Auto
       #
       # @param [String] msg Reason for disconnect. 
       def disconnect(msg='Closing connection')
-        ev_do 'irc:onDisconnect', self, msg
+        emit :irc, :disconnect, self, msg
         snd "QUIT :#{msg}"
       end
       
@@ -267,9 +265,8 @@ module Auto
       # @param [String] chan Channel to join.
       # @param [String] key Key to join, if necessary.
       def join(chan, key=nil)
-        ev_do 'irc:onPreJoin', self, chan, key
         snd "JOIN #{chan}#{key.nil? ? '' : key}"
-        ev_do 'irc:onJoin', self, chan, key
+        emit :irc, :send_join, self, chan, key
       end
 
       # Send /NICK to change the bot's nickname on the server.
@@ -286,9 +283,8 @@ module Auto
           @nick = new
         end
       
-        ev_do 'irc:onPreNick', self, new
         snd "NICK :#{new}"
-        ev_do 'irc:onNick', self, new
+        emit :irc, :send_nick, self, new
     
       end
 
@@ -309,51 +305,17 @@ module Auto
 
       # Request a /WHO on ourselves.
       def who
-        snd("WHO #@nick")
-        @await_self_who = true
-        $m.events.call('irc:onWhoSelf', self)
+        snd "WHO #@nick"
+        emit :irc, :who_self, self
       end
 
-
-      # Introduce a new user.
-      #
-      # @param [String] nickname The nickname of the user.
-      # @param [String] username The username or ident of the user.
-      # @param [String] hostname The hostname or mask of the user.
-      # @param [true, false] Whether the user is away.
-      def new_user(nickname, username=nil, hostname=nil, away=false)
-      
-        # Check if this user already exists, and if so, issue a warning
-        # and update the already-existing user's data.
-        if user_known? nickname
-        
-          $m.warn("Attempted to introduce user #{nickname}, but user is already known. Updating current data in lieu...")
-          @users[nickname.lc].nick = nickname
-          @users[nickname.lc].user = username
-          @users[nickname.lc].host = hostname
-          @users[nickname.lc].away = away
-      
-        else
-        
-          # Create the user.
-          u = IRC::Object::User.new(irc, nickname, username, hostname, away)
-          @users[nickname.lc] = u
-          $m.events.call('irc:introduceUser', u)
-
-          # Request more data if needed.
-          if not u.host_known?
-            u.who
-          end
-
-        end
-
-      end
 
       # Check if a user's existence is known to the IRC state management.
       #
       # @param [String] nickname
       #
       # @return [true, false]
+      # @deprecated
       def user_known?(nickname)
         @users.include?(nickname.lc) ? true : false
       end
@@ -388,8 +350,7 @@ module Auto
       #
       # - RPL_WELCOME (005)
       #
-      # @todo Make the traditional method of identifying with services use the
-      #   new API model, since the old one is deprecated.
+      # @deprecated
       def bind_default_handlers
 
         # RPL_WELCOME
