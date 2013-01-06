@@ -11,21 +11,24 @@ module Auto
   # Entering namespace: API
   module API
 
-    # A class which provides the API the fundamental event system, upon which
+    # A class which provides the the fundamental event system, upon which
     # much of the API is based, and which follows a simple model of broadcasting
     # and hooking onto such broadcasts.
+    #
+    # Plugin writers may be rather interested in {Auto::DSL::Base}, since that
+    # provides a simpler interface to Auto's instances of this class.
     #
     # @api Auto
     # @since 4.0.0
     # @author noxgirl
     #
-    # @see Auto::API::Helper::Events
+    # @see Auto::DSL::Base
     #
     # @!attribute [r] threads
     #   @return [Array] An array of threads used by {#call}.
     class Events < Auto::API::Object
 
-      attr_reader :threads
+      attr_reader :events, :threads
 
       # Create a new instance of Auto::API::Events.
       def initialize
@@ -35,21 +38,21 @@ module Auto
 
       # Listen for (hook onto) an event.
       #
-      # @param [String] event The name of the event for which to listen.
+      # @param [Symbol] event The name of the event for which to listen.
       # @param [Integer] priority The priority of the event from 1-5, 1 being utmost priority.
       #
       # @yield [...] The arguments that will be yielded to the block vary by event.
       #   Please consult with the {file:docs/Events.md events specification} for details by event.
       #
-      # @return [Array(String, Integer, String)] Identification data including a unique string. Keep 
+      # @return [Array(Symbol, Integer, String)] Identification data including a unique string. Keep 
       #   this if you need to destroy the hook later.
       #
       # @example
-      #   events.on 'irc:onDisconnect' do |irc|
+      #   events.on :disconnect do |irc|
       #     puts "I'm dying!"
       #   end
       #
-      # @see Auto::API::Helper::Events#ev_on
+      # @see Auto::DSL::Base#on
       # @see file:docs/Events.md
       def on(event, priority=3, &cb)
 
@@ -59,16 +62,14 @@ module Auto
         end
 
         # If the event does not exist, create it.
-        unless @events.include? event
-          new_event event
-        end
+        @events[event] ||= {1 => {}, 2 => {}, 3 => {}, 4 => {}, 5 => {}}
 
         # Generate a unique pseudorandom ID for this hook.
         id = ''
-        12.times { id += get_rand_char }
+        10.times { id += get_rand_char }
         while @events[event][priority].has_key? id
           id = ''
-          12.times { id += get_rand_char }
+          10.times { id += get_rand_char }
         end
 
         # Create the hook in memory.
@@ -86,14 +87,14 @@ module Auto
       # If a hook returns +false+, all subsequent hook executions will be
       # forestalled from occurring.
       #
-      # @param [String] event The name of the event being broadcasted.
+      # @param [Symbol] event The event being broadcasted.
       # @param [Array] args A list of arguments which should be passed to
       #   the listeners. (splat)
       #
       # @example
-      #   events.call('foo:cowMoo', "the cows", "go moo", [1, 3, 5])
+      #   events.call(:cow_moo, "the cows", "go moo", [1, 3, 5])
       #
-      # @see Auto::API::Helper::Events#ev_do
+      # @see Auto::DSL::Base#emit
       def call(event, *args)
         # Check if any hooks exist for this event.
         if @events.include? event
@@ -112,10 +113,10 @@ module Auto
 
       # Delete a hook or listener.
       #
-      # @param [Array(String, Integer, String)] id The identification data of the hook,
+      # @param [Array(Symbol, Integer, String)] id The identification data of the hook,
       #   as provided by #on.
       #
-      # @see Auto::API::Helper::Events#ev_del
+      # @see Auto::DSL::Base#undo_on
       def del(id)
         event, priority, hook = id
 
@@ -138,19 +139,6 @@ module Auto
       #######
       private
       #######
-
-      # Add a new event to the @events hash.
-      #
-      # @param [String] event Event name.
-      def new_event(event)
-        @events[event] = {
-                          1 => {},
-                          2 => {},
-                          3 => {},
-                          4 => {},
-                          5 => {}
-                         }
-      end
 
       # Tidy up.
       def tidy

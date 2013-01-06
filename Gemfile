@@ -13,8 +13,7 @@ gem 'slop',     '~> 3.3'
 
 group :dev do
   gem 'rake',  '~> 10.0'
-  gem 'bacon', '~> 1.2'
-  gem 'facon', '~> 0.5'
+  gem 'mocha', '~> 0.13'
 end
 
 # vim: set ts=4 sts=2 sw=2 et:
