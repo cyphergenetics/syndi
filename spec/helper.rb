@@ -13,5 +13,6 @@ $m = Mocha::Mock.new 'Auto::Bot'
 [:debug, :foreground, :info].each do |m|
   $m.stubs m
 end
+$m.stubs(:events).returns(Mocha::Mock.new('Auto::API::Events'))
 
 # vim: set ts=4 sts=2 sw=2 et:
