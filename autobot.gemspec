@@ -3,7 +3,7 @@
 # Distributed under the terms of the FreeBSD license (LICENSE.md).
 
 $:.unshift File.expand_path(File.join(File.dirname(__FILE__), 'lib'))
-require 'auto'
+require 'auto/version'
 
 Gem::Specification.new do |s|
   
