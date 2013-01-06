@@ -127,7 +127,7 @@ module Auto
         @sockets.each do |o|
           unless o.socket.nil?
             sockets << o.socket
-            assoc_objects[socket] = o
+            assoc_objects[o.socket] = o
           end
         end
       
