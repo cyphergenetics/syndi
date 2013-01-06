@@ -37,16 +37,32 @@ be read (as determined by `select()`).
 
 ### :rehash
 
-This event occurs when the configuration file is successfully reprocessed and reloaded.
+This event occurs when the configuration file is successfully reprocessed and
+reloaded.
 
 :irc
 ----
 
-Common variables are marked with an asterisk (`*`):
+### :preconnect |irc|
 
-* `irc*` is the {IRC::Server} object.
-* `sender*` and `user*` are the {IRC::Object::User} objects.
-* `msg*` is an {IRC::Object::Message} object.
+**irc** (_Auto::IRC::Server_): The IRC connection.
+
+This event occurs when we are about to register (i.e., send `USER`, `CAP LS`)
+on the server and initiate connection.
+
+### :net_receive |irc|
+
+**irc** (_Auto::IRC::Server_): The IRC connection.
+
+This event occurs when there is data in the connection's receive queue waiting
+to be processed.
+
+### :disconnect |irc, reason|
+
+**irc** (_Auto::IRC::Server_): The IRC connection.  
+**reason** (_String_): The reason for which we are disconnecting.
+
+This event occurs when we're about to disconnect from the given server.
 
 ### irc:introduceUser
 
