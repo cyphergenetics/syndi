@@ -2,38 +2,68 @@
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the FreeBSD license (LICENSE.md).
 
-require 'irc/server'
-require 'irc/object/entity'
-require 'irc/object/channel'
-require 'irc/object/user'
+require 'auto/irc/server'
+require 'auto/irc/object/entity'
+require 'auto/irc/object/channel'
+require 'auto/irc/object/user'
 
 module Auto
   
   module IRC
     
     # The base of the IRC framework.
+    #
+    # @!attribute [r] events
+    #   @return [Auto::API::Events] The IRC event system.
+    #
+    # @!attribute [r] connections
+    #   @return [Hash{String => Auto::IRC::Server}] Collection of IRC connections. 
     class Library
 
+      attr_reader :events, :connections
+
       def initialize
-        
-      end
+
+        # Initialize our event system.
+        @events      = Auto::API::Events.new
+        # Prepare our collection of IRC server connections.
+        @connections = Hash.new
       
-      # Check if the irc core library is loaded.
-      if @libs.include?('irc')
-        # Prepare for incoming data.
-        $m.events.on(self, 'irc:onReadReady') do |irc|
-          until irc.recvq.length == 0
-            line = irc.recvq.shift.chomp
-            foreground("#{irc} >> #{line}")
-            @irc_parser.parse(irc, line)
-          end
-        end
+        # Be ready to accept data.
+        $m.events.on :net_receive, 1, self.method(:receive)
+
+        # Start connections when Auto is started.
+        $m.events.on :start, self.method(:start)
+
+        # Prepare for incoming data. (I'm unsure what this is ATM)
+        #$m.events.on(self, 'irc:onReadReady') do |irc|
+        #  until irc.recvq.length == 0
+        #    line = irc.recvq.shift.chomp
+        #    foreground("#{irc} >> #{line}")
+        #    @irc_parser.parse(irc, line)
+        #  end
+        #end
         
-        # Iterate through each IRC server in the config, and connect to them.
-        @conf.x['irc'].each do |name, hash|
+      end # def initialize
+
+      # Process incoming network data.
+      #
+      # @param [Object] socket_object The socket object, which in the case of
+      #   ourselves should be an {Auto::IRC::Server}, or we won't handle it.
+      def receive(socket_object)
+        if socket_object.instance_of? Auto::IRC::Server
+          socket_object.recv   
+        end
+      end
+
+      # Initiate IRC connections.
+      def start
+        
+        # Iterate through each IRC server in the config, and connect to it.
+        @m.conf['irc'].each do |name, hash|
           begin
             # Configure the IRC instance.
-            @irc_sockets[name] = IRC::Server.new(name) do |c|
+            @connections[name] = Auto::IRC::Server.new(name) do |c|
               c.address = hash['address']
               c.port    = hash['port']
               c.nick    = hash['nickname'][0] 
@@ -43,17 +73,19 @@ module Auto
             end
 
             # Connect.
-            @irc_sockets[name].connect
+            $m.sockets.push @collections[name]
+            @collections[name].connect
           rescue => e
             error("Connection to #{name} failed: #{e}", false, e.backtrace)
           end
         end
-      end
 
-    end
+      end # def start
 
-  end
+    end # class Library
 
-end
+  end # module IRC
+
+end # module Auto
 
 # vim: set ts=4 sts=2 sw=2 et:
