@@ -85,53 +85,6 @@ This occurs when we try to change our nickname with /NICK.
 
 This occurs when we send a /WHO on ourselves.
 
-### irc:introduceUser
-
-**->** `(user*)`
-
-This event occurs when a new user, `user`, is introduced to the bot.
-
-### irc:onRecvChanMsg `(irc*, sender*, [str] channel, [ary] message)`
-
-This event occurs when a channel the bot is in receives a message. `channel` is the channel in
-question, and `message` is the body of the message in an array (the message is split into elements
-by its spaces).
-
-### irc:onRecvPrivMsg `(irc*, sender*, [str] message)`
-
-This event occurs when the bot receives a private message. `message` is the body of the message in
-an array (the message is split into elements by its spaces).
-
-### irc:onPreMsgUser
-
-**->** `(user*, [str] message)`
-
-This event occurs prior to the bot sending a private message to a user.
-
-### irc:onMsgUser
-
-**->** `(user*, [str] message)`
-
-This event occurs following the bot sending a private message to a user.
-
-### irc:onPreNoticeUser
-
-**->** `(user*, [str] notice)`
-
-This event occurs prior to the bot sending a notice to a user.
-
-### irc:onNoticeUser
-
-**->** `(user*, [str] notice)`
-
-This event occurs following the bot sending a notice to a user.
-
-### irc:onWhoUser
-
-**->** `(user*)`
-
-This event occurs after a /WHO has been requested of a user.
-
 ### irc:onWhoReply `[all strs](irc*, nick, username, host, realname, awaystatus, server)`
 
 This event occurs when the bot receives **RPL_WHOREPLY** (numeric 352) in response to a /WHO. Note that
