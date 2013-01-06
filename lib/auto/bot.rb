@@ -4,7 +4,6 @@
 
 require 'colored'
 require 'sequel'
-require 'auto/rubyext/string'
 
 require 'auto/logger'
 require 'auto/config'
