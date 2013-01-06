@@ -60,7 +60,7 @@ module Auto
       def start
         
         # Iterate through each IRC server in the config, and connect to it.
-        @m.conf['irc'].each do |name, hash|
+        $m.conf['irc'].each do |name, hash|
           begin
             # Configure the IRC instance.
             @connections[name] = Auto::IRC::Server.new(name) do |c|
