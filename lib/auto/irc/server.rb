@@ -210,7 +210,7 @@ module Auto
 
         # Register.
         emit :irc, :preconnect, self
-        pass( @password if @password
+        pass @password if @password
         snd 'CAP LS'
         nickname = @nick
         user(@user, Socket.gethostname, @address, @real)
