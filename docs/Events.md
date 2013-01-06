@@ -1,7 +1,7 @@
-# @title Events Specification
+# @title Specification of Events
 
-Events
-======
+Specification of Events
+=======================
 
 **Events** are managed by Auto's event systems, each of which is an instance
 of {Auto::API::Events}.
@@ -64,31 +64,32 @@ to be processed.
 
 This event occurs when we're about to disconnect from the given server.
 
+### :send_join |irc, channel, key|
+
+**irc** (_Auto::IRC::Server_): The IRC connection.  
+**channel** (_String_): The channel which we are attempting to join.  
+**key** (_String_ or _nil_): The key, if provided.
+
+This event occurs when we try to join a channel.
+
+### :send_nick |irc, nickname|
+
+**irc** (_Auto::IRC::Server_): The IRC connection.  
+**nickname** (_String_): The nickname we are trying to use.
+
+This occurs when we try to change our nickname with /NICK.
+
+### :self_who |irc|
+
+**irc** (_Auto::IRC::Server_): The IRC connection.
+
+This occurs when we send a /WHO on ourselves.
+
 ### irc:introduceUser
 
 **->** `(user*)`
 
 This event occurs when a new user, `user`, is introduced to the bot.
-
-### irc:onDisconnect
-
-**->** `(irc*, [str] reason)`
-
-This event occurs immediately before the bot disconnects from the given IRC network.
-
-### irc:onPreJoin
-
-**->** `(irc*, [str] channel, [str] key)`
-
-This event occurs immediately before the bot attempts to join a channel. `key` will be nil if it is
-unneeded. See irc:onJoinChan for a successful /JOIN.
-
-### irc:onJoin
-
-**->** `(irc*, [str] channel, [str] key)`
-
-This event occurs immediately after the bot attempts to join a channel. `key` will be nil if it is
-unneeded. See irc:onJoinChan for a successful /JOIN.
 
 ### irc:onRecvChanMsg `(irc*, sender*, [str] channel, [ary] message)`
 
@@ -113,18 +114,6 @@ This event occurs prior to the bot sending a private message to a user.
 
 This event occurs following the bot sending a private message to a user.
 
-### irc:onPreNick
-
-**->** `(irc*, [str] nickname)`
-
-This event occurs before the bot attempts to change its nickname to `nickname`.
-
-### irc:onNick
-
-**->** `(irc*, [str] nickname)`
-
-This event occurs after the bot attempts to change its nickname to `nickname`.
-
 ### irc:onPreNoticeUser
 
 **->** `(user*, [str] notice)`
@@ -137,12 +126,6 @@ This event occurs prior to the bot sending a notice to a user.
 
 This event occurs following the bot sending a notice to a user.
 
-### irc:onWhoSelf
-
-**->** `(irc*)`
-
-This event occurs when the bot requests a /WHO of itself.
-
 ### irc:onWhoUser
 
 **->** `(user*)`
@@ -154,5 +137,3 @@ This event occurs after a /WHO has been requested of a user.
 This event occurs when the bot receives **RPL_WHOREPLY** (numeric 352) in response to a /WHO. Note that
 `awaystatus =~ /H/` will be true if the user is not away, while `awaystatus =~ /G/` will be true if the
 user is away (`H` meaning _here_, `G` meaning _gone_).
-
-## System
