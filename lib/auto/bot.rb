@@ -347,7 +347,7 @@ module Auto
         end
 
         begin
-          instance_variable_set "@#{lib}".to_sym, require("lib/#{lib}")
+          instance_variable_set "@#{lib}".to_sym, require("auto/#{lib}")
           @libs.push lib
         rescue => e
           error "Failed to load core library '#{lib}': #{e}", true, e.backtrace
