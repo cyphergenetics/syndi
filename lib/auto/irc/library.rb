@@ -76,7 +76,7 @@ module Auto
             $m.sockets.push @collections[name]
             @collections[name].connect
           rescue => e
-            error("Connection to #{name} failed: #{e}", false, e.backtrace)
+            $m.error("Connection to #{name} failed: #{e}", false, e.backtrace)
           end
         end
 
