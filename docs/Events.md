@@ -1,30 +1,46 @@
-# @title API Events
+# @title Events
 
-API Events
-==========
+Events
+======
 
-## Bot
+**Events** are managed by Auto's event systems, each of which is an instance
+of {Auto::API::Events}.
 
-### bot:onLoadPlugin `([str] plugin)`
+`$m.events` manages the **Auto** events, which is to say the central events,
+while libraries have their own individual events systems.
 
-This event occurs when a plugin, `plugin`, is successfully initialized.
+{Auto::DSL::Base} provides `#on`, `#emit`, `#undo_on`, etc., which all provide
+easy distinction between the individual event systems. `:auto`, for example,
+indicates the central system, whereas `:irc` indicates the IRC event system.
 
-### bot:onUnloadPlugin `([str] plugin)`
+:auto
+-----
 
-This event occurs when a plugin, `plugin`, is unloaded from the runtime.
+### :start
 
-### bot:onRehash
+This event occurs when Auto is starting, and each library is expected to await
+this event and upon its occurrence, initiate any of their processes.
 
-**->** `(nil)`
+### :die `|reason|`
+
+**reason** (_String_): The reason for termination.
+
+This occurs when Auto is terminating.
+
+### :net_receive `|socket_object|`
+
+**socket_object** (_Object_): The object with which the socket (`.socket`) is
+associated.
+
+This occurs when the socket associated with `socket_object` has data waiting to
+be read (as determined by `select()`).
+
+### :rehash
 
 This event occurs when the configuration file is successfully reprocessed and reloaded.
 
-### bot:onTerminate `(nil)`
-
-This event occurs when the bot is terminating, immediately prior **irc** module's disconnection
-from all networks.
-
-## IRC
+:irc
+----
 
 Common variables are marked with an asterisk (`*`):
 
