@@ -48,9 +48,13 @@ module Auto
   #
   # @!attribute [r] netloop
   #   @return [Thread] The thread in which #main_loop is running.
+  #
+  # @!attribute [r] sockets
+  #   @return [Array<Object>] A list of socket objects.
   class Bot
 
-    attr_reader :opts, :log, :conf, :events, :clock, :db, :libs, :irc_sockets
+    attr_reader :opts, :log, :conf, :events, :clock, :db, :libs, :netloop,
+                :sockets
 
     # Create a new instance of Auto.
     #
@@ -88,6 +92,9 @@ module Auto
       @log.info("Starting the timer system...")
       @clock = Auto::API::Timers.new
 
+      # Prepare for sockets.
+      @sockets = []
+
       # Initialize the database
       load_database
 
@@ -112,14 +119,15 @@ module Auto
 
     # Main loop.
     def main_loop
-
       loop do
       
         # Build a list of sockets.
-        sockets = []
-        @irc_sockets.each do |name, obj|
-          unless obj.socket.nil?
-            sockets << obj.socket
+        sockets       = []
+        assoc_objects = {}
+        @sockets.each do |o|
+          unless o.socket.nil?
+            sockets << o.socket
+            assoc_objects[socket] = o
           end
         end
       
@@ -128,12 +136,10 @@ module Auto
 
         # Iterate through sockets ready for reading.
         ready_read.each do |socket|
-          name = @irc_sockets.each { |name, tsock| break name if tsock.socket == socket }
-          @irc_sockets[name].recv
+          @events.call :net_receive, assoc_objects[socket]
         end
 
       end
-
     end
 
     # Produce an error message.
@@ -206,14 +212,9 @@ module Auto
     def terminate(reason='Terminating')
       info("Auto is terminating owing to thus: #{reason}")
 
-      # Call bot:onTerminate
-      $m.events.call('bot:onTerminate')
+      # Call :die
+      @events.call :die, reason
     
-      # Disconnect from IRC networks if IRC is in use.
-      if @libs.include? 'irc'
-        @irc_sockets.each { |name, obj| obj.disconnect(reason) }
-      end
-
       # Close the database.
       @db.close
 
@@ -299,8 +300,8 @@ module Auto
       
       when 'sqlite' # it's SQLite
         
-        name =  @conf['database']['name'] || 'auto.db'
-        @db = Sequel.sqlite(name)
+        name = @conf['database']['name'] || 'auto.db'
+        @db  = Sequel.sqlite(name)
 
       when 'mysql', 'postgres' # for MySQL and Postgres
 
