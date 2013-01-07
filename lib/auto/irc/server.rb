@@ -6,6 +6,7 @@ require 'ostruct'
 require 'socket'
 require 'openssl'
 require 'auto/dsl/base'
+require 'auto/irc/state/support'
 
 # namespace Auto
 module Auto
@@ -160,13 +161,15 @@ module Auto
         @type       = :irc
 
         # Stateful attributes.
-        @mask           = ''
-        @prefixes       = {}
-        @channel_modes  = { list: [], always: [], set: [], never: [] }
-        @max_modes      = 0
-        @await_self_who = false
-        @channels       = {}
-        @users          = {}
+        @supp       = Auto::IRC::State::Support.new
+
+        #@mask           = ''
+        #@prefixes       = {}
+        #@channel_modes  = { list: [], always: [], set: [], never: [] }
+        #@max_modes      = 0
+        #@await_self_who = false
+        #@channels       = {}
+        #@users          = {}
 
         # Our recvQ.
         @recvq  = []
