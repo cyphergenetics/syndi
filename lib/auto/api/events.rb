@@ -101,12 +101,17 @@ module Auto
           $m.debug("A thread is spawning for the sake of a broadcast of event {#{event}}.") if $m.opts.verbose?
           @threads << Thread.new(event) do |evnt|
             status = nil
-            # Iterate through the hooks.
-            @events[evnt].each_key do |priority|
-              @events[evnt][priority].each_value do |prc|
-                status = prc.call(*args) unless status == false
-              end # each hook
-            end # each priority
+            begin # catch exceptions
+              # Iterate through the hooks.
+              @events[evnt].each_key do |priority|
+                @events[evnt][priority].each_value do |prc|
+                  status = prc.call(*args) unless status == false
+                end # each hook
+              end # each priority
+            rescue => e
+              $m.error "An exception occurred inside the thread of #{event}: #{e}", false, e.backtrace
+              $m.error "Said thread has terminated with a backtrace report."
+            end # begin
           end # thread
         end # whether this event exists
       end
