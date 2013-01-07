@@ -14,6 +14,21 @@ module Auto
       module Numerics
         include Auto::IRC::Std::Numerics
 
+        # RPL_SASLSUCCESS
+        define_method("on_#{RPL_SASLSUCCESS}") do |irc, raw, params|
+          $m.info "SASL authentication on #{irc} succeeded!"
+          irc.snd('CAP END')
+        end
+
+        # ERR_SASLFAIL
+        define_method("on_#{ERR_SASLFAIL}") do |irc, raw, params|
+          if irc.supp.sasl_method == :dh_blowfish
+            irc.authenticate # try again with the PLAIN mechanism
+          else
+            # ope, failed
+            $m.error "SASL authentication on #{irc} failed: received ERR_SASLFAIL from server."
+          end
+        end
 
       end # class Numerics
 

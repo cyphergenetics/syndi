@@ -20,7 +20,7 @@ module Auto
           # @param [String] username The username.
           # @param [String] password The password associatd with the username.
           # @param [String] provision The key provided by the server.
-          def encrypt(username, password, provision)
+          def self.encrypt username, password, provision
             # Easy as this:
             Base64.encode64([username, username, password].join("\0")).gsub(/\n/, '')
           end

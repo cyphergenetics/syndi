@@ -217,7 +217,7 @@ module Auto
         emit :irc, :preconnect, self
         pass @password if @password
         snd 'CAP LS'
-        nickname = @nick
+        self.nickname = @nick
         user(@user, Socket.gethostname, @address, @real)
 
       end
@@ -261,10 +261,12 @@ module Auto
 
       # Send initial AUTHENTICATE.
       def authenticate method = :plain
-        if method == :plain
+        if method    == :plain
           snd 'AUTHENTICATE PLAIN'
+          @supp.sasl_method = :plain
         elsif method == :dh_blowfish
           snd 'AUTHENTICATE DH-BLOWFISH'
+          @supp.sasl_method = :dh_blowfish
         end
       end
 

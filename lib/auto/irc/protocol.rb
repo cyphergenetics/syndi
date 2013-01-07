@@ -9,6 +9,7 @@ module Auto
 
   # namespace IRC
   module IRC
+    autoload :SASL, 'auto/irc/sasl/mech'
 
     # A class for parsing of data per the specifications of the IRC protocol,
     # v3.1.
@@ -42,6 +43,35 @@ module Auto
         end
 
       end
+
+      # AUTHENTICATE
+      #
+      # @param [Auto::IRC::Server] irc The IRC connection.
+      # @param [String] raw The data received.
+      # @param [Array<String>] params The data received divided by +\s+ through
+      #   regexp.
+      def on_authenticate(irc, raw, params)
+        username = $m.conf['irc'][irc.s]['SASL']['username']
+        password = $m.conf['irc'][irc.s]['SASL']['password']
+        
+        if irc.supp.sasl_method    == :dh_blowfish
+          crypt = Auto::IRC::SASL::Mech::DHBlowfish.encrypt(username, password, params.last)
+        elsif irc.supp.sasl_method == :plain
+          crypt = Auto::IRC::SASL::Mech::Plain.encrypt(username, password, params.last)
+        end
+
+        while crypt.length >= 400
+          irc.snd "AUTHENTICATE #{crypt.slice!(0, 400)}"
+        end
+
+        if crypt.length > 0
+          irc.snd "AUTHENTICATE #{crypt}"
+        else
+          irc.snd("AUTHENTICATE +")
+        end
+        # And we're done!
+      end
+
         
       # CAP
       #
@@ -115,9 +145,15 @@ module Auto
         irc.supp.cap = list
           
         if list.include? 'sasl'
-          # SASL stuff goes here
+          $m.clock.spawn $m.conf['irc'][irc.s]['SASL']['timeout']||10, :once, irc do |s|
+            $m.error "SASL authentication on #{s} failed: authentication procedure timed out."
+            s.snd('AUTHENTICATE *')
+            s.snd('CAP END')
+          end
+          irc.authenticate :dh_blowfish
+        else
+          irc.snd('CAP END') # end capability negotiation and complete registration
         end
-        irc.snd('CAP END') # end capability negotiation and complete registration
 
       end
 

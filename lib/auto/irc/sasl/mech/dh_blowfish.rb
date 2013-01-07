@@ -24,7 +24,7 @@ module Auto
           # @param [String] username The username.
           # @param [String] password The password associatd with the username.
           # @param [String] provision The key provided by the server.
-          def encrypt username, password, provision
+          def self.encrypt username, password, provision
             # This is a fairly complex process. Duplicate +username+ and
             # +password+ for safety.
             user = username.dup
@@ -39,17 +39,17 @@ module Auto
             dh     = DiffieHellman.new(p, g, 23)
             pkey   = dh.generate
             secret = OpenSSL::BN.new(dh.secret(y).to_s).to_s(2)
-            pub    = OpenSSL::BN.new(pub_key.to_s).to_s(2)
+            pub    = OpenSSL::BN.new(pkey.to_s).to_s(2)
 
             pass.concat "\0"
             pass.concat('.' * (8 - (password.size % 8)))
 
-            cipher = OpenSSL::Cipher.new('BF-ECB')
+            cipher         = OpenSSL::Cipher.new 'BF-ECB'
             cipher.key_len = 32
             cipher.encrypt
             cipher.key     = secret
 
-            enc    = cipher.update(password).to_s
+            enc    = cipher.update(pass).to_s
             answer = [pub.bytesize, pub, user, enc].pack('na*Z*a*')
 
             Base64.strict_encode64(answer) # finally, return the hash
@@ -57,7 +57,7 @@ module Auto
 
           # @return [Array(Numeric, Numeric, Numeric)] +p+, +g+, and +y+ for
           #   Diffie-Hellman key exchange
-          def unpack_key key
+          def self.unpack_key key
             key = key.dup
             pgy = []
 
