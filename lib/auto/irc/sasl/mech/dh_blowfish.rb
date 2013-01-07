@@ -36,7 +36,7 @@ module Auto
             # Unpack it.
             p, g, y = unpack_key key
 
-            dh     = Auto::IRC::SASL::DiffieHellman.new(p, g, 23)
+            dh     = DiffieHellman.new(p, g, 23)
             pkey   = dh.generate
             secret = OpenSSL::BN.new(dh.secret(y).to_s).to_s(2)
             pub    = OpenSSL::BN.new(pub_key.to_s).to_s(2)
