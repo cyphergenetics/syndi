@@ -23,6 +23,14 @@ module Auto
           end
         end
 
+        # Send CAP END.
+        def cap_end
+          # Stop any SASL-related timers
+          @supp.sasl_id.each { |t| $m.clock.del t }
+          # Send CAP END
+          snd 'CAP END'
+        end
+
         # Disconnect from the server.
         #
         # @param [String] msg Reason for disconnect. 

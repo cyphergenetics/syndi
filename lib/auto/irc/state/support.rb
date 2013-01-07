@@ -11,12 +11,13 @@ module Auto
       #
       # @!attribute cap
       #   @return [Array<String>] A list of enabled capabilities.
-      #
       # @!attribute :sasl_method
       #   @return [Symbol] Method of SASL authentication (+:plain+ or +:dh_blowfish+).
+      # @!attribute :sasl_id
+      #   @return [Array<String>] Identities of SASL-related timers.
       class Support
 
-        attr_accessor :cap, :sasl_method
+        attr_accessor :cap, :sasl_method, :sasl_id
 
         def initialize
           # arrays

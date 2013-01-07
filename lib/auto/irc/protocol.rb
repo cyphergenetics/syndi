@@ -145,10 +145,10 @@ module Auto
         irc.supp.cap = list
           
         if list.include? 'sasl'
-          $m.clock.spawn $m.conf['irc'][irc.s]['SASL']['timeout']||10, :once, irc do |s|
+          irc.supp.sasl_id << $m.clock.spawn($m.conf['irc'][irc.s]['SASL']['timeout']||10, :once, irc) do |s|
             $m.error "SASL authentication on #{s} failed: authentication procedure timed out."
             s.snd('AUTHENTICATE *')
-            s.snd('CAP END')
+            s.cap_end
           end
           irc.authenticate :dh_blowfish
         else

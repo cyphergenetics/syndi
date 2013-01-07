@@ -17,7 +17,7 @@ module Auto
         # RPL_SASLSUCCESS
         define_method("on_#{RPL_SASLSUCCESS}") do |irc, raw, params|
           $m.info "SASL authentication on #{irc} succeeded!"
-          irc.snd('CAP END')
+          irc.cap_end
         end
 
         # ERR_SASLFAIL
@@ -27,6 +27,7 @@ module Auto
           else
             # ope, failed
             $m.error "SASL authentication on #{irc} failed: received ERR_SASLFAIL from server."
+            irc.cap_end
           end
         end
 
