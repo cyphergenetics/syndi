@@ -98,7 +98,7 @@ module Auto
       def call(event, *args)
         # Check if any hooks exist for this event.
         if @events.include? event
-          $m.debug("A thread is spawning for the sake of a broadcast of event {#{event}}.")
+          $m.debug("A thread is spawning for the sake of a broadcast of event {#{event}}.") if $m.opts.verbose?
           @threads << Thread.new(event) do |evnt|
             status = nil
             # Iterate through the hooks.

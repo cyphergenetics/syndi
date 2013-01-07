@@ -110,8 +110,8 @@ module Auto
       @events.call :start
 
       # Throw the program into the main loop.
-      @events.threads.each { |thr| thr.join }
-      debug("Producing a thread and entering the main loop...")
+      @events.threads.each { |thr| thr.join } # block until we're ready to go
+      debug("Producing a thread and entering the main loop...") if @opts.verbose?
       @netloop = Thread.new { main_loop }
       @netloop.join
 
