@@ -7,6 +7,7 @@ require 'socket'
 require 'openssl'
 require 'auto/dsl/base'
 require 'auto/irc/state/support'
+require 'auto/irc/std/commands'
 
 # namespace Auto
 module Auto
@@ -163,6 +164,8 @@ module Auto
         @registered = false 
         @type       = :irc
 
+        # Pull in commands.
+        extend Auto::IRC::Std::Commands
         # Stateful attributes.
         @supp       = Auto::IRC::State::Support.new
 
@@ -258,75 +261,6 @@ module Auto
         emit :irc, :net_receive, self
 
       end
-
-      # Send initial AUTHENTICATE.
-      def authenticate method = :plain
-        if method    == :plain
-          snd 'AUTHENTICATE PLAIN'
-          @supp.sasl_method = :plain
-        elsif method == :dh_blowfish
-          snd 'AUTHENTICATE DH-BLOWFISH'
-          @supp.sasl_method = :dh_blowfish
-        end
-      end
-
-      # Disconnect from the server.
-      #
-      # @param [String] msg Reason for disconnect. 
-      def disconnect(msg = 'Closing connection')
-        emit :irc, :disconnect, self, msg
-        snd "QUIT :#{msg}"
-      end
-      
-      # Join a channel on the server.
-      #
-      # @param [String] chan Channel to join.
-      # @param [String] key Key to join, if necessary.
-      def join(chan, key = nil)
-        snd "JOIN #{chan}#{key.nil? ? '' : key}"
-        emit :irc, :send_join, self, chan, key
-      end
-
-      # Send /NICK to change the bot's nickname on the server.
-      #
-      # @note If the nickname is in use, the bot will append a hyphen and retry,
-      #   repeating until success is achieved.
-      #
-      # @param [String] new The new nickname.
-      def nickname=(new)
-
-        if connected?
-          @newnick = new
-        else
-          @nick = new
-        end
-      
-        snd "NICK :#{new}"
-        emit :irc, :send_nick, self, new
-    
-      end
-
-      # Supply server password.
-      #
-      # @param [String] pass
-      def pass(password); snd "PASS :#{password}"; end
-
-      # Send /USER.
-      #
-      # @param [String] username The bot's username or ident.
-      # @param [String] hostname The bot's hostname.
-      # @param [String] server Address of the remote server.
-      # @param [String] realname The bot's real name or GECOS.
-      def user(username, hostname=Socket.gethostname, server, realname)
-        snd "USER #{username} #{hostname} #{server} :#{realname}"
-      end
-
-      # Request a /WHO on ourselves.
-      def who
-        snd "WHO #@nick"
-        emit :irc, :who_self, self
-      end
-
 
       def to_s; @name; end
       alias_method :s, :to_s
