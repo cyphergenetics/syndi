@@ -11,20 +11,42 @@ module Auto
       #
       # @!attribute cap
       #   @return [Array<String>] A list of enabled capabilities.
-      # @!attribute :sasl_method
+      # @!attribute sasl_method
       #   @return [Symbol] Method of SASL authentication (+:plain+ or +:dh_blowfish+).
-      # @!attribute :sasl_id
+      # @!attribute sasl_id
       #   @return [Array<String>] Identities of SASL-related timers.
+      # @!attribute server_name
+      #   @return [String] Name of the server to which we are connected (e.g. asimov.freenode.net).
+      # @!attribute nicklen
+      #   @return Integer The maximum length of a nickname permissible.
       class Support
 
-        attr_accessor :cap, :sasl_method, :sasl_id
+        attr_accessor :cap, :sasl_method, :sasl_id, :server_name, :nicklen
 
         def initialize
           # arrays
           %w[cap sasl_id].each do |arr|
             instance_variable_set("@#{arr}", [])
           end
-          @sasl_method = nil
+          # strings/symbols
+          %w[sasl_method server_name nicklen].each do |str|
+            instance_variable_set("@#{str}", nil)
+          end
+        end
+
+        # Process ISUPPORT data.
+        #
+        # @param [Auto::IRC::Server] irc The IRC connection.
+        # @param [String] data The ISUPPORT data string.
+        def isupport irc, data
+          
+          # Nick length.
+          if data =~ /NICKLEN=(\d+)/
+            @nicklen = $0.to_i
+          end
+
+          #
+
         end
 
       end # class Support
