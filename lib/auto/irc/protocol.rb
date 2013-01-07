@@ -45,40 +45,61 @@ module Auto
       def on_cap(irc, raw, params)
         case params[3]
 
-        # CAP LS
-        # Currently, Auto's capabilities include the multi-prefix, sasl,
-        # account-notify, away-notify, and extended-join extensions.
         when 'LS'
-          req = []
           params[4].gsub!(/^:/, '')
-
-          # Every extension possible will be used except SASL, which requires
-          # special configuration.
-          %w[multi-prefix account-notify away-notify extended-join].each do |ext|
-            req.push ext if params[4..-1].include? ext
-          end
-
-          if $m.conf['irc'][irc.s]['SASL'] and params[4..-1].include? 'sasl'
-            req.push 'sasl'
-          end
-
-          # Send CAP REQ.
-          irc.snd("CAP REQ :#{req.join(' ')}") unless req.empty?
-
-        # CAP ACK
-        # We must save all capabilities into +irc.supp.cap+, and initiate SASL
-        # if possible.
+          cap_ls(irc, params[4..-1])
         when 'ACK'
           params[4].gsub!(/^:/, '')
-          irc.supp.cap = params[4..-1]
-          
-          if irc.supp.cap.include? 'sasl'
-            # SASL stuff goes here
-          else
-            irc.snd('CAP END') # end capability negotiation and complete registration
-          end
-
+          cap_ack(irc, params[4..-1])
         end
+      end
+
+      #######
+      private
+      #######
+
+      # CAP LS
+      #  
+      # Currently, Auto's capabilities include the multi-prefix, sasl,
+      # account-notify, away-notify, and extended-join extensions.
+      #
+      # @param [Auto::IRC::Server] irc The IRC connection.
+      # @param [Array<String>] list List of capabilities.
+      def cap_ls(irc, list)
+
+        req = []
+          
+        # Every extension possible will be used except SASL, which requires
+        # special configuration.
+        %w[multi-prefix account-notify away-notify extended-join].each do |ext|
+          req.push ext if list.include? ext
+        end
+
+        if $m.conf['irc'][irc.s]['SASL'] and list.include? 'sasl'
+          req.push 'sasl'
+        end
+
+        # Send CAP REQ.
+        irc.snd("CAP REQ :#{req.join(' ')}") unless req.empty?
+
+      end
+      
+      # CAP ACK
+      #
+      # We must save all capabilities into +irc.supp.cap+, and initiate SASL
+      # if possible.
+      #
+      # @param [Auto::IRC::Server] irc The IRC connection.
+      # @param [Array<String>] list List of capabilities.
+      def cap_ack(irc, list)
+
+        irc.supp.cap = list
+          
+        if list.include? 'sasl'
+          # SASL stuff goes here
+        end
+        irc.snd('CAP END') # end capability negotiation and complete registration
+
       end
 
     end # class Protocol
