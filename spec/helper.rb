@@ -14,5 +14,6 @@ $m = Mocha::Mock.new 'Auto::Bot'
   $m.stubs m
 end
 $m.stubs(:events).returns(Mocha::Mock.new('Auto::API::Events'))
+$m.stubs(:opts).returns(Mocha::Mock.new('Slop'))
 
 # vim: set ts=4 sts=2 sw=2 et:

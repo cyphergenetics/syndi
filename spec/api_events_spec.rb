@@ -21,6 +21,10 @@ describe 'Auto::API::Events' do
   end
 
   describe '#call' do
+    before do
+      $m.opts.expects(:verbose?)
+    end
+
     it 'should call all hooks of given event' do
       @ok = false
       @events.on('bunnyEvent') { @ok = true }
