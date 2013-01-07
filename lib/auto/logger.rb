@@ -38,16 +38,7 @@ module Auto
 
       # Set our status to good.
       @status = :good
-
-      # Create logs/ if it's missing.
-      unless Dir.exists?('logs')
-        begin
-          Dir.mkdir('logs')
-        rescue => e
-          @status = :bad
-          raise LogError, "Could not create logs/: #{e}", e.backtrace
-        end
-      end
+      log_directory_check
 
     end
 
@@ -76,14 +67,7 @@ module Auto
       return 0 if @status == :bad
       
       # Create logs/ if it's missing.
-      unless Dir.exists?('logs')
-        begin
-          Dir.mkdir('logs')
-        rescue => e
-          @status = :bad
-          raise LogError, "Could not create logs/: #{e}", e.backtrace
-        end
-      end
+      log_directory_check
 
       # Open the file in the format of log/YYYYMMDD.log.
       time = Time.now
@@ -93,6 +77,19 @@ module Auto
       end
 
     end # def log
+
+    # Check for the existence of logs/, and create the directory if it does not
+    # exist.
+    def log_directory_check
+      unless Dir.exists?('logs')
+        begin
+          Dir.mkdir('logs')
+        rescue => e
+          @status = :bad
+          raise LogError, "Could not create logs/: #{e}", e.backtrace
+        end
+      end
+    end
 
   end # class Logger
 
