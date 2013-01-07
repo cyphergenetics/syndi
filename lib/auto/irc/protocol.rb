@@ -10,6 +10,13 @@ module Auto
   # namespace IRC
   module IRC
 
+    # A class for parsing of data per the specifications of the IRC protocol,
+    # v3.1.
+    #
+    # @see http://tools.ietf.org/html/rfc1459
+    # @see http://ircv3.atheme.org/
+    #
+    # @since 4.0.0
     class Protocol
       include Auto::IRC::Std::Numerics
 
@@ -52,6 +59,18 @@ module Auto
           params[4].gsub!(/^:/, '')
           cap_ack(irc, params[4..-1])
         end
+      end
+
+      # PING
+      #
+      # Return a PONG.
+      #
+      # @param [Auto::IRC::Server] irc The IRC connection.
+      # @param [String] raw The data received.
+      # @param [Array<String>] params The data received divided by +\s+ through
+      #   regexp.
+      def on_ping(irc, raw, params)
+        irc.snd("PONG #{params[1]}")
       end
 
       #######
