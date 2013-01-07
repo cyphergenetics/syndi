@@ -19,7 +19,10 @@ module Auto
         attr_accessor :cap, :sasl_method
 
         def initialize
-          @cap         = []
+          # arrays
+          %w[cap sasl_id].each do |arr|
+            instance_variable_set("@#{arr}", [])
+          end
           @sasl_method = nil
         end
 
