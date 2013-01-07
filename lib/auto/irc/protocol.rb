@@ -2,7 +2,7 @@
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the FreeBSD license (LICENSE.md).
 
-require 'auto/irc/std/numerics'
+require 'auto/irc/protocol/numerics'
 
 # namespace Auto
 module Auto
@@ -18,12 +18,12 @@ module Auto
     #
     # @since 4.0.0
     class Protocol
-      include Auto::IRC::Std::Numerics
 
       # Construct a new IRC data parser.
       #
       # @param [Auto::IRC::Library] lib The IRC library instance.
       def initialize(lib)
+        extend Auto::IRC::Protocol::Numerics
         lib.events.on :receive, &method(:parse)
       end
         
