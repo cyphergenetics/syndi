@@ -44,7 +44,7 @@ module Auto
             pass.concat "\0"
             pass.concat('.' * (8 - (password.size % 8)))
 
-            cipher         = OpenSSL::Cipher.new 'BF-ECB'
+            cipher         = OpenSSL::Cipher::Cipher.new 'BF-ECB'
             cipher.key_len = 32
             cipher.encrypt
             cipher.key     = secret
@@ -64,8 +64,8 @@ module Auto
             3.times do
               size = key.unpack('n').first
               key.slice! 0, 2
-              pgy << key.unpack("a#{key}").first
-              key.slice! 0, size
+              pgy << key.unpack("a#{size}").first
+              key.slice!(0, size)
             end
             
             pgy.map { |int| OpenSSL::BN.new(int, 2).to_i }
