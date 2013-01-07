@@ -22,7 +22,7 @@ module Auto
           # Create an SASL-encrypted hash.
           #
           # @param [String] username The username.
-          # @param [String] password The password associatd with the username.
+          # @param [String] password The password associated with the username.
           # @param [String] provision The key provided by the server.
           def self.encrypt username, password, provision
             # This is a fairly complex process. Duplicate +username+ and

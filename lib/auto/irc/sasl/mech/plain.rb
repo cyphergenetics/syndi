@@ -17,8 +17,10 @@ module Auto
 
           # Create an SASL-encrypted hash.
           #
+          # @author noxgirl
+          #
           # @param [String] username The username.
-          # @param [String] password The password associatd with the username.
+          # @param [String] password The password associated with the username.
           # @param [String] provision The key provided by the server.
           def self.encrypt username, password, provision
             # Easy as this:
