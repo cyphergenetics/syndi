@@ -318,18 +318,8 @@ module Auto
       end
 
 
-      # Check if a user's existence is known to the IRC state management.
-      #
-      # @param [String] nickname
-      #
-      # @return [true, false]
-      # @deprecated
-      def user_known?(nickname)
-        @users.include?(nickname.lc) ? true : false
-      end
-
       def to_s; @name; end
-      def s; @name; end
+      alias_method :s, :to_s
       def inspect; "#<IRC::Server: #@name>"; end
 
       #######
@@ -353,48 +343,6 @@ module Auto
         return false unless @connected
         true
       end
-
-      # Bind default handlers.
-      #
-      # - RPL_WELCOME (005)
-      #
-      # @deprecated
-      def bind_default_handlers
-
-        # RPL_WELCOME
-        $m.events.on(self, 'irc:onRaw1:001') do |irc, data|
-
-          if irc == self
-          
-            # Connection established.
-            $m.info("Successfully connected to #@name!")
-            @connected = true
-          
-            # First event.
-            $m.events.call('irc:onPreProcessConnect', self)
-          
-            # Identify the traditional way.
-            if $m.conf.x['irc'][irc.s].include?('nickIdentify')
-              msg($m.conf.x['irc'][irc.s]['nickIdentify']['service'], 
-              "#{$m.conf.x['irc'][irc.s]['nickIdentify']['command']} #{$m.conf.x['irc'][irc.s]['nickIdentify']['password']}")
-            end
-          
-            # Send a /WHO on ourselves.
-            who
-          
-            # Join any channels specified in the configuration.
-            if $m.conf.x['irc'][irc.s].include?('autojoin')
-              $m.conf.x['irc'][irc.s]['autojoin'].each { |c| join(c['name'], c['key']) }
-            end
-
-            # Final event.
-            $m.events.call('irc:onPostProcessConnect', self)
-        
-          end # if irc == self
-      
-        end # on RPL_WELCOME
-
-      end # def bind_default_handlers
 
     end # class Server
 

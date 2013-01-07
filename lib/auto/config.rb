@@ -88,14 +88,6 @@ module Auto
       return 0
     end
 
-    # Return data of @conf.
-    #
-    # @return [Hash{}] The configuration data.
-    # @deprecated Use {#[]} in lieu.
-    def x
-      @conf
-    end
-
     # Return value of @conf[key].
     #
     # @return [Object] Value of @conf[key].
