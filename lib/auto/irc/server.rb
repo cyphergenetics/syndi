@@ -33,6 +33,9 @@ module Auto
     # @!attribute [r] type
     #   @return [Symbol] +:irc+
     #
+    # @!attribute [r] supp
+    #   @return [Auto::IRC::State::Support] The IRCd capabilities.
+    #
     # @!attribute name
     #   @return [String] The name of the server as specified by configuration.
     #
@@ -109,7 +112,7 @@ module Auto
     class Server
       include Auto::DSL::Base
 
-      attr_reader   :socket, :in, :out, :type
+      attr_reader   :socket, :in, :out, :type, :supp
       attr_accessor :name, :address, :port, :nick, :user, :real, :password,
                     :bind, :ssl, :sasl_id, :connected, :mask, :recvq,
                     :prefixes, :channel_modes, :max_modes,
