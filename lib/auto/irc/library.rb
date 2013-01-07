@@ -39,7 +39,7 @@ module Auto
         @events.on :net_receive do |irc|
           until irc.recvq.length == 0
             line = irc.recvq.shift.chomp
-            $m.foreground("{irc_recv} #{irc} >> #{line}")
+            $m.foreground("{irc-recv} #{irc} >> #{line}")
             @events.call :receive, irc, line # send it out to :receive
           end
         end
