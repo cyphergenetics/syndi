@@ -5,7 +5,6 @@
 require 'ostruct'
 require 'socket'
 require 'openssl'
-require 'auto/api/helper/events'
 require 'auto/dsl/base'
 
 # namespace Auto
@@ -235,7 +234,11 @@ module Auto
         @in += data.length
       
         # Split the data.
-        recv, data = data.split(/(?<=\r\n)/, 2)
+        recv = []
+        until data !~ /\r\n/
+          line, data = data.split(/(?<=\r\n)/, 2)
+          recv.push line
+        end
 
         # Check if there's a remainder in the recvQ.
         if @recvqm != ''
@@ -249,7 +252,6 @@ module Auto
         emit :irc, :net_receive, self
 
       end
-
 
 
       # Disconnect from the server.

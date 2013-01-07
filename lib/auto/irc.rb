@@ -4,6 +4,6 @@
 
 require 'auto/irc/library'
 
-Auto::IRC::Library.new
+LIBRARY_IRC = Auto::IRC::Library.new
 
 # vim: set ts=4 sts=2 sw=2 et:

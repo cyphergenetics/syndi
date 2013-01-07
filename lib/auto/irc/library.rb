@@ -30,14 +30,14 @@ module Auto
         @connections = Hash.new
       
         # Be ready to accept data.
-        $m.events.on :net_receive, 1, self.method(:receive)
+        $m.events.on :net_receive, 1, &self.method(:receive)
 
         # Start connections when Auto is started.
-        $m.events.on :start, self.method(:start)
+        $m.events.on :start, &self.method(:start)
 
         # Prepare for incoming IRC traffic.
         @events.on :net_receive do |irc|
-          until recvq.length == 0
+          until irc.recvq.length == 0
             line = irc.recvq.shift.chomp
             $m.foreground("{irc_recv} #{irc} >> #{line}")
             @events.call :receive, irc, line # send it out to :receive
@@ -73,8 +73,8 @@ module Auto
             end
 
             # Connect.
-            $m.sockets.push @collections[name]
-            @collections[name].connect
+            $m.sockets << @connections[name]
+            @connections[name].connect
           rescue => e
             $m.error("Connection to #{name} failed: #{e}", false, e.backtrace)
           end

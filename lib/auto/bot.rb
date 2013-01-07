@@ -53,8 +53,7 @@ module Auto
   #   @return [Array<Object>] A list of socket objects.
   class Bot
 
-    attr_reader :opts, :log, :conf, :events, :clock, :db, :libs, :netloop,
-                :sockets
+    attr_reader :opts, :log, :conf, :events, :clock, :db, :libs, :netloop, :sockets
 
     # Create a new instance of Auto.
     #
@@ -111,6 +110,7 @@ module Auto
       @events.call :start
 
       # Throw the program into the main loop.
+      @events.threads.each { |thr| thr.join }
       debug("Producing a thread and entering the main loop...")
       @netloop = Thread.new { main_loop }
       @netloop.join
@@ -130,6 +130,7 @@ module Auto
             assoc_objects[o.socket] = o
           end
         end
+        next if sockets.empty?
       
         # Call #select.
         ready_read, ready_write, ready_err = IO.select(sockets, [], [], nil)
@@ -216,7 +217,7 @@ module Auto
       @events.call :die, reason
     
       # Close the database.
-      @db.close
+      @db.disconnect
 
       # Delete auto.pid
       unless @opts.debug? or @opts.foreground?
@@ -278,8 +279,10 @@ module Auto
         end
 
         begin
-          instance_variable_set "@#{lib}".to_sym, require("auto/#{lib}")
-          attr_reader "@#{lib}".to_sym
+          # here is where magic occurs to load a library
+          require "auto/#{lib}"
+          instance_variable_set "@#{lib}".to_sym, Object.const_get("LIBRARY_#{lib.uc}")
+          define_singleton_method(lib.to_sym) { self.instance_variable_get("@#{__method__}".to_sym) }
           @libs.push lib
         rescue => e
           error "Failed to load core library '#{lib}': #{e}", true, e.backtrace

@@ -30,11 +30,11 @@ module Auto
       # @param [Symbol] event The event onto which to hook.
       #
       # @see Auto::API::Events#on
-      def on(system, event, &prc)
-        if system == :auto # central system
+      def on(sys, event, &prc)
+        if sys == :auto # central system
           $m.events.on(event, prc)
         else
-          $m.instance_variable_get("@#{system.to_s}").events.on(event, prc)
+          $m.send(sys).events.on(event, prc) if $m.respond_to? sys
         end
       end
       
@@ -44,11 +44,11 @@ module Auto
       # @param [Symbol] event The event onto which to hook.
       #
       # @see Auto::API::Events#call
-      def emit(system, event, *args)
-        if system == :auto # central system
+      def emit(sys, event, *args)
+        if sys == :auto # central system
           $m.events.call(event, *args)
         else
-          $m.instance_variable_get("@#{system.to_s}").events.call(event, *args)
+          $m.send(sys).events.call(event, *args) if $m.respond_to? sys
         end
       end
       
@@ -58,11 +58,11 @@ module Auto
       # @param [Array(Symbol, Integer, String)] hook The identification data of the hook.
       #
       # @see Auto::API::Events#del
-      def undo_on(system, hook)
-        if system == :auto # central system
+      def undo_on(sys, hook)
+        if sys == :auto # central system
           $m.events.del(hook)
         else
-          $m.instance_variable_get("@#{system.to_s}").events.del(hook)
+          $m.send(sys).events.del(hook) if $m.respond_to? sys
         end
       end
 
