@@ -38,8 +38,8 @@ module Auto
         command = (raw =~ /^:/ ? params[1] : params[0]).dc
 
         # Check if we process this command.
-        if respond_to? "on_#{command.dc}"
-          send("on_#{command.dc}", irc, raw, params)
+        if respond_to? "on_#{command}"
+          send("on_#{command}", irc, raw, params)
         end
 
       end
