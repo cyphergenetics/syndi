@@ -6,6 +6,7 @@ require 'auto/irc/server'
 require 'auto/irc/object/entity'
 require 'auto/irc/object/channel'
 require 'auto/irc/object/user'
+require 'auto/irc/protocol'
 
 module Auto
   
@@ -30,10 +31,10 @@ module Auto
         @connections = Hash.new
       
         # Be ready to accept data.
-        $m.events.on :net_receive, 1, &self.method(:receive)
+        $m.events.on :net_receive, 1, &method(:receive)
 
         # Start connections when Auto is started.
-        $m.events.on :start, &self.method(:start)
+        $m.events.on :start, &method(:start)
 
         # Prepare for incoming IRC traffic.
         @events.on :net_receive do |irc|
@@ -43,6 +44,9 @@ module Auto
             @events.call :receive, irc, line # send it out to :receive
           end
         end
+
+        # Parse data.
+        @parser = Auto::IRC::Protocol.new self
         
       end # def initialize
 

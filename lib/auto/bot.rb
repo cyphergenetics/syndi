@@ -125,13 +125,13 @@ module Auto
         sockets       = []
         assoc_objects = {}
         @sockets.each do |o|
-          unless o.socket.nil?
+          unless o.socket.nil? or o.socket.closed?
             sockets << o.socket
             assoc_objects[o.socket] = o
           end
         end
         next if sockets.empty?
-      
+
         # Call #select.
         ready_read, ready_write, ready_err = IO.select(sockets, [], [], nil)
 
