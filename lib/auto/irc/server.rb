@@ -259,11 +259,19 @@ module Auto
 
       end
 
+      # Send initial AUTHENTICATE.
+      def authenticate method = :plain
+        if method == :plain
+          snd 'AUTHENTICATE PLAIN'
+        elsif method == :dh_blowfish
+          snd 'AUTHENTICATE DH-BLOWFISH'
+        end
+      end
 
       # Disconnect from the server.
       #
       # @param [String] msg Reason for disconnect. 
-      def disconnect(msg='Closing connection')
+      def disconnect(msg = 'Closing connection')
         emit :irc, :disconnect, self, msg
         snd "QUIT :#{msg}"
       end
@@ -272,7 +280,7 @@ module Auto
       #
       # @param [String] chan Channel to join.
       # @param [String] key Key to join, if necessary.
-      def join(chan, key=nil)
+      def join(chan, key = nil)
         snd "JOIN #{chan}#{key.nil? ? '' : key}"
         emit :irc, :send_join, self, chan, key
       end
