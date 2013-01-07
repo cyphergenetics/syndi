@@ -65,6 +65,16 @@ to be processed.
 This event occurs when data has been removed from the receive queue and is ready
 for processing, with newlines and carriage returns stripped.
 
+### :connected |irc|
+
+**irc** (_Auto::IRC::Server_): The IRC connection.
+
+This event occurs after ISUPPORT has been received and processed, and the
+connection is fully established.
+
+Typically, at this point, any traditional service identification and autojoining
+occurs.
+
 ### :disconnect |irc, reason|
 
 **irc** (_Auto::IRC::Server_): The IRC connection.  
