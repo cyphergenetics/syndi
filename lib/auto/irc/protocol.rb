@@ -48,14 +48,13 @@ module Auto
         # CAP LS
         # Currently, Auto's capabilities include the multi-prefix, sasl,
         # account-notify, away-notify, and extended-join extensions.
-        when 'LS'  # LS
+        when 'LS'
           req = []
           params[4].gsub!(/^:/, '')
 
           # Every extension possible will be used except SASL, which requires
           # special configuration.
           %w[multi-prefix account-notify away-notify extended-join].each do |ext|
-            p params[4..-1]
             req.push ext if params[4..-1].include? ext
           end
 
@@ -66,7 +65,18 @@ module Auto
           # Send CAP REQ.
           irc.snd("CAP REQ :#{req.join(' ')}") unless req.empty?
 
-        when 'ACK' # ACK
+        # CAP ACK
+        # We must save all capabilities into +irc.supp.cap+, and initiate SASL
+        # if possible.
+        when 'ACK'
+          params[4].gsub!(/^:/, '')
+          irc.supp.cap = params[4..-1]
+          
+          if irc.supp.cap.include? 'sasl'
+            # SASL stuff goes here
+          else
+            irc.snd('CAP END') # end capability negotiation and complete registration
+          end
 
         end
       end
