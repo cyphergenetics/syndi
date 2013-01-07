@@ -37,13 +37,7 @@ module Auto
         $m.events.on :start, &method(:start)
 
         # Prepare for incoming IRC traffic.
-        @events.on :net_receive do |irc|
-          until irc.recvq.length == 0
-            line = irc.recvq.shift.chomp
-            $m.foreground("{irc-recv} #{irc} >> #{line}")
-            @events.call :receive, irc, line # send it out to :receive
-          end
-        end
+        prepare_incoming_traffic
 
         # Parse data.
         @parser = Auto::IRC::Protocol.new self
@@ -54,7 +48,7 @@ module Auto
       #
       # @param [Object] socket_object The socket object, which in the case of
       #   ourselves should be an {Auto::IRC::Server}, or we won't handle it.
-      def receive(socket_object)
+      def receive socket_object
         if socket_object.instance_of? Auto::IRC::Server
           socket_object.recv   
         end
@@ -85,6 +79,21 @@ module Auto
         end
 
       end # def start
+
+      #######
+      private
+      #######
+
+      # Prepare for incoming IRC traffic.
+      def prepare_incoming_traffic
+        @events.on :net_receive do |irc|
+          until irc.recvq.length == 0
+            line = irc.recvq.shift.chomp
+            $m.foreground("{irc-recv} #{irc} >> #{line}")
+            @events.call :receive, irc, line # send it out to :receive
+          end
+        end
+      end
 
     end # class Library
 
