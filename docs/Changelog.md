@@ -5,6 +5,549 @@ Developers, this is produced employing thus:
     
     $ git log <starting hash>..<ending hash> --no-merges --pretty=format:"[%h] %cn \<%ce\>  %nDate: %cd  %n_%s_%n"
 
+4.0.0.a.0.3 (prealpha 3)
+------------------------
+
+[5dca16b] noxgirl \<xoeverlux@gmail.com\>  
+Date: Mon Jan 7 11:59:52 2013 -0700  
+_Fixing typos._
+
+[baed8b1] noxgirl \<xoeverlux@gmail.com\>  
+Date: Mon Jan 7 11:54:43 2013 -0700  
+_I don't know why I made these IRCd-specific modules. I must've been sleep-deprived, because everything we need can be procured from RPL_ISUPPORT._
+
+[ac437b4] noxgirl \<xoeverlux@gmail.com\>  
+Date: Mon Jan 7 11:45:16 2013 -0700  
+_Fixed a bug with SASL timing out._
+
+[f94ef9e] noxgirl \<xoeverlux@gmail.com\>  
+Date: Mon Jan 7 11:34:06 2013 -0700  
+_Organizing Server's command methods into Std::Commands and using #extend to import them._
+
+[59d3e05] noxgirl \<xoeverlux@gmail.com\>  
+Date: Mon Jan 7 11:23:03 2013 -0700  
+_Adding an sasl_id array to state._
+
+[6f5dd54] noxgirl \<xoeverlux@gmail.com\>  
+Date: Mon Jan 7 11:18:06 2013 -0700  
+_Fixed a bug with DH-BLOWFISH SASL that caused an OpenSSL 'key length too short' exception._
+
+[0a04980] noxgirl \<xoeverlux@gmail.com\>  
+Date: Mon Jan 7 02:05:02 2013 -0700  
+_SASL support. Semi-functional, because DH-BLOWFISH throws an exception and then the timeout kicks in and uses PLAIN instead. This needs to be fixed._
+
+[f8debe2] noxgirl \<xoeverlux@gmail.com\>  
+Date: Mon Jan 7 01:32:45 2013 -0700  
+_Adding Server#authenticate_
+
+[7a9007c] noxgirl \<xoeverlux@gmail.com\>  
+Date: Mon Jan 7 01:20:15 2013 -0700  
+_Oops, DiffieHellman is in the top-level namespace._
+
+[c00dc0a] noxgirl \<xoeverlux@gmail.com\>  
+Date: Mon Jan 7 01:12:47 2013 -0700  
+_DH-BLOWFISH and PLAIN SASL mechanism modules._
+
+[6ba317e] noxgirl \<xoeverlux@gmail.com\>  
+Date: Mon Jan 7 00:33:49 2013 -0700  
+_Added auto/irc/sasl/mech, which uses Kernel#autoload to provide the needed SASL mechanisms._
+
+[030aaed] noxgirl \<xoeverlux@gmail.com\>  
+Date: Mon Jan 7 00:28:07 2013 -0700  
+_Moving numeric parsing to Protocol::Numerics in lieu of Protocol for purposes of simplicity._
+
+[038ed24] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 23:57:32 2013 -0700  
+_Adding parsing for PING._
+
+[f37b1fd] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 23:41:15 2013 -0700  
+_Simplifying Auto::IRC::Protocol._
+
+[a1d6571] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 22:50:07 2013 -0700  
+_Purging deprecated methods ahead of the next prerelease._
+
+[bb58928] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 22:42:04 2013 -0700  
+_Sort of finished CAP support without SASL functionality, which will come in a forthcoming commit_
+
+[7cdd540] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 22:34:17 2013 -0700  
+_Simplifying Auto::IRC::Library._
+
+[df2c0f6] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 22:17:33 2013 -0700  
+_Ah yes, should probably make @supp publicly readable._
+
+[720d3c0] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 22:14:12 2013 -0700  
+_Auto::IRC::Server#supp, which is an instance of State::Support and which, along with our ChannelManager and UserManager classes, will supersede the old, complicated, incomplete state management system._
+
+[b462fb3] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 22:08:02 2013 -0700  
+_Since Auto::API::Events processes hooks in threads, report exceptions which occur in these threads as non-fatal errors._
+
+[28a20ed] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 22:01:43 2013 -0700  
+_Auto::IRC::State::Support#cap [Array<String>]_
+
+[d5a42dc] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 21:52:31 2013 -0700  
+_Moving auto/irc/std/isupport to auto/irc/state/support_
+
+[39c1c85] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 21:47:39 2013 -0700  
+_Starting IRC::Protocol, which is a more sensible means of processing IRC data_
+
+[3cb2927] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 19:37:38 2013 -0700  
+_Cutting duplication in Auto::Logger._
+
+[4241dd9] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 18:57:47 2013 -0700  
+_Please use git mv_
+
+[12bcb1f] Matthew Carey \<matthew.b.carey@gmail.com\>  
+Date: Sun Jan 6 20:56:24 2013 -0500  
+_Converting bacon specs to minitest_
+
+[75381fa] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 18:56:22 2013 -0700  
+_Mock $m.opts and $m.opts.verbose?_
+
+[f201b64] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 18:49:23 2013 -0700  
+_ok_
+
+[f86b403] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 18:42:45 2013 -0700  
+_Consistency~_
+
+[f7cfaaf] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 18:40:45 2013 -0700  
+_Record thread creation only if in verbose mode._
+
+[1746c3e] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 18:38:29 2013 -0700  
+_Adding --verbose/-V_
+
+[365421b] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 18:35:51 2013 -0700  
+_Fixing numerous bugs introduced by myself and swarley._
+
+[d477ad6] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 17:25:32 2013 -0700  
+_Fixing the String extension._
+
+[5ef0492] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 16:52:49 2013 -0700  
+_A DH key exchange class._
+
+[a8cf4a3] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 16:46:58 2013 -0700  
+_Extending stdlib class Integer for the SASL mechanism DH-BLOWFISH._
+
+[595e70b] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 16:16:42 2013 -0700  
+_Purging the rest of lib/irc._
+
+[c4963bb] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 16:16:05 2013 -0700  
+_Preparing to rewrite IRC::Object::{Message,Channel} as Auto::IRC::Object:: classes._
+
+[1fb82a5] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 16:13:42 2013 -0700  
+_Purging IRC::Commands._
+
+[de779a8] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 16:12:56 2013 -0700  
+_Purging IRC::Parser._
+
+[6925a3f] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 16:11:54 2013 -0700  
+_Documenting event :irc-:receive_
+
+[884c9f8] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 15:52:56 2013 -0700  
+_Further simplifying Auto::IRC::Library._
+
+[cef2d24] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 15:43:55 2013 -0700  
+_Removing a metric tonne of rubbish from the events specification; in forthcoming commits, seven events will be united into three._
+
+[c6cf588] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 15:40:56 2013 -0700  
+_Typo._
+
+[9af19e4] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 15:39:59 2013 -0700  
+_Initiating rewrite of Auto::IRC::Server_
+
+[981e18d] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 15:31:48 2013 -0700  
+_Documenting more events._
+
+[8cb1b01] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 15:03:48 2013 -0700  
+_Giving the events documentation a more specific name._
+
+[3d4eb88] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 15:02:29 2013 -0700  
+_Adding new events_
+
+[96a524b] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 13:48:33 2013 -0700  
+_Including a copy of the wiki installation guide_
+
+[6ddc531] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 13:08:55 2013 -0700  
+_Another typo. ):_
+
+[46f03d4] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 13:06:15 2013 -0700  
+_Err, typo._
+
+[f010080] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 13:04:44 2013 -0700  
+_Rewriting Auto::IRC::Library_
+
+[0d94574] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 12:55:17 2013 -0700  
+_Using metaprogramming to provide #on, #emit, and #undo_on in Auto::DSL::Base._
+
+[cf7d82c] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 12:43:12 2013 -0700  
+_Updating the events documentation_
+
+[664b433] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 11:51:30 2013 -0700  
+_Initiating changes to Auto::IRC_
+
+[f298784] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 11:44:54 2013 -0700  
+_Oopsie_
+
+[ce7f41f] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 11:41:45 2013 -0700  
+_Simplified the main loop and termination (loop uses :net_receive, while termination uses :die)_
+
+[f5ef4da] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 11:32:46 2013 -0700  
+_This is unnecessary..._
+
+[69438ba] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 11:30:37 2013 -0700  
+_Vastly simplified the starting process of Auto::Bot, with a new event :start._
+
+[f655b7d] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 11:26:55 2013 -0700  
+_Vastly simplified and organized the initialization process of Auto::Bot._
+
+[1ce035b] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 11:17:00 2013 -0700  
+_Typo_
+
+[82c39fd] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 11:11:11 2013 -0700  
+_Initiating rewrite of the monstrosity that is Auto::Bot_
+
+[bd28cb0] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 11:10:02 2013 -0700  
+_Add the bangs to Ruby stdlib extensions_
+
+[6cd7924] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 11:00:11 2013 -0700  
+_Organizing Auto.gem? and Auto.windows? into lib/auto_
+
+[a38223e] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 10:35:47 2013 -0700  
+_These need to be Strings, not Fixnums._
+
+[f70c744] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sun Jan 6 10:21:12 2013 -0700  
+_Beginning IRC::Library_
+
+[cf0ddd5] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sat Jan 5 23:20:56 2013 -0700  
+_Updating files to reflect ae31964_
+
+[ae31964] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sat Jan 5 23:19:36 2013 -0700  
+_Centralize the version constants_
+
+[e1e53ac] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sat Jan 5 22:30:41 2013 -0700  
+_Let's name our specs sensibly, yes?_
+
+[d6e575a] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sat Jan 5 22:29:14 2013 -0700  
+_Refactored the spec for Auto::IRC::Object::Entity_
+
+[18e9a90] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sat Jan 5 22:28:44 2013 -0700  
+_Added a mock of m.events_
+
+[ed7c637] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sat Jan 5 21:45:35 2013 -0700  
+_1.9.2 lacks minitest/benchmark; if we use this in the future, we can make benchmarking optional and check for 1.9.3+_
+
+[5a0e197] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sat Jan 5 21:42:50 2013 -0700  
+_These have been moved._
+
+[62c6baf] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sat Jan 5 21:40:20 2013 -0700  
+_Initiating refactoring of specs to employ minitest/spec+mocha in lieu of bacon+facon, and thus dropping our development dependencies of bacon/facon in favor of mocha (minitest is in the 1.9 stdlib). Moreover, refactored Auto::API::Events such that it is more suitable for being used as individual instances in each individual library including the central class._
+
+[9b16963] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sat Jan 5 17:38:02 2013 -0700  
+_'Version' is more suitable than 'latest'_
+
+[d70503b] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sat Jan 5 17:36:45 2013 -0700  
+_Linking to our CodeClimate page_
+
+[bf1ba2d] noxgirl \<xoeverlux@gmail.com\>  
+Date: Sat Jan 5 13:20:52 2013 -0700  
+_Auto::API::Plugin - DSL extensions_
+
+[56656a8] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 23:18:35 2013 -0700  
+_Disable Shell for now._
+
+[95d9342] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 20:41:16 2013 -0700  
+_Auto Configure Shell now has 'help' and semi-decent error handling._
+
+[4cc61ff] Matthew Carey \<matthew.b.carey@gmail.com\>  
+Date: Fri Jan 4 22:02:19 2013 -0500  
+_Sorry I'm not really good with git :/_
+
+[735d5da] Matthew Carey \<matthew.b.carey@gmail.com\>  
+Date: Fri Jan 4 21:59:30 2013 -0500  
+_Changing the spec name to be more appropriate_
+
+[408a108] Matthew Carey \<matthew.b.carey@gmail.com\>  
+Date: Fri Jan 4 21:58:49 2013 -0500  
+_Added Gem::Version to make the version comparison work_
+
+[2790bac] Matthew Carey \<matthew.b.carey@gmail.com\>  
+Date: Fri Jan 4 21:57:49 2013 -0500  
+_Added a basic plugin api spec that checks Auto::API::Plugin#configure_
+
+[3bbc84c] Matthew Carey \<matthew.b.carey@gmail.com\>  
+Date: Fri Jan 4 21:51:06 2013 -0500  
+_Changing regex for matching versions._
+
+[21d4bd7] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 19:45:16 2013 -0700  
+_Making auto-conf shell semi-functional._
+
+[04a2e08] Matthew Carey \<matthew.b.carey@gmail.com\>  
+Date: Fri Jan 4 21:16:30 2013 -0500  
+_Made the timer spec use smaller increments of time so I don't go crazy waiting for the tests to finish._
+
+[cfad59c] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 18:54:26 2013 -0700  
+_More to-do entries_
+
+[0d395f7] Matthew Carey \<matthew.b.carey@gmail.com\>  
+Date: Fri Jan 4 20:51:39 2013 -0500  
+_Changing some things in the plugin file. Specs to come soon if everything goes well._
+
+[b2ae41c] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 18:45:24 2013 -0700  
+_Updated Gemfile.lock_
+
+[370308c] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 18:44:58 2013 -0700  
+_My bad. The new rake is 10.0, not 0.10._
+
+[2b456e3] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 18:43:06 2013 -0700  
+_dependency: rake ~> 0.9 -> rake ~> 0.10_
+
+[c519303] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 18:35:41 2013 -0700  
+_Added several instance attributes and #configure to Auto::API::Plugin_
+
+[c3f5517] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 18:19:52 2013 -0700  
+_Added PluginError exception_
+
+[5cd599a] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 17:09:32 2013 -0700  
+_And so begins Auto::API::Plugin_
+
+[52288da] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 17:04:50 2013 -0700  
+_chmod -x Auto::API::Timers_
+
+[200fa10] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 17:03:12 2013 -0700  
+_Purge Auto::API::Helper::_
+
+[b3a7e54] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 17:02:22 2013 -0700  
+_Finishing up Auto::DSL::Base_
+
+[6ed4375] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 16:57:08 2013 -0700  
+_Preparing to move Auto::API::Helper::Events to Auto::DSL::Base_
+
+[3f8ecb3] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 16:49:41 2013 -0700  
+_Create the database hash in auto-conf to prevent NilClass exception._
+
+[85aac65] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 16:48:22 2013 -0700  
+_Hide NickServ passwords in auto-conf prompt._
+
+[a309154] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 16:46:52 2013 -0700  
+_Typo_
+
+[0d720b4] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 16:42:49 2013 -0700  
+_Incomplete Auto::Configure::Shell_
+
+[e7c828a] Matthew Carey \<matthew.b.carey@gmail.com\>  
+Date: Fri Jan 4 18:40:44 2013 -0500  
+_I forgot about the lambda param syntax_
+
+[c88491f] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 16:38:58 2013 -0700  
+_Remove stray do_
+
+[3226445] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 16:36:01 2013 -0700  
+_Adding support for Auto Configure Shell_
+
+[ed0242c] Matthew Carey \<matthew.b.carey@gmail.com\>  
+Date: Fri Jan 4 16:47:39 2013 -0500  
+_Code cleanup and made JSON output as bearable as JSON gets._
+
+[933458c] Matthew Carey \<matthew.b.carey@gmail.com\>  
+Date: Fri Jan 4 15:59:51 2013 -0500  
+_Add version check and change lambda directive to -> to make the code more visually appealing._
+
+[419bb26] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 10:07:20 2013 -0700  
+_Corrected Auto::IRC::Object::User; however, we need a spec for this._
+
+[255e1ca] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 10:06:37 2013 -0700  
+_Added --modify/-m to auto-conf_
+
+[550281e] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 10:05:46 2013 -0700  
+_Added Auto::Configure#conf_database and a Kernel#autoload for the upcoming ::Change_
+
+[fa32720] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 09:38:31 2013 -0700  
+_Use ~> in the gemspec in lieu of >= in case of compatibility issues._
+
+[b53dc09] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 09:37:38 2013 -0700  
+_Gemfile.lock_
+
+[bbc7b14] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 09:35:47 2013 -0700  
+_Unfortunately, travis won't let our lives be easy._
+
+[d171a23] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 08:54:44 2013 -0700  
+_Fixed Auto::IRC::Object::Entity._
+
+[674fac4] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 08:54:17 2013 -0700  
+_It would appear I did my math wrong in irc_entities_spec._
+
+[a3c8179] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 08:47:42 2013 -0700  
+_This should fix irc_entities_spec_
+
+[992f5ad] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 08:30:37 2013 -0700  
+_Facon mocks need to be configured before testing the methods which will employ them._
+
+[cc272a5] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 08:25:59 2013 -0700  
+_Updated irc_entities_spec_
+
+[02dc3f9] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 08:13:31 2013 -0700  
+_auto-conf: call #generate in lieu of #start_
+
+[22284cb] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 08:12:59 2013 -0700  
+_chmod -x_
+
+[979c28f] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 08:12:29 2013 -0700  
+_Auto::IRC::Object::User, which supersedes IRC::Object::User_
+
+[6d2e0d0] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 08:03:46 2013 -0700  
+_Renaming Auto::Configure#start to #generate and adding a Kernel#autoload for Auto::Configure::Upgrade_
+
+[52f8454] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 07:54:22 2013 -0700  
+_Oops. NOW, Auto::Configure works._
+
+[9e6bb3b] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 07:52:33 2013 -0700  
+_Updated Gemfile._
+
+[ef2adbf] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 07:52:14 2013 -0700  
+_Auto::Configure is now fully functional._
+
+[a631f21] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 06:50:37 2013 -0700  
+_Gemfile.lock_
+
+[fe5ffb3] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 06:49:55 2013 -0700  
+_Include the conf/ dir in gem releases._
+
+[774e4cc] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 06:39:42 2013 -0700  
+_Rename to Auto Configure, which is more apropos to the functions which auto-conf will serve._
+
+[4b372ff] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 05:12:07 2013 -0700  
+_Make the Gemfile use the gemspec because that makes life even easier_
+
+[67e5d8a] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 04:59:32 2013 -0700  
+_Basis for irc_entities_spec_
+
+[749c588] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 03:32:15 2013 -0700  
+_Oopsie_
+
+[ed419c0] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 03:28:37 2013 -0700  
+_Auto::IRC::Object::Entity: Make irc publicly readable_
+
+[228605a] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 03:26:12 2013 -0700  
+_Auto::IRC::Object::Entity_
+
+[10d00fb] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 02:53:34 2013 -0700  
+_IRC::Server has been replaced by Auto::IRC::Server_
+
+[a175fbb] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 02:52:13 2013 -0700  
+_Auto::IRC::Server, but it's 1.5-year-old rubbish that needs to be improved drastically._
+
+[2cbc319] noxgirl \<xoeverlux@gmail.com\>  
+Date: Fri Jan 4 02:36:36 2013 -0700  
+_Typo_
+
 4.0.0.a.0.2 (prealpha 2)
 ------------------------
 
