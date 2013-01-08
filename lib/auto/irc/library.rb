@@ -37,9 +37,6 @@ module Auto
         # Start connections when Auto is started.
         $m.events.on :start, &method(:start)
 
-        # Prepare for incoming IRC traffic.
-        prepare_incoming_traffic
-
         # Parse data.
         @parser = Auto::IRC::Protocol.new self
 
@@ -83,21 +80,6 @@ module Auto
         end
 
       end # def start
-
-      #######
-      private
-      #######
-
-      # Prepare for incoming IRC traffic.
-      def prepare_incoming_traffic
-        @events.on :net_receive do |irc|
-          until irc.recvq.length == 0
-            line = irc.recvq.shift.chomp
-            $m.foreground("{irc-recv} #{irc} >> #{line}")
-            @events.call :receive, irc, line # send it out to :receive
-          end
-        end
-      end
 
     end # class Library
 

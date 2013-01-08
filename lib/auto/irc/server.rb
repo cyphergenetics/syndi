@@ -116,9 +116,7 @@ module Auto
 
       attr_reader   :socket, :in, :out, :type, :supp
       attr_accessor :name, :address, :port, :nick, :user, :real, :password,
-                    :bind, :ssl, :sasl_id, :connected, :mask, :recvq,
-                    :prefixes, :channel_modes, :max_modes,
-                    :await_self_who, :channels, :users
+                    :bind, :ssl, :connected, :chans, :users
 
       # Produce a new instance of {Auto::IRC::Server}.
       #
@@ -162,19 +160,17 @@ module Auto
         @out        = 0
         @socket     = nil
         @connected  = false
-        @registered = false 
         @type       = :irc
 
         # Pull in commands.
-        extend Auto::IRC::Std::Commands
-        # Stateful attributes.
-        @supp       = Auto::IRC::State::Support.new
+        extend   Auto::IRC::Std::Commands
+        # State managers.
+        @supp  = Auto::IRC::State::Support.new
+        @chans = nil
+        @users = nil
 
-        #@await_self_who = false
-
-        # Our recvQ.
-        @recvq  = []
-        @recvqm = ''
+        # Our receive queue remainder.
+        @recv_rem = nil
 
         # Mutual exclusion for thread safety.
         @lock = Mutex.new
@@ -219,7 +215,7 @@ module Auto
         pass @password if @password
         snd 'CAP LS'
         self.nickname = @nick
-        user(@user, Socket.gethostname, @address, @real)
+        user @user, Socket.gethostname, @address, @real
 
       end
 
@@ -251,26 +247,29 @@ module Auto
           recv = []
           until data !~ /\r\n/
             line, data = data.split(/(?<=\r\n)/, 2)
-            recv.push line
+            recv.push line.chomp "\r\n"
           end
 
           # Check if there's a remainder in the recvQ.
-          if @recvqm != ''
-            recv[0] = "#@recvqm#{recv[0]}"
-            @recvqm = ''
+          if @recv_rem != ''
+            recv[0] = "#@recv_rem#{recv[0]}"
+            @recv_rem = ''
           end
-          @recvqm = data if data != ''
+          @recv_rem = data if data != ''
 
-          # Lastly, push the data to the recvQ and call :net_receive.
-          @recvq.push(*recv)
-          emit :irc, :net_receive, self
+          # Lastly, sent the data out
+          recv.each do |line|
+            $m.foreground("{irc-recv} #@name >> #{line}")
+            emit :irc, :receive, self, line # send it out to :receive
+          end
+        
         end
 
       end
 
-      def to_s; @name; end
+      def to_s;    @name; end
+      def inspect; "#<Auto::IRC::Server: name='#@name'>"; end
       alias_method :s, :to_s
-      def inspect; "#<IRC::Server: #@name>"; end
 
       #######
       private
