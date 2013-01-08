@@ -7,6 +7,7 @@ require 'auto/irc/object/entity'
 require 'auto/irc/object/channel'
 require 'auto/irc/object/user'
 require 'auto/irc/protocol'
+require 'auto/irc/common'
 
 module Auto
   
@@ -41,6 +42,9 @@ module Auto
 
         # Parse data.
         @parser = Auto::IRC::Protocol.new self
+
+        # Handle common functions.
+        @common = Auto::IRC::Common.new self
         
       end # def initialize
 
