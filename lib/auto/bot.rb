@@ -58,7 +58,7 @@ module Auto
     # Create a new instance of Auto.
     #
     # @param [Hash{String => Object}] opts A hash of options.
-    def initialize(opts)
+    def initialize opts
       # Save options.
       @opts = opts
       
@@ -112,9 +112,8 @@ module Auto
       # Throw the program into the main loop.
       @events.threads.each { |thr| thr.join } # block until we're ready to go
       debug("Producing a thread and entering the main loop...") if @opts.verbose?
-      #@netloop = Thread.new { main_loop }
-      #@netloop.join
-      main_loop
+      @netloop = Thread.new { main_loop }
+      @netloop.join
 
     end
 
@@ -147,7 +146,7 @@ module Auto
     # @param [String] msg The message.
     # @param [true, false] fatal Whether this error is fatal (will kill the program).
     # @param [Array<String>] bt Backtrace.
-    def error(msg, fatal=false, bt=nil)
+    def error msg, fatal = false, bt = nil
       # Print it to STDERR.
       STDERR.puts "ERROR: #{msg}".red
       unless bt.nil?
