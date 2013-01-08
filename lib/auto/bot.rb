@@ -166,7 +166,7 @@ module Auto
     # Produce a warning message.
     #
     # @param [String] msg The message.
-    def warn(msg)
+    def warn msg
       # Log it.
       @log.warning(msg)
 
@@ -177,7 +177,7 @@ module Auto
     # Produce information.
     #
     # @param [String] msg The message.
-    def info(msg)
+    def info msg
       @log.info(msg)
       foreground(">>> #{msg}".green, false)
     end
@@ -186,7 +186,7 @@ module Auto
     #
     # @param [String] msg The message.
     # @param [true, false] log Whether to log it as well as print to STDOUT.
-    def foreground(msg, log=true)
+    def foreground msg, log = true
       if @opts.foreground?
         puts "[F] #{msg}"
         @log.info("[F] #{msg}") if log
@@ -201,7 +201,7 @@ module Auto
     #
     # @param [String] msg The message.
     # @param [true, false] log Whether to log it as well as print to STDOUT.
-    def debug(msg, log=false)
+    def debug msg, log = false
       if @opts.debug?
         puts "[D] #{msg}".blue
         @log.debug(msg) if log
@@ -211,7 +211,7 @@ module Auto
     # Terminate the bot.
     #
     # @param [String] reason The reason for termination.
-    def terminate(reason='Terminating')
+    def terminate reason = 'Terminating'
       info("Auto is terminating owing to thus: #{reason}")
 
       # Call :die
