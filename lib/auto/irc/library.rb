@@ -92,7 +92,7 @@ module Auto
       def prepare_incoming_traffic
         @events.on :net_receive do |irc|
           until irc.recvq.length == 0
-            line = irc.recvq.pop.chomp
+            line = irc.recvq.shift.chomp
             $m.foreground("{irc-recv} #{irc} >> #{line}")
             @events.call :receive, irc, line # send it out to :receive
           end

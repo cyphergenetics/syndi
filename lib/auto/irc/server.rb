@@ -5,9 +5,7 @@
 require 'ostruct'
 require 'socket'
 require 'openssl'
-require 'thread'
 require 'auto/dsl/base'
-require 'auto/irc/dataqueue'
 require 'auto/irc/state/support'
 require 'auto/irc/std/commands'
 
@@ -115,9 +113,11 @@ module Auto
     class Server
       include Auto::DSL::Base
 
-      attr_reader   :socket, :in, :out, :type, :recvq, :supp
+      attr_reader   :socket, :in, :out, :type, :supp
       attr_accessor :name, :address, :port, :nick, :user, :real, :password,
-                    :bind, :ssl, :mask, :recv_rem
+                    :bind, :ssl, :sasl_id, :connected, :mask, :recvq,
+                    :prefixes, :channel_modes, :max_modes,
+                    :await_self_who, :channels, :users
 
       # Produce a new instance of {Auto::IRC::Server}.
       #
@@ -157,27 +157,23 @@ module Auto
         yield(self) if block_given? or raise ArgumentError, "Server #{name} unable to initialize because it was not configured."
 
         # Additional instance attributes.
-        @type       = :irc
         @in         = 0
         @out        = 0
         @socket     = nil
         @connected  = false
+        @registered = false 
+        @type       = :irc
 
         # Pull in commands.
-        extend   Auto::IRC::Std::Commands
-        # State managers.
-        @supp  = Auto::IRC::State::Support.new
-        @chans = nil
-        @users = nil
+        extend Auto::IRC::Std::Commands
+        # Stateful attributes.
+        @supp       = Auto::IRC::State::Support.new
 
         #@await_self_who = false
 
-        # Our receive queue.
-        @recvq    = Auto::IRC::DataQueue.new
-        @recv_rem = nil
-
-        # Our thread-safety lock.
-        @lock = Mutex.new
+        # Our recvQ.
+        @recvq  = []
+        @recvqm = ''
 
       end
 
@@ -219,11 +215,11 @@ module Auto
         pass @password if @password
         snd 'CAP LS'
         self.nickname = @nick
-        user @user, Socket.gethostname, @address, @real
+        user(@user, Socket.gethostname, @address, @real)
 
       end
 
-      # Send raw data to the socket.
+      # Send data to the socket.
       #
       # @param [String] data The string of data, which should not exceed 512 in length.
       def snd data
@@ -235,43 +231,38 @@ module Auto
       # Receive data from the socket, and push it into the recvQ.
       def recv
 
-        # Mutual exclusion for thread safety purposes.
-        @lock.synchronize do
-        
-          if @socket.nil? or @socket.eof?
-            return
-          end
-          
-          # Read the data from the socket.
-          data = @socket.sysread(1024)
-          # Increase in.
-          @in += data.length
-      
-          # Split the data.
-          recv = []
-          until data !~ /\r\n/
-            line, data = data.split(/(?<=\r\n)/, 2)
-            recv.push line
-          end
-
-          # Check if there's a remainder in the recvQ.
-          if !@recvq_rem.nil?
-            recv[0]    = "#@recv_rem#{recv[0]}"
-            @recvq_rem = nil
-          end
-          @recvq_rem = data if !data.empty?
-
-          # Lastly, push the data to the recvQ and call :net_receive.
-          @recvq.in *recv
-          emit :irc, :net_receive, self
-
+        if @socket.nil? or @socket.eof?
+          return
         end
+
+        # Read the data.
+        data = @socket.sysread(1024)
+        # Increase in.
+        @in += data.length
+      
+        # Split the data.
+        recv = []
+        until data !~ /\r\n/
+          line, data = data.split(/(?<=\r\n)/, 2)
+          recv.push line
+        end
+
+        # Check if there's a remainder in the recvQ.
+        if @recvqm != ''
+          recv[0] = "#@recvqm#{recv[0]}"
+          @recvqm = ''
+        end
+        @recvqm = data if data != ''
+
+        # Lastly, push the data to the recvQ and call :net_receive.
+        @recvq.push(*recv)
+        emit :irc, :net_receive, self
 
       end
 
-      def to_s;    @name; end
-      def inspect; "#<Auto::IRC::Server: name='#@name'>"; end
+      def to_s; @name; end
       alias_method :s, :to_s
+      def inspect; "#<IRC::Server: #@name>"; end
 
       #######
       private
@@ -288,7 +279,7 @@ module Auto
 
       # Check if we are connected.
       #
-      # @return [Boolean]
+      # @return [true, false]
       def connected?
         return false unless @socket
         return false unless @connected
