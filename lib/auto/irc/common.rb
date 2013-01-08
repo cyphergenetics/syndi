@@ -19,6 +19,22 @@ module Auto
         @lib.events.on :connected, &method(:do_autojoin)
       end
 
+      # Automatically identify with services the traditional way, which is
+      # to say by a /msg.
+      #
+      # @param [Auto::IRC::Server] irc The IRC connection.
+      def do_identify irc
+        if $m.conf['irc'][irc.s]['nickIdentify']
+          
+          # Assume the service is NickServ if not specified
+          service = $m.conf['irc'][irc.s]['nickIdentify']['service'] || 'NickServ'
+          # and assume the command is IDENTIFY if not specified
+          command = $m.conf['irc'][irc.s]['nickIdentify']['command'] || 'IDENTIFY'
+
+          # we can't actually /msg anyone yet.....
+        end
+      end
+
       # Automatically join IRC channels upon connection.
       #
       # @param [Auto::IRC::Server] irc The IRC connection.
