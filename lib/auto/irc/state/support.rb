@@ -110,7 +110,7 @@ module Auto
             set.map!    { |m| m.to_sym }
             never.map!  { |m| m.to_sym }
 
-            @chan_modes = { list: list, always: always, set: set, never: never }
+            { list: list, always: always, set: set, never: never }
           end
         end
 
@@ -118,7 +118,18 @@ module Auto
         #
         # @param [String] data The data string.
         def parse_prefixes data
+          if match = %r{\WPREFIX=\((\w+)\)(\W+)\s}.match(data)
+            modes    = match[1].split //
+            prefixes = match[2].split //
+            
+            modes.map! { |m| m.to_sym }
 
+            i = 0
+            modes.each do |m|
+              @prefixes[m] = prefixes[i]
+              i += 1
+            end
+          end
         end
 
       end # class Support
