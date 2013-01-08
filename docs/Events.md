@@ -50,13 +50,6 @@ reloaded.
 This event occurs when we are about to register (i.e., send `USER`, `CAP LS`)
 on the server and initiate connection.
 
-### :net_receive |irc|
-
-**irc** (_Auto::IRC::Server_): The IRC connection.
-
-This event occurs when there is data in the connection's receive queue waiting
-to be processed.
-
 ### :receive |irc, data|
 
 **irc** (_Auto::IRC::Server_): The IRC connection.  
