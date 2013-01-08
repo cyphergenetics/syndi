@@ -120,7 +120,6 @@ module Auto
     # Main loop.
     def main_loop
       loop do
-      
         # Build a list of sockets.
         sockets       = []
         assoc_objects = {}
@@ -137,9 +136,8 @@ module Auto
 
         # Iterate through sockets ready for reading.
         ready_read.each do |socket|
-          @events.call :net_receive, assoc_objects[socket]
+          @events.call :net_receive, assoc_objects[socket] unless socket.eof?
         end
-
       end
     end
 
@@ -159,7 +157,10 @@ module Auto
       # Log it.
       @log.error(msg)
 
-      @netloop.die and exit 1 if fatal
+      if fatal
+        @netloop.kill if @netloop.active
+        exit 1
+      end
     end
 
     # Produce a warning message.
@@ -218,6 +219,10 @@ module Auto
     
       # Close the database.
       @db.disconnect
+
+      # When dying, allow about three seconds for hooks to execute before
+      # fully terminating.
+      sleep 3
 
       # Delete auto.pid
       unless @opts.debug? or @opts.foreground?

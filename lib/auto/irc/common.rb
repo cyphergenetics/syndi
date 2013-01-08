@@ -14,7 +14,9 @@ module Auto
       #
       # @param [Auto::IRC::Library] lib The IRC library instance.
       def initialize lib
-        lib.events.on :connected, &method(:do_autojoin)
+        @lib = lib
+        $m.events.on   :die,       &method(:do_die)
+        @lib.events.on :connected, &method(:do_autojoin)
       end
 
       # Automatically join IRC channels upon connection.
@@ -28,6 +30,13 @@ module Auto
           end
 
         end
+      end
+
+      # Disconnect from servers on termination.
+      #
+      # @param [String] reason Reason for termination.
+      def do_die reason
+        @lib.connections.each { |net, irc| irc.disconnect reason }
       end
 
     end # class Common

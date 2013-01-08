@@ -37,6 +37,7 @@ module Auto
         def disconnect msg = 'Closing connection'
           emit :irc, :disconnect, self, msg
           snd "QUIT :#{msg}"
+          @socket = nil
         end
       
         # Join a channel on the server.

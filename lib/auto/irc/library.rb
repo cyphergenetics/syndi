@@ -54,7 +54,7 @@ module Auto
       #   ourselves should be an {Auto::IRC::Server}, or we won't handle it.
       def receive socket_object
         if socket_object.instance_of? Auto::IRC::Server
-          socket_object.recv   
+          socket_object.recv
         end
       end
 

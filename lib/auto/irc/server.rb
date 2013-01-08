@@ -169,13 +169,7 @@ module Auto
         # Stateful attributes.
         @supp       = Auto::IRC::State::Support.new
 
-        #@mask           = ''
-        #@prefixes       = {}
-        #@channel_modes  = { list: [], always: [], set: [], never: [] }
-        #@max_modes      = 0
         #@await_self_who = false
-        #@channels       = {}
-        #@users          = {}
 
         # Our recvQ.
         @recvq  = []
@@ -236,6 +230,10 @@ module Auto
 
       # Receive data from the socket, and push it into the recvQ.
       def recv
+
+        if @socket.nil? or @socket.eof?
+          return
+        end
 
         # Read the data.
         data = @socket.sysread(1024)
