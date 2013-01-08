@@ -5,6 +5,7 @@
 require 'ostruct'
 require 'socket'
 require 'openssl'
+require 'thread'
 require 'auto/dsl/base'
 require 'auto/irc/state/support'
 require 'auto/irc/std/commands'
@@ -175,6 +176,9 @@ module Auto
         @recvq  = []
         @recvqm = ''
 
+        # Mutual exclusion for thread safety.
+        @lock = Mutex.new
+
       end
 
       # Establish (or attempt to) a connection with the server.
@@ -231,32 +235,36 @@ module Auto
       # Receive data from the socket, and push it into the recvQ.
       def recv
 
-        if @socket.nil? or @socket.eof?
-          return
-        end
+        # Thread safety.
+        @lock.synchronize do
+        
+          if @socket.nil? or @socket.eof?
+            return
+          end
 
-        # Read the data.
-        data = @socket.sysread(1024)
-        # Increase in.
-        @in += data.length
+          # Read the data.
+          data = @socket.sysread(1024)
+          # Increase in.
+          @in += data.length
       
-        # Split the data.
-        recv = []
-        until data !~ /\r\n/
-          line, data = data.split(/(?<=\r\n)/, 2)
-          recv.push line
-        end
+          # Split the data.
+          recv = []
+          until data !~ /\r\n/
+            line, data = data.split(/(?<=\r\n)/, 2)
+            recv.push line
+          end
 
-        # Check if there's a remainder in the recvQ.
-        if @recvqm != ''
-          recv[0] = "#@recvqm#{recv[0]}"
-          @recvqm = ''
-        end
-        @recvqm = data if data != ''
+          # Check if there's a remainder in the recvQ.
+          if @recvqm != ''
+            recv[0] = "#@recvqm#{recv[0]}"
+            @recvqm = ''
+          end
+          @recvqm = data if data != ''
 
-        # Lastly, push the data to the recvQ and call :net_receive.
-        @recvq.push(*recv)
-        emit :irc, :net_receive, self
+          # Lastly, push the data to the recvQ and call :net_receive.
+          @recvq.push(*recv)
+          emit :irc, :net_receive, self
+        end
 
       end
 
