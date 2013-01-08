@@ -112,8 +112,9 @@ module Auto
       # Throw the program into the main loop.
       @events.threads.each { |thr| thr.join } # block until we're ready to go
       debug("Producing a thread and entering the main loop...") if @opts.verbose?
-      @netloop = Thread.new { main_loop }
-      @netloop.join
+      #@netloop = Thread.new { main_loop }
+      #@netloop.join
+      main_loop
 
     end
 
@@ -136,7 +137,7 @@ module Auto
 
         # Iterate through sockets ready for reading.
         ready_read.each do |socket|
-          @events.call :net_receive, assoc_objects[socket] unless socket.eof?
+          @events.call :net_receive, assoc_objects[socket]
         end
       end
     end
@@ -158,7 +159,7 @@ module Auto
       @log.error(msg)
 
       if fatal
-        @netloop.kill if @netloop.active
+        #@netloop.kill if @netloop.active
         exit 1
       end
     end
