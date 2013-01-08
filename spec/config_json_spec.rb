@@ -70,16 +70,12 @@ EOF
     @conf.conf.class.must_equal Hash
   end
 
-  it 'should have #x, a pointer to @conf' do
-    @conf.x.must_be_same_as @conf.conf
-  end
-
   it 'should point [x] to @conf[x]' do
     @conf['foo'].must_be_same_as @conf.conf['foo']
   end
 
   it 'should have correctly processed data' do
-    @conf.x.must_equal JSON_HASH_ORIGINAL
+    @conf.conf.must_equal JSON_HASH_ORIGINAL
   end
 
   it 'should rehash on rehash!()' do
@@ -90,7 +86,7 @@ EOF
     
     $m.events.expects(:call).with('bot:onRehash')
     @conf.rehash!
-    @conf.x.must_equal JSON_HASH_NEW
+    @conf.conf.must_equal JSON_HASH_NEW
   end
 
   it 'should fail on rehash!() if data is bad' do
@@ -110,7 +106,7 @@ EOF
     $m.expects(:debug)
     $m.expects(:error)
     @conf.rehash!
-    @conf.x.must_equal JSON_HASH_ORIGINAL
+    @conf.conf.must_equal JSON_HASH_ORIGINAL
   end
 
   after do
