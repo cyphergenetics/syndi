@@ -23,7 +23,7 @@ module Auto
       # Construct a new IRC data parser.
       #
       # @param [Auto::IRC::Library] lib The IRC library instance.
-      def initialize(lib)
+      def initialize lib
         extend Auto::IRC::Protocol::Numerics
         lib.events.on :receive, &method(:parse)
       end
@@ -32,7 +32,7 @@ module Auto
       #
       # @param [Auto::IRC::Server] irc The IRC connection.
       # @param [String] raw The data received.
-      def parse(irc, raw)
+      def parse irc, raw
           
         params  = raw.split(/\s+/)
         command = (raw =~ /^:/ ? params[1] : params[0]).dc
@@ -50,7 +50,7 @@ module Auto
       # @param [String] raw The data received.
       # @param [Array<String>] params The data received divided by +\s+ through
       #   regexp.
-      def on_authenticate(irc, raw, params)
+      def on_authenticate irc, raw, params
         username = $m.conf['irc'][irc.s]['SASL']['username']
         password = $m.conf['irc'][irc.s]['SASL']['password']
         
@@ -67,11 +67,10 @@ module Auto
         if crypt.length > 0
           irc.snd "AUTHENTICATE #{crypt}"
         else
-          irc.snd("AUTHENTICATE +")
+          irc.snd('AUTHENTICATE +')
         end
         # And we're done!
       end
-
         
       # CAP
       #
@@ -79,7 +78,7 @@ module Auto
       # @param [String] raw The data received.
       # @param [Array<String>] params The data received divided by +\s+ through
       #   regexp.
-      def on_cap(irc, raw, params)
+      def on_cap irc, raw, params
         case params[3]
 
         when 'LS'
@@ -99,7 +98,7 @@ module Auto
       # @param [String] raw The data received.
       # @param [Array<String>] params The data received divided by +\s+ through
       #   regexp.
-      def on_ping(irc, raw, params)
+      def on_ping irc, raw, params
         irc.snd("PONG #{params[1]}")
       end
 
@@ -114,7 +113,7 @@ module Auto
       #
       # @param [Auto::IRC::Server] irc The IRC connection.
       # @param [Array<String>] list List of capabilities.
-      def cap_ls(irc, list)
+      def cap_ls irc, list
 
         req = []
           
@@ -140,7 +139,7 @@ module Auto
       #
       # @param [Auto::IRC::Server] irc The IRC connection.
       # @param [Array<String>] list List of capabilities.
-      def cap_ack(irc, list)
+      def cap_ack irc, list
 
         irc.supp.cap = list
           

@@ -27,6 +27,7 @@ module Auto
         # RPL_ISUPPORT
         define_method("on_#{RPL_ISUPPORT}") do |irc, raw, params|
           irc.supp.isupport(irc, params[3..-5].join(' ')) # process the isupport data
+          irc.supp.connected = true
           $m.irc.events.call :connected, irc # emit the :connected event
         end
 
