@@ -71,7 +71,7 @@ module Auto
 
       # Open the file in the format of log/YYYYMMDD.log.
       time = Time.now
-      File.open("logs/#{time.strftime('%Y%m%d')}.log", 'a') do |io|
+      File.open(File.join('logs', "#{time.strftime('%Y%m%d')}.log"), 'a') do |io|
         # Append the message.
         io.puts "[#{time.strftime('%Y-%m-%d %H:%M:%S %z')}] [#{type}] #{msg}"
       end
