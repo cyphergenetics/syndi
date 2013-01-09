@@ -46,9 +46,15 @@ static VALUE logger_log(VALUE self, VALUE type, VALUE message)
     char *log_file_name  = ALLOCA_N(char, MAX_TIME_STRING_LENGTH + 1);
     char *log_time = ALLOCA_N(char, strlen("YYYY-MM-DD HH:MM:SS ZZZ") + 1); // Length of our maximum expected string
     FILE *log_file;
-    size_t output_string_size = snprintf(NULL, 0, "[%s] [%s] %s\n", log_time, RSTRING_PTR(type), RSTRING_PTR(message));
+    
+    // Larger than the string should ever be.
+    char *temp_buffer = (char*)malloc(sizeof(char) * 50);
+    size_t output_string_size = snprintf(temp_buffer, 0, "[%s] [%s] %s\n", log_time, RSTRING_PTR(type), RSTRING_PTR(message));
     char *formatted_message = ALLOCA_N(char, (++output_string_size));
     time_t current_time;
+
+    // Free our temp buffer before we go on.
+    free(temp_buffer);
 
     // Ensure we have the directory we need.
     rb_funcall(self, SYM(log_directory_check), 0);
