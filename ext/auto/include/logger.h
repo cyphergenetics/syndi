@@ -13,6 +13,9 @@
 // This is based on the desired output give or take a few characters.
 #define MAX_TIME_STRING_LENGTH 18
 
+// ("YYYY-MM-DD HH:MM:SS +ZZZZ") "YEAR-MONTH-DAY HOUR:MINUTES:SECONDS UTC_OFFSET"
+#define LOG_TIME_FORMAT_LENGTH 25
+
 static VALUE logger_init(VALUE self);
 
 static VALUE logger_error(VALUE self, VALUE message);
