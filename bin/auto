@@ -25,6 +25,7 @@ require 'slop'
 require 'auto'
 
 # Parse options.
+$VERBOSITY = 0
 opts = Slop.parse(:banner => "Usage: #$0 [options]") do
   on :h, :help, 'Display this help message.' do
     puts self
@@ -43,7 +44,9 @@ http://auto.autoproj.org
   on :f, :foreground, 'Do not fork into the background.'
   on :j, :json, 'Seek a JSON configuration file in lieu of a YAML one.'
   on :c, :conf=, 'Specify a particular configuration file.'
-  on :V, :verbose, 'Make debugging particularly filled with verbosity.'
+  on :V, :verbose, 'Increase verbosity of debugging (more uses the more verbose).' do
+    $VERBOSITY += 1
+  end
 end
 
 # Begin start up.
