@@ -17,3 +17,13 @@ doc/*
 
 # and generated gems
 *.gem
+
+# and compiled [shared] objects
+*.o
+*.so
+
+# and generated makefiles
+Makefile
+
+# and third-party logs
+*.log
