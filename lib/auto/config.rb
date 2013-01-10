@@ -2,7 +2,7 @@
 # Copyright (c) 2013, Auto Project
 # Distributed under the terms of the FreeBSD license (LICENSE.md).
 autoload :JSON, 'json'
-autoload :YAML, 'yaml'
+autoload :YAML, 'psych' # use Psych for YAML not Syck
 require 'auto/exceptions'
 
 # Namespace: Auto
