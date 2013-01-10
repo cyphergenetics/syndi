@@ -1,10 +1,3 @@
-/*
- * Auto 4
- * Copyright (c) 2013, Auto Project. All rights reserved.
- * This is free software distributed under the terms of the FreeBSD license (see LICENSE.md).
- *
- */
-
 #ifndef __AUTO_LOGGER_H__
 #define __AUTO_LOGGER_H__
 
@@ -19,9 +12,6 @@
 
 // This is based on the desired output give or take a few characters.
 #define MAX_TIME_STRING_LENGTH 18
-
-// ("YYYY-MM-DD HH:MM:SS +ZZZZ") "YEAR-MONTH-DAY HOUR:MINUTES:SECONDS UTC_OFFSET"
-#define LOG_TIME_FORMAT_LENGTH 25
 
 static VALUE logger_init(VALUE self);
 

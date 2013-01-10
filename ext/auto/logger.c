@@ -1,4 +1,11 @@
-#include "ruby.h"
+/*
+ * Auto 4
+ * Copyright (c) 2013, Auto Project. All rights reserved.
+ * This is free software distributed under the terms of the FreeBSD license (see LICENSE.md).
+ *
+ */
+
+#include <ruby.h>
 #include <errno.h>
 #include <sys/stat.h>
 #include <string.h>
