@@ -66,6 +66,9 @@ For detailed installation instructions, see
 you to such things as configuring Auto manually, installing a standalone
 copy, and building from git.
 
+**Note: Ruefully, as of January 10, 2013, we no longer support JRuby. Please
+use MRI (the official interpreter) or Rubinius. Thank you.**
+
 Developing
 ----------
 

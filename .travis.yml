@@ -6,7 +6,6 @@ rvm:
   - 1.9.3
   - 1.9.2
   - rbx-19mode
-  - jruby-19mode
 
 # Notify the official IRC channel
 # i.e. irc.freenode.net #auto
