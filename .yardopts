@@ -2,5 +2,6 @@
 --protected
 --private
 lib/**/*.rb
+ext/**/*.c
 - LICENSE.md
 - docs/*
