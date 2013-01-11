@@ -7,7 +7,7 @@ require 'auto/version'
 
 Gem::Specification.new do |s|
   
-  s.name    = 'autobot'
+  s.name    = 'Auto'
   s.version = "#{Auto::VERSION}"
 
   s.date          = Time.now.strftime '%Y-%m-%d'
@@ -50,8 +50,9 @@ Moreover, you should typically now run `auto-conf` to produce a configuration fi
   s.add_runtime_dependency 'highline', '~> 1.6'
   s.add_runtime_dependency 'slop',     '~> 3.3'
   
-  s.add_development_dependency 'rake',  '~> 10.0'
-  s.add_development_dependency 'mocha', '~> 0.13'
+  s.add_development_dependency 'rake',          '~> 10.0'
+  s.add_development_dependency 'rake-compiler', '~> 0.8'
+  s.add_development_dependency 'mocha',         '~> 0.13'
 
 end
 
