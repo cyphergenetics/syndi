@@ -93,12 +93,12 @@ If the wiki fails to address your needs, please either:
 Authors
 -------
 
-Auto 4 was rewritten from scratch by Autumn Perrault in Ruby and C, and is
-actively developed by the **Auto Project**:
+Auto 4 was rewritten from scratch by Autumn Perrault (noxgirl) in Ruby and C,
+and is actively developed by the **Auto Project**:
 
-+   [noxgirl](https://github.com/noxgirl)           [xoeverlux@gmail.com](mailto://xoeverlux@gmail.com)
-+   [swarley](https://github.com/swarley)           [matthew.b.carey@gmail.com](mailto://matthew.b.carey@gmail.com)
-+   [mattwb65](https://github.com/mattwb65)         [mattwb65@gmail.com](mailto://mattwb65@gmail.com)
++   [noxgirl](https://github.com/noxgirl)           - [xoeverlux@gmail.com](mailto://xoeverlux@gmail.com)
++   [swarley](https://github.com/swarley)           - [matthew.b.carey@gmail.com](mailto://matthew.b.carey@gmail.com)
++   [mattwb65](https://github.com/mattwb65)         - [mattwb65@gmail.com](mailto://mattwb65@gmail.com)
 
 Contributors to earlier versions:
 
