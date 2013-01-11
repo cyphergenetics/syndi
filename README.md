@@ -1,15 +1,12 @@
-Auto 4.0 _Phoenix_
-==================
+Auto 4
+======
 
-**by the [Auto Project](#contributors)**
+_A modern, simple, extensible multi-protocol bot, reloaded._
 
 **Version**:            4.0.0.a.0.3 (prealpha 3) "Phoenix"  
 [![Build Status](https://travis-ci.org/Auto/Auto.png?branch=master)](https://travis-ci.org/Auto/Auto)
 [![Dependency Status](https://gemnasium.com/Auto/Auto.png)](https://gemnasium.com/Auto/Auto)
 [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/Auto/Auto)
-
-**Copyright**:          2009-2013, Auto Project  
-**License**:            FreeBSD (see **LICENSE.md**)
 
 + [Homepage](https://auto.autoproj.org) 
 + [Git](https://github.com/Auto/Auto)
@@ -93,14 +90,15 @@ If the wiki fails to address your needs, please either:
 
 **Bugs** should be reported on the [issue management hub](https://github.com/Auto/Auto/issues).
 
-Contributors
-------------
+Authors
+-------
 
-Auto is developed by the Auto Project, which is to say thus:
+Auto 4 was rewritten from scratch by Autumn Perrault in Ruby and C, and is
+actively developed by the **Auto Project**:
 
-+   [noxgirl](https://github.com/noxgirl); xoeverlux@gmail.com
-+   [swarley](https://github.com/swarley); matthew.b.carey@gmail.com
-+   [mattwb65](https://github.com/mattwb65); mattwb65@gmail.com
++   [noxgirl](https://github.com/noxgirl)           [xoeverlux@gmail.com](mailto://xoeverlux@gmail.com)
++   [swarley](https://github.com/swarley)           [matthew.b.carey@gmail.com](mailto://matthew.b.carey@gmail.com)
++   [mattwb65](https://github.com/mattwb65)         [mattwb65@gmail.com](mailto://mattwb65@gmail.com)
 
 Contributors to earlier versions:
 
@@ -113,3 +111,11 @@ Contributors to earlier versions:
 -   [Eitan Adler](https://github.com/grimreaper)
 -   [Clay Freeman](https://github.com/clayfreeman) \<admin@clayfreeman.com\>
 -   [Connor Youngquist](https://github.com/TheNull) \<thenull2.0@gmail.com\>
+
+Legal
+-----
+
+Copyright (c) 2009-2013, Autumn Perrault, et al. All rights reserved.
+
+Auto is free, open-source software, distributed per the terms of the two-clause
+("FreeBSD") license, the full terms of which are in **LICENSE.md**.

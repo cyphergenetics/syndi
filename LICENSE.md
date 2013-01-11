@@ -3,7 +3,7 @@ License
 
 Auto is free software distributed under the two-clause ("FreeBSD") BSD license:
 
-    Copyright (c) 2009-2013, Auto Project (http://auto.autoproj.org)
+    Copyright (c) 2009-2013, Autumn Perrault, et al.
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
