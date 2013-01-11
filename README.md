@@ -8,7 +8,7 @@ _A modern, simple, extensible multi-protocol bot, reloaded._
 [![Dependency Status](https://gemnasium.com/Auto/Auto.png)](https://gemnasium.com/Auto/Auto)
 [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/Auto/Auto)
 
-+ [Homepage](https://auto.autoproj.org) 
++ [Homepage](http://auto.autoproj.org) 
 + [Git](https://github.com/Auto/Auto)
 + [RubyGems](https://rubygems.org/gems/autobot)
 + [Wiki](https://github.com/Auto/Auto/wiki)
