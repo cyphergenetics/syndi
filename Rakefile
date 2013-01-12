@@ -26,12 +26,10 @@ Rake::ExtensionTask.new 'libauto', gemspec do |ext|
 end
 
 desc 'Test the application.'
-task :test do
-  Rake::TestTask.new do |t|
-    t.libs.push 'lib'
-    t.pattern = 'spec/*_spec.rb'
-    t.verbose = true
-  end
+Rake::TestTask.new do |t|
+  t.libs.push 'lib'
+  t.pattern = 'spec/*_spec.rb'
+  t.verbose = true
 end
 
 desc 'Package the gem.'
