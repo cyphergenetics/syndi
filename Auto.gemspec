@@ -10,14 +10,14 @@ Gem::Specification.new do |s|
   s.version = "#{Auto::VERSION}"
 
   s.date          = Time.now.strftime '%Y-%m-%d'
-  s.summary       = 'An advanced, automated multi-protocol bot which uses plugins.'
+  s.summary       = 'A modern, simple, extensible multi-protocol bot.'
   s.description   = <<-EOD
     A simple and smart multi-protocol bot (currently supports IRC) which allows for
     easy extension by means of its plugin API.
   EOD
   s.authors       = %w[
-    noxgirl
-    swarley
+    Autumn Perrault
+    Matthew Carey
   ]
   s.email         = 'autobot-talk@googlegroups.com'
   s.homepage      = 'http://auto.autoproj.org'

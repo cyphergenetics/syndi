@@ -4,7 +4,14 @@
 
 require 'mkmf'
 
-$CFLAGS << " -I ./include/ "
-create_makefile 'auto/logger'
+extension = 'auto/logger'
+
+dir_config extension
+
+have_func 'ALLOCA_N', 'ruby.h'
+
+$CFLAGS << " -I./include/ "
+
+create_makefile extension
 
 # vim: set ts=4 sts=2 sw=2 et:

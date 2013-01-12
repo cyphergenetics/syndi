@@ -1,16 +1,16 @@
 /*
- * Auto 4
- * Copyright (c) 2013, Auto Project. All rights reserved.
- * This is free software distributed under the terms of the FreeBSD license (see LICENSE.md).
+ * Copyright (c) 2013, Autumn Perrault, et al. 
+ * All rights reserved.
+ * This free software is distributed under the FreeBSD license (LICENSE.md).
  *
  */
 
-#include <ruby.h>
+#include "ruby.h"
 #include <errno.h>
 #include <sys/stat.h>
 #include <string.h>
 #include <time.h>
-#include "./logger.h"
+#include "logger.h"
 
 VALUE mAuto;
 VALUE cLogger;

@@ -1,4 +1,9 @@
-// vim: sts=4 ts=4 et
+/*
+ * Copyright (c) 2013, Autumn Perrault, et al. 
+ * All rights reserved.
+ * This free software is distributed under the FreeBSD license (LICENSE.md).
+ *
+ */
 #include "ruby.h"
 
 VALUE mAuto;
@@ -40,3 +45,5 @@ void Init_dsl_base()
     mDSL  = rb_define_module_under(mAuto, "DSL");
     mBase = rb_define_module_under(mDSL, "Base");
 }
+
+/* vim: set ts=4 sts=4 sw=4 et cindent: */
