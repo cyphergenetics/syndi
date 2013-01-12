@@ -30,3 +30,6 @@ Makefile
 
 # and packages
 pkg/*
+
+# and temporary compilation stuff
+tmp/*
