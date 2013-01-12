@@ -8,8 +8,6 @@ extension = 'auto/logger'
 
 dir_config extension
 
-have_func 'ALLOCA_N', 'ruby.h'
-
 $CFLAGS << " -I./include/ "
 
 create_makefile extension
