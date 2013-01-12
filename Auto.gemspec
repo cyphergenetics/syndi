@@ -4,7 +4,7 @@
 $:.unshift File.expand_path(File.join(File.dirname(__FILE__), 'lib'))
 require 'auto/version'
 
-spec = Gem::Specification.new do |s|
+Gem::Specification.new do |s|
   
   s.name    = 'Auto'
   s.version = "#{Auto::VERSION}"
@@ -23,7 +23,7 @@ spec = Gem::Specification.new do |s|
   s.homepage      = 'http://auto.autoproj.org'
   s.license       = 'FreeBSD'
 
-  s.files         = Dir.glob("{bin,lib,ext,docs}/**/*") + %w[
+  s.files         = Dir["{bin,lib,ext,docs}/**/*"] + %w[
     README.md
     LICENSE.md
     Gemfile
@@ -31,9 +31,9 @@ spec = Gem::Specification.new do |s|
     conf/example.yml
     conf/example.json
   ]
-  s.test_files    = Dir.glob("spec/**/*") + ['Rakefile']
+  s.test_files    = Dir["spec/**/*"] + ['Rakefile']
   s.executables   = %w[auto auto-conf]
-  s.extensions    = FileList["ext/**/extconf.rb"]
+  s.extensions    = Dir["ext/**/extconf.rb"]
 
   s.required_ruby_version = '>= 1.9.2'
   s.post_install_message  = <<-EOM

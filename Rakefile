@@ -3,15 +3,27 @@
 
 require 'rake/testtask'
 require 'rake/extensiontask'
+require 'rubygems'
+require 'rubygems/package_task'
+
+# import the gemspec
+GEMSPEC = 'Auto.gemspec'
+gemspec ||= eval(File.read(GEMSPEC), binding, GEMSPEC)
 
 # Directives for Ruby Make (rake)
 # to test/compile Auto 4, and optionally
 # push to RubyGems
 
 task :default => [:compile, :test]
-task :gem     => [:default, :make_gem, :release_gem]
 
-Rake::ExtensionTask.new 'libauto'
+desc 'Compile the native extension.'
+Rake::ExtensionTask.new 'libauto', gemspec do |ext|
+  ext.cross_compile = true
+
+  ext.cross_compiling do |spec|
+    spec.post_install_message << "NOTICE: You have installed the binary distribution of this gem."
+  end
+end
 
 desc 'Test the application.'
 task :test do
@@ -21,20 +33,11 @@ task :test do
     t.verbose = true
   end
 end
+
+desc 'Package the gem.'
+Gem::PackageTask.new(gemspec) do |pkg|
+  pkg.need_zip = true
+  pkg.need_tar = true
+end
   
-desc 'Construct a gem from the gemspec.'
-task :make_gem do
-  sh "gem build #{Dir["*.gemspec"].first}"
-end
-
-desc 'Install the gem to the system.'
-task :install => :make_gem do
-  sh "gem install #{Dir["*.gem"].last}"
-end
-
-desc 'Push this gem release to RubyGems.'
-task :release_gem => :make_gem do
-  sh "gem push #{Dir["*.gem"].last}"
-end
-
 # vim: set ts=4 sts=2 sw=2 et:
