@@ -3,7 +3,7 @@
 # Distributed under the terms of the FreeBSD license (LICENSE.md).
 require(File.expand_path('../helper.rb', __FILE__))
 
-require 'auto/logger'
+require 'libauto'
 
 describe Auto::Logger do
 
