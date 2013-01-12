@@ -4,7 +4,7 @@
 
 require 'mkmf'
 
-extension = 'auto/logger'
+extension = 'libauto'
 
 dir_config extension
 

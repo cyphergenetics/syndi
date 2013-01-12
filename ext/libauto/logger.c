@@ -10,9 +10,9 @@
 #include <sys/stat.h>
 #include <string.h>
 #include <time.h>
+#include "auto.h"
 #include "logger.h"
 
-VALUE mAuto;
 VALUE cLogger;
 VALUE eLogError;
 
@@ -23,6 +23,12 @@ static VALUE logger_init(VALUE self)
     return Qnil;
 }
 
+/* @overload error(message)
+ *   This will log +message+ as an error.
+ *
+ *   @param [String] message The error message to be reported.
+ *   @return [nil]
+ */
 static VALUE logger_error(VALUE self, VALUE message)
 {
     rb_funcall(self, SYM(log), 2, rb_str_new2("ERROR"), message);
@@ -95,6 +101,15 @@ static VALUE logger_log(VALUE self, VALUE type, VALUE message)
     return Qnil;
 }
 
+/* @overload log_directory_check()
+ *   @private
+ *
+ *   This will check whether the log directory exists, and attempt to create it
+ *   in the event that it doesn't.
+ *
+ *   @raise [LogError] If directory creation fails.
+ *   @return [nil]
+ */
 static VALUE logger_log_directory_check(VALUE self)
 {
     int result = mkdir("logs", S_IRWXU);
@@ -113,7 +128,6 @@ static VALUE logger_log_directory_check(VALUE self)
 
 void Init_logger()
 {
-    mAuto = rb_define_module("Auto");
     cLogger = rb_define_class_under(mAuto, "Logger", rb_cObject);
     eLogError = rb_define_class_under(mAuto, "LogError", rb_eException);
     rb_define_method(cLogger, "initialize", &logger_init, 0);

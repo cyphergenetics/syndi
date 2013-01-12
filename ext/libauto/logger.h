@@ -8,8 +8,6 @@
 #ifndef __AUTO_LOGGER_H__
 #define __AUTO_LOGGER_H__
 
-#define SYM(str) rb_intern(#str)
-
 // Set format based on target OS.
 #ifdef WIN32
 #define LOG_FILE_FORMAT "logs\\%Y%m%d.log"
