@@ -14,7 +14,7 @@
 #
 # @author noxgirl
 
-require 'yaml'
+require 'psych'
 require 'json'
 
 # Process YAML
