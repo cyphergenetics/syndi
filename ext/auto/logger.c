@@ -58,7 +58,7 @@ static VALUE logger_log(VALUE self, VALUE type, VALUE message)
     /* 8 is The number of extra characters i.e " ", "[]", "\n" */
     size_t output_string_size = 8 + RSTRING_LEN(type) + RSTRING_LEN(message) + LOG_TIME_FORMAT_LENGTH;
 
-    char *formatted_message = ALLOCA_N(char, (++output_string_size);
+    char *formatted_message = ALLOCA_N(char, ++output_string_size);
     
     time_t current_time;
 
