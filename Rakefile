@@ -2,13 +2,16 @@
 # This free software is distributed under the FreeBSD license (LICENSE.md).
 
 require 'rake/testtask'
+require 'rake/extensiontask'
 
 # Directives for Ruby Make (rake)
 # to test/compile Auto 4, and optionally
 # push to RubyGems
 
-task :default => [:test]
+task :default => [:compile, :test]
 task :gem     => [:default, :make_gem, :release_gem]
+
+Rake::ExtensionTask.new 'libauto'
 
 desc 'Test the application.'
 task :test do
