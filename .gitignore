@@ -27,3 +27,6 @@ Makefile
 
 # and third-party logs
 *.log
+
+# and packages
+pkg/*
