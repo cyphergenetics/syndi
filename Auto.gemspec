@@ -46,9 +46,9 @@ Moreover, you should typically now run `auto-conf` to produce a configuration fi
   EOM
 
   s.add_runtime_dependency 'colored',  '~> 1.2'
-  s.add_runtime_dependency 'sequel',   '~> 3.42'
+  s.add_runtime_dependency 'sequel',   '~> 3.43'
   s.add_runtime_dependency 'highline', '~> 1.6'
-  s.add_runtime_dependency 'slop',     '~> 3.3'
+  s.add_runtime_dependency 'slop',     '~> 3.4'
   
   s.add_development_dependency 'rake',          '~> 10.0'
   s.add_development_dependency 'rake-compiler', '~> 0.8'

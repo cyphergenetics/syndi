@@ -3,9 +3,14 @@ GEM
   specs:
     colored (1.2)
     highline (1.6.15)
+    metaclass (0.0.1)
+    mocha (0.13.1)
+      metaclass (~> 0.0.1)
     rake (10.0.3)
-    sequel (3.42.0)
-    slop (3.3.3)
+    rake-compiler (0.8.2)
+      rake
+    sequel (3.43.0)
+    slop (3.4.0)
 
 PLATFORMS
   ruby
@@ -13,6 +18,8 @@ PLATFORMS
 DEPENDENCIES
   colored (~> 1.2)
   highline (~> 1.6)
+  mocha (~> 0.13)
   rake (~> 10.0)
-  sequel (~> 3.42)
-  slop (~> 3.3)
+  rake-compiler (~> 0.8)
+  sequel (~> 3.43)
+  slop (~> 3.4)
