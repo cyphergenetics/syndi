@@ -4,6 +4,7 @@
 
 require 'auto/rubyext/string'
 require 'auto/version'
+require 'libauto' # include the native extension
 require 'auto/bot'
 
 module Auto

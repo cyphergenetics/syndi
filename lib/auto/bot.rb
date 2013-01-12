@@ -5,7 +5,6 @@
 require 'colored'
 require 'sequel'
 
-require 'auto/logger'
 require 'auto/config'
 
 require 'auto/api'
