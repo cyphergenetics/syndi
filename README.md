@@ -3,21 +3,21 @@ Auto 4
 
 _A modern, simple, extensible multi-protocol bot, reloaded._
 
-**Version**:            4.0.0.a.0.4 (prealpha 4) "Phoenix"  
+**Version**:            4.0.0.alpha.1 "Phoenix"  
 [![Build Status](https://travis-ci.org/Auto/Auto.png?branch=master)](https://travis-ci.org/Auto/Auto)
 [![Dependency Status](https://gemnasium.com/Auto/Auto.png)](https://gemnasium.com/Auto/Auto)
 [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/Auto/Auto)
 
 + [Homepage](http://auto.autoproj.org) 
 + [Git](https://github.com/Auto/Auto)
-+ [RubyGems](https://rubygems.org/gems/autobot)
++ [RubyGems](https://rubygems.org/gems/Auto)
 + [Wiki](https://github.com/Auto/Auto/wiki)
 + [Mailing List](https://groups.google.com/group/autobot-talk)
 + [SourceForge](https://sourceforge.net/p/auto-bot)
 + [Issue Hub](https://github.com/Auto/Auto/issues)
 
 **Documentation** is available for the [latest git](http://rdoc.info/github/Auto/Auto),
-and [this release](http://autobot.rubyforge.org/rdoc/4.0.0.a.0.4/).
+and [this release](http://auto.autoproj.org/rdoc/4.0.0.alpha.1/).
 
 Our official IRC channel is [#auto on irc.freenode.net](irc://irc.freenode.net/#auto).
 

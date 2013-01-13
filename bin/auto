@@ -98,6 +98,7 @@ sig = {
   'INT'  => proc { $m.terminate('Ctrl-C pressed') },
   'HUP'  => proc { $m.conf.rehash }
 }
+sig.delete 'HUP' if Auto.windows?
 sig.each { |signal, prc| Signal.trap(signal) { prc.call } }
 
 begin

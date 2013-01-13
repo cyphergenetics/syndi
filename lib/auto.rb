@@ -11,12 +11,14 @@ module Auto
   # @return [Boolean] Whether we're installed as a gem.
   def self.gem?
     begin
+      # If we already checked, just return the result of that.
       return @gem if defined? @gem
-      if File.expand_path(__FILE__) =~ /^#{Regexp.escape File.join(Dir.home, '.gem')}/
-        @gem = true
-      else
-        @gem = false
+
+      # Otherwise, check.
+      result = Gem.path.each do |gempath|
+        break true if __FILE__ =~ /^#{Regexp.escape gempath}/
       end
+      @gem = (result == true ? true : false)
     ensure
       @gem ||= false
     end
@@ -26,7 +28,7 @@ module Auto
   def self.windows?
     begin
       return @windows if defined? @windows
-      if ::RbConfig::CONFIG['host_os'] =~ /win32|mingw|cygwin/
+      if ::RbConfig::CONFIG['host_os'] =~ /bccwin|djgpp|mswin|mingw|cygwin|wince/i
         @windows = true
       else
         @windows = false

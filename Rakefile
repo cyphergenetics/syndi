@@ -21,7 +21,7 @@ Rake::ExtensionTask.new 'libauto', gemspec do |ext|
   ext.cross_compile = true
 
   ext.cross_compiling do |spec|
-    spec.post_install_message << "NOTICE: You have installed the binary distribution of this gem."
+    spec.post_install_message << "\r\nNOTICE: You have installed the binary distribution of this gem."
   end
 end
 
