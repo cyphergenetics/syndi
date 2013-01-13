@@ -7,9 +7,6 @@ end
 class ConfigError < GenericError
 end
 
-class LogError < GenericError
-end
-
 class DatabaseError < GenericError
 end
 
