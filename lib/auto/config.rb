@@ -1,7 +1,7 @@
 # Copyright (c) 2013, Autumn Perrault, et al. All rights reserved.
 # This free software is distributed under the FreeBSD license (LICENSE.md).
 autoload :JSON, 'json'
-autoload :YAML, 'psych' # use Psych for YAML not Syck
+autoload :Psych, 'psych'
 require 'auto/exceptions'
 
 # Namespace: Auto
@@ -32,7 +32,7 @@ module Auto
     # @param [String] filepath Path to configuration file.
     #
     # @raise [ConfigError] If the file extension is not recognized (should be +.yml+ or +.json+).
-    def initialize(filepath)
+    def initialize filepath
 
       $m.debug("Trying to initialize configuration from '#{filepath}'...")
 
@@ -91,7 +91,7 @@ module Auto
     #
     # @return [Object] Value of @conf[key].
     # @see @conf
-    def [](key)
+    def [] key
       @conf[key]
     end
 
@@ -108,7 +108,7 @@ module Auto
     # @argument [String] text The configuration data to strip.
     #
     # @return [String] The stripped configuration text.
-    def strip_js_comments!(text)
+    def strip_js_comments! text
       # Output string
       out = ""
       until (match_data = text.match(COMMENT_REGEXP)).nil?
@@ -124,7 +124,7 @@ module Auto
 
     # The same as strip_js_comments! with original string preservation.
     # @see strip_js_comments!
-    def strip_js_comments(text)
+    def strip_js_comments text
       # Preserve
       strip_js_comments!(text.clone)
     end
@@ -163,8 +163,7 @@ module Auto
         
         # Process the YAML.
         begin
-          y = YAML.parse(data)
-          conf = y.to_ruby
+          conf = Psych.load data
         rescue => e
           raise ConfigError, "Failed to process the YAML in '#@path'", e.backtrace
         end
