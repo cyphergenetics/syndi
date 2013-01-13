@@ -100,18 +100,6 @@ and is actively developed by the **Auto Project**:
 +   [swarley](https://github.com/swarley)           - [matthew.b.carey@gmail.com](mailto://matthew.b.carey@gmail.com)
 +   [mattwb65](https://github.com/mattwb65)         - [mattwb65@gmail.com](mailto://mattwb65@gmail.com)
 
-Contributors to earlier versions:
-
--   [Russell Bradford](https://github.com/RussellB28) \<russell@rbradford.me\>
--   [Liam Smith](https://github.com/liamsmithuk) \<me@liam.co\>
--   [Alyx Wolcott](https://github.com/alyx) \<contact@alyxw.me\>
--   [Mitchell Cooper](https://github.com/cooper) \<mitchell@notroll.net\>
--   [Timothy Estes](https://github.com/tim7967) \<tim7967@gmail.com\>
--   [Douglas Freed](https://github.com/dwfreed)
--   [Eitan Adler](https://github.com/grimreaper)
--   [Clay Freeman](https://github.com/clayfreeman) \<admin@clayfreeman.com\>
--   [Connor Youngquist](https://github.com/TheNull) \<thenull2.0@gmail.com\>
-
 Legal
 -----
 
