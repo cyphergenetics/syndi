@@ -19,10 +19,11 @@ VALUE swar_bits_set(VALUE self)
 // c = PI(n-1, i=0, (b^2^i)) % m
 VALUE modular_power(VALUE self, VALUE exponent, VALUE modulus)
 {
-	long result = 1;
-	long base = NUM2INT(self);
-	long exp = NUM2INT(exponent);
-	long modulo = NUM2INT(modulus);
+	// I need to figure out how this works to see which long long i can take out.
+	long long result = 1;
+	long long base = NUM2INT(self);
+	long long exp = NUM2INT(exponent);
+	long long modulo = NUM2INT(modulus);
 
 	if(modulo == 0)
 	{
