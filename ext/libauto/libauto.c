@@ -11,6 +11,9 @@
 void initialize_exceptions()
 {
     eLogError = rb_define_class("LogError", rb_eStandardError);
+    ePluginError = rb_define_class("PluginError", rb_eStandardError);
+    eConfigError = rb_define_class("ConfigError", rb_eStandardError);
+    eDatabaseError = rb_define_class("DatabaseError", rb_eStandardError);
 }
 
 /* initialize Auto module */

@@ -21,6 +21,9 @@ void Init_auto();
 
 /* Auto's exceptions */
 VALUE eLogError;
+VALUE eConfigError;
+VALUE eDatabaseError;
+VALUE ePluginError;
 
 /* include other headers */
 #include "logger.h"
