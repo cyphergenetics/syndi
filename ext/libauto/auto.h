@@ -5,7 +5,10 @@
  *
  */
 
-#ifndef __AUTO_H__
+#ifndef AUTO_H
+
+/* include the Ruby header */
+#include "ruby.h"
 
 /* SYM(x) returns rb_intern(x) */
 #define SYM(str) rb_intern(#str)
@@ -15,11 +18,13 @@ VALUE mAuto;
 
 /* prototypes */
 void Init_auto();
-void Init_logger();
 
 /* Auto's exceptions */
 VALUE eLogError;
 
-#endif // __AUTO_H__
+/* include other headers */
+#include "logger.h"
+
+#endif // AUTO_H
 
 /* vim: set ts=4 sts=4 sw=4 et cindent: */

@@ -5,13 +5,11 @@
  *
  */
 
-#include "ruby.h"
 #include <errno.h>
 #include <sys/stat.h>
 #include <string.h>
 #include <time.h>
 #include "auto.h"
-#include "logger.h"
 
 VALUE cLogger;
 

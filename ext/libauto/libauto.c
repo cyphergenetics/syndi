@@ -5,7 +5,6 @@
  *
  */
 
-#include "ruby.h"
 #include "auto.h"
 
 /* initialize exceptions */
