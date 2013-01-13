@@ -59,7 +59,7 @@ official membership to regular contributors.
 Please contact Autumn Perrault (also known as noxgirl) if you wish to become
 a member of the Auto Project:
 
-+ By e-mail: xoeverlux@gmail.com
++ By e-mail: autumn@destellae.net
 + By IRC: "autumn" on irc.freenode.net (usually in #auto)
 
 **Releasing**
