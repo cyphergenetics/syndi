@@ -4,4 +4,6 @@
 lib/**/*.rb
 ext/**/*.c
 - LICENSE.md
+- WINDOWS.md
+- INSTALL.md
 - docs/*
