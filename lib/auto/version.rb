@@ -6,7 +6,7 @@ module Auto
     major:    4,
     minor:    0,
     patch:    0,
-    pre:      'a.0.3',
+    pre:      'a.0.4',
     codename: 'phoenix'
   }.freeze
   VERSION      = "#{VERSIONSPEC[:major]}.#{VERSIONSPEC[:minor]}.#{VERSIONSPEC[:patch]}"
