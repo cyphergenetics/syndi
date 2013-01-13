@@ -1,4 +1,4 @@
-*This is a copy of https://github.com/Auto/Auto/wiki/Install-Guide as it appeared Jan 6 2013 20:48 UTC.*
+*This is a copy of https://github.com/Auto/Auto/wiki/Install-Guide as it appeared Jan 13 2013 4:16 UTC.*
 
 Thank you for choosing **Auto 4** to serve your needs! Please foremost read the [licensing terms](/Auto/Auto/wiki/License), as *by proceeding you confirm your agreement to them*.
 
@@ -6,7 +6,7 @@ Before installing, you must decide on how you would like to install Auto. There 
 
 For most users, the relatively easy way is advisable, and that is the **gem method**.
 
-Users who have some reason for doing so may install it using the **independent method**.
+Users who have some reason for doing so and are more advanced can install Auto from source. See further below for that.
 
 ---
 
@@ -16,20 +16,18 @@ You must have [Ruby 1.9.2 or later](http://www.ruby-lang.org).
 
 ## Installation
 
-We recommend merely installing the latest (pre-)release from [RubyGems](https://rubygems.org/gems/autobot):
+There is a complete list of releases and links therefor on the [official releases page](http://auto.autoproj.org/releases.html).
 
-    $ gem install autobot --pre
+We recommend merely installing the latest (pre-)release from [RubyGems](https://rubygems.org/gems/Auto):
 
-**_Note: Currently, Auto is being actively developed and releases are being pushed frequently. RubyGems mirrors often have outdated releases, so you may wish to download the [latest gem from Releases](/Auto/Auto/wiki/Releases) and install it._**
+    $ gem install Auto --pre
 
-But if you wish to build your own gem from one of our git branches, you can do that too (substitute your [preferred branch](https://github.com/Auto/Auto/wiki/Git-Branches) for `<BRANCH>`):
+If you downloaded the source, either from Git or in an archive, do this in the main directory to compile a gem:
 
-    $ git clone https://github.com/Auto/Auto <BRANCH>
-    $ cd Auto/
-    $ gem build autobot.gemspec
-    $ gem install autobot-*.gem
+    $ gem build Auto.gemspec
+    $ gem install Auto-*.gem
 
-Depending on which database management system you wish to use, you must separately download the respective gem whether you use the distributed **autobot** or your own build:
+Depending on which database management system you wish to use, you must separately download the respective gem whether you use the distributed **Auto** or your own build:
 
 **SQLite**: `$ gem install sqlite3`  
 **MySQL**: `$ gem install mysqlplus`  
@@ -57,13 +55,11 @@ If you prefer, the **J**ava **S**cript **O**bject **N**otation configuration is 
 
 Consult with the [Auto Handbook](/Auto/Auto/wiki/Auto-Handbook) for information on using Auto.
 
-# Independent
-
-## Pre-installation
+# Source
 
 You need at least [Ruby 1.9.2](http://www.ruby-lang.org)!
 
-The easiest way to install Auto's gem prerequisites is to use [**bundler**](https://rubygems.org/gems/bundler). Install it:
+The easiest way to install Auto's gem prerequisites is to use [**GemBundler**](https://rubygems.org/gems/bundler). Install it:
 
     $ gem install bundler
 
@@ -78,3 +74,13 @@ Depending on which database management system you wish to use, you must separate
 **SQLite**: `$ gem install sqlite3`  
 **MySQL**: `$ gem install mysqlplus`  
 **PostgreSQL**: `$ gem install pg`
+
+All releases can be obtained in either Git, Tar/GZ, or Zip format from the [official releases page](http://auto.autoproj.org/releases.html).
+
+Compile the source code:
+
+    $ rake compile
+
+To test Auto (and you must have installed the testing dependencies), invoke:
+
+    $ rake test
