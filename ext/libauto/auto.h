@@ -6,26 +6,13 @@
  */
 
 #ifndef AUTO_H
+#define AUTO_H
 
 /* include the Ruby header */
 #include "ruby.h"
 
-/* SYM(x) returns rb_intern(x) */
-#define SYM(str) rb_intern(#str)
-
-/* variable for the Auto module */
-VALUE mAuto;
-
-/* prototypes */
-void Init_auto();
-
-/* Auto's exceptions */
-VALUE eLogError;
-VALUE eConfigError;
-VALUE eDatabaseError;
-VALUE ePluginError;
-
-/* include other headers */
+/* include libauto headers */
+#include "libauto.h"
 #include "logger.h"
 
 #endif // AUTO_H
