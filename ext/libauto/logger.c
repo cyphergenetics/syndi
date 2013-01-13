@@ -5,7 +5,7 @@
  *
  */
 
-// So that the Header will be read correctly.
+// So that the header will be read correctly.
 #define __LOGGER__
 
 #include <errno.h>
@@ -14,13 +14,16 @@
 #include <time.h>
 #include "auto.h"
 
-VALUE cLogger;
-
+/* @overload initialize()
+ *   Constructs a new Auto::Logger instance.
+ *
+ *   @return [Auto::Logger]
+ */
 VALUE logger_init(VALUE self)
 {
     rb_iv_set(self, "@status", ID2SYM(SYM(good)));
     rb_funcall(self, SYM(log_directory_check), 0);
-    return Qnil;
+    return self;
 }
 
 /* @overload error(message)
@@ -35,24 +38,51 @@ VALUE logger_error(VALUE self, VALUE message)
     return Qnil;
 }
 
+/* @overload debug(message)
+ *   This will log +message+ as a debug message.
+ *
+ *   @param [String] message The debug message to be reported.
+ *   @return [nil]
+ */
 VALUE logger_debug(VALUE self, VALUE message)
 {
     rb_funcall(self, SYM(log), 2, rb_str_new2("DEBUG"), message);
     return Qnil;
 }
 
+/* @overload warning(message)
+ *   This will log +message+ as a warning.
+ *
+ *   @param [String] message The admonitory message to be reported.
+ *   @return [nil]
+ */
 VALUE logger_warning(VALUE self, VALUE message)
 {
     rb_funcall(self, SYM(log), 2, rb_str_new2("WARNING"), message);
     return Qnil;
 }
 
+/* @overload info(message)
+ *   This will log +message+ as an informative message.
+ *
+ *   @param [String] message The information to be reported.
+ *   @return [nil]
+ */
 VALUE logger_info(VALUE self, VALUE message)
 {
     rb_funcall(self, SYM(log), 2, rb_str_new2("INFO"), message);
     return Qnil;
 }
 
+/* @overload log(type, message)
+ *   This will foremost call {#log_directory_check} to ensure the log directory
+ *   exists, and then log the given +message+ as +type+.
+ *
+ *   @param [String] type The type; e.g. WARNING, ERROR, etc.
+ *   @param [String] message The message to be logged.
+ *
+ *   @return [nil]
+ */
 VALUE logger_log(VALUE self, VALUE type, VALUE message)
 {
     // Declaractions and assignments.
@@ -125,6 +155,7 @@ VALUE logger_log_directory_check(VALUE self)
     return Qnil;
 }
 
+/* initializes Auto::Logger in Ruby */
 void init_auto_logger()
 {
     cLogger = rb_define_class_under(mAuto, "Logger", rb_cObject);
@@ -136,3 +167,5 @@ void init_auto_logger()
     rb_define_private_method(cLogger, "log_directory_check", logger_log_directory_check, 0);
     rb_define_private_method(cLogger, "log", logger_log, 2);
 }
+
+/* vim: set ts=4 sts=4 sw=4 et cindent: */

@@ -21,6 +21,8 @@
 // ("YYYY-MM-DD HH:MM:SS +ZZZZ") "YEAR-MONTH-DAY HOUR:MINUTES:SECONDS UTC_OFFSET"
 #define LOG_TIME_FORMAT_LENGTH 25
 
+VALUE cLogger;
+
 VALUE logger_init(VALUE self);
 
 VALUE logger_error(VALUE self, VALUE message);
