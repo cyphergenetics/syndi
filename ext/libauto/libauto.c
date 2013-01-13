@@ -5,13 +5,23 @@
  *
  */
 
-#include "ruby.h"
 #include "auto.h"
+
+/* initialize exceptions */
+void initialize_exceptions()
+{
+    eLogError = rb_define_class("LogError", rb_eStandardError);
+    ePluginError = rb_define_class("PluginError", rb_eStandardError);
+    eConfigError = rb_define_class("ConfigError", rb_eStandardError);
+    eDatabaseError = rb_define_class("DatabaseError", rb_eStandardError);
+}
 
 /* initialize Auto module */
 void Init_libauto()
 {
     mAuto = rb_define_module("Auto");
+    /* initialize exceptions */
+    initialize_exceptions();
     /* initialize Auto::Logger */
     Init_logger();
 }

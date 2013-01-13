@@ -5,16 +5,16 @@
  *
  */
 
-#ifndef __AUTO_H__
+#ifndef AUTO_H
+#define AUTO_H
 
-/* SYM(x) returns rb_intern(x) */
-#define SYM(str) rb_intern(#str)
+/* include the Ruby header */
+#include "ruby.h"
 
-/* variable for the Auto module */
-VALUE mAuto;
+/* include libauto headers */
+#include "libauto.h"
+#include "logger.h"
 
-void Init_auto();
-
-#endif // __AUTO_H__
+#endif // AUTO_H
 
 /* vim: set ts=4 sts=4 sw=4 et cindent: */

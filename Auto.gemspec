@@ -4,7 +4,7 @@
 $:.unshift File.expand_path(File.join(File.dirname(__FILE__), 'lib'))
 require 'auto/version'
 
-spec = Gem::Specification.new do |s|
+Gem::Specification.new do |s|
   
   s.name    = 'Auto'
   s.version = "#{Auto::VERSION}"
@@ -15,15 +15,15 @@ spec = Gem::Specification.new do |s|
     A simple and smart multi-protocol bot (currently supports IRC) which allows for
     easy extension by means of its plugin API.
   EOD
-  s.authors       = %w[
-    Autumn Perrault
-    Matthew Carey
+  s.authors       = [
+    'Autumn Perrault',
+    'Matthew Carey'
   ]
   s.email         = 'autobot-talk@googlegroups.com'
   s.homepage      = 'http://auto.autoproj.org'
   s.license       = 'FreeBSD'
 
-  s.files         = Dir.glob("{bin,lib,ext,docs}/**/*") + %w[
+  s.files         = Dir["{bin,lib,ext,docs}/**/*"] + %w[
     README.md
     LICENSE.md
     Gemfile
@@ -31,9 +31,9 @@ spec = Gem::Specification.new do |s|
     conf/example.yml
     conf/example.json
   ]
-  s.test_files    = Dir.glob("spec/**/*") + ['Rakefile']
+  s.test_files    = Dir["spec/**/*"] + ['Rakefile']
   s.executables   = %w[auto auto-conf]
-  s.extensions    = FileList["ext/**/extconf.rb"]
+  s.extensions    = Dir["ext/**/extconf.rb"]
 
   s.required_ruby_version = '>= 1.9.2'
   s.post_install_message  = <<-EOM
@@ -46,9 +46,9 @@ Moreover, you should typically now run `auto-conf` to produce a configuration fi
   EOM
 
   s.add_runtime_dependency 'colored',  '~> 1.2'
-  s.add_runtime_dependency 'sequel',   '~> 3.42'
+  s.add_runtime_dependency 'sequel',   '~> 3.43'
   s.add_runtime_dependency 'highline', '~> 1.6'
-  s.add_runtime_dependency 'slop',     '~> 3.3'
+  s.add_runtime_dependency 'slop',     '~> 3.4'
   
   s.add_development_dependency 'rake',          '~> 10.0'
   s.add_development_dependency 'rake-compiler', '~> 0.8'

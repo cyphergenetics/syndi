@@ -5,16 +5,13 @@
  *
  */
 
-#include "ruby.h"
 #include <errno.h>
 #include <sys/stat.h>
 #include <string.h>
 #include <time.h>
 #include "auto.h"
-#include "logger.h"
 
 VALUE cLogger;
-VALUE eLogError;
 
 static VALUE logger_init(VALUE self)
 {
@@ -125,11 +122,9 @@ static VALUE logger_log_directory_check(VALUE self)
     return Qnil;
 }
 
-
 void Init_logger()
 {
     cLogger = rb_define_class_under(mAuto, "Logger", rb_cObject);
-    eLogError = rb_define_class_under(mAuto, "LogError", rb_eException);
     rb_define_method(cLogger, "initialize", &logger_init, 0);
     rb_define_method(cLogger, "error", &logger_error, 1);
     rb_define_method(cLogger, "debug", &logger_debug, 1);

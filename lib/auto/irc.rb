@@ -1,6 +1,5 @@
-# Auto 4
-# Copyright (c) 2013, Auto Project
-# Distributed under the terms of the FreeBSD license (LICENSE.md).
+# Copyright (c) 2013, Autumn Perrault, et al. All rights reserved.
+# This free software is distributed under the FreeBSD license (LICENSE.md).
 
 require 'auto/irc/library'
 
