@@ -21,19 +21,19 @@
 // ("YYYY-MM-DD HH:MM:SS +ZZZZ") "YEAR-MONTH-DAY HOUR:MINUTES:SECONDS UTC_OFFSET"
 #define LOG_TIME_FORMAT_LENGTH 25
 
-static VALUE logger_init(VALUE self);
+VALUE logger_init(VALUE self);
 
-static VALUE logger_error(VALUE self, VALUE message);
+VALUE logger_error(VALUE self, VALUE message);
 
-static VALUE logger_debug(VALUE self, VALUE message);
+VALUE logger_debug(VALUE self, VALUE message);
 
-static VALUE logger_warning(VALUE self, VALUE message);
+VALUE logger_warning(VALUE self, VALUE message);
 
-static VALUE logger_info(VALUE self, VALUE message);
+VALUE logger_info(VALUE self, VALUE message);
 
-static VALUE logger_log(VALUE self, VALUE type, VALUE message);
+VALUE logger_log(VALUE self, VALUE type, VALUE message);
 
-static VALUE logger_log_directory_check(VALUE self);
+VALUE logger_log_directory_check(VALUE self);
 
 void init_auto_logger();
 
