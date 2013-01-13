@@ -61,3 +61,17 @@ a member of the Auto Project:
 
 + By e-mail: xoeverlux@gmail.com
 + By IRC: "autumn" on irc.freenode.net (usually in #auto)
+
+**Releasing**
+
+To release a new version, follow this process:
+
+1. Ensure successful compilation and testing with `rake`.
+2. Update `lib/auto/version.rb`.
+3. Update `README.md` -- the version number and documentation link.
+4. Commit `lib/auto/version.rb` and `README.md` with a message of "Version bump to x."
+5. Cross-compile for Microsoft Windows with `rake cross compile`.
+6. Package the typical gem with `rake gem`.
+7. Package the Windows distribution with `rake cross native gem`.
+8. Tag the git branch with `git tag -a x -m "vX release"`.
+
