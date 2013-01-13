@@ -34,7 +34,7 @@ We should hope that [DevKit](http://rubyinstaller.org/downloads) will provide
 a sufficiently sane build environment for this on Windows. We haven't tested
 it since we cross-compile on UNIX systems when packaging gems.
 
-You must then force RubyGems to develop the distribution without binaries, so
+You must then force RubyGems to download the distribution without binaries, so
 that _libauto_ will be compiled:
 
     $ gem install Auto [--pre] --platform=ruby --development
