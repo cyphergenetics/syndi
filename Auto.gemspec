@@ -15,9 +15,9 @@ Gem::Specification.new do |s|
     A simple and smart multi-protocol bot (currently supports IRC) which allows for
     easy extension by means of its plugin API.
   EOD
-  s.authors       = %w[
-    Autumn Perrault
-    Matthew Carey
+  s.authors       = [
+    'Autumn Perrault',
+    'Matthew Carey'
   ]
   s.email         = 'autobot-talk@googlegroups.com'
   s.homepage      = 'http://auto.autoproj.org'
