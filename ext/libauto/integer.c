@@ -5,8 +5,7 @@
  *
  */
 
-#include "ruby.h"
-#include "integer.h"
+#include "auto.h"
 
 // SWAR algorithm for finding the number of set bits.
 VALUE swar_bits_set(VALUE self)
@@ -22,13 +21,13 @@ VALUE modular_power(VALUE self, VALUE exponent, VALUE modulus)
 {
 	long result = 1;
 	int base = FIX2INT(self);
-	int exp  = FIX2INT(exponent);
+	int exp = FIX2INT(exponent);
 	int modulo = FIX2INT(modulus);
 
 	if(modulo == 0)
 	{
 		// Avoid divide by zero
-		return 0;
+		return Qnil;
 	}
 
 	while(exp > 0)
@@ -43,7 +42,8 @@ VALUE modular_power(VALUE self, VALUE exponent, VALUE modulus)
 	return INT2FIX(result);
 }
 
-void Init_integer()
+/* initialize extension of Ruby stdlib Integer */
+void init_integer()
 {
 	rb_define_method(rb_cInteger, "bits_set", swar_bits_set, 0);
 	rb_define_method(rb_cInteger, "mod_exp", modular_power, 2);

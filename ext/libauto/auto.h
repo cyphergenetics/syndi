@@ -14,6 +14,7 @@
 /* include libauto headers */
 #include "libauto.h"
 #include "logger.h"
+#include "integer.h"
 
 #endif // AUTO_H
 

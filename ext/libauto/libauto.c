@@ -24,6 +24,8 @@ void Init_libauto()
     initialize_exceptions();
     /* initialize Auto::Logger */
     init_auto_logger();
+    /* extend Ruby stdlib Integer */
+    init_integer();
 }
 
 /* vim: set ts=4 sts=4 sw=4 et cindent: */
