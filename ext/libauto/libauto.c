@@ -23,7 +23,7 @@ void Init_libauto()
     /* initialize exceptions */
     initialize_exceptions();
     /* initialize Auto::Logger */
-    Init_logger();
+    init_auto_logger();
 }
 
 /* vim: set ts=4 sts=4 sw=4 et cindent: */

@@ -122,7 +122,7 @@ static VALUE logger_log_directory_check(VALUE self)
     return Qnil;
 }
 
-void Init_logger()
+void init_auto_logger()
 {
     cLogger = rb_define_class_under(mAuto, "Logger", rb_cObject);
     rb_define_method(cLogger, "initialize", &logger_init, 0);

@@ -35,7 +35,7 @@ static VALUE logger_log(VALUE self, VALUE type, VALUE message);
 
 static VALUE logger_log_directory_check(VALUE self);
 
-void Init_logger();
+void init_auto_logger();
 
 
 #endif 
