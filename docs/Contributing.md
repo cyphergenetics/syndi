@@ -24,13 +24,22 @@ and YARD standards.
 When using the `@author` tag, please provide your GitHub
 username at minimum.
 
-**Formatting**
+**Coding**
 
-For indentation, ensure that you use spaces in lieu of tabs, two to be exact.
+For indentation, ensure that you use spaces in lieu of tabs. For Ruby code and
+YAML, use two spaces. For C code, use four spaces.
 
-Vim users, observe the modelines each file contains:
+Vim users, observe the modelines each source file contains:
 
     # vim: set ts=4 sts=2 sw=2 et:
+
+and
+
+    /* vim: set ts=4 sts=4 sw=4 et cindent: */
+
+Ruby coders, largely keep your code in compliance with [this style guide](https://github.com/bbatsov/ruby-style-guide).
+
+C coders, we prefer Allman (not K&R) style.
 
 **Language**
 
