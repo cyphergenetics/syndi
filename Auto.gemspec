@@ -26,6 +26,8 @@ Gem::Specification.new do |s|
   s.files         = Dir["{bin,lib,ext,docs}/**/*"] + %w[
     README.md
     LICENSE.md
+    WINDOWS.md
+    INSTALL.md
     Gemfile
     .yardopts
     conf/example.yml
