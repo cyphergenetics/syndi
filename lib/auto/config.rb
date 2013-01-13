@@ -166,7 +166,7 @@ module Auto
           y = YAML.parse(data)
           conf = y.to_ruby
         rescue => e
-          raise ConfigError, "Failed to process the YAML in '#@path'", e
+          raise ConfigError, "Failed to process the YAML in '#@path'", e.backtrace
         end
 
       end
