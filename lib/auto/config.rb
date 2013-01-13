@@ -2,7 +2,7 @@
 # This free software is distributed under the FreeBSD license (LICENSE.md).
 autoload :JSON, 'json'
 autoload :Psych, 'psych'
-require 'auto/exceptions'
+require 'libauto'
 
 # Namespace: Auto
 module Auto

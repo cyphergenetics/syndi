@@ -2,7 +2,7 @@
 # This free software is distributed under the FreeBSD license (LICENSE.md).
 
 require 'ostruct'
-require 'auto/exceptions'
+require 'libauto'
 require 'auto/bot'
 
 module Auto
