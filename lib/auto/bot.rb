@@ -130,7 +130,7 @@ module Auto
         next if sockets.empty?
 
         # Call #select.
-        ready_read, ready_write, ready_err = IO.select(sockets, [], [], nil)
+        ready_read, _, _ = IO.select(sockets, [], [], nil)
 
         # Iterate through sockets ready for reading.
         ready_read.each do |socket|
