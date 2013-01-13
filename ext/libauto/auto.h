@@ -13,7 +13,11 @@
 /* variable for the Auto module */
 VALUE mAuto;
 
+/* prototype for Init_auto() */
 void Init_auto();
+
+/* Auto's exceptions */
+VALUE eLogError;
 
 #endif // __AUTO_H__
 

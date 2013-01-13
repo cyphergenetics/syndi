@@ -8,10 +8,18 @@
 #include "ruby.h"
 #include "auto.h"
 
+/* initialize exceptions */
+void initialize_exceptions()
+{
+    eLogError = rb_define_class("LogError", rb_eStandardError);
+}
+
 /* initialize Auto module */
 void Init_libauto()
 {
     mAuto = rb_define_module("Auto");
+    /* initialize exceptions */
+    initialize_exceptions();
     /* initialize Auto::Logger */
     Init_logger();
 }
