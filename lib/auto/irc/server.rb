@@ -257,9 +257,9 @@ module Auto
           @recv_rem = data if data != ''
 
           # Lastly, sent the data out
-          recv.each do |line|
-            $m.foreground("{irc-recv} #@name >> #{line}")
-            emit :irc, :receive, self, line # send it out to :receive
+          recv.each do |dline|
+            $m.foreground("{irc-recv} #@name >> #{dline}")
+            emit :irc, :receive, self, dline # send it out to :receive
           end
         
         end
