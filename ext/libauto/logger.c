@@ -16,7 +16,7 @@
 
 VALUE cLogger;
 
-static VALUE logger_init(VALUE self)
+VALUE logger_init(VALUE self)
 {
     rb_iv_set(self, "@status", ID2SYM(SYM(good)));
     rb_funcall(self, SYM(log_directory_check), 0);
@@ -29,31 +29,31 @@ static VALUE logger_init(VALUE self)
  *   @param [String] message The error message to be reported.
  *   @return [nil]
  */
-static VALUE logger_error(VALUE self, VALUE message)
+VALUE logger_error(VALUE self, VALUE message)
 {
     rb_funcall(self, SYM(log), 2, rb_str_new2("ERROR"), message);
     return Qnil;
 }
 
-static VALUE logger_debug(VALUE self, VALUE message)
+VALUE logger_debug(VALUE self, VALUE message)
 {
     rb_funcall(self, SYM(log), 2, rb_str_new2("DEBUG"), message);
     return Qnil;
 }
 
-static VALUE logger_warning(VALUE self, VALUE message)
+VALUE logger_warning(VALUE self, VALUE message)
 {
     rb_funcall(self, SYM(log), 2, rb_str_new2("WARNING"), message);
     return Qnil;
 }
 
-static VALUE logger_info(VALUE self, VALUE message)
+VALUE logger_info(VALUE self, VALUE message)
 {
     rb_funcall(self, SYM(log), 2, rb_str_new2("INFO"), message);
     return Qnil;
 }
 
-static VALUE logger_log(VALUE self, VALUE type, VALUE message)
+VALUE logger_log(VALUE self, VALUE type, VALUE message)
 {
     // Declaractions and assignments.
     char *log_file_name  = ALLOCA_N(char, MAX_TIME_STRING_LENGTH + 1);
@@ -110,14 +110,14 @@ static VALUE logger_log(VALUE self, VALUE type, VALUE message)
  *   @raise [LogError] If directory creation fails.
  *   @return [nil]
  */
-static VALUE logger_log_directory_check(VALUE self)
+VALUE logger_log_directory_check(VALUE self)
 {
     int result = mkdir("logs", S_IRWXU);
 
     // Only raise an error if we fail to create the directory. 
-    if(result != 0 && result != EEXIST)
+    if(result != 0 && errno != EEXIST)
     {
-        int error_number = result;
+        int error_number = errno;
         rb_iv_set(self, "@status", ID2SYM(SYM(bad)));
         rb_raise(eLogError, "Could not create logs/: %s", strerror(error_number));
     }
