@@ -40,3 +40,15 @@ with these three rules:
 1. No obscene language.
 2. It must be legible.
 3. It must be grammatically correct at least to a reasonable degree.
+
+**Membership**
+
+While we recognize and credit all individuals who contribute, no matter how
+small their contribution, we are also willing to grant commit access and
+official membership to regular contributors.
+
+Please contact Autumn Perrault (also known as noxgirl) if you wish to become
+a member of the Auto Project:
+
++ By e-mail: xoeverlux@gmail.com
++ By IRC: "autumn" on irc.freenode.net (usually in #auto)
