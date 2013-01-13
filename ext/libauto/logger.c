@@ -16,9 +16,9 @@
 
 VALUE cLogger;
 
-VALUE logger_init(VALUE self)
+static VALUE logger_init(VALUE self)
 {
-    rb_iv_set(self, "@status", SYM(good));
+    rb_iv_set(self, "@status", ID2SYM(SYM(good)));
     rb_funcall(self, SYM(log_directory_check), 0);
     return Qnil;
 }
@@ -29,31 +29,31 @@ VALUE logger_init(VALUE self)
  *   @param [String] message The error message to be reported.
  *   @return [nil]
  */
-VALUE logger_error(VALUE self, VALUE message)
+static VALUE logger_error(VALUE self, VALUE message)
 {
     rb_funcall(self, SYM(log), 2, rb_str_new2("ERROR"), message);
     return Qnil;
 }
 
-VALUE logger_debug(VALUE self, VALUE message)
+static VALUE logger_debug(VALUE self, VALUE message)
 {
     rb_funcall(self, SYM(log), 2, rb_str_new2("DEBUG"), message);
     return Qnil;
 }
 
-VALUE logger_warning(VALUE self, VALUE message)
+static VALUE logger_warning(VALUE self, VALUE message)
 {
     rb_funcall(self, SYM(log), 2, rb_str_new2("WARNING"), message);
     return Qnil;
 }
 
-VALUE logger_info(VALUE self, VALUE message)
+static VALUE logger_info(VALUE self, VALUE message)
 {
     rb_funcall(self, SYM(log), 2, rb_str_new2("INFO"), message);
     return Qnil;
 }
 
- VALUE logger_log(VALUE self, VALUE type, VALUE message)
+static VALUE logger_log(VALUE self, VALUE type, VALUE message)
 {
     // Declaractions and assignments.
     char *log_file_name  = ALLOCA_N(char, MAX_TIME_STRING_LENGTH + 1);
@@ -97,7 +97,7 @@ VALUE logger_info(VALUE self, VALUE message)
     // Write sting to log and close.
     fputs(formatted_message, log_file);
     fclose(log_file);
-
+    
     return Qnil;
 }
 
@@ -110,15 +110,15 @@ VALUE logger_info(VALUE self, VALUE message)
  *   @raise [LogError] If directory creation fails.
  *   @return [nil]
  */
-VALUE logger_log_directory_check(VALUE self)
+static VALUE logger_log_directory_check(VALUE self)
 {
     int result = mkdir("logs", S_IRWXU);
 
-    // Only raise an error if we fail to create the directory.
-    if(result == -1 && errno != EEXIST)
+    // Only raise an error if we fail to create the directory. 
+    if(result != 0 && result != EEXIST)
     {
-        int error_number = errno;
-        rb_iv_set(self, "@status", SYM(bad));
+        int error_number = result;
+        rb_iv_set(self, "@status", ID2SYM(SYM(bad)));
         rb_raise(eLogError, "Could not create logs/: %s", strerror(error_number));
     }
 
@@ -128,11 +128,11 @@ VALUE logger_log_directory_check(VALUE self)
 void init_auto_logger()
 {
     cLogger = rb_define_class_under(mAuto, "Logger", rb_cObject);
-    rb_define_method(cLogger, "initialize", &logger_init, 0);
-    rb_define_method(cLogger, "error", &logger_error, 1);
-    rb_define_method(cLogger, "debug", &logger_debug, 1);
-    rb_define_method(cLogger, "warning", &logger_warning, 1);
-    rb_define_method(cLogger, "info", &logger_info, 1);
-    rb_define_private_method(cLogger, "log_directory_check", &logger_log_directory_check, 0);
-    rb_define_private_method(cLogger, "log", &logger_log, 2);
+    rb_define_method(cLogger, "initialize", logger_init, 0);
+    rb_define_method(cLogger, "error", logger_error, 1);
+    rb_define_method(cLogger, "debug", logger_debug, 1);
+    rb_define_method(cLogger, "warning", logger_warning, 1);
+    rb_define_method(cLogger, "info", logger_info, 1);
+    rb_define_private_method(cLogger, "log_directory_check", logger_log_directory_check, 0);
+    rb_define_private_method(cLogger, "log", logger_log, 2);
 }
