@@ -142,7 +142,13 @@ VALUE logger_log(VALUE self, VALUE type, VALUE message)
  */
 VALUE logger_log_directory_check(VALUE self)
 {
-    int result = mkdir("logs", S_IRWXU);
+    int result;
+
+#ifdef WIN32
+    result = _mkdir("logs/");
+#else
+    result = mkdir("logs", S_IRWXU);
+#endif
 
     // Only raise an error if we fail to create the directory. 
     if(result != 0 && errno != EEXIST)
