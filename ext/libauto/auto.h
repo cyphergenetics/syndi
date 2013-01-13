@@ -13,8 +13,9 @@
 /* variable for the Auto module */
 VALUE mAuto;
 
-/* prototype for Init_auto() */
+/* prototypes */
 void Init_auto();
+void Init_logger();
 
 /* Auto's exceptions */
 VALUE eLogError;
