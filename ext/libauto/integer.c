@@ -20,9 +20,9 @@ VALUE swar_bits_set(VALUE self)
 VALUE modular_power(VALUE self, VALUE exponent, VALUE modulus)
 {
 	// I need to figure out how this works to see which long long i can take out.
-	long long result = 1;
-	long long base = NUM2INT(self);
-	long long exp = NUM2INT(exponent);
+	VALUE result = INT2FIX(1);
+	int base = NUM2INT(self);
+	int  exp = NUM2INT(exponent);
 	long long modulo = NUM2INT(modulus);
 
 	if(modulo == 0)
@@ -34,13 +34,13 @@ VALUE modular_power(VALUE self, VALUE exponent, VALUE modulus)
 	while(exp > 0)
 	{	
 		if(exp & 1)
-			result = (result * base) % modulo;
+			result = rb_funcall(rb_funcall(result, SYM(*), 1, INT2FIX(base)), SYM(%), 1, modulus);
 		exp >>= 1;
-		base = (base * base) % modulo;
+		base = NUM2INT(rb_funcall(INT2FIX(base * base), SYM(%), 1, modulus));
 	}
 
 	// If the numbers become an issue we will switch to INT2NUM to allow for Bignums
-	return INT2NUM(result);
+	return result;
 }
 
 /* initialize extension of Ruby stdlib Integer */
