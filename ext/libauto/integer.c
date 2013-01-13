@@ -20,9 +20,9 @@ VALUE swar_bits_set(VALUE self)
 VALUE modular_power(VALUE self, VALUE exponent, VALUE modulus)
 {
 	long result = 1;
-	int base = FIX2INT(self);
-	int exp = FIX2INT(exponent);
-	int modulo = FIX2INT(modulus);
+	long base = NUM2INT(self);
+	long exp = NUM2INT(exponent);
+	long modulo = NUM2INT(modulus);
 
 	if(modulo == 0)
 	{
@@ -39,7 +39,7 @@ VALUE modular_power(VALUE self, VALUE exponent, VALUE modulus)
 	}
 
 	// If the numbers become an issue we will switch to INT2NUM to allow for Bignums
-	return INT2FIX(result);
+	return INT2NUM(result);
 }
 
 /* initialize extension of Ruby stdlib Integer */
