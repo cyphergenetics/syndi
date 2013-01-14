@@ -37,5 +37,11 @@ Gem::PackageTask.new(gemspec) do |pkg|
   pkg.need_zip = true
   pkg.need_tar = true
 end
-  
+
+desc 'Install the gem.'
+task :install => :gem do
+  gempkg = Dir["pkg/Auto-#{gemspec.version}.gem"].last
+  sh "gem install #{gempkg}"
+end
+ 
 # vim: set ts=4 sts=2 sw=2 et:
