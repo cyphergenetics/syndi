@@ -1,11 +1,16 @@
 # Copyright (c) 2013, Autumn Perrault, et al. All rights reserved.
 # This free software is distributed under the FreeBSD license (LICENSE.md).
 
-require 'colored'
+
+if Auto.windows?
+  Auto.windows_colored
+else
+  require 'colored'
+end
+
 require 'sequel'
 
 require 'auto/config'
-
 require 'auto/api'
 
 # Namespace: Auto
@@ -51,7 +56,8 @@ module Auto
   #   @return [Array<Object>] A list of socket objects.
   class Bot
 
-    attr_reader :opts, :log, :conf, :events, :clock, :db, :libs, :netloop, :sockets
+    attr_reader :opts, :log, :conf, :events, :clock, :db, :libs,
+                :netloop, :sockets
 
     # Create a new instance of Auto.
     #

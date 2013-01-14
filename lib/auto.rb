@@ -38,6 +38,20 @@ module Auto
     end
   end
 
+  # This fixes coloring issues on Windows--or at least, the ones with which we
+  # need be concerned.
+  def self.windows_colored
+    colors = [:black, :red, :green, :yellow, :blue, :magenta, :cyan, :white]
+    extras = [:clear, :bold, :underline, :reversed]
+    
+    colors.each do |col|
+      String.define_method(col) { self }
+    end
+    extras.each do |extr|
+      String.define_method(extr) { self }
+    end
+  end
+
 end
 
 # vim: set ts=4 sts=2 sw=2 et:
