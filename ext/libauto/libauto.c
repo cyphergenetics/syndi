@@ -7,6 +7,12 @@
 
 #include "auto.h"
 
+VALUE mAuto;
+VALUE eLogError;
+VALUE ePluginError;
+VALUE eConfigError;
+VALUE eDatabaseError;
+
 /* initialize exceptions */
 void initialize_exceptions()
 {

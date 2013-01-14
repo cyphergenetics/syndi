@@ -14,6 +14,8 @@
 #include <time.h>
 #include "auto.h"
 
+VALUE cLogger;
+
 /* @overload initialize()
  *   Constructs a new Auto::Logger instance.
  *

@@ -12,16 +12,16 @@
 #define SYM(str) rb_intern(#str)
 
 /* variable for the Auto module */
-VALUE mAuto;
+extern VALUE mAuto;
 
 /* Init_libauto prototype */
 void Init_libauto();
 
 /* Auto's exceptions */
-VALUE eLogError;
-VALUE eConfigError;
-VALUE eDatabaseError;
-VALUE ePluginError;
+extern VALUE eLogError;
+extern VALUE eConfigError;
+extern VALUE eDatabaseError;
+extern VALUE ePluginError;
 
 #endif
 
