@@ -26,11 +26,9 @@ module Auto
     # Produce a new instance, and attempt to parse.
     #
     # @param [String] filepath Path to configuration file.
-    #
-    # @raise [ConfigError] If the file extension is not recognized (should be +.yml+ or +.json+).
     def initialize filepath
 
-      $m.debug("Trying to initialize configuration from '#{filepath}'...")
+      $m.debug "Trying to initialize configuration from '#{filepath}'..."
 
       # Set path to file.
       @path = filepath
@@ -56,18 +54,18 @@ module Auto
       parse!
 
       # Ensure it really succeeded.
-      if @conf.empty? or @conf.class != Hash
+      if @conf.empty? or !@conf.instance_of? Hash
         # Nope. Restore old configuration.
         @conf = oldconf
-        $m.error("Failed to rehash the configuration file (parser produced empty config)! Reverting to old configuration.")
+        $m.error 'Failed to rehash the configuration file (parser produced empty config)! Reverting to old configuration.'
         return 0
       end
       
       $m.events.call :rehash
 
-    # This rescue is applicable to anything that happens in here. Since if it is reached, there really was an error in general.
+    # This rescue is applicable to anything that happens in here, since if it is reached, there really was an error in general.
     rescue => e 
-      $m.error("Failed to rehash configuration file! Reverting to old configuration.", false, e.backtrace)
+      $m.error 'Failed to rehash configuration file! Reverting to old configuration.', false, e.backtrace
       @conf = oldconf
       return 0
     end
@@ -96,7 +94,7 @@ module Auto
       end
 
       # Get the data from the file.
-      f = File.open(@path)
+      f    = File.open(@path)
       data = f.read
       f.close
 
