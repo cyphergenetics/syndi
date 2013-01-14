@@ -3,7 +3,7 @@
 
 require 'base64'
 require 'openssl'
-require 'auto/rubyext/integer'
+require 'libauto'
 require 'auto/irc/sasl/diffie_hellman'
 
 module Auto
