@@ -21,10 +21,11 @@ VALUE modular_power(VALUE self, VALUE exponent, VALUE modulus)
 {
 	// I need to figure out how this works to see which long long i can take out.
 	VALUE result = INT2FIX(1);
-	VALUE base = rb_funcall(self, SYM(dup), 0);
+	VALUE base = self;
+
 	int  exp = NUM2INT(exponent);
 
-	if( (modulus << 1)== 0 )
+	if( (modulus << 1) == 0 )
 	{
 		// Avoid divide by zero
 		return Qnil;
