@@ -59,9 +59,7 @@ command below for `gem install sqlite3`:
     $ gem install pg
 
 For detailed installation instructions, see
-[the guide](https://github.com/Auto/Auto/wiki/Install-Guide). This will guide
-you to such things as configuring Auto manually, installing a standalone
-copy, and building from git.
+[the guide](https://github.com/Auto/Auto/wiki/Install-Guide).
 
 **Note: Ruefully, as of January 10, 2013, we no longer support JRuby. Please
 use MRI (the official interpreter) or Rubinius. Thank you.**
