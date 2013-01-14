@@ -63,8 +63,7 @@ module Auto
         return 0
       end
       
-      # bot:onRehash
-      $m.events.call('bot:onRehash')
+      $m.events.call :rehash
 
     # This rescue is applicable to anything that happens in here. Since if it is reached, there really was an error in general.
     rescue => e 
