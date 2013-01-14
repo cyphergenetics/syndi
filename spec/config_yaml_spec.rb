@@ -80,10 +80,6 @@ EOF
     @conf = Auto::Config.new('.temp.yaml_config.yml')
   end
 
-  it 'should have a type of YAML' do
-    @conf.type.must_equal :yaml
-  end
-
   it 'should have @conf, a Hash' do
     @conf.conf.class.must_equal Hash
   end
