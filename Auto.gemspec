@@ -37,7 +37,6 @@ Gem::Specification.new do |s|
   s.executables   = %w[auto auto-conf]
   s.extensions    = Dir["ext/**/extconf.rb"]
 
-  s.required_ruby_version = '>= 1.9.2'
   s.post_install_message  = <<-EOM
 Thanks for installing Auto!
 
