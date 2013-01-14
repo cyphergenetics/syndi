@@ -8,7 +8,6 @@ extension = 'libauto'
 
 dir_config extension
 
-$CFLAGS << " -I./include/ "
 $CFLAGS << " -Wno-unused-function "
 
 create_makefile extension
