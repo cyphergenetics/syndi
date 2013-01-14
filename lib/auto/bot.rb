@@ -61,11 +61,7 @@ module Auto
       @opts = opts
       
       # Move to ~/.config/autobot if we're a gem.
-      if Auto.gem?
-        Dir.mkdir File.join(Dir.home, '.config') if !Dir.exists? File.join(Dir.home, '.config')
-        Dir.mkdir File.join(Dir.home, '.config', 'autobot') if !Dir.exists? File.join(Dir.home, '.config', 'autobot')
-        Dir.chdir File.join(Dir.home, '.config', 'autobot')
-      end
+      set_directory if Auto.gem?
     end
 
     # Initialize this instance.
@@ -234,6 +230,13 @@ module Auto
     private
     #######
 
+    # Move to the ~/.config working directory.
+    def set_directory
+      Dir.mkdir File.join(Dir.home, '.config')            if !Dir.exists? File.join(Dir.home, '.config')
+      Dir.mkdir File.join(Dir.home, '.config', 'autobot') if !Dir.exists? File.join(Dir.home, '.config', 'autobot')
+      Dir.chdir File.join(Dir.home, '.config', 'autobot')
+    end
+
     # Load the configuration.
     def load_config
 
@@ -241,18 +244,17 @@ module Auto
       # conf/ is given precedence over ~/.config/autobot/
       # unless we're installed as a gem, in which case conf/ is ignored
       confpath = nil
-      if File.exists? File.join(%w[conf auto.yml]) and !Auto.gem?
-        confpath = File.join(%w[conf auto.yml])
-      elsif File.exists? File.join(Dir.home, '.config', 'autobot', 'auto.yml')
+      if Auto.gem?
         confpath = File.join(Dir.home, '.config', 'autobot', 'auto.yml')
+      else
+        confpath = File.join('conf', 'auto.yml')
       end
       confpath = @opts[:conf] if @opts.conf? # --conf=FILE has supreme precedence
-      error('Could not find a configuration file', true) if confpath.nil?
 
       # Process it.
       puts "* Reading the configuration file #{confpath}...".bold
       @log.info("Reading the configuration file #{confpath}...")
-      @conf = Auto::Config.new(File.expand_path(confpath))
+      @conf = Auto::Config.new File.expand_path(confpath)
 
     end
 
@@ -274,10 +276,7 @@ module Auto
         end
 
         begin
-          # here is where magic occurs to load a library
-          require "auto/#{lib}"
-          instance_variable_set "@#{lib}".to_sym, Object.const_get("LIBRARY_#{lib.uc}")
-          define_singleton_method(lib.to_sym) { self.instance_variable_get("@#{__method__}".to_sym) }
+          load_library lib
           @libs.push lib
         rescue => e
           error "Failed to load core library '#{lib}': #{e}", true, e.backtrace
@@ -285,6 +284,14 @@ module Auto
 
       end
 
+    end
+
+    # Load a core library.
+    def load_library lib
+      # here is where magic occurs to load a library
+      require "auto/#{lib}"
+      instance_variable_set "@#{lib}".to_sym, Object.const_get("LIBRARY_#{lib.uc}")
+      define_singleton_method(lib.to_sym) { self.instance_variable_get("@#{__method__}".to_sym) }
     end
 
     # Load database.
