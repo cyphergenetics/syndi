@@ -21,10 +21,10 @@ VALUE modular_power(VALUE self, VALUE exponent, VALUE modulus)
 {
 	// I need to figure out how this works to see which long long i can take out.
 	VALUE result = INT2FIX(1);
-	int base = NUM2INT(self);
+	VALUE base = rb_funcall(self, SYM(dup), 0);
 	int  exp = NUM2INT(exponent);
 
-	if( modulus == 0 )
+	if( (modulus << 1)== 0 )
 	{
 		// Avoid divide by zero
 		return Qnil;
@@ -33,9 +33,9 @@ VALUE modular_power(VALUE self, VALUE exponent, VALUE modulus)
 	while(exp > 0)
 	{	
 		if(exp & 1)
-			result = rb_funcall(rb_funcall(result, SYM(*), 1, INT2FIX(base)), SYM(%), 1, modulus);
+			result = rb_funcall(rb_funcall(result, SYM(*), 1, base), SYM(%), 1, modulus);
 		exp >>= 1;
-		base = rb_funcall(INT2FIX(base * base), SYM(%), 1, modulus);
+		base = rb_funcall(rb_funcall(base, SYM(*), 1, base), SYM(%), 1, modulus);
 	}
 
 	// If the numbers become an issue we will switch to INT2NUM to allow for Bignums
