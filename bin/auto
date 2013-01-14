@@ -2,6 +2,8 @@
 # Copyright (c) 2013, Autumn Perrault, et al. All rights reserved.
 # This free software is distributed under the FreeBSD license (LICENSE.md).
 
+require 'English'
+
 # Forbid root.
 if ENV.include? 'USER'
   if ENV['USER'] == 'root'
@@ -10,14 +12,7 @@ if ENV.include? 'USER'
   end
 end
 
-# Check whether we're installed as a gem or a standalone
-unless File.expand_path(__FILE__) =~ /^#{Regexp.escape File.join(Dir.home, '.gem')}/
-  gitdir = File.join(File.dirname(__FILE__), '..', '.git')
-  if Dir.exists? gitdir
-    REVISION = File.open(File.join(gitdir, 'refs', 'heads', 'master')).first[0..7] # Note the git revision
-  end
-  $:.unshift File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib')) # Add the Auto libraries to LOAD_PATH
-end
+$LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib')) # Add the Auto libraries to LOAD_PATH
 
 # Require necessary libraries.
 require 'slop'
@@ -32,8 +27,8 @@ opts = Slop.parse(:banner => "Usage: #$0 [options]") do
   end
   on :v, :version, 'Display version and exit.' do
     puts <<-EOV
-Auto #{Auto::FULLVERSION}
-#{"Git revision: #{REVISION}\n" if defined? REVISION}
+Auto #{Auto::FULLVERSION}, by the Auto Project
+
 http://auto.autoproj.org
     EOV
     exit 0
