@@ -33,3 +33,6 @@ pkg/*
 
 # and temporary compilation stuff
 tmp/*
+
+# and Rubinius stff
+.rbx/*
