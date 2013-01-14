@@ -13,6 +13,36 @@ module Auto
   # i.e., +VERSION-CODENAME+
   FULLVERSION  = "#{VERSION}-phoenix".freeze
 
+  # @return [Boolean] Whether this is a HEAD (i.e. Git) copy.
+  def self.head?
+    begin
+      return HEAD if defined? HEAD
+      HEAD = Dir.exists?(File.join(File.expand_path(File.join('..', '..'), __FILE__), '.git'))
+    ensure
+      HEAD ||= false
+    end
+  end
+
+  # @return [Boolean] Whether this is an alpha-stage copy.
+  def self.alpha?
+    (VERSION =~ /alpha/).nil? ? false : true
+  end
+  
+  # @return [Boolean] Whether this is a beta-stage copy.
+  def self.beta?
+    (VERSION =~ /beta/).nil?  ? false : true
+  end
+  
+  # @return [Boolean] Whether this is a release candidate copy.
+  def self.rc?
+    (VERSION =~ /rc/).nil?    ? false : true
+  end
+
+  # @return [Boolean] Whether this is an edge (i.e. testing, development, unstable) copy.
+  def self.edge?
+    alpha? || beta? || rc?
+  end
+
 end
 
 # vim: set ts=4 sts=2 sw=2 et:
