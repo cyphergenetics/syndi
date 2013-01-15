@@ -3,8 +3,6 @@
 
 require 'auto/rubyext/string'
 require 'auto/version'
-require 'libauto' # include the native extension
-require 'auto/bot'
 
 module Auto
 
@@ -45,13 +43,16 @@ module Auto
     extras = [:clear, :bold, :underline, :reversed]
     
     colors.each do |col|
-      String.define_method(col) { self }
+      String.send(:define_method, col, proc { self })
     end
     extras.each do |extr|
-      String.define_method(extr) { self }
+      String.send(:define_method, extr, proc { self })
     end
   end
 
 end
+
+require 'libauto' # include the native extension
+require 'auto/bot'
 
 # vim: set ts=4 sts=2 sw=2 et:
