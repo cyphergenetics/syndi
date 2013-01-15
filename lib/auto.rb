@@ -52,6 +52,12 @@ module Auto
 
 end
 
+if Auto.windows?
+  Auto.windows_colored
+else
+  require 'colored'
+end
+
 require 'libauto' # include the native extension
 require 'auto/bot'
 

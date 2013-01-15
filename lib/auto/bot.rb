@@ -1,13 +1,6 @@
 # Copyright (c) 2013, Autumn Perrault, et al. All rights reserved.
 # This free software is distributed under the FreeBSD license (LICENSE.md).
 
-
-if Auto.windows?
-  Auto.windows_colored
-else
-  require 'colored'
-end
-
 require 'sequel'
 
 require 'auto/config'
