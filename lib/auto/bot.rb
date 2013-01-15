@@ -47,10 +47,14 @@ module Auto
   #
   # @!attribute [r] sockets
   #   @return [Array<Object>] A list of socket objects.
+  #
+  # @!attribute [r] work_dir
+  #   @return [String] The Auto working directory (usually ~/.auto).
+  #   @return [nil] If no particular directory has been specified. . . .
   class Bot
 
     attr_reader :opts, :log, :conf, :events, :clock, :db, :libs,
-                :netloop, :sockets
+                :netloop, :sockets, :work_dir
 
     # Create a new instance of Auto.
     #
@@ -59,7 +63,8 @@ module Auto
       # Save options.
       @opts = opts
       
-      # Move to ~/.config/autobot if we're a gem.
+      # Move to ~/.auto if we're a gem.
+      @work_dir = nil
       set_directory if Auto.gem?
     end
 
@@ -231,20 +236,20 @@ module Auto
 
     # Move to the ~/.config working directory.
     def set_directory
-      Dir.mkdir File.join(Dir.home, '.config')            if !Dir.exists? File.join(Dir.home, '.config')
-      Dir.mkdir File.join(Dir.home, '.config', 'autobot') if !Dir.exists? File.join(Dir.home, '.config', 'autobot')
-      Dir.chdir File.join(Dir.home, '.config', 'autobot')
+      Dir.mkdir File.join(Dir.home, '.auto') if !Dir.exists? File.join(Dir.home, '.auto')
+      Dir.chdir File.join(Dir.home, '.auto')
+      @work_dir = File.join(Dir.home, '.auto')
     end
 
     # Load the configuration.
     def load_config
 
       # Try to find the file
-      # conf/ is given precedence over ~/.config/autobot/
-      # unless we're installed as a gem, in which case conf/ is ignored
+      # if we're a gem, we'll try ~/.auto/auto.yml
+      # else we'll try ./conf/auto.yml
       confpath = nil
       if Auto.gem?
-        confpath = File.join(Dir.home, '.config', 'autobot', 'auto.yml')
+        confpath = File.join(Dir.home, '.auto', 'auto.yml')
       else
         confpath = File.join('conf', 'auto.yml')
       end

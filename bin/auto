@@ -20,7 +20,7 @@ require 'auto'
 
 # Parse options.
 $VERBOSITY = 0
-opts = Slop.parse(:banner => "Usage: #$0 [options]") do
+opts = Slop.parse(:banner => "Usage: #$PROGRAM_NAME [options]") do
   on :h, :help, 'Display this help message.' do
     puts self
     exit 0
