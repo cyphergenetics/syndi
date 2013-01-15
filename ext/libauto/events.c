@@ -29,9 +29,9 @@ static VALUE events_on(VALUE self, VALUE event, VALUE rbpriority, VALUE prc)
 
     // if the event does not exist, create it
     if (rb_hash_aref(rb_iv_get(self, "@events"), event) == Qnil) {
-        rb_hash_set(rb_iv_get(self, "@events"), event, rb_hash_new());
+        rb_hash_aset(rb_iv_get(self, "@events"), event, rb_hash_new());
         for (i = 1; i <= 5; ++i)
-            rb_hash_set(rb_hash_aref(rb_iv_get(self, "@events"), event), INT2FIX(i), rb_hash_new());
+            rb_hash_aset(rb_hash_aref(rb_iv_get(self, "@events"), event), INT2FIX(i), rb_hash_new());
     }
 
     

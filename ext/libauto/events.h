@@ -5,7 +5,9 @@
  *
  */
 
+#ifndef WIN32
 #include <pthread.h>
+#endif
 
 extern VALUE cEvents;
 
