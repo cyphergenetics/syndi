@@ -305,33 +305,41 @@ module Auto
       @log.info('Initializing database...')
       @db = nil
 
-      case @conf['database']['type'] # check the database type in the config
-      
-      when 'sqlite' # it's SQLite
-        
-        name = @conf['database']['name'] || 'auto.db'
-        @db  = Sequel.sqlite(name)
+      @db = case @conf['database']['type'] # check the database type in the config
+            when 'sqlite' # it's SQLite
+              database_sqlite
+            when 'mysql', 'postgres' # MySQL and Postgres
+              database_sqld
+            else
+              raise DatabaseError, "Unrecognized database type: #{@conf['database']['type']}"
+            end
+    end
 
-      when 'mysql', 'postgres' # for MySQL and Postgres
+    # Load database as SQLite.
+    #
+    # @return [Sequel::SQLite::Database] The database object.
+    def database_sqlite
+      name = @conf['database']['name'] || 'auto.db'
+      Sequel.sqlite(name)
+    end
 
-        %[username password hostname name].each do |d|
-          unless @conf['database'].include? d
-            raise DatabaseError, "Insufficient configuration. For MySQL and PostgreSQL, we need the username, password, hostname, and name directives."
-          end
+    # Load database as MySQL or Postgres.
+    #
+    # @return [Sequel::Database] The database object.
+    def database_sqld
+      %[username password hostname name].each do |d|
+        unless @conf['database'].include? d
+          raise DatabaseError, "Insufficient configuration. For MySQL and PostgreSQL, we need the username, password, hostname, and name directives."
         end
-
-        adapter = @conf['database']['type'].to_sym
-
-        @db = Sequel.connect(:adapter  => adapter, 
-                             :host     => @conf['database']['hostname'],
-                             :database => @conf['database']['name'],
-                             :user     => @conf['database']['username'],
-                             :password => @conf['database']['passname'])
-
-      else
-        raise DatabaseError, "Unrecognized database type: #{@conf['database']['type']}"
       end
 
+      adapter = @conf['database']['type'].to_sym
+
+      Sequel.connect(adapter:  adapter, 
+                     host:     @conf['database']['hostname'],
+                     database: @conf['database']['name'],
+                     user:     @conf['database']['username'],
+                     password: @conf['database']['passname'])
     end
 
   end # class Bot
