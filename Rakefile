@@ -15,6 +15,7 @@ gemspec ||= eval(File.read(GEMSPEC), binding, GEMSPEC)
 # push to RubyGems
 
 task :default => [:compile, :test]
+task :full    => [:default, :clean, :compile, :gem, :install]
 
 desc 'Compile the native extension.'
 Rake::ExtensionTask.new 'libauto', gemspec do |ext|
