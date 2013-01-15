@@ -22,7 +22,7 @@ module Auto
   #
   # i.e., +VERSION-CODENAME+
   FULLVERSION  = "#{VERSION}-phoenix"
-  FULLVERSION  << '-HEAD' if self.head?
+  FULLVERSION  << '~HEAD' if self.head?
   FULLVERSION.freeze
 
   # @return [Boolean] Whether this is an alpha-stage copy.
