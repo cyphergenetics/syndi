@@ -10,7 +10,7 @@
 /* SWAR algorithm for finding the number of set bits. */
 VALUE swar_bits_set(VALUE self)
 {
-    long l = NUM2LONG(self);
+    long long l = NUM2LONG(self);
     l -= ((l >> 1) & 0x55555555);
     l = (l & 0x33333333) + ((l >> 2) & 0x33333333);
     return INT2FIX((((l + (l >> 4)) & 0x0F0F0F0F) * 0x01010101) >> 24);
