@@ -31,7 +31,6 @@ Gem::Specification.new do |s|
     Gemfile
     .yardopts
     conf/example.yml
-    conf/example.json
   ]
   s.test_files    = Dir["spec/**/*"] + ['Rakefile']
   s.executables   = %w[auto auto-conf]
