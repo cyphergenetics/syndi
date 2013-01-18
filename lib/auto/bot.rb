@@ -109,9 +109,10 @@ module Auto
 
       # Throw the program into the main loop.
       @events.threads.each { |thr| thr.join } # block until we're ready to go
-      debug("Producing a thread and entering the main loop...") if @opts.verbose?
-      @netloop = Thread.new { main_loop }
-      @netloop.join
+      verbose("Producing a thread and entering the main loop...", VUSEFUL) do
+        @netloop = Thread.new { main_loop }
+        @netloop.join
+      end
 
     end
 
@@ -165,11 +166,9 @@ module Auto
     #
     # @param [String] msg The message.
     def warn msg
-      # Log it.
       @log.warning(msg)
 
-      # Foreground it.
-      foreground("Warning: #{msg}".red, false)
+      puts "Warning: #{msg}".red
     end
 
     # Produce information.
@@ -177,7 +176,7 @@ module Auto
     # @param [String] msg The message.
     def info msg
       @log.info(msg)
-      foreground(">>> #{msg}".green, false)
+      puts "*** #{msg}".green
     end
 
     # Produce a message for foreground mode.
@@ -216,10 +215,10 @@ module Auto
     # @param [String] message The message to be reported.
     # @param [Integer] level The level of verbosity. We recommend +VSIMPLE+,
     #   +VUSEFUL+, or +VNOISY+.
-    def verbose message, level = 3
+    def verbose message, level = VNOISY, log = true
       if $VERBOSITY >= level
         puts "==> #{msg}".magenta
-        @log.debug msg
+        @log.debug(msg) if log
       end
 
       yield if block_given?
@@ -229,7 +228,7 @@ module Auto
     #
     # @param [String] reason The reason for termination.
     def terminate reason = 'Terminating'
-      info("Auto is terminating owing to thus: #{reason}")
+      info "Auto is terminating owing to thus: #{reason}"
 
       # Call :die
       @events.call :die, reason
@@ -242,9 +241,7 @@ module Auto
       sleep 3
 
       # Delete auto.pid
-      unless @opts.debug? or @opts.foreground?
-        File.delete('auto.pid')
-      end
+      File.delete 'auto.pid' unless @opts.foreground?
 
       exit 0
     end

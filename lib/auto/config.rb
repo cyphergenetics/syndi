@@ -2,6 +2,7 @@
 # This free software is distributed under the FreeBSD license (LICENSE.md).
 
 require 'psych'
+require 'auto/verbosity'
 require 'libauto'
 
 # Namespace: Auto
@@ -27,15 +28,10 @@ module Auto
     #
     # @param [String] filepath Path to configuration file.
     def initialize filepath
-
-      $m.debug "Trying to initialize configuration from '#{filepath}'..."
-
-      # Set path to file.
-      @path = filepath
-      
-      # Process the configuration.
-      parse!
-    
+      $m.verbose("Trying to initialize configuration from '#{filepath}'...", VSIMPLE) do
+        @path = filepath
+        parse
+      end # verbose
     end
 
     # Rehash the configuration.
@@ -86,7 +82,7 @@ module Auto
     #
     # @raise [ConfigError] If the file does not exist.
     # @raise [ConfigError] If the file cannot be processed.
-    def parse!
+    def parse
 
       # Ensure foremost that the configuration file exists.
       unless File.exists? @path

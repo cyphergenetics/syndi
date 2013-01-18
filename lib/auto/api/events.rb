@@ -2,6 +2,7 @@
 # This free software is distributed under the FreeBSD license (LICENSE.md).
 
 require 'thread'
+require 'auto/verbosity'
 require 'auto/api/object'
 
 # Entering namespace: Auto
@@ -97,21 +98,26 @@ module Auto
       def call(event, *args)
         # Check if any hooks exist for this event.
         if @events.include? event
-          $m.debug("A thread is spawning for the sake of a broadcast of event {#{event}}.") if $m.opts.verbose?
-          @threads << Thread.new(event) do |evnt|
-            status = nil
-            begin # catch exceptions
-              # Iterate through the hooks.
-              @events[evnt].each_key do |priority|
-                @events[evnt][priority].each_value do |prc|
-                  status = prc.call(*args) unless status == false
-                end # each hook
-              end # each priority
-            rescue => e
-              $m.error "An exception occurred inside the thread of #{event}: #{e}", false, e.backtrace
-              $m.error "Said thread has terminated with a backtrace report."
-            end # begin
-          end # thread
+          
+          $m.verbose("A thread is spawning for an event broadcast (:#{event}).", VNOISY) do
+            @threads << Thread.new(event) do |evnt|
+            
+              status = nil
+              
+              begin # catch exceptions
+                # Iterate through the hooks.
+                @events[evnt].each_key do |priority|
+                  @events[evnt][priority].each_value do |prc|
+                    status = prc.call(*args) unless status == false
+                  end # each hook
+                end # each priority
+              rescue => e
+                $m.error "An exception occurred within the thread of :#{event}: #{e}", false, e.backtrace
+              end # begin
+            
+            end # thread
+          end # verbose
+        
         end # whether this event exists
       end
 
@@ -135,9 +141,7 @@ module Auto
 
       # Terminate all active threads.
       def die
-        @threads.each do |thr|
-          thr.kill if thr.active?
-        end
+        @threads.each { |thr| thr.kill }
       end
 
       #######
