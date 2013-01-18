@@ -184,6 +184,8 @@ module Auto
     #
     # @param [String] msg The message.
     # @param [true, false] log Whether to log it as well as print to STDOUT.
+    #
+    # @deprecated {#verbose}
     def foreground msg, log = true
       if @opts.foreground?
         puts "[F] #{msg}"
@@ -199,11 +201,28 @@ module Auto
     #
     # @param [String] msg The message.
     # @param [true, false] log Whether to log it as well as print to STDOUT.
+    #
+    # @deprecated {#verbose}
     def debug msg, log = false
       if @opts.debug?
         puts "[D] #{msg}".blue
         @log.debug(msg) if log
       end
+    end
+
+    # Yield a message of verbosity magic. This will execute any block it is
+    # passed.
+    #
+    # @param [String] message The message to be reported.
+    # @param [Integer] level The level of verbosity. We recommend +VSIMPLE+,
+    #   +VUSEFUL+, or +VNOISY+.
+    def verbose message, level = 3
+      if $VERBOSITY >= level
+        puts "==> #{msg}".magenta
+        @log.debug msg
+      end
+
+      yield if block_given?
     end
 
     # Terminate the bot.
