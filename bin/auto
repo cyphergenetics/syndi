@@ -17,9 +17,9 @@ $LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib
 # Require necessary libraries.
 require 'slop'
 require 'auto'
+require 'auto/verbosity'
 
 # Parse options.
-$VERBOSITY = 0
 opts = Slop.parse(:banner => "Usage: #$PROGRAM_NAME [options]") do
   on :h, :help, 'Display this help message.' do
     puts self
