@@ -42,27 +42,16 @@ QuakeNet, UnderNet, EFnet, DALnet, and IRCnet.
 Quickstart
 ----------
 
+You must have Ruby 1.9.2 or later.
+
 This will install the latest (pre)release:
 
     $ gem install Auto --pre
-    $ gem install sqlite3
     $ auto-conf
     $ auto
 
-If you would prefer to use **MySQL** or **Postgres**, substitute the respective
-command below for `gem install sqlite3`:
-
-    $ gem install mysqlplus
-
-**or**
-
-    $ gem install pg
-
 For detailed installation instructions, see
 [the guide](https://github.com/Auto/Auto/wiki/Install-Guide).
-
-**Note: Ruefully, as of January 10, 2013, we no longer support JRuby. Please
-use MRI (the official interpreter) or Rubinius. Thank you.**
 
 Developing
 ----------

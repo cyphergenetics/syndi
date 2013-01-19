@@ -6,7 +6,7 @@
 source :rubygems
   
 gem 'colored',  '~> 1.2'
-gem 'sequel',   '~> 3.43'
+gem 'redis',    '~> 3.0'
 gem 'highline', '~> 1.6'
 gem 'slop',     '~> 3.4'
 

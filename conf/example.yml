@@ -73,53 +73,29 @@ irc:
 
 # Database configuration
 #
-# In addition to the 'sequel' Ruby gem, you will need some additional gem(s) depending
-# upon the database management system of your choice:
+# Auto uses Redis for its database management, because it is the system we
+# thought most apropos to our minimalist philosophy.
 #
-# SQLite users: sqlite3
-# MySQL users: mysqlplus
-# Postgres users: pg
+# There is a wiki page on this: https://github.com/Auto/Auto/wiki/Setting-Up-a-Database
 #
-# If your DBMS is not supported and you would like it to be, we'll consider a feature
-# request which you may submit either to the mailing group (http://j.mp/autotalk), or
-# to the issue hub (https://github.com/Auto/Auto/issues). Alas, we regret to inform
-# our users that the official database model hasn't support for NoSQL systems, so such
-# NoSQL database management systems as MongoDB, Redis, CouchDB, Cassandra, etc. cannot
-# be officially supported at this time, although that's not to say a plugin is
-# incapable of extending Auto to support them.
+# All of these are commented because the defaults are typically desirable.
 database:
 
-  # The type of database.
-  #
-  # sqlite (recommended): A very simple SQL database system which outputs to a file.
-  # [needs] name
-  #
-  # mysql: A popular SQL system based on a network server/client model.
-  # [needs] name, hostname, username, password
-  #
-  # postgres: An advanced SQL system popularly employed as an alternative to MySQL.
-  # [needs] name, hostname, username, password
-  type: sqlite
+  # This will disable database functionality. We discourage this.
+  #disable: yes
 
-  # Database name. 
-  #
-  # SQLite users should provide a path to a file (e.g., you may use 'auto.db'
-  # to write to /path/to/auto/installation/auto.db, or perhaps '/home/your_home_dir/autobot.db')
-  #
-  # MySQL and Postgres users should provide the name of the database; e.g. 'autobot'
-  name: auto.db
+  # If your Redis server is listening on a host other than the 'localhost'
+  # default, specify it here.
+  #address: '10.0.1.1'
 
-  # Hostname to which to connect.
-  #
-  # This is needed only for MySQL and Postgres.
-  hostname: localhost
+  # If it is listening on a port other than 6379, specify it here.
+  #port: 6500
 
-  # Username as which to authenticate.
-  #
-  # This is needed only for MySQL and Postgres.
-  username: auto
+  # If it is using a UNIX socket, provide the path here.
+  #path: '/tmp/redis.sock'
 
-  # Password associated with this username.
-  #
-  # This is needed only for MySQL and Postgres.
-  password: insecurepassword123
+  # If a password is required, specify it here.
+  #password: insecurepassword123
+
+  # To use a different database from the default (0), specify its number here.
+  #number: 10

@@ -1,7 +1,7 @@
 # Copyright (c) 2013, Autumn Perrault, et al. All rights reserved.
 # This free software is distributed under the FreeBSD license (LICENSE.md).
 
-require 'sequel'
+require 'redis'
 
 require 'auto/config'
 require 'auto/api'
@@ -32,12 +32,7 @@ module Auto
   #   @return [Auto::API::Timers] The timer system instance.
   #
   # @!attribute [r] db
-  #   @return [Sequel::SQLite::Database] If the database is SQLite (note: all
-  #     adapted databases are subclasses of Sequel::Database).
-  #   @return [Sequel::MySQL::Database] If the database is MySQL (note: all
-  #     adapted databases are subclasses of Sequel::Database).
-  #   @return [Sequel::Postgres::Database] If the database is PostgreSQL (note: all
-  #     adapted databases are subclasses of Sequel::Database).
+  #   @return [Redis] The Redis database.
   #
   # @!attribute [r] libs
   #   @return [Array<String>] List of loaded core libraries.
@@ -93,7 +88,8 @@ module Auto
       @sockets = []
 
       # Initialize the database
-      load_database
+      @db = nil
+      @db = load_database unless @conf['database']['disable']
 
       # Load core libraries.
       load_libraries
@@ -331,31 +327,34 @@ module Auto
             end
     end
 
-    # Load database as SQLite.
-    #
-    # @return [Sequel::SQLite::Database] The database object.
-    def database_sqlite
-      name = @conf['database']['name'] || 'auto.db'
-      Sequel.sqlite(name)
-    end
+    # Load the Redis database.
+    def load_database
+      
+      puts '* Initializing database...'.bold
+      @log.info 'Initializing database...'
 
-    # Load database as MySQL or Postgres.
-    #
-    # @return [Sequel::Database] The database object.
-    def database_sqld
-      %[username password hostname name].each do |d|
-        unless @conf['database'].include? d
-          raise DatabaseError, "Insufficient configuration. For MySQL and PostgreSQL, we need the username, password, hostname, and name directives."
-        end
+      config = Hash.new
+      if host = @conf['database']['address']
+        config[:host] = host
+      end
+      if port = @conf['database']['port']
+        config[:port] = port
+      end
+      if path = @conf['database']['path']
+        config[:path] = path
       end
 
-      adapter = @conf['database']['type'].to_sym
+      redis = Redis.new config
 
-      Sequel.connect(adapter:  adapter, 
-                     host:     @conf['database']['hostname'],
-                     database: @conf['database']['name'],
-                     user:     @conf['database']['username'],
-                     password: @conf['database']['passname'])
+      if passwd = @conf['database']['password']
+        redis.auth passwd
+      end
+      if id = @conf['database']['number']
+        redis.select id
+      end
+
+      redis
+
     end
 
   end # class Bot
