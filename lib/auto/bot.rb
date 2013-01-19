@@ -175,36 +175,6 @@ module Auto
       puts "*** #{msg}".green
     end
 
-    # Produce a message for foreground mode.
-    #
-    # @param [String] msg The message.
-    # @param [true, false] log Whether to log it as well as print to STDOUT.
-    #
-    # @deprecated {#verbose}
-    def foreground msg, log = true
-      if @opts.foreground?
-        puts "[F] #{msg}"
-        @log.info("[F] #{msg}") if log
-      else
-        if @opts.debug?
-          debug(msg, log)
-        end
-      end
-    end
-
-    # Produce a debug message.
-    #
-    # @param [String] msg The message.
-    # @param [true, false] log Whether to log it as well as print to STDOUT.
-    #
-    # @deprecated {#verbose}
-    def debug msg, log = false
-      if @opts.debug?
-        puts "[D] #{msg}".blue
-        @log.debug(msg) if log
-      end
-    end
-
     # Yield a message of verbosity magic. This will execute any block it is
     # passed.
     #
@@ -308,23 +278,6 @@ module Auto
       require "auto/#{lib}"
       instance_variable_set "@#{lib}".to_sym, Object.const_get("LIBRARY_#{lib.uc}")
       define_singleton_method(lib.to_sym) { self.instance_variable_get("@#{__method__}".to_sym) }
-    end
-
-    # Load database.
-    def load_database
-
-      puts '* Initializing database...'.bold
-      @log.info('Initializing database...')
-      @db = nil
-
-      @db = case @conf['database']['type'] # check the database type in the config
-            when 'sqlite' # it's SQLite
-              database_sqlite
-            when 'mysql', 'postgres' # MySQL and Postgres
-              database_sqld
-            else
-              raise DatabaseError, "Unrecognized database type: #{@conf['database']['type']}"
-            end
     end
 
     # Load the Redis database.
