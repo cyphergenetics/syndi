@@ -7,4 +7,5 @@ ext/**/*.c
 - LICENSE.md
 - WINDOWS.md
 - INSTALL.md
+- CHANGELOG.md
 - docs/*
