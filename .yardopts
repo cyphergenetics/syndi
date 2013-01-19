@@ -1,6 +1,7 @@
 --title "Auto 4.0 Phoenix"
 --protected
 --private
+--markup markdown
 lib/**/*.rb
 ext/**/*.c
 - LICENSE.md
