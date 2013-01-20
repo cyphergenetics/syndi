@@ -29,7 +29,7 @@ opts = Slop.parse(:banner => "Usage: #$PROGRAM_NAME [options]") do
     puts <<-EOV
 Auto #{Auto::FULLVERSION}, by the Auto Project
 
-http://auto.autoproj.org
+http://autoproj.org
     EOV
     exit 0
   end
