@@ -16,6 +16,11 @@ gemspec ||= eval(File.read(GEMSPEC), binding, GEMSPEC)
 
 task :default => [:compile, :test]
 task :full    => [:clean, :default, :gem, :install]
+task :build   => [:default, :native, :gem, :install]
+
+def perform t
+  Rake::Task[t].invoke
+end
 
 desc 'Compile the native extension.'
 Rake::ExtensionTask.new 'libauto', gemspec do |ext|
@@ -44,5 +49,5 @@ task :install => :gem do
   gempkg = Dir["pkg/Auto-#{gemspec.version}.gem"].last
   sh "gem install #{gempkg}"
 end
- 
+
 # vim: set ts=4 sts=2 sw=2 et:
