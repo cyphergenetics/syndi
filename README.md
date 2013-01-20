@@ -8,7 +8,7 @@ _A modern, simple, extensible multi-protocol bot, reloaded._
 [![Dependency Status](https://gemnasium.com/Auto/Auto.png)](https://gemnasium.com/Auto/Auto)
 [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/Auto/Auto)
 
-+ [Homepage](http://auto.autoproj.org) 
++ [Homepage](http://autoproj.org) 
 + [Git](https://github.com/Auto/Auto)
 + [RubyGems](https://rubygems.org/gems/Auto)
 + [Wiki](https://github.com/Auto/Auto/wiki)
@@ -17,7 +17,7 @@ _A modern, simple, extensible multi-protocol bot, reloaded._
 + [Issue Hub](https://github.com/Auto/Auto/issues)
 
 **Documentation** is available for the [latest git](http://rdoc.info/github/Auto/Auto),
-and [this release](http://auto.autoproj.org/rdoc/4.0.0.alpha.1/).
+and [this release](http://autoproj.org/rdoc/4.0.0.alpha.1/).
 
 Our official IRC channel is [#auto on irc.freenode.net](irc://irc.freenode.net/#auto).
 
