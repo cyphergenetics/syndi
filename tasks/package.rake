@@ -2,10 +2,10 @@
 # This free software is distributed under the FreeBSD license (LICENSE.md).
 
 require 'rubygems'
-require 'rubygems/packagetask'
+require 'rubygems/package_task'
 
 desc 'Package the gem.'
-Gem::PackageTask.new(gemspec) do |pkg|
+Gem::PackageTask.new($gemspec) do |pkg|
   pkg.need_zip = true
   pkg.need_tar = true
 end

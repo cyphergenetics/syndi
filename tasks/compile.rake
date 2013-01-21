@@ -4,8 +4,9 @@
 require 'rake/extensiontask'
 
 desc 'Compile the native extension.'
-Rake::ExtensionTask.new 'libauto', gemspec do |ext|
-  ext.cross_compile = true
+Rake::ExtensionTask.new 'libauto', $gemspec do |ext|
+  ext.cross_compile  = true
+  #ext.cross_platform = %w[ming
 
   ext.cross_compiling do |spec|
     spec.post_install_message << "\r\nNOTICE: You have installed the binary distribution of this gem."

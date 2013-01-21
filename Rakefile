@@ -2,8 +2,8 @@
 # This free software is distributed under the FreeBSD license (LICENSE.md).
 
 # import the gemspec
-GEMSPEC = 'Auto.gemspec'
-gemspec ||= eval(File.read(GEMSPEC), binding, GEMSPEC)
+GEMSPEC    = 'Auto.gemspec'
+$gemspec ||= eval(File.read(GEMSPEC), binding, GEMSPEC)
 
 def perform t
   Rake::Task[t].invoke
