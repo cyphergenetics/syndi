@@ -13,7 +13,6 @@ _A modern, simple, extensible multi-protocol bot, reloaded._
 + [RubyGems](https://rubygems.org/gems/Auto)
 + [Wiki](https://github.com/Auto/Auto/wiki)
 + [Mailing List](https://groups.google.com/group/autobot-talk)
-+ [SourceForge](https://sourceforge.net/p/auto-bot)
 + [Issue Hub](https://github.com/Auto/Auto/issues)
 
 **Documentation** is available for the [latest git](http://rdoc.info/github/Auto/Auto),
