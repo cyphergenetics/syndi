@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
     'Matthew Carey'
   ]
   s.email         = 'autobot-talk@googlegroups.com'
-  s.homepage      = 'http://auto.autoproj.org'
+  s.homepage      = 'http://autoproj.org'
   s.license       = 'FreeBSD'
 
   s.files         = Dir["{bin,lib,ext,docs}/**/*"] + %w[
