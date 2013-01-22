@@ -13,10 +13,8 @@ unless Dir.exists? LIBAUTO_DIR
   exit 1
 end
 
-$CFLAGS << " -Wno-unused-function "
-
-$CFLAGS  << "-I#{LIBAUTO_DIR}"
-#$LDFLAGS << "
+$CFLAGS << " -Wno-unused-function"
+$CFLAGS << " -I#{LIBAUTO_DIR}"
 
 create_makefile EXT
 
