@@ -12,10 +12,10 @@
 #include "ruby.h"
 
 /* include libauto headers */
-#include "libauto.h"
-#include "logger.h"
-#include "events.h"
-#include "integer.h"
+#include "auto/libauto.h"
+#include "auto/logger.h"
+#include "auto/events.h"
+#include "auto/integer.h"
 
 #endif // AUTO_H
 
