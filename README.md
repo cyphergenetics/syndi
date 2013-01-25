@@ -41,7 +41,7 @@ QuakeNet, UnderNet, EFnet, DALnet, and IRCnet.
 Quickstart
 ----------
 
-You must have Ruby 1.9.2 or later.
+You must have Ruby 2.0.0 or later.
 
 This will install the latest (pre)release:
 
