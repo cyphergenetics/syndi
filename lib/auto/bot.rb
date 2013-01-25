@@ -1,7 +1,8 @@
 # Copyright (c) 2013, Autumn Perrault, et al. All rights reserved.
 # This free software is distributed under the FreeBSD license (LICENSE.md).
 
-require 'redis'
+autoload :Redis,  'redis'
+autoload :FileKV, 'filekv'
 
 require 'auto/config'
 require 'auto/api'
@@ -286,6 +287,20 @@ module Auto
       puts '* Initializing database...'.bold
       @log.info 'Initializing database...'
 
+      driver = @conf['database']['driver'] || 'redis'
+
+      case driver
+      when 'redis'
+        load_db_redis
+      when 'flatfile'
+        load_db_flatfile
+      end
+
+    end
+
+    # Initializes Redis.
+    def load_db_redis
+
       config = Hash.new
       if host = @conf['database']['address']
         config[:host] = host
@@ -308,6 +323,11 @@ module Auto
 
       redis
 
+    end
+
+    # Initializes Flatfile.
+    def load_db_flatfile
+      FileKV.new 'auto.db'
     end
 
   end # class Bot
