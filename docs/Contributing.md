@@ -41,6 +41,9 @@ Ruby coders, largely keep your code in compliance with [this style guide](https:
 
 C coders, we prefer Allman (not K&R) style.
 
+Oh, and UNIX line endings only. Put carriage returns in our code, we will kill
+a kitten.
+
 **Language**
 
 In documentation, commit messages, and other such things, we require compliance
