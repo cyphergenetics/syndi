@@ -28,6 +28,18 @@ VALUE logger_init(VALUE self)
     return self;
 }
 
+/* @overload fatal(message)
+ *   This will log +message+ as a fatal error.
+ *
+ *   @param [String] message The fatal error message to be reported.
+ *   @return [nil]
+ */
+VALUE logger_fatal(VALUE self, VALUE message)
+{
+    rb_funcall(self, SYM(log), 2, rb_str_new2("FATAL"), message);
+    return Qnil;
+}
+
 /* @overload error(message)
  *   This will log +message+ as an error.
  *
@@ -168,6 +180,7 @@ void init_auto_logger()
 {
     cLogger = rb_define_class_under(mAuto, "Logger", rb_cObject);
     rb_define_method(cLogger, "initialize", logger_init, 0);
+    rb_define_method(cLogger, "fatal", logger_fatal, 1);
     rb_define_method(cLogger, "error", logger_error, 1);
     rb_define_method(cLogger, "debug", logger_debug, 1);
     rb_define_method(cLogger, "warning", logger_warning, 1);

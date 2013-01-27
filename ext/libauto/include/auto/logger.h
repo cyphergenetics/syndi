@@ -25,16 +25,13 @@ extern VALUE cLogger;
 
 VALUE logger_init(VALUE self);
 
+VALUE logger_fatal(VALUE self, VALUE message);
 VALUE logger_error(VALUE self, VALUE message);
-
 VALUE logger_debug(VALUE self, VALUE message);
-
 VALUE logger_warning(VALUE self, VALUE message);
-
 VALUE logger_info(VALUE self, VALUE message);
 
 VALUE logger_log(VALUE self, VALUE type, VALUE message);
-
 VALUE logger_log_directory_check(VALUE self);
 
 void init_auto_logger();
