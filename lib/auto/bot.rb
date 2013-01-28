@@ -67,22 +67,17 @@ module Auto
     # Initialize this instance.
     def init
     
-      # Before anything else, start logging.
-      puts '* Starting logging...'.bold
-      @log = Auto::Logger.new
-      @log.info("Logging started at #{Time.now}")
-
       # Load configuration
       load_config
 
       # Initialize the central event system
       puts '* Starting the central event system...'.bold
-      @log.info("Starting the central event system...")
+      $log.info("Starting the central event system...")
       @events = Auto::API::Events.new
 
       # Start the timer system.
       puts '* Starting the timer system...'.bold
-      @log.info("Starting the timer system...")
+      $log.info("Starting the timer system...")
       @clock = Auto::API::Timers.new
 
       # Prepare for sockets.
@@ -137,54 +132,6 @@ module Auto
       end
     end
 
-    # Produce an error message.
-    #
-    # @param [String] msg The message.
-    # @param [true, false] fatal Whether this error is fatal (will kill the program).
-    # @param [Array<String>] bt Backtrace.
-    def error msg, fatal = false, bt = nil
-      # Print it to STDERR.
-      STDERR.puts "ERROR: #{msg}".red
-      unless bt.nil?
-        STDERR.puts "Backtrace:"
-        STDERR.puts bt
-      end
-
-      # Log it.
-      @log.error(msg)
-
-      if fatal
-        #@netloop.kill if @netloop.active
-        exit 1
-      end
-    end
-
-    # Produce a warning message.
-    #
-    # @param [String] msg The message.
-    def warn msg
-      @log.warning(msg)
-
-      puts "Warning: #{msg}".red
-    end
-
-    # Produce information.
-    #
-    # @param [String] msg The message.
-    def info msg
-      @log.info(msg)
-      puts "*** #{msg}".green
-    end
-
-    def verbose message, level = VNOISY, log = true
-      if $VERBOSITY >= level
-        puts "==> #{msg}".magenta
-        @log.debug(msg) if log
-      end
-
-      yield if block_given?
-    end
-
     # Terminate the bot.
     #
     # @param [String] reason The reason for termination.
@@ -234,7 +181,7 @@ module Auto
 
       # Process it.
       puts "* Reading the configuration file #{confpath}...".bold
-      @log.info("Reading the configuration file #{confpath}...")
+      $log.info("Reading the configuration file #{confpath}...")
       @conf = Auto::Config.new File.expand_path(confpath)
 
     end
@@ -243,7 +190,7 @@ module Auto
     def load_libraries
       
       puts '* Loading core libraries..'.bold
-      @log.info("Loading core libraries...")
+      $log.info("Loading core libraries...")
       @libs = []
 
       # Iterate through each configured library.
@@ -278,8 +225,7 @@ module Auto
     # Load the Redis database.
     def load_database
       
-      puts '* Initializing database...'.bold
-      @log.info 'Initializing database...'
+      $log.info 'Initializing database...'
 
       driver = @conf['database']['driver'] || 'redis'
 
