@@ -39,8 +39,8 @@ Gem::Specification.new do |s|
   s.post_install_message  = <<-EOM
 Thanks for installing Auto!
 
-We suggest that, if you're not already consulting it, you read the installation guide:
-https://github.com/Auto/Auto/wiki/Install-Guide
+We suggest that, if you're not already consulting it, you read the Auto Handbook:
+https://github.com/Auto/Auto/wiki/Handbook
 
 Moreover, you should typically now run `auto-conf` to produce a configuration file.
   EOM

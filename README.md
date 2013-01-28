@@ -8,7 +8,7 @@ _A modern, simple, extensible multi-protocol bot, reloaded._
 [![Dependency Status](https://gemnasium.com/Auto/Auto.png)](https://gemnasium.com/Auto/Auto)
 [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/Auto/Auto)
 
-+ [Homepage](http://autoproj.org) 
++ [Homepage](http://autoproj.org) (lots of information)
 + [Git](https://github.com/Auto/Auto)
 + [RubyGems](https://rubygems.org/gems/Auto)
 + [Wiki](https://github.com/Auto/Auto/wiki)
@@ -23,43 +23,25 @@ Our official IRC channel is [#auto on irc.freenode.net](irc://irc.freenode.net/#
 Synopsis
 --------
 
-Auto is automated bot software, developed per thus philosophy:
+Auto is automated chat bot software, developed per this philosophy:
 
 * _Friendly_ to users, and to developers.
 * _Simple_, _smart_, and _clean_.
 * _Minimal_ but _extensible_.
 
-Auto has a three-year history of service, dating back to December of 2009.
-[Auto 3.0](https://github.com/Auto/Auto-legacy) was the last stable release,
-and now the Auto Project presents this fourth major revision, 4.0 _Phoenix_,
-intended to supersede 3.0 as a superior version.
+Installation
+------------
 
-Currently, it supports the IRCv3 protocol, with planned support for the XMPP
-protocol. You can use it on many networks, including the six largest: Freenode,
-QuakeNet, UnderNet, EFnet, DALnet, and IRCnet.
+Please read the [Auto Handbook](https://github.com/Auto/Auto/wiki/Handbook).
 
-Quickstart
-----------
+**Compiling from source:**
 
-You must have Ruby 2.0.0 or later.
-
-This will install the latest (pre)release:
-
-    $ gem install Auto --pre
-    $ auto-conf
-    $ auto
-
-For detailed installation instructions, see
-[the guide](https://github.com/Auto/Auto/wiki/Install-Guide).
-
-Developing
-----------
-
-Developers are provided extensive documentation of Auto 4 
-[on rdoc.info](http://rdoc.info/github/Auto/Auto/).
-
-With especial, peruse the [Developing for Auto](http://rdoc.info/github/Auto/Auto/file/docs/Developing.md)
-document.
+```shell
+$ git clone git://github.com/Auto/Auto.git auto
+$ cd auto/
+$ bundle install
+$ rake build
+```
 
 Support
 -------
