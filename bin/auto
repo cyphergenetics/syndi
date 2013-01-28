@@ -32,6 +32,7 @@ require 'auto/verbosity'
 # Change to the Auto directory.
 AUTO_DIR = File.join ENV['HOME'], '.auto'
 Dir.mkdir AUTO_DIR unless Dir.exists? AUTO_DIR
+Dir.chdir AUTO_DIR
 
 $VERBOSITY = 0
 
