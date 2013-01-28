@@ -30,6 +30,9 @@ extern VALUE ePluginError;
 #define OS_LINE_TERM "\n"
 #endif
 
+/* fetch the Auto directory */
+#define AUTO_DIR RSTRING_PTR(rb_gv_get("AUTO_DIR"))
+
 #endif
 
 /* vim: set ts=4 sts=4 sw=4 et cindent: */

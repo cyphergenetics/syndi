@@ -45,7 +45,7 @@ static void log_out2scrn(int type, const char *message, int level)
  */
 static void log_out2file(const char *type, const char *message)
 {
-    char *log_file_name  = ALLOCA_N(char, MAX_TIME_STRING_LENGTH + 1);
+    char *log_file_name = ALLOCA_N(char, MAX_TIME_STRING_LENGTH + 1);
     char *log_time = ALLOCA_N(char, LOG_TIME_FORMAT_LENGTH + 1);
     FILE *log_file;
     
@@ -81,19 +81,28 @@ static void log_out2file(const char *type, const char *message)
 static void log_dircheck()
 {
     int result;
+    char *dir = ALLOCA_N(char, strlen(AUTO_DIR) + 5);
 
 #ifdef _WIN32
-    result = _mkdir("logs/");
+    sprintf(dir, "%s\\logs", AUTO_DIR);
+    result = _mkdir(dir);
 #else
-    result = mkdir("logs", S_IRWXU);
+    sprintf(dir, "%s/logs", AUTO_DIR);
+    result = mkdir(dir, S_IRWXU);
 #endif
 
     // Only raise an error if we fail to create the directory. 
     if (result != 0 && errno != EEXIST)
     {
         int error_number = errno;
-        rb_raise(eLogError, "Could not create logs/: %s", strerror(error_number));
+        rb_raise(eLogError, "Could not create %s: %s", dir, strerror(error_number));
     }
+
+#ifdef _WIN32
+    _chdir(dir);
+#else
+    chdir(dir);
+#endif
 }
 
 /* @overload initialize()
