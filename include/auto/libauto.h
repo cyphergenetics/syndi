@@ -23,6 +23,13 @@ extern VALUE eConfigError;
 extern VALUE eDatabaseError;
 extern VALUE ePluginError;
 
+/* line ending */
+#ifdef _WIN32
+#define OS_LINE_TERM "\r\n"
+#else
+#define OS_LINE_TERM "\n"
+#endif
+
 #endif
 
 /* vim: set ts=4 sts=4 sw=4 et cindent: */

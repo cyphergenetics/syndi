@@ -176,12 +176,6 @@ module Auto
       puts "*** #{msg}".green
     end
 
-    # Yield a message of verbosity magic. This will execute any block it is
-    # passed.
-    #
-    # @param [String] message The message to be reported.
-    # @param [Integer] level The level of verbosity. We recommend +VSIMPLE+,
-    #   +VUSEFUL+, or +VNOISY+.
     def verbose message, level = VNOISY, log = true
       if $VERBOSITY >= level
         puts "==> #{msg}".magenta

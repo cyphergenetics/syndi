@@ -3,21 +3,37 @@
 # This free software is distributed under the FreeBSD license (LICENSE.md).
 
 require 'English'
+require 'rbconfig'
+
+# Perform a check of the Ruby version.
+if ::RbConfig::CONFIG['ruby_version'] < '2.0.0'
+  puts 'Auto requires Ruby v2.0.0 or later. Please read the Auto Handbook.'
+  exit 1
+end
 
 # Forbid root.
 if ENV.include? 'USER'
   if ENV['USER'] == 'root'
-    puts "It is forbidden to run Auto as the root user!"
+    puts 'It is forbidden to run Auto as the root user!'
     exit 1
   end
 end
 
-$LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib')) # Add the Auto libraries to LOAD_PATH
-
-# Require necessary libraries.
+# Import necessary libraries.
 require 'slop'
-require 'auto'
+begin
+  require 'auto'
+rescue LoadError
+  $LOAD_PATH.unshift File.expand_path(File.join('..', '..', 'lib'), __FILE__)
+  require 'auto'
+end
 require 'auto/verbosity'
+
+# Change to the Auto directory.
+AUTO_DIR = File.join ENV['HOME'], '.auto'
+Dir.mkdir AUTO_DIR unless Dir.exists? AUTO_DIR
+
+$VERBOSITY = -1
 
 # Parse options.
 opts = Slop.parse(:banner => "Usage: #$PROGRAM_NAME [options]") do
@@ -25,28 +41,24 @@ opts = Slop.parse(:banner => "Usage: #$PROGRAM_NAME [options]") do
     puts self
     exit 0
   end
+
   on :v, :version, 'Display version and exit.' do
     puts <<-EOV
-Auto #{Auto::FULLVERSION}, by the Auto Project
+Auto #{Auto::FULLVERSION} [#{::RbConfig::CONFIG['host_os']}], by the Auto Project
 
 http://autoproj.org
     EOV
     exit 0
   end
 
-  on :d, :debug, 'Execute with debugging enabled.'
-  on :f, :foreground, 'Do not fork into the background.'
-  on :c, :conf=, 'Specify a particular configuration file.'
-  on :V, :verbose, 'Increase verbosity of debugging (more uses the more verbose).' do
-    $VERBOSITY += 1
-  end
+  on(:f, :foreground, 'Disable automatic daemonizing.') { $VERBOSITY = 0 }
+  on(:c, :conf=,      'Specify a particular configuration file.')
+  on(:V, :verbose,    'Increase verbosity of output (more uses, the more verbose).') { $VERBOSITY += 1 }
 end
 
 # Begin start up.
 puts "* Auto #{Auto::VERSION} starting...".bold
-
-# Enter main directory.
-Dir.chdir(File.join(File.dirname(__FILE__), '..'))
+$log = Auto::Logger.new
 
 # Create an instance of Auto.
 begin

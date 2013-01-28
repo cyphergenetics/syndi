@@ -7,7 +7,7 @@ require 'mkmf'
 
 EXT         = 'libauto'
 
-LIBAUTO_DIR = File.expand_path(File.join('..', 'include'), __FILE__)
+LIBAUTO_DIR = File.expand_path(File.join('..', '..', '..', 'include'), __FILE__)
 unless Dir.exists? LIBAUTO_DIR
   STDERR.puts "libauto headers are missing; your copy of Auto is most probably broken."
   exit 1

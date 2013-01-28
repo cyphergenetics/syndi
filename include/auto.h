@@ -8,7 +8,7 @@
 #ifndef AUTO_H
 #define AUTO_H
 
-/* include the Ruby header */
+#include <stdio.h>
 #include "ruby.h"
 
 /* include libauto headers */
