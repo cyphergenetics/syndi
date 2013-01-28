@@ -97,12 +97,6 @@ static void log_dircheck()
         int error_number = errno;
         rb_raise(eLogError, "Could not create %s: %s", dir, strerror(error_number));
     }
-
-#ifdef _WIN32
-    _chdir(dir);
-#else
-    chdir(dir);
-#endif
 }
 
 /* @overload initialize()
