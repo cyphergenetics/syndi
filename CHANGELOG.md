@@ -19,6 +19,7 @@ _Changes_
 - #warning has been renamed to #warn.
 - `$log` has been added as the Auto::Logger instance.
 - Flatfile alternative to Redis added (via **filekv**).
+- Rake task `build` added to compile, package, and install Auto, but not test it.
 
 _Fixes_
 
