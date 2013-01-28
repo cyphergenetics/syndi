@@ -181,7 +181,7 @@ VALUE logger_verbose(VALUE self, VALUE message, VALUE level)
 }
 
 /* initializes Auto::Logger in Ruby */
-static void init_auto_logger()
+void init_auto_logger()
 {
     cLogger = rb_define_class_under(mAuto, "Logger", rb_cObject);
     rb_define_method(cLogger, "initialize", logger_init, 0);
