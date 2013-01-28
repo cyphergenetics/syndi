@@ -27,7 +27,7 @@
 #define LOG_TIME_FORMAT_LENGTH 25
 
 extern VALUE cLogger;
-static void init_auto_logger();
+void init_auto_logger();
 
 /* Ruby-accessible methods */
 VALUE logger_init(VALUE self);
