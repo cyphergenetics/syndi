@@ -58,11 +58,7 @@ module Auto
     def initialize opts
       # Save options.
       @opts = opts
-      
-      # Move to ~/.auto if we're a gem.
-      @work_dir = nil
-      set_directory if Auto.gem?
-    end
+    end      
 
     # Initialize this instance.
     def init
@@ -106,6 +102,24 @@ module Auto
         @netloop.join
       end
 
+    end
+
+    # Daemonize the bot.
+    def daemonize
+      $log.info "Forking into the background. . . ."
+  
+      # Direct all incoming data on STDIN and outgoing data on STDOUT/STDERR to /dev/null.
+      $stdin  =           File.open '/dev/null'
+      $stdout = $stderr = File.open '/dev/null', 'w'
+      
+      # Fork and retrieve the PID.
+      pid = fork
+
+      # Save it to auto.pid.
+      unless pid.nil?
+        File.open('auto.pid', 'w') { |io| io.puts pid }
+        exit 0
+      end
     end
 
     # Main loop.
@@ -157,13 +171,6 @@ module Auto
     #######
     private
     #######
-
-    # Move to the ~/.config working directory.
-    def set_directory
-      Dir.mkdir File.join(Dir.home, '.auto') if !Dir.exists? File.join(Dir.home, '.auto')
-      Dir.chdir File.join(Dir.home, '.auto')
-      @work_dir = File.join(Dir.home, '.auto')
-    end
 
     # Load the configuration.
     def load_config

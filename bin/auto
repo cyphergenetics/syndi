@@ -33,7 +33,7 @@ require 'auto/verbosity'
 AUTO_DIR = File.join ENV['HOME'], '.auto'
 Dir.mkdir AUTO_DIR unless Dir.exists? AUTO_DIR
 
-$VERBOSITY = -1
+$VERBOSITY = 0
 
 # Parse options.
 opts = Slop.parse(:banner => "Usage: #$PROGRAM_NAME [options]") do
@@ -51,7 +51,7 @@ http://autoproj.org
     exit 0
   end
 
-  on(:f, :foreground, 'Disable automatic daemonizing.') { $VERBOSITY = 0 }
+  on(:f, :foreground, 'Disable automatic daemonizing.')
   on(:c, :conf=,      'Specify a particular configuration file.')
   on(:V, :verbose,    'Increase verbosity of output (more uses, the more verbose).') { $VERBOSITY += 1 }
 end
@@ -62,41 +62,23 @@ $log = Auto::Logger.new
 
 # Create an instance of Auto.
 begin
-  $m = Auto::Bot.new(opts)
+  $m = Auto::Bot.new opts
   status = $m.init
 rescue => e
-  puts 'An error occurred!'.red.bold
-  puts e
-  puts e.backtrace
+  $log.fatal "An initialization error occurred: #{e}"
 end
 
 # Check our status.
 if status
   time = Time.now
-  puts "* Auto started @ #{time}".green.bold
-  $m.log.info("Auto started @ #{time}")
+  $log.info "Auto started at #{time}."
 else
-  puts "Start up failed! Read above for errors.".red.bold
-  exit 1
+  $log.fatal "Initialization inexplicably failed."
 end
 STARTTIME = time.freeze
 
 # We survived? We survived! Fork into the background if not in debug or foreground.
-unless opts.debug? or opts.foreground?
-  puts "Forking into the background...".bold
-  
-  # Direct all incoming data on STDIN and outgoing data on STDOUT/STDERR to /dev/null.
-  $stdin  = File.open '/dev/null'
-  $stdout = $stderr = File.open '/dev/null', 'w'
-  # Fork and retrieve the PID.
-  pid     = fork
-
-  # Save it to auto.pid.
-  unless pid.nil?
-    File.open('auto.pid', 'w') { |io| io.puts pid }
-    exit 0
-  end
-end
+$m.daemonize if !opts.foreground? && $VERBOSITY < 1
 
 # Signals
 sig = {
@@ -110,7 +92,8 @@ sig.each { |signal, prc| Signal.trap(signal) { prc.call } }
 begin
   $m.start
 rescue => e
-  $m.error("FATAL EXCEPTION: #{e}", true, e.backtrace)
+  $log.error_bt "Fatal exception: #{e}", e.backtrace
+  exit 1
 end
 
 # vim: set ts=4 sts=2 sw=2 et:
