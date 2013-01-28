@@ -17,6 +17,8 @@ _Changes_
 - #verbose, #error, #warning, #info, and #fatal have been moved from Auto::Bot
   to Auto::Logger.
 - #warning has been renamed to #warn.
+- Formerly, you could pass a backtrace to #error, but we have instead introduced
+  a new method, `#error_bt`, which takes two arguments--the message and backtrace.
 - `$log` has been added as the Auto::Logger instance.
 - Flatfile alternative to Redis added (via **filekv**).
 - Rake task `build` added to compile, package, and install Auto, but not test it.
