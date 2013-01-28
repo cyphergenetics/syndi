@@ -88,4 +88,4 @@ Legal
 Copyright (c) 2009-2013, Autumn Perrault, et al. All rights reserved.
 
 Auto is free, open-source software, distributed per the terms of the two-clause
-("FreeBSD") license, the full terms of which are in **LICENSE.md**.
+("FreeBSD") license, the full terms of which are in **LICENSE**.

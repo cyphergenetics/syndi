@@ -4,7 +4,7 @@
 --markup markdown
 lib/**/*.rb
 ext/**/*.c
-- LICENSE.md
+- LICENSE
 - WINDOWS.md
 - INSTALL.md
 - CHANGELOG.md

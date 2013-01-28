@@ -1,5 +1,5 @@
 # Copyright (c) 2013, Autumn Perrault, et al. All rights reserved.
-# This free software is distributed under the FreeBSD license (LICENSE.md).
+# This free software is distributed under the FreeBSD license (see LICENSE).
 
 $:.unshift File.expand_path(File.join(File.dirname(__FILE__), 'lib'))
 require 'auto/version'
@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
 
   s.files         = Dir["{bin,lib,ext,docs,include,tasks}/**/*"] + %w[
     README.md
-    LICENSE.md
+    LICENSE
     WINDOWS.md
     INSTALL.md
     Gemfile

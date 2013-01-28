@@ -1,6 +1,6 @@
 # Auto 4
 # Copyright (c) 2013, Auto Project
-# Distributed under the terms of the FreeBSD license (LICENSE.md).
+# Distributed under the terms of the FreeBSD license (see LICENSE).
 require(File.join(File.expand_path(File.dirname(__FILE__)), 'helper.rb'))
 
 require 'auto/config'
