@@ -3,16 +3,6 @@
 
 module Auto
   
-  # @return [Boolean] Whether this is a HEAD (i.e. Git) copy.
-  def self.head?
-    begin
-      return @head if defined? @head
-      @head = Dir.exists?(File.join(File.expand_path(File.join('..', '..', '..'), __FILE__), '.git'))
-    ensure
-      @head ||= false
-    end
-  end
-  
   # Standard version string.
   #
   # We use semantic versioning: +MAJOR.MINOR.PATCH.PRE.PRENUM+
@@ -21,9 +11,7 @@ module Auto
   # Standard version plus the codename (assigned to each minor release).
   #
   # i.e., +VERSION-CODENAME+
-  FULLVERSION  = "#{VERSION}-phoenix"
-  FULLVERSION  << '~HEAD' if self.head?
-  FULLVERSION.freeze
+  FULLVERSION  = "#{VERSION}-phoenix".freeze
 
   # @return [Boolean] Whether this is an alpha-stage copy.
   def self.alpha?
