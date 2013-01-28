@@ -3,7 +3,7 @@
 
 desc 'Install the gem.'
 task :install => :gem do
-  gempkg = Dir["pkg/Auto-#{gemspec.version}.gem"].last
+  gempkg = Dir["pkg/Auto-#{$gemspec.version}.gem"].last
   sh "gem install #{gempkg}"
 end
 

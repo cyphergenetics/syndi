@@ -21,6 +21,6 @@ end
 # groups
 task :default => [:compile, :test]
 task :full    => [:clean, :default, :gem, :install]
-task :build   => [:default, :native, :gem, :install]
+task :build   => [:compile, :native, :gem, :install]
 
 # vim: set ts=4 sts=2 sw=2 et:

@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.homepage      = 'http://autoproj.org'
   s.license       = 'FreeBSD'
 
-  s.files         = Dir["{bin,lib,ext,docs}/**/*"] + %w[
+  s.files         = Dir["{bin,lib,ext,docs,include,tasks}/**/*"] + %w[
     README.md
     LICENSE.md
     WINDOWS.md
