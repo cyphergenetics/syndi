@@ -136,6 +136,27 @@ VALUE logger_error(VALUE self, VALUE message)
     return Qnil;
 }
 
+/* @overload error_bt(message, backtrace)
+ *   This will log +message+ as an error, printing +backtrace+ to STDOUT.
+ *
+ *   @param [String] message The error message.
+ *   @param [Array<String>] backtrace The corresponding backtrace.
+ *
+ *   @return [nil]
+ */
+VALUE logger_error_bt(VALUE self, VALUE message, VALUE backtrace)
+{
+    logger_error(self, rb_funcall(message, SYM(to_s), 0));
+
+    if (RARRAY_LEN(backtrace) > 0)
+    {
+        printf("Backtrace:%s", OS_LINE_TERM);
+        rb_funcall(rb_stdout, SYM(puts), 1, backtrace);
+    }
+
+    return Qnil;
+}
+
 /* @overload warn(message)
  *   This will log +message+ as a warning.
  *
@@ -166,7 +187,7 @@ VALUE logger_info(VALUE self, VALUE message)
 
 /* @overload verbose(message, level)
  *   Yield a message of verbosity magic. This will execute any block it is
- *   passed.
+ *   passed (*implicit!*).
  *
  *   @param [String] message The message to be reported.
  *   @param [Integer] level The level of verbosity. We recommend +VSIMPLE+,
@@ -176,6 +197,20 @@ VALUE logger_info(VALUE self, VALUE message)
  */
 VALUE logger_verbose(VALUE self, VALUE message, VALUE level)
 {
+    char *msg = RSTRING_PTR(message);
+    int vrb = FIX2INT(level);
+
+    /* check verbosity */
+    if (FIX2INT(rb_gv_get("$VERBOSITY")) < vrb)
+        return Qnil;
+
+    /* log */
+    log_out2file("DEBUG", msg);
+    log_out2scrn(TYPE_DEBUG, msg, vrb);
+
+    /* execute the block */
+    if (rb_block_given_p())
+        rb_yield(Qnil);
 
     return Qnil;
 }
@@ -187,6 +222,7 @@ void init_auto_logger()
     rb_define_method(cLogger, "initialize", logger_init, 0);
     rb_define_method(cLogger, "fatal", logger_fatal, 1);
     rb_define_method(cLogger, "error", logger_error, 1);
+    rb_define_method(cLogger, "error_bt", logger_error_bt, 2);
     rb_define_method(cLogger, "verbose", logger_verbose, 2);
     rb_define_method(cLogger, "warn", logger_warn, 1);
     rb_define_method(cLogger, "info", logger_info, 1);
