@@ -118,7 +118,7 @@ VALUE logger_fatal(VALUE self, VALUE message)
     char *msg = RSTRING_PTR(message);
     log_out2file("FATAL ERROR", msg);
     log_out2scrn(TYPE_FATAL, msg, 0);
-    rb_fatal(msg);
+    rb_exit(1);
     return Qnil;
 }
 
