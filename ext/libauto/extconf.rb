@@ -3,7 +3,6 @@
 # This free software is distributed under the FreeBSD license (LICENSE.md).
 
 require 'mkmf'
-::RbConfig::MAKEFILE_CONFIG['CC'] = ENV['CC'] if ENV['CC']
 
 EXT         = 'libauto'
 
