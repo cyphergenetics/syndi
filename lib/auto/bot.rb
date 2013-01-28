@@ -43,14 +43,10 @@ module Auto
   #
   # @!attribute [r] sockets
   #   @return [Array<Object>] A list of socket objects.
-  #
-  # @!attribute [r] work_dir
-  #   @return [String] The Auto working directory (usually ~/.auto).
-  #   @return [nil] If no particular directory has been specified. . . .
   class Bot
 
     attr_reader :opts, :log, :conf, :events, :clock, :db, :libs,
-                :netloop, :sockets, :work_dir
+                :netloop, :sockets
 
     # Create a new instance of Auto.
     #
@@ -67,21 +63,16 @@ module Auto
       load_config
 
       # Initialize the central event system
-      puts '* Starting the central event system...'.bold
-      $log.info("Starting the central event system...")
       @events = Auto::API::Events.new
 
       # Start the timer system.
-      puts '* Starting the timer system...'.bold
-      $log.info("Starting the timer system...")
       @clock = Auto::API::Timers.new
 
       # Prepare for sockets.
       @sockets = []
 
       # Initialize the database
-      @db = nil
-      @db = load_database unless @conf['database']['disable']
+      @db = load_database
 
       # Load core libraries.
       load_libraries
@@ -97,7 +88,7 @@ module Auto
 
       # Throw the program into the main loop.
       @events.threads.each { |thr| thr.join } # block until we're ready to go
-      verbose("Producing a thread and entering the main loop...", VUSEFUL) do
+      $log.verbose("Producing a thread and entering the main loop...", VUSEFUL) do
         @netloop = Thread.new { main_loop }
         @netloop.join
       end
@@ -180,15 +171,13 @@ module Auto
       # else we'll try ./conf/auto.yml
       confpath = nil
       if Auto.gem?
-        confpath = File.join(Dir.home, '.auto', 'auto.yml')
+        confpath = File.join(AUTO_DIR, 'auto.yml')
       else
         confpath = File.join('conf', 'auto.yml')
       end
       confpath = @opts[:conf] if @opts.conf? # --conf=FILE has supreme precedence
 
-      # Process it.
-      puts "* Reading the configuration file #{confpath}...".bold
-      $log.info("Reading the configuration file #{confpath}...")
+      $log.info "Reading the configuration file #{confpath}..."
       @conf = Auto::Config.new File.expand_path(confpath)
 
     end
@@ -196,8 +185,7 @@ module Auto
     # Load Auto libraries.
     def load_libraries
       
-      puts '* Loading core libraries..'.bold
-      $log.info("Loading core libraries...")
+      $log.info 'Loading core libraries...'
       @libs = []
 
       # Iterate through each configured library.
@@ -206,7 +194,7 @@ module Auto
 
         if @libs.include? lib
           # Don't load a library more than once!
-          error("Cannot load library twice (#{lib})! Please fix your configuration.")
+          $log.error "Cannot load library twice (#{lib})! Please fix your configuration."
           next
         end
 
@@ -214,7 +202,7 @@ module Auto
           load_library lib
           @libs.push lib
         rescue => e
-          error "Failed to load core library '#{lib}': #{e}", true, e.backtrace
+          $log.error_bt "Failed to load core library '#{lib}': #{e}", e.backtrace
         end
 
       end
@@ -231,8 +219,6 @@ module Auto
 
     # Load the Redis database.
     def load_database
-      
-      $log.info 'Initializing database...'
 
       driver = @conf['database']['driver'] || 'redis'
 
