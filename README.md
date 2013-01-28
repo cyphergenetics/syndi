@@ -38,6 +38,7 @@ Please read the [Auto Handbook](https://github.com/Auto/Auto/wiki/Handbook).
 
 ```shell
 $ git clone git://github.com/Auto/Auto.git auto
+$ cd auto/
 ```
 Use a [specific version](https://github.com/Auto/Auto/tags):
 
@@ -52,7 +53,6 @@ $ git checkout master
 ```
 
 ```shell
-$ cd auto/
 $ bundle install
 $ rake build
 ```
