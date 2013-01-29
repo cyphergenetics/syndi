@@ -21,6 +21,7 @@ end
 
 # Import necessary libraries.
 require 'slop'
+# Import system Auto libraries, or fall back to internal ones.
 begin
   require 'auto'
 rescue LoadError
