@@ -13,7 +13,7 @@ require 'stringio'
 require 'auto'
 
 $temp_dir = Dir.mktmpdir 'auto-rspec'
-Auto.app_dir = $tempp_dir
+Auto.app_dir = $temp_dir
 $VERBOSITY = Float::INFINITY
 
 module Helper
