@@ -47,16 +47,16 @@ https://github.com/syndibot/syndi/wiki/Handbook
 Moreover, you should typically now run `syndi-conf` to produce a configuration file.
   EOM
 
-  s.add_dependency 'bundler',      '~> 1.2'
-  s.add_dependency 'celluloid',    '~> 0.12'
-  s.add_dependency 'celluloid-io', '~> 0.12'
-  s.add_dependency 'colored',      '~> 1.2'
-  s.add_dependency 'redis',        '~> 3.0'
-  s.add_dependency 'slop',         '~> 3.4'
+  s.add_runtime_dependency 'bundler',      '~> 1.2'
+  s.add_runtime_dependency 'celluloid',    '~> 0.12'
+  s.add_runtime_dependency 'celluloid-io', '~> 0.12'
+  s.add_runtime_dependency 'colored',      '~> 1.2'
+  s.add_runtime_dependency 'redis',        '~> 3.0'
+  s.add_runtime_dependency 'slop',         '~> 3.4'
   
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rake-compiler'
-  s.add_development_dependency 'rspec',        '~> 2.12'
+  s.add_development_dependency 'rspec'
 
 end
 
