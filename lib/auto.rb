@@ -1,10 +1,10 @@
 # Copyright (c) 2013, Autumn Perrault, et al. All rights reserved.
 # This free software is distributed under the FreeBSD license (see LICENSE).
 
-require 'auto/rubyext/string'
-require 'auto/version'
+require 'syndi/rubyext/string'
+require 'syndi/version'
 
-module Auto
+module Syndi
   extend self
 
   # @return [Boolean] Whether we're installed as a gem.
@@ -59,10 +59,10 @@ module Auto
   #
   # @return [String]
   def dir
-    @app_dir ||= File.join ENV['HOME'], '.auto'
+    @app_dir ||= File.join ENV['HOME'], '.syndi'
   end
 
-  # Initiate Auto with command-line +options+.
+  # Initiate Syndi with command-line +options+.
   #
   # @param [Slop] options The command-line options.
   def go options
@@ -71,30 +71,30 @@ module Auto
 
   # Logger access.
   #
-  # @return [Auto::Logger]
+  # @return [Syndi::Logger]
   def log
-    @logger ||= Auto::Logger.new
+    @logger ||= Syndi::Logger.new
   end
 
   # Central event system access.
   #
-  # @return [Auto::Events]
+  # @return [Syndi::Events]
   def events
-    @event_manager ||= Auto::Events.new
+    @event_manager ||= Syndi::Events.new
   end
 
   # Configuration access.
   #
-  # @return [Auto::Config]
+  # @return [Syndi::Config]
   def conf
-    @configuration ||= Auto::Config.new
+    @configuration ||= Syndi::Config.new
   end
 
-  # Central Auto Celluloid actor.
+  # Central Syndi Celluloid actor.
   #
-  # @return [Auto::Actress] Subclass of {Celluloid::Actor}.
+  # @return [Syndi::Actress] Subclass of {Celluloid::Actor}.
   def actress
-    @actress ||= Auto::Actress.new
+    @actress ||= Syndi::Actress.new
   end
 
   # Execute some code after the given interval.
@@ -117,13 +117,13 @@ module Auto
 
 end
 
-if Auto.windows?
-  Auto.windows_colored
+if Syndi.windows?
+  Syndi.windows_colored
 else
   require 'colored'
 end
 
-require 'libauto'
-%w[events actress config bot].each { |lib| require "auto/#{lib}" }
+require 'libsyndi'
+%w[events actress config bot].each { |lib| require "syndi/#{lib}" }
 
 # vim: set ts=4 sts=2 sw=2 et:

@@ -1,6 +1,6 @@
 ---
 
-# Auto 4 example YAML configuration file
+# Syndi 4 example YAML configuration file
 
 # Core libraries to load.
 #
@@ -22,17 +22,17 @@ irc:
     # Whether to use SSL: true or false.
     useSSL: true
     
-    # Nicknames. Auto will use the first one, and if it fails, it will try
+    # Nicknames. Syndi will use the first one, and if it fails, it will try
     # each one until success is achieved.
     nickname:
     - moobot
     - altnick
     
     # Username or ident.
-    username: Auto
+    username: Syndi
     
     # Real name or GECOS.
-    realName: Auto
+    realName: Syndi
     
     # SASL options. Remove this if you don't want to use SASL or the server
     # does not support it.
@@ -45,8 +45,8 @@ irc:
       password: moopass
 
     # List of channels to join automatically.
-    autojoin:
-    - name: '#auto-bots' # The channel name. Don't forget the quotes because channels have octothorpes.
+    syndijoin:
+    - name: '#syndi-bots' # The channel name. Don't forget the quotes because channels have octothorpes.
       key: ~ # Key, if necessary.
 
   # Another server. Add as many as you wish.
@@ -58,8 +58,8 @@ irc:
     nickname:
     - moobot
     - altnick
-    username: Auto
-    realName: Auto
+    username: Syndi
+    realName: Syndi
 
     # Identify the traditional way; that is, by privately messaging a service.
     nickIdentify:
@@ -73,10 +73,10 @@ irc:
 
 # Database configuration
 #
-# Auto uses Redis for its database management, because it is the system we
+# Syndi uses Redis for its database management, because it is the system we
 # thought most apropos to our minimalist philosophy.
 #
-# There is a wiki page on this: https://github.com/Auto/Auto/wiki/Setting-Up-a-Database
+# There is a wiki page on this: https://github.com/Syndi/Syndi/wiki/Setting-Up-a-Database
 #
 # All of these are commented because the defaults are typically desirable.
 database:

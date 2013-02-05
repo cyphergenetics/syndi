@@ -1,0 +1,102 @@
+#!/usr/bin/env ruby
+# Copyright (c) 2013, Autumn Perrault, et al. All rights reserved.
+# This free software is distributed under the FreeBSD license (see LICENSE).
+
+require 'English'
+require 'rbconfig'
+
+# Perform a check of the Ruby version.
+if ::RbConfig::CONFIG['ruby_version'] < '2.0.0'
+  puts 'Syndi requires Ruby v2.0.0 or later. Please read the Syndi Handbook.'
+  exit 1
+end
+
+# Forbid root.
+if ENV.include? 'USER'
+  if ENV['USER'] == 'root'
+    puts 'It is forbidden to run Syndi as the root user!'
+    exit 1
+  end
+end
+
+# Import necessary libraries.
+require 'slop'
+# Import system Syndi libraries, or fall back to internal ones.
+begin
+  require 'syndi'
+rescue LoadError
+  $LOAD_PATH.unshift File.join(__dir__, '..', 'lib')
+  require 'syndi'
+end
+require 'syndi/verbosity'
+
+# Change to the Syndi directory.
+SYNDI_DIR = File.join ENV['HOME'], '.syndi'
+Dir.mkdir SYNDI_DIR unless Dir.exists? SYNDI_DIR
+Dir.chdir SYNDI_DIR
+
+$VERBOSITY = 0
+
+# Parse options.
+opts = Slop.parse(:banner => "Usage: #$PROGRAM_NAME [options]") do
+  on :h, :help, "You're looking at it." do
+    puts self
+    exit 0
+  end
+
+  on :v, :version, 'Display version and exit.' do
+    puts <<-EOV
+Syndi #{Syndi::FULLVERSION}
+[os: #{::RbConfig::CONFIG['host_os']}] [rb: #{::RbConfig::CONFIG['ruby_version']}] [arch: #{::RbConfig::CONFIG['arch']}]
+
+http://syndiproj.org
+    EOV
+    exit 0
+  end
+
+  on(:f, :foreground, 'Disable automatic daemonizing.')
+  on(:c, :conf=,      'Specify a particular configuration file.')
+  on(:V, :verbose,    'Increase verbosity of output (more uses, the more verbose).') { $VERBOSITY += 1 }
+end
+
+# Begin start up.
+puts "* Syndi #{Syndi::VERSION} starting...".bold
+$log = Syndi::Logger.new
+
+# Create an instance of Syndi.
+begin
+  $m = Syndi::Bot.new opts
+  status = $m.init
+rescue => e
+  $log.fatal "An initialization error occurred: #{e}"
+end
+
+# Check our status.
+if status
+  time = Time.now
+  $log.info "Syndi started at #{time}."
+else
+  $log.fatal "Initialization inexplicably failed."
+end
+STARTTIME = time.freeze
+
+# We survived? We survived! Fork into the background if not in debug or foreground.
+$m.daemonize if !opts.foreground? && $VERBOSITY < 1
+
+# Signals
+sig = {
+  'TERM' => proc { $m.terminate('Caught termination signal') },
+  'INT'  => proc { $m.terminate('Ctrl-C pressed') },
+  'HUP'  => proc { $m.conf.rehash }
+}
+sig.delete 'HUP' if Syndi.windows?
+sig.each { |signal, prc| Signal.trap(signal) { prc.call } }
+
+begin
+  $m.start
+rescue => e
+  $log.error_bt "Fatal exception: #{e}", e.backtrace
+  exit 1
+end
+
+# vim: set ts=4 sts=2 sw=2 et:

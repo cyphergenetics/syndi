@@ -4,7 +4,7 @@
 require 'rake/extensiontask'
 
 desc 'Compile the native extension.'
-Rake::ExtensionTask.new 'libauto', $gemspec do |ext|
+Rake::ExtensionTask.new 'libsyndi', $gemspec do |ext|
   ext.cross_compile  = true
 
   ext.cross_compiling do |spec|

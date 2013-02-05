@@ -2,7 +2,7 @@
 # This free software is distributed under the FreeBSD license (see LICENSE).
 
 # import the gemspec
-GEMSPEC    = 'Auto.gemspec'
+GEMSPEC    = 'Syndi.gemspec'
 $gemspec ||= eval(File.read(GEMSPEC), binding, GEMSPEC)
 
 def perform t
@@ -10,7 +10,7 @@ def perform t
 end
 
 # Directives for Ruby Make (rake)
-# to test/compile Auto 4, and optionally
+# to test/compile Syndi 4, and optionally
 # push to RubyGems
 
 # load all of the tasks

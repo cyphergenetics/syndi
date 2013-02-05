@@ -10,10 +10,10 @@ require 'rspec/mocks'
 require 'fileutils'
 require 'stringio'
     
-require 'auto'
+require 'syndi'
 
-$temp_dir = Dir.mktmpdir 'auto-rspec'
-Auto.app_dir = $temp_dir
+$temp_dir = Dir.mktmpdir 'syndi-rspec'
+Syndi.app_dir = $temp_dir
 $VERBOSITY = Float::INFINITY
 
 module Helper

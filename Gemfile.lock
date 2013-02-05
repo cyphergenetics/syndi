@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    Auto (4.0.0.alpha.1)
+    syndi (4.0.0.alpha.1)
       celluloid (~> 0.12)
       celluloid-io (~> 0.12)
       colored (~> 1.2)
@@ -40,7 +40,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  Auto!
   rake
   rake-compiler
   rspec (~> 2.12)
+  syndi!
