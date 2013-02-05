@@ -1,7 +1,7 @@
 # Copyright (c) 2013, Autumn Perrault, et al. All rights reserved.
 # This free software is distributed under the FreeBSD license (see LICENSE).
 
-$:.unshift File.expand_path(File.join(File.dirname(__FILE__), 'lib'))
+$:.unshift './lib'
 require 'auto/version'
 
 Gem::Specification.new do |s|
@@ -10,10 +10,10 @@ Gem::Specification.new do |s|
   s.version = "#{Auto::VERSION}"
 
   s.date          = Time.now.strftime '%Y-%m-%d'
-  s.summary       = 'A modern, simple, extensible multi-protocol bot.'
+  s.summary       = 'A modern, elegant, extensible multi-protocol bot.'
   s.description   = <<-EOD
-    A simple and smart multi-protocol bot (currently supports IRC) which allows for
-    easy extension by means of its plugin API.
+    An elegant, modern, multithreaded, event-driven, modular, chat bot
+    designed upon a multi-protocol model.
   EOD
   s.authors       = [
     'Autumn Perrault',
@@ -28,7 +28,9 @@ Gem::Specification.new do |s|
     LICENSE
     WINDOWS.md
     INSTALL.md
+    CHANGELOG.md
     Gemfile
+    Rakefile
     .yardopts
     conf/example.yml
   ]
@@ -37,7 +39,7 @@ Gem::Specification.new do |s|
   s.extensions    = Dir["ext/**/extconf.rb"]
 
   s.post_install_message  = <<-EOM
-Thanks for installing Auto!
+Thanks for choosing Auto to serve your chat bot needs! (:
 
 We suggest that, if you're not already consulting it, you read the Auto Handbook:
 https://github.com/Auto/Auto/wiki/Handbook
@@ -45,14 +47,15 @@ https://github.com/Auto/Auto/wiki/Handbook
 Moreover, you should typically now run `auto-conf` to produce a configuration file.
   EOM
 
-  s.add_runtime_dependency 'colored',  '~> 1.2'
-  s.add_runtime_dependency 'redis',    '~> 3.0'
-  s.add_runtime_dependency 'highline', '~> 1.6'
-  s.add_runtime_dependency 'slop',     '~> 3.4'
+  s.add_runtime_dependency 'celluloid',    '~> 0.12'
+  s.add_runtime_dependency 'celluloid-io', '~> 0.12'
+  s.add_runtime_dependency 'colored',      '~> 1.2'
+  s.add_runtime_dependency 'redis',        '~> 3.0'
+  s.add_runtime_dependency 'slop',         '~> 3.4'
   
-  s.add_development_dependency 'rake',          '~> 10.0'
-  s.add_development_dependency 'rake-compiler', '~> 0.8'
-  s.add_development_dependency 'mocha',         '~> 0.13'
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'rake-compiler'
+  s.add_development_dependency 'rspec', '~> 2.12'
 
 end
 

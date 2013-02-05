@@ -1,0 +1,5 @@
+--require ./spec/helper.rb
+--color
+--format documentation
+--backtrace
+--default_path ./spec

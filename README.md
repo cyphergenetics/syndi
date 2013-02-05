@@ -1,7 +1,7 @@
 Auto 4
 ======
 
-_A modern, simple, extensible multi-protocol bot, reloaded._
+_A modern, simple, extensible multi-protocol bot reloaded._
 
 **Version**:            4.0.0.alpha.1 "Phoenix"  
 [![Build Status](https://travis-ci.org/Auto/Auto.png?branch=master)](https://travis-ci.org/Auto/Auto)
@@ -56,6 +56,17 @@ $ git checkout master
 $ bundle install
 $ rake build
 ```
+
+Auto is currently known to function on these operating systems:
+
++ Microsoft Windows
++ Mac OS X
++ Linux
++ BSD flavors
+
+Using these Ruby virtual machines:
+
++ MRI/YARV (official) 2.0.0
 
 Support
 -------

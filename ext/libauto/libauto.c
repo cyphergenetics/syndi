@@ -16,10 +16,10 @@ VALUE eDatabaseError;
 /* initialize exceptions */
 void initialize_exceptions()
 {
-    eLogError = rb_define_class("LogError", rb_eStandardError);
-    ePluginError = rb_define_class("PluginError", rb_eStandardError);
-    eConfigError = rb_define_class("ConfigError", rb_eStandardError);
-    eDatabaseError = rb_define_class("DatabaseError", rb_eStandardError);
+    eLogError = rb_define_class_under(mAuto, "LogError", rb_eStandardError);
+    ePluginError = rb_define_class_under(mAuto, "PluginError", rb_eStandardError);
+    eConfigError = rb_define_class_under(mAuto, "ConfigError", rb_eStandardError);
+    eDatabaseError = rb_define_class_under(mAuto, "DatabaseError", rb_eStandardError);
 }
 
 /* initialize Auto module */

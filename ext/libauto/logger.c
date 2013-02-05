@@ -126,37 +126,32 @@ VALUE logger_fatal(VALUE self, VALUE message)
 }
 
 /* @overload error(message)
- *   This will log +message+ as an error.
+ *   This will log +message+ as an error, optionally also outputting +backtrace+,
+ *   the data for which shall be obtained from Kernel#caller.
  *
  *   @param [String] message The error message to be reported.
+ *   @param [Boolean] backtrace Whether to output a backtrace.
  *   @return [nil]
  */
-VALUE logger_error(VALUE self, VALUE message)
+VALUE logger_error(int argc, VALUE argv, VALUE self)
 {
+    VALUE message;
+    VALUE backtrace;
+    VALUE bt_bool;
+
+    rb_scan_args(argc, argv, "11", &message, &bt_bool);
+
     char *msg = RSTRING_PTR(message);
     log_out2file("ERROR", msg);
     log_out2scrn(TYPE_ERROR, msg, 0);
-    return Qnil;
-}
 
-/* @overload error_bt(message, backtrace)
- *   This will log +message+ as an error, printing +backtrace+ to STDOUT.
- *
- *   @param [String] message The error message.
- *   @param [Array<String>] backtrace The corresponding backtrace.
- *
- *   @return [nil]
- */
-VALUE logger_error_bt(VALUE self, VALUE message, VALUE backtrace)
-{
-    logger_error(self, rb_funcall(message, SYM(to_s), 0));
-
-    if (RARRAY_LEN(backtrace) > 0)
+    if (bt_bool == Qtrue)
     {
-        printf("Backtrace:%s", OS_LINE_TERM);
-        rb_funcall(rb_stdout, SYM(puts), 1, backtrace);
+        backtrace = rb_funcall(rb_cObject, SYM(caller), 0);
+        fprintf(stderr, "Backtrace:%s", OS_LINE_TERM);
+        rb_funcall(rb_stderr, SYM(puts), 1, backtrace);
     }
-
+    
     return Qnil;
 }
 
@@ -224,8 +219,7 @@ void init_auto_logger()
     cLogger = rb_define_class_under(mAuto, "Logger", rb_cObject);
     rb_define_method(cLogger, "initialize", logger_init, 0);
     rb_define_method(cLogger, "fatal", logger_fatal, 1);
-    rb_define_method(cLogger, "error", logger_error, 1);
-    rb_define_method(cLogger, "error_bt", logger_error_bt, 2);
+    rb_define_method(cLogger, "error", logger_error, -1);
     rb_define_method(cLogger, "verbose", logger_verbose, 2);
     rb_define_method(cLogger, "warn", logger_warn, 1);
     rb_define_method(cLogger, "info", logger_info, 1);

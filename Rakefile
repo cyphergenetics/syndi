@@ -19,8 +19,8 @@ Dir["tasks/**/*.rake"].each do |t|
 end
 
 # groups
-task :default => %i[compile test]
-task :full    => %i[clean default gem install]
-task :build   => %i[compile native gem install]
+task :default => %i[compile native gem]
+task :typical => %i[compile test]
+task :full    => %i[clean typical gem install]
 
 # vim: set ts=4 sts=2 sw=2 et:

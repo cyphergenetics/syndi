@@ -1,5 +1,14 @@
-# @title Standards of Contributing
-# @author noxgirl
+How To Contribute
+=================
+
+1. Create a [GitHub account](https://github.com) if you've thus far neglected such.
+2. Fork the [Auto repository](https://github.com/Auto/Auto).
+3. Make your changes.
+4. Test with RSpec.
+5. Document your changes.
+6. Submit a [pull request](https://github.com/Auto/Auto/wiki).
+7. They will be reviewed and either accepted or rejected, but in any event will receive
+   a response.
 
 Standards of Contributing
 =========================

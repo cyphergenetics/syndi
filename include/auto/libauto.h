@@ -31,7 +31,7 @@ extern VALUE ePluginError;
 #endif
 
 /* fetch the Auto directory */
-#define AUTO_DIR RSTRING_PTR(rb_const_get(rb_cObject, SYM(AUTO_DIR)))
+#define AUTO_DIR RSTRING_PTR(rb_const_get(mAuto, SYM(APP_DIR)))
 
 #endif
 

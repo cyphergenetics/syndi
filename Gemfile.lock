@@ -1,25 +1,46 @@
+PATH
+  remote: .
+  specs:
+    Auto (4.0.0.alpha.1)
+      celluloid (~> 0.12)
+      celluloid-io (~> 0.12)
+      colored (~> 1.2)
+      redis (~> 3.0)
+      slop (~> 3.4)
+
 GEM
   remote: http://rubygems.org/
   specs:
+    celluloid (0.12.4)
+      facter (>= 1.6.12)
+      timers (>= 1.0.0)
+    celluloid-io (0.12.1)
+      celluloid (~> 0.12.0)
+      nio4r (>= 0.4.0)
     colored (1.2)
-    highline (1.6.15)
-    metaclass (0.0.1)
-    mocha (0.13.2)
-      metaclass (~> 0.0.1)
+    diff-lcs (1.1.3)
+    facter (1.6.17)
+    nio4r (0.4.3)
     rake (10.0.3)
     rake-compiler (0.8.2)
       rake
     redis (3.0.2)
+    rspec (2.12.0)
+      rspec-core (~> 2.12.0)
+      rspec-expectations (~> 2.12.0)
+      rspec-mocks (~> 2.12.0)
+    rspec-core (2.12.2)
+    rspec-expectations (2.12.1)
+      diff-lcs (~> 1.1.3)
+    rspec-mocks (2.12.2)
     slop (3.4.3)
+    timers (1.1.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  colored (~> 1.2)
-  highline (~> 1.6)
-  mocha (~> 0.13)
-  rake (~> 10.0)
-  rake-compiler (~> 0.8)
-  redis (~> 3.0)
-  slop (~> 3.4)
+  Auto!
+  rake
+  rake-compiler
+  rspec (~> 2.12)

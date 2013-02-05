@@ -25,7 +25,7 @@ require 'slop'
 begin
   require 'auto'
 rescue LoadError
-  $LOAD_PATH.unshift File.expand_path(File.join('..', '..', 'lib'), __FILE__)
+  $LOAD_PATH.unshift File.join(__dir__, '..', 'lib')
   require 'auto'
 end
 require 'auto/verbosity'
@@ -39,14 +39,15 @@ $VERBOSITY = 0
 
 # Parse options.
 opts = Slop.parse(:banner => "Usage: #$PROGRAM_NAME [options]") do
-  on :h, :help, 'Display this help message.' do
+  on :h, :help, "You're looking at it." do
     puts self
     exit 0
   end
 
   on :v, :version, 'Display version and exit.' do
     puts <<-EOV
-Auto #{Auto::FULLVERSION} [#{::RbConfig::CONFIG['host_os']}], by the Auto Project
+Auto #{Auto::FULLVERSION}
+[os: #{::RbConfig::CONFIG['host_os']}] [rb: #{::RbConfig::CONFIG['ruby_version']}] [arch: #{::RbConfig::CONFIG['arch']}]
 
 http://autoproj.org
     EOV
