@@ -43,5 +43,5 @@ PLATFORMS
 DEPENDENCIES
   rake
   rake-compiler
-  rspec (~> 2.12)
+  rspec
   syndi!
