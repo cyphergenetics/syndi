@@ -32,7 +32,7 @@ Syndi is automated chat bot software, developed per this philosophy:
 * _Simple_, _smart_, and _clean_.
 * _Minimal_ but _extensible_.
 
-It is a reboot of Auto, an old IRC bot which, though featureful, was flawed in design.
+It is a reboot of Auto, an old IRC bot which, though featureful, suffered of design flaws.
 
 Installation
 ------------

@@ -56,7 +56,7 @@ Moreover, you should typically now run `syndi-conf` to produce a configuration f
   
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rake-compiler'
-  s.add_development_dependency 'rspec', '~> 2.12'
+  s.add_development_dependency 'rspec',        '~> 2.12'
 
 end
 
