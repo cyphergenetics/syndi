@@ -1,7 +1,7 @@
 Auto 4
 ======
 
-_A modern, simple, extensible multi-protocol bot reloaded._
+_A modern, simple, extensible multi-protocol bot&mdash;reloaded._
 
 **Version**:            4.0.0.alpha.1 "Phoenix"  
 [![Build Status](https://travis-ci.org/Auto/Auto.png?branch=master)](https://travis-ci.org/Auto/Auto)
