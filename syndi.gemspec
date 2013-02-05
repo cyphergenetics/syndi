@@ -47,6 +47,7 @@ https://github.com/syndibot/syndi/wiki/Handbook
 Moreover, you should typically now run `syndi-conf` to produce a configuration file.
   EOM
 
+  s.add_runtime_dependency 'bundler',      '~> 1.2'
   s.add_runtime_dependency 'celluloid',    '~> 0.12'
   s.add_runtime_dependency 'celluloid-io', '~> 0.12'
   s.add_runtime_dependency 'colored',      '~> 1.2'
