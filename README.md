@@ -54,7 +54,8 @@ $ git checkout master
 
 ```shell
 $ bundle install
-$ rake build
+$ rake
+$ rake install
 ```
 
 Auto is currently known to function on these operating systems:
