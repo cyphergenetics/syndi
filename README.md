@@ -1,7 +1,7 @@
 Auto 4
 ======
 
-_A modern, simple, extensible multi-protocol bot&mdash;reloaded._
+_A modern, elegant, extensible multi-protocol bot&mdash;reloaded._
 
 **Version**:            4.0.0.alpha.1 "Phoenix"  
 [![Build Status](https://travis-ci.org/Auto/Auto.png?branch=master)](https://travis-ci.org/Auto/Auto)
@@ -19,6 +19,10 @@ _A modern, simple, extensible multi-protocol bot&mdash;reloaded._
 and [this release](http://autoproj.org/rdoc/4.0.0.alpha.1/).
 
 Our official IRC channel is [#auto on irc.freenode.net](irc://irc.freenode.net/#auto).
+
+### Is it Production-Ready&trade;?
+
+Not yet. Auto 4's a fairly sizable project.
 
 Synopsis
 --------
