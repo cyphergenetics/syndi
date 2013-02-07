@@ -4,7 +4,7 @@
 require 'rspec/core/rake_task'
 
 desc 'Test the application.'
-RSpec::Core::RakeTask.new :test do |t|
+RSpec::Core::RakeTask.new do |t|
   t.pattern    = "#{__dir__}/../spec/**/*_spec.rb"
   t.rspec_opts = ["-I #{__dir__}/../lib", "-r #{__dir__}/../spec/helper.rb"]
 end

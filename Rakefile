@@ -20,7 +20,7 @@ end
 
 # groups
 task :default => %i[compile native gem]
-task :typical => %i[compile test]
+task :typical => %i[compile spec]
 task :full    => %i[clean typical gem install]
 
 # vim: set ts=4 sts=2 sw=2 et:
