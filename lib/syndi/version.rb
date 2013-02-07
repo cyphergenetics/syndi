@@ -6,7 +6,7 @@ module Syndi
   # Standard version string.
   #
   # We use semantic versioning: +MAJOR.MINOR.PATCH.PRE.PRENUM+
-  VERSION      = '4.0.0.alpha.1'.freeze
+  VERSION      = '0.1.0'.freeze
   
   # Standard version plus the codename (assigned to each minor release).
   #

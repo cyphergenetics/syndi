@@ -5,7 +5,7 @@ _A modern, elegant, extensible multi-protocol chat bot&mdash;reloaded._
 
 **Formerly known as Auto.**
 
-**Version**:            4.0.0.alpha.1 "Phoenix"  
+**Version**:            0.1.0 "Phoenix"  
 [![Build Status](https://travis-ci.org/syndibot/syndi.png?branch=master)](https://travis-ci.org/syndibot/syndi)
 [![Dependency Status](https://gemnasium.com/syndibot/syndi.png)](https://gemnasium.com/syndibot/syndi)
 [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/syndibot/syndi)
