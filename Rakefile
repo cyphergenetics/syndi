@@ -20,7 +20,7 @@ end
 
 # groups
 if ENV['CI']
-  task :default => %i[compile test]
+  task :default => %i[compile spec]
 else
   task :default => %i[compile native gem]
 end
