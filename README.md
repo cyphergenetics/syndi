@@ -7,7 +7,8 @@ Syndi
 
 [![Code Climate](https://codeclimate.com/github/syndibot/syndi.png)](https://codeclimate.com/github/syndibot/syndi)
 
-|---------------:|:-------------------------------------------|
+|                |                                            |
+| --------------:|:------------------------------------------ |
 | **Name:**      | Syndi                                      |
 | **Version:**   | 0.1.1 "Phoenix"                            |
 | **Summary:**   | A modern, elegant, modular chat bot.       |
