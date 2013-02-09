@@ -31,7 +31,7 @@ extern VALUE ePluginError;
 #endif
 
 /* fetch the Syndi directory */
-#define SYNDI_DIR RSTRING_PTR(rb_funcall(mSyndi, SYM(app_dir), 0))
+#define SYNDI_DIR RSTRING_PTR(rb_funcall(mSyndi, SYM(dir), 0))
 
 #endif
 

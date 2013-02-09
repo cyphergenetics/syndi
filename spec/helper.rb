@@ -13,9 +13,9 @@ require 'tmpdir'
     
 require 'syndi'
 
-$temp_dir = Dir.mktmpdir 'syndi-rspec'
+$temp_dir = Dir.mktmpdir
 Syndi.dir = $temp_dir
-$VERBOSITY = Float::INFINITY
+$VERBOSITY = 100
 
 module Helper
 
@@ -25,6 +25,7 @@ RSpec.configure do |conf|
   conf.include Helper
 
   conf.after(:all) do
+    Dir.chdir __dir__
     FileUtils.remove_entry $temp_dir
   end
 

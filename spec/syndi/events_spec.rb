@@ -54,12 +54,10 @@ describe Syndi::Events do
     it 'respects priority' do
       @order = ''
       @events.on(:a, 1) { @order << 'A' }
-      @events.on(:b, 3) { @order << 'B' }
-      @events.on(:c, 5) { @order << 'C' }
+      @events.on(:a, 3) { @order << 'B' }
+      @events.on(:a, 5) { @order << 'C' }
 
       @events.emit :a
-      @events.emit :b
-      @events.emit :c
       sleep 0.1
 
       expect(@order).to eq 'ABC'
