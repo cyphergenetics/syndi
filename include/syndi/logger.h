@@ -39,6 +39,7 @@ static VALUE logger_fatal(VALUE self, VALUE message);
 static VALUE logger_error(int argc, VALUE *argv, VALUE message);
 static VALUE logger_verbose(VALUE self, VALUE message, VALUE level);
 static VALUE logger_warning(VALUE self, VALUE message);
+static VALUE logger_debug(VALUE self, VALUE message);
 static VALUE logger_deprecate(VALUE self, VALUE message);
 static VALUE logger_info(VALUE self, VALUE message);
 

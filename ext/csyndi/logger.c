@@ -237,6 +237,11 @@ static VALUE logger_verbose(VALUE self, VALUE message, VALUE level)
     return Qnil;
 }
 
+static VALUE logger_debug(VALUE self, VALUE message)
+{
+    return logger_verbose(self, message, INT2FIX(3));
+}
+
 /* initializes Syndi::Logger in Ruby */
 void init_syndi_logger()
 {
@@ -245,6 +250,7 @@ void init_syndi_logger()
     rb_define_method(cLogger, "fatal", logger_fatal, 1);
     rb_define_method(cLogger, "error", logger_error, -1);
     rb_define_method(cLogger, "verbose", logger_verbose, 2);
+    rb_define_method(cLogger, "debug", logger_debug, 1);
     rb_define_method(cLogger, "warn", logger_warn, 1);
     rb_define_method(cLogger, "deprecate", logger_deprecate, 1);
     rb_define_method(cLogger, "info", logger_info, 1);
