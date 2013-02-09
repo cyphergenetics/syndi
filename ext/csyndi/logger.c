@@ -173,7 +173,7 @@ static VALUE logger_warn(VALUE self, VALUE message)
 /* @overload deprecate(message)
  *   This will call Kernel#warn with the notice of deprecation.
  *
- *   @param [String] notice The notice regarding usage of a deprecated method.
+ *   @param [String] message The notice regarding usage of a deprecated method.
  *   @return [nil]
  */
 static VALUE logger_deprecate(VALUE self, VALUE message)
