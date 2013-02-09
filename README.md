@@ -7,15 +7,13 @@ Syndi
 
 [![Code Climate](https://codeclimate.com/github/syndibot/syndi.png)](https://codeclimate.com/github/syndibot/syndi)
 
-|               |                                            |
-|--------------:|--------------------------------------------|
-| **Version:**  | 0.1.1 "Phoenix"                            |
-|--------------:|--------------------------------------------|
-| **Summary:**  | A modern, elegant, modular chat bot.       |
-|--------------:|--------------------------------------------|
-| **Author:**   | [Autumn Perrault](http://destellae.net/)   |
-|--------------:|--------------------------------------------|
-| **Homepage:** | [http://syndibot.com](http://syndibot.com) |
+|---------------:|:-------------------------------------------|
+| **Name:**      | Syndi                                      |
+| **Version:**   | 0.1.1 "Phoenix"                            |
+| **Summary:**   | A modern, elegant, modular chat bot.       |
+| **Author:**    | [Autumn Perrault](http://destellae.net/)   |
+| **Homepage:**  | [http://syndibot.com](http://syndibot.com) |
+| **Languages:** | Ruby, C                                    |
 
 * [Wiki](https://github.com/syndibot/syndi/wiki)
 * [Mailing List](https://groups.google.com/group/syndibot)
