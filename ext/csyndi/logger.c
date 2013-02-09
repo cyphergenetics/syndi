@@ -104,19 +104,19 @@ static void log_dircheck()
  *
  *   @return [Syndi::Logger]
  */
-VALUE logger_init(VALUE self)
+static VALUE logger_init(VALUE self)
 {
     log_dircheck();
     return self;
 }
 
 /* @overload fatal(message)
- *   This will log +message+ as a fatal error, as well as kill the program.
+ *   This will log `message` as a fatal error, as well as kill the program.
  *
  *   @param [String] message The fatal error message to be reported.
  *   @return [nil]
  */
-VALUE logger_fatal(VALUE self, VALUE message)
+static VALUE logger_fatal(VALUE self, VALUE message)
 {
     char *msg = RSTRING_PTR(message);
     log_out2file("FATAL ERROR", msg);
@@ -126,14 +126,14 @@ VALUE logger_fatal(VALUE self, VALUE message)
 }
 
 /* @overload error(message)
- *   This will log +message+ as an error, optionally also outputting +backtrace+,
+ *   This will log `message` as an error, optionally also outputting `backtrace`,
  *   the data for which shall be obtained from Kernel#caller.
  *
  *   @param [String] message The error message to be reported.
  *   @param [Boolean] backtrace Whether to output a backtrace.
  *   @return [nil]
  */
-VALUE logger_error(int argc, VALUE *argv, VALUE self)
+static VALUE logger_error(int argc, VALUE *argv, VALUE self)
 {
     VALUE message;
     VALUE backtrace;
@@ -157,12 +157,12 @@ VALUE logger_error(int argc, VALUE *argv, VALUE self)
 }
 
 /* @overload warn(message)
- *   This will log +message+ as a warning.
+ *   This will log `message` as a warning.
  *
  *   @param [String] message The admonitory message to be reported.
  *   @return [nil]
  */
-VALUE logger_warn(VALUE self, VALUE message)
+static VALUE logger_warn(VALUE self, VALUE message)
 {
     char *msg = RSTRING_PTR(message);
     log_out2file("WARNING", msg);
@@ -170,13 +170,36 @@ VALUE logger_warn(VALUE self, VALUE message)
     return Qnil;
 }
 
+/* @overload deprecate(message)
+ *   This will call Kernel#warn with the notice of deprecation.
+ *
+ *   @param [String] notice The notice regarding usage of a deprecated method.
+ *   @return [nil]
+ */
+static VALUE logger_deprecate(VALUE self, VALUE message)
+{
+    VALUE backtrace;
+    VALUE notice;
+
+    notice = rb_str_new("DEPRECATION WARNING: ", 21);
+    rb_str_append(notice, message);
+
+    rb_funcall(rb_cObject, SYM(warn), 1, notice);
+        
+    backtrace = rb_funcall(rb_cObject, SYM(caller), 0);
+    fprintf(stderr, "Backtrace:%s", OS_LINE_TERM);
+    rb_funcall(rb_stderr, SYM(puts), 1, backtrace);
+
+    return Qnil;
+}
+
 /* @overload info(message)
- *   This will log +message+ as an informative message.
+ *   This will log `message` as an informative message.
  *
  *   @param [String] message The information to be reported.
  *   @return [nil]
  */
-VALUE logger_info(VALUE self, VALUE message)
+static VALUE logger_info(VALUE self, VALUE message)
 {
     char *msg = RSTRING_PTR(message);
     log_out2file("INFO", msg);
@@ -194,7 +217,7 @@ VALUE logger_info(VALUE self, VALUE message)
  *
  *   @return [nil]
  */
-VALUE logger_verbose(VALUE self, VALUE message, VALUE level)
+static VALUE logger_verbose(VALUE self, VALUE message, VALUE level)
 {
     char *msg = RSTRING_PTR(message);
     int vrb = FIX2INT(level);
@@ -223,6 +246,7 @@ void init_syndi_logger()
     rb_define_method(cLogger, "error", logger_error, -1);
     rb_define_method(cLogger, "verbose", logger_verbose, 2);
     rb_define_method(cLogger, "warn", logger_warn, 1);
+    rb_define_method(cLogger, "deprecate", logger_deprecate, 1);
     rb_define_method(cLogger, "info", logger_info, 1);
 }
 

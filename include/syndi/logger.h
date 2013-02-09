@@ -33,13 +33,14 @@ extern VALUE cLogger;
 void init_syndi_logger();
 
 /* Ruby-accessible methods */
-VALUE logger_init(VALUE self);
+static VALUE logger_init(VALUE self);
 
-VALUE logger_fatal(VALUE self, VALUE message);
-VALUE logger_error(int argc, VALUE *argv, VALUE message);
-VALUE logger_verbose(VALUE self, VALUE message, VALUE level);
-VALUE logger_warning(VALUE self, VALUE message);
-VALUE logger_info(VALUE self, VALUE message);
+static VALUE logger_fatal(VALUE self, VALUE message);
+static VALUE logger_error(int argc, VALUE *argv, VALUE message);
+static VALUE logger_verbose(VALUE self, VALUE message, VALUE level);
+static VALUE logger_warning(VALUE self, VALUE message);
+static VALUE logger_deprecate(VALUE self, VALUE message);
+static VALUE logger_info(VALUE self, VALUE message);
 
 /* internal functions */
 static void log_out2scrn(int type, const char *message, int level);
