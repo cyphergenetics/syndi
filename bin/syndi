@@ -31,9 +31,7 @@ end
 require 'syndi/verbosity'
 
 # Change to the Syndi directory.
-SYNDI_DIR = File.join ENV['HOME'], '.syndi'
-Dir.mkdir SYNDI_DIR unless Dir.exists? SYNDI_DIR
-Dir.chdir SYNDI_DIR
+Syndi.dir = File.join ENV['HOME'], '.syndi'
 
 $VERBOSITY = 0
 
