@@ -16,6 +16,7 @@ require 'syndi'
 $temp_dir = Dir.mktmpdir
 Syndi.dir = $temp_dir
 $VERBOSITY = -1
+Syndi.celluloid_log
 
 module Helper
 
@@ -27,6 +28,7 @@ RSpec.configure do |conf|
   conf.after(:all) do
     Dir.chdir __dir__
     FileUtils.remove_entry $temp_dir
+    Syndi.dir = __dir__
   end
 
   conf.expect_with :rspec do |c|

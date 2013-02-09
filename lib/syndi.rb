@@ -83,6 +83,11 @@ module Syndi
     @logger ||= Syndi::Logger.new
   end
 
+  # Make Celluloid logging consistent with Syndi logging.
+  def celluloid_log
+    Celluloid.logger = self.log
+  end
+
   # Central event system access.
   #
   # @return [Syndi::Events]
