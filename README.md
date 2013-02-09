@@ -19,10 +19,6 @@ _A modern, elegant, extensible multi-protocol chat bot&mdash;reloaded._
 
 Our official IRC channel is [#syndi on irc.freenode.net](irc://irc.freenode.net/#syndi).
 
-### Is it Production-Ready&trade;?
-
-Not yet. Syndi 4's a fairly sizable project. We're getting close though.
-
 Synopsis
 --------
 
@@ -33,6 +29,10 @@ Syndi is automated chat bot software, developed per this philosophy:
 * _Minimal_ but _extensible_.
 
 It is a reboot of Auto, an old IRC bot which, though featureful, suffered of design flaws.
+
+### Is it Production-Ready&trade;?
+
+Not yet. Syndi's a fairly sizable project. We're getting close though.
 
 Installation
 ------------
