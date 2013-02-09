@@ -1,11 +1,10 @@
 Syndi
 =====
 
+[![Code Climate](https://codeclimate.com/github/syndibot/syndi.png)](https://codeclimate.com/github/syndibot/syndi)
 [![Gem Version](https://badge.fury.io/rb/syndi.png)](http://badge.fury.io/rb/syndi)
 [![Build Status](https://travis-ci.org/syndibot/syndi.png?branch=master)](https://travis-ci.org/syndibot/syndi)
 [![Dependency Status](https://gemnasium.com/syndibot/syndi.png)](https://gemnasium.com/syndibot/syndi)
-
-[![Code Climate](https://codeclimate.com/github/syndibot/syndi.png)](https://codeclimate.com/github/syndibot/syndi)
 
 |                |                                            |
 | --------------:|:------------------------------------------ |
