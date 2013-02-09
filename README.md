@@ -5,12 +5,12 @@ _A modern, elegant, extensible multi-protocol chat bot&mdash;reloaded._
 
 **Formerly known as Auto.**
 
-**Version**:            0.1.0 "Phoenix"  
+**Version**:            0.1.1 "Phoenix"  
 [![Build Status](https://travis-ci.org/syndibot/syndi.png?branch=master)](https://travis-ci.org/syndibot/syndi)
 [![Dependency Status](https://gemnasium.com/syndibot/syndi.png)](https://gemnasium.com/syndibot/syndi)  
 [![Code Climate](https://codeclimate.com/github/syndibot/syndi.png)](https://codeclimate.com/github/syndibot/syndi)
 
-+ [Homepage](http://syndibot.com) (lots of information)
++ [Website](http://syndibot.com) (lots of information)
 + [RubyGems](https://rubygems.org/gems/syndi)
 + [Wiki](https://github.com/syndibot/syndi/wiki)
 + [Mailing List](https://groups.google.com/group/syndibot)
