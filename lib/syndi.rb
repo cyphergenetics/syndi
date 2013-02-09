@@ -5,6 +5,8 @@ require 'syndi/rubyext/string'
 require 'syndi/version'
 require 'fileutils'
 
+require 'term/ansicolor'
+
 module Syndi
   extend self
 
@@ -38,17 +40,14 @@ module Syndi
     end
   end
 
-  # This fixes coloring issues on Windows--or at least, the ones with which we
-  # need be concerned.
-  def windows_colored
-    colors = [:black, :red, :green, :yellow, :blue, :magenta, :cyan, :white]
-    extras = [:clear, :bold, :underline, :reversed]
-    
-    colors.each do |col|
-      String.send(:define_method, col, proc { self })
-    end
-    extras.each do |extr|
-      String.send(:define_method, extr, proc { self })
+  # Install terminal colors.
+  def colorize
+    if windows?
+      Term::ANSIColor.attributes.each do |name|
+        String.send :define_method, name, proc { self }
+      end
+    else
+      String.send :include, Term::ANSIColor
     end
   end
 
@@ -125,13 +124,9 @@ module Syndi
 
 end
 
-if Syndi.windows?
-  Syndi.windows_colored
-else
-  require 'colored'
-end
-
 require 'csyndi'
 %w[events actress config bot].each { |lib| require "syndi/#{lib}" }
+
+Syndi.colorize
 
 # vim: set ts=4 sts=2 sw=2 et:

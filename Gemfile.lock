@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    syndi (4.0.0.alpha.1)
+    syndi (0.1.1)
       bundler (~> 1.2)
       celluloid (~> 0.12)
       celluloid-io (~> 0.12)
