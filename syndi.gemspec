@@ -43,8 +43,10 @@ Thanks for choosing Syndi to serve your chat bot needs! (:
 We suggest that, if you're not already consulting it, you read the Syndi Handbook:
 https://github.com/syndibot/syndi/wiki/Handbook
 
-Moreover, you should typically now run `syndi-conf` to produce a configuration file.
+Moreover, you should typically now run `synditool genconf` to produce a configuration file.
   EOM
+
+  s.add_runtime_dependency 'archive-tar-minitar', '>= 0.5'
 
   s.add_runtime_dependency 'bundler',        '>= 1.2'
   s.add_runtime_dependency 'celluloid',      '~> 0.12'

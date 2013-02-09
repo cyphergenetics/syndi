@@ -5,12 +5,6 @@
 require 'English'
 require 'rbconfig'
 
-# Perform a check of the Ruby version.
-if ::RbConfig::CONFIG['ruby_version'] < '2.0.0'
-  puts 'Syndi requires Ruby v2.0.0 or later. Please read the Syndi Handbook.'
-  exit 1
-end
-
 # Forbid root.
 if ENV.include? 'USER'
   if ENV['USER'] == 'root'
@@ -19,15 +13,17 @@ if ENV.include? 'USER'
   end
 end
 
-# Import necessary libraries.
-require 'slop'
 # Import system Syndi libraries, or fall back to internal ones.
 begin
-  require 'syndi'
+  require 'syndi/ruby_version_check'
 rescue LoadError
   $LOAD_PATH.unshift File.join(__dir__, '..', 'lib')
-  require 'syndi'
+  require 'syndi/ruby_version_check'
 end
+
+# Import necessary libraries.
+require 'slop'
+require 'syndi'
 require 'syndi/verbosity'
 
 # Change to the Syndi directory.

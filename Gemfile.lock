@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     syndi (0.1.1)
+      archive-tar-minitar (>= 0.5)
       bundler (>= 1.2)
       celluloid (~> 0.12)
       celluloid-io (~> 0.12)
@@ -13,6 +14,7 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
+    archive-tar-minitar (0.5.2)
     celluloid (0.12.4)
       facter (>= 1.6.12)
       timers (>= 1.0.0)
