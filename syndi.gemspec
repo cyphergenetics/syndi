@@ -27,7 +27,6 @@ Gem::Specification.new do |s|
     README.md
     LICENSE
     WINDOWS.md
-    INSTALL.md
     CHANGELOG.md
     Gemfile
     Rakefile

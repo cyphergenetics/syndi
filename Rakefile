@@ -19,7 +19,11 @@ Dir["tasks/**/*.rake"].each do |t|
 end
 
 # groups
-task :default => %i[compile native gem]
+if ENV['CI']
+  task :default => %i[compile test]
+else
+  task :default => %i[compile native gem]
+end
 task :typical => %i[compile spec]
 task :full    => %i[clean typical gem install]
 
