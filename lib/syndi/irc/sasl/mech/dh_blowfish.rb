@@ -3,7 +3,7 @@
 
 require 'base64'
 require 'openssl'
-require 'libsyndi'
+require 'csyndi'
 require 'syndi/irc/sasl/diffie_hellman'
 
 module Syndi

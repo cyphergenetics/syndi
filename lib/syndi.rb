@@ -3,6 +3,7 @@
 
 require 'syndi/rubyext/string'
 require 'syndi/version'
+require 'fileutils'
 
 module Syndi
   extend self
@@ -61,6 +62,13 @@ module Syndi
   def dir
     @app_dir ||= File.join ENV['HOME'], '.syndi'
   end
+
+  # Set the application data directory.
+  def dir= directory
+    FileUtils.mkdir_p directory unless Dir.exists? directory
+    Dir.chdir directory
+    @app_dir = directory
+  end 
 
   # Initiate Syndi with command-line +options+.
   #
@@ -123,7 +131,7 @@ else
   require 'colored'
 end
 
-require 'libsyndi'
+require 'csyndi'
 %w[events actress config bot].each { |lib| require "syndi/#{lib}" }
 
 # vim: set ts=4 sts=2 sw=2 et:

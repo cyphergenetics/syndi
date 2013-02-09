@@ -3,12 +3,8 @@
 
 require 'syndi/irc/protocol/numerics'
 
-# namespace Syndi
 module Syndi
-
-  # namespace IRC
   module IRC
-    syndiload :SASL, 'syndi/irc/sasl/mech'
 
     # A class for parsing of data per the specifications of the IRC protocol,
     # v3.1.
@@ -123,6 +119,7 @@ module Syndi
         end
 
         if $m.conf['irc'][irc.s]['SASL'] and list.include? 'sasl'
+          require 'syndi/irc/sasl/mech'
           req.push 'sasl'
         end
 

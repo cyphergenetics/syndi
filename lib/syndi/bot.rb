@@ -1,11 +1,7 @@
 # Copyright (c) 2013, Autumn Perrault, et al. All rights reserved.
 # This free software is distributed under the FreeBSD license (see LICENSE).
 
-syndiload :Redis,  'redis'
-syndiload :FileKV, 'filekv'
-
-require 'syndi/config'
-require 'syndi/api'
+require 'redis'
 
 # Namespace: Syndi
 module Syndi

@@ -133,15 +133,16 @@ VALUE logger_fatal(VALUE self, VALUE message)
  *   @param [Boolean] backtrace Whether to output a backtrace.
  *   @return [nil]
  */
-VALUE logger_error(int argc, VALUE argv, VALUE self)
+VALUE logger_error(int argc, VALUE *argv, VALUE self)
 {
     VALUE message;
     VALUE backtrace;
     VALUE bt_bool;
+    char *msg;
 
     rb_scan_args(argc, argv, "11", &message, &bt_bool);
 
-    char *msg = RSTRING_PTR(message);
+    msg = RSTRING_PTR(message);
     log_out2file("ERROR", msg);
     log_out2scrn(TYPE_ERROR, msg, 0);
 

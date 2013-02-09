@@ -36,8 +36,7 @@ void init_syndi_logger();
 VALUE logger_init(VALUE self);
 
 VALUE logger_fatal(VALUE self, VALUE message);
-VALUE logger_error(VALUE self, VALUE message);
-VALUE logger_error_bt(VALUE self, VALUE message, VALUE backtrace);
+VALUE logger_error(int argc, VALUE *argv, VALUE message);
 VALUE logger_verbose(VALUE self, VALUE message, VALUE level);
 VALUE logger_warning(VALUE self, VALUE message);
 VALUE logger_info(VALUE self, VALUE message);

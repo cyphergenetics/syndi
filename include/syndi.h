@@ -11,8 +11,8 @@
 #include <stdio.h>
 #include "ruby.h"
 
-/* include libsyndi headers */
-#include "syndi/libsyndi.h"
+/* include csyndi headers */
+#include "syndi/csyndi.h"
 #include "syndi/logger.h"
 #include "syndi/events.h"
 #include "syndi/integer.h"

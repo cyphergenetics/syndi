@@ -18,7 +18,7 @@ Windows users can install Syndi easily by downloading and installing from RubyGe
     $ gem install Syndi [--pre]
 
 On Windows, this will install the native Windows distribution, which includes the
-_libsyndi_ library cross-compiled with [Minimalist GNU for Windows](http://www.mingw.org/),
+_csyndi_ library cross-compiled with [Minimalist GNU for Windows](http://www.mingw.org/),
 commonly called MinGW.
 
 This assumes that you have installed Ruby compiled with MinGW; this is the case
@@ -35,7 +35,7 @@ a sufficiently sane build environment for this on Windows. We haven't tested
 it since we cross-compile on UNIX systems when packaging gems.
 
 You must then force RubyGems to download the distribution without binaries, so
-that _libsyndi_ will be compiled:
+that _csyndi_ will be compiled:
 
     $ gem install Syndi [--pre] --platform=ruby --development
 

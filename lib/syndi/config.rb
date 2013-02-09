@@ -3,7 +3,7 @@
 
 require 'psych'
 require 'syndi/verbosity'
-require 'libsyndi'
+require 'csyndi'
 
 # Namespace: Syndi
 module Syndi

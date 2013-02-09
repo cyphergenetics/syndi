@@ -8,7 +8,7 @@ _A modern, elegant, extensible multi-protocol chat bot&mdash;reloaded._
 **Version**:            0.1.0 "Phoenix"  
 [![Build Status](https://travis-ci.org/syndibot/syndi.png?branch=master)](https://travis-ci.org/syndibot/syndi)
 [![Dependency Status](https://gemnasium.com/syndibot/syndi.png)](https://gemnasium.com/syndibot/syndi)
-[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/syndibot/syndi)
+[![Code Climate](https://codeclimate.com/github/syndibot/syndi.png)](https://codeclimate.com/github/syndibot/syndi)
 
 + [Homepage](http://syndibot.com) (lots of information)
 + [RubyGems](https://rubygems.org/gems/syndi)

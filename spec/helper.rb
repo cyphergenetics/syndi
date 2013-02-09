@@ -9,11 +9,12 @@ require 'rspec/expectations'
 require 'rspec/mocks'
 require 'fileutils'
 require 'stringio'
+require 'tmpdir'
     
 require 'syndi'
 
 $temp_dir = Dir.mktmpdir 'syndi-rspec'
-Syndi.app_dir = $temp_dir
+Syndi.dir = $temp_dir
 $VERBOSITY = Float::INFINITY
 
 module Helper
@@ -21,11 +22,14 @@ module Helper
 end
 
 RSpec.configure do |conf|
-  conf.syntax = :expect
   conf.include Helper
 
   conf.after(:all) do
     FileUtils.remove_entry $temp_dir
+  end
+
+  conf.expect_with :rspec do |c|
+    c.syntax = :expect
   end
 end
 

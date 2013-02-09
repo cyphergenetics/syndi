@@ -14,8 +14,8 @@
 /* variable for the Syndi module */
 extern VALUE mSyndi;
 
-/* Init_libsyndi prototype */
-void Init_libsyndi();
+/* Init_csyndi prototype */
+void Init_csyndi();
 
 /* Syndi's exceptions */
 extern VALUE eLogError;

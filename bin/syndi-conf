@@ -23,7 +23,7 @@ opts = Slop.parse(:banner => "Usage: #$0 [options/command]") do
     puts <<-EOV
 Syndi Configure v#{Syndi::Configure::VERSION}
 
-http://syndiproj.org
+http://syndibot.com
     EOV
     exit 0
   end

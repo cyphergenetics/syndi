@@ -23,7 +23,7 @@ void initialize_exceptions()
 }
 
 /* initialize Syndi module */
-void Init_libsyndi()
+void Init_csyndi()
 {
     mSyndi = rb_define_module("Syndi");
     /* initialize exceptions */

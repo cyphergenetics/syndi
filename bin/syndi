@@ -49,7 +49,7 @@ opts = Slop.parse(:banner => "Usage: #$PROGRAM_NAME [options]") do
 Syndi #{Syndi::FULLVERSION}
 [os: #{::RbConfig::CONFIG['host_os']}] [rb: #{::RbConfig::CONFIG['ruby_version']}] [arch: #{::RbConfig::CONFIG['arch']}]
 
-http://syndiproj.org
+http://syndibot.com
     EOV
     exit 0
   end

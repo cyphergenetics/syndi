@@ -2,7 +2,7 @@
 # This free software is distributed under the FreeBSD license (see LICENSE).
 
 # import the gemspec
-GEMSPEC    = 'Syndi.gemspec'
+GEMSPEC    = 'syndi.gemspec'
 $gemspec ||= eval(File.read(GEMSPEC), binding, GEMSPEC)
 
 def perform t
