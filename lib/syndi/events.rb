@@ -50,11 +50,7 @@ module Syndi
       if @events[event]
 
         # collect the listeners with respect to priority
-        one   = @events.collect { |hook| (hook.priority == 1 ? hook : nil) }.compact
-        two   = @events.collect { |hook| (hook.priority == 2 ? hook : nil) }.compact
-        three = @events.collect { |hook| (hook.priority == 3 ? hook : nil) }.compact
-        four  = @events.collect { |hook| (hook.priority == 4 ? hook : nil) }.compact
-        five  = @events.collect { |hook| (hook.priority == 5 ? hook : nil) }.compact
+        one, two, three, four, five = gather @events[event]
 
         Syndi.log.verbose "event *#{event}* is being broadcasted on #{self}", VNOISY
 
@@ -64,11 +60,11 @@ module Syndi
             # cease if status ever becomes false/nil
             status = true
             
-            one.each   { |code| status = code.call parameters if status }
-            two.each   { |code| status = code.call parameters if status }
-            three.each { |code| status = code.call parameters if status }
-            four.each  { |code| status = code.call parameters if status }
-            five.each  { |code| status = code.call parameters if status }
+            one.each   { |code| status = code.call *parameters if status }
+            two.each   { |code| status = code.call *parameters if status }
+            three.each { |code| status = code.call *parameters if status }
+            four.each  { |code| status = code.call *parameters if status }
+            five.each  { |code| status = code.call *parameters if status }
           rescue => e
             # catch thread errors
             Syndi.log.error "A listener to a broadcast of #{event} on #{self} caused an exception to rise (#{e})", true
@@ -83,10 +79,24 @@ module Syndi
     end
     alias_method :to_s, :inspect
 
+    private
+
+    # Gather hooks.
+    def gather list
+      [list.collect { |hook| (hook.priority == 1 ? hook : nil) }.compact,
+       list.collect { |hook| (hook.priority == 2 ? hook : nil) }.compact,
+       list.collect { |hook| (hook.priority == 3 ? hook : nil) }.compact,
+       list.collect { |hook| (hook.priority == 4 ? hook : nil) }.compact,
+       list.collect { |hook| (hook.priority == 5 ? hook : nil) }.compact]
+    end
+
+    public
+
     # A class which represents a listener.
     class Listener
       attr_reader :event, :priority, :code
 
+      # Spawn a new listener object.
       def initialize sys, event, priority, prc
         @sys      = sys
         @event    = event
@@ -96,12 +106,18 @@ module Syndi
         Syndi.log.verbose "new listener spawned and attached to #{event}: #{self}", VNOISY
       end
 
+      # Terminate this object.
       def deaf
         @sys.events[event].delete self
       end
 
+      # Execute this listener.
+      def call *args
+        @code.call *args
+      end
+
       def inspect
-        "<#Syndi::Events::Listener: sys=#@sys event=#@event priority=#@priority proc={#@code}>"
+        "<#Syndi::Events::Listener: sys=#@sys event=#@event priority=#@priority>"
       end
       alias_method :to_s, :inspect
 

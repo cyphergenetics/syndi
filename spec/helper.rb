@@ -15,7 +15,7 @@ require 'syndi'
 
 $temp_dir = Dir.mktmpdir
 Syndi.dir = $temp_dir
-$VERBOSITY = 100
+$VERBOSITY = -1
 
 module Helper
 

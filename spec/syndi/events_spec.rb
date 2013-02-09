@@ -13,20 +13,20 @@ describe Syndi::Events do
     
     it 'listens for an event' do
       @events.on(:moo) do |magic|
-       magic = true
+        magic.write 'OK'
       end
 
-      @rawr = false
-      @events.emit :moo, @rawr
+      rawr = StringIO.new
+      @events.emit :moo, rawr
       sleep 0.1
 
-      expect(@rawr).to be_true
+      rawr.seek 0
+      expect(rawr.string).to eq 'OK'
     end
 
     it 'returns a listener' do
-      expect do
-        @events.on(:cows) { nil }
-      end.to be_an_instance_of Syndi::Events::Listener
+      hook = @events.on(:cows) { nil }
+      expect(hook).to be_an_instance_of Syndi::Events::Listener
     end
 
     context 'when given a priority outside 1..5' do
@@ -40,24 +40,24 @@ describe Syndi::Events do
   describe '#emit' do
     
     it 'broadcasts an event' do
-      @events.on(:fairy) do |cat|
-        @cat = cat
+      @events.on(:fairy) do |cat, meow|
+        cat.write meow
       end
 
-      @cat = false
-      @events.emit :fairy, true
+      cat = StringIO.new
+      @events.emit :fairy, cat, 'meow'
       sleep 0.1
 
-      expect(@cat).to be_true
+      expect(cat.string).to eq 'meow'
     end
 
     it 'respects priority' do
       @order = ''
-      @events.on(:a, 1) { @order << 'A' }
-      @events.on(:a, 3) { @order << 'B' }
-      @events.on(:a, 5) { @order << 'C' }
+      @events.on(:a, 1) { |order| order << 'A' }
+      @events.on(:a, 3) { |order| order << 'B' }
+      @events.on(:a, 5) { |order| order << 'C' }
 
-      @events.emit :a
+      @events.emit :a, @order
       sleep 0.1
 
       expect(@order).to eq 'ABC'
