@@ -45,7 +45,7 @@ task :release, [:version] => [:compile, :spec] do |t, args|
 
   # now package the gem
   perform :clean
-  FileUtils.remove_entry File.join(__dir__, '..', 'pkg')
+  FileUtils.remove_entry File.join(__dir__, '..', 'pkg') if Dir.exists? File.join(__dir__, '..', 'pkg')
   
   perform :gem # first the Ruby gem
 
