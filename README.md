@@ -9,7 +9,7 @@ Syndi
 |                |                                            |
 | --------------:|:------------------------------------------ |
 | **Name:**      | Syndi                                      |
-| **Version:**   | 0.1.2 "Phoenix"                            |
+| **Version:**   | 0.1.3 "Phoenix"                            |
 | **Summary:**   | A modern, elegant, modular chat bot.       |
 | **Author:**    | [Autumn Perrault](http://destellae.net/)   |
 | **Homepage:**  | [http://syndibot.com](http://syndibot.com) |
