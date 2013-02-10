@@ -6,21 +6,16 @@ module Syndi
   # Standard version string.
   #
   # We use semantic versioning: +MAJOR.MINOR.PATCH.PRE.PRENUM+
-  VERSION      = '0.1.1'.freeze
+  VERSION = '0.1.1'.freeze
   
   # Standard version plus the codename (assigned to each minor release).
   #
   # i.e., +VERSION-CODENAME+
   FULLVERSION  = "#{VERSION}-phoenix".freeze
 
-  # @return [Boolean] Whether this is an alpha-stage copy.
-  def self.alpha?
-    (VERSION =~ /alpha/).nil? ? false : true
-  end
-  
-  # @return [Boolean] Whether this is a beta-stage copy.
-  def self.beta?
-    (VERSION =~ /beta/).nil?  ? false : true
+  # @return [Boolean] Whether this is a prerelease copy.
+  def self.prerelease?
+    (VERSION =~ /alpha|beta|pre/).nil? ? false : true
   end
   
   # @return [Boolean] Whether this is a release candidate copy.
@@ -30,7 +25,7 @@ module Syndi
 
   # @return [Boolean] Whether this is an edge (i.e. testing, development, unstable) copy.
   def self.edge?
-    alpha? || beta? || rc?
+    prerelease? || rc? || VERSION < '1'
   end
 
 end
