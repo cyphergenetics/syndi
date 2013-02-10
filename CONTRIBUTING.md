@@ -78,7 +78,7 @@ a member of the Syndi Project:
 
 For developers, to release a new version:
 
-1. You should already have the latest bundle: `bundle install
+1. You should already have the latest bundle: `bundle install`
 2. You must have installed MinGW. (Arch package is `mingw32-gcc`)
 3. You must have configured your cross-compilation toolchain: `rake-compiler cross-ruby VERSION=2.0.0-rc2`
 4. You must have commit bit on [syndi/syndibot.github.com](https://github.com/syndi/syndibot.github.com).
