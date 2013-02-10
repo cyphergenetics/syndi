@@ -94,7 +94,7 @@ task :release, [:version] => [:compile, :spec] do |t, args|
   end
 
   File.open('_config.yml', 'w') { |f| f.write info.to_yaml }
-  `./manage post --category=releases --title="v#{version} released"`
+  system './manage', 'post', '--category=releases', "--title=\"v#{version} released\""
 
   Dir.chdir __dir__
   FileUtils.remove_entry temp

@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
     .yardopts
     conf/example.yml
   ]
-  s.test_files    = Dir["spec/**/*"] + ['Rakefile']
+  s.test_files    = Dir["spec/**/*.rb"] + ['Rakefile']
   s.executables   = %w[syndi syndi-conf]
   s.extensions    = Dir["ext/**/extconf.rb"]
 
