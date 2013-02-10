@@ -76,14 +76,13 @@ a member of the Syndi Project:
 
 **Releasing**
 
-To release a new version, follow this process:
+For developers, to release a new version:
 
-1. Ensure successful compilation and testing with `rake`.
-2. Update `lib/syndi/version.rb`.
-3. Update `README.md` -- the version number and documentation link.
-4. Commit `lib/syndi/version.rb` and `README.md` with a message of "Version bump to x."
-5. Cross-compile for Microsoft Windows with `rake cross compile`.
-6. Package the typical gem with `rake gem`.
-7. Package the Windows distribution with `rake cross native gem`.
-8. Tag the git branch with `git tag -a x -m "vX release"`.
-
+1. You should already have the latest bundle: `bundle install
+2. You must have installed MinGW. (Arch package is `mingw32-gcc`)
+3. You must have configured your cross-compilation toolchain: `rake-compiler cross-ruby VERSION=2.0.0-rc2`
+4. You must have commit bit on [syndi/syndibot.github.com](https://github.com/syndi/syndibot.github.com).
+5. You must be listed as an owner on the [syndi gem](https://rubygems.org/gems/syndi).
+6. This does not change codenames.
+7. Run `rake release[VERSION]` (prepend `noglob` for Z shell), with VERSION being the version number (e.g. 0.5.0).
+8. Post the provided link to the mailing list as an announcement.
