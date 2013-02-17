@@ -49,10 +49,13 @@ static void log_out2file(const char *type, const char *message);
 static void log_dircheck();
 
 /* symbolic constants for event types */
-#define TYPE_FATAL      0
-#define TYPE_ERROR      1
-#define TYPE_WARNING    2
-#define TYPE_INFO       3
-#define TYPE_DEBUG      4
+enum logger_event
+{
+    TYPE_DEBUG,
+    TYPE_INFO,
+    TYPE_WARNING,
+    TYPE_ERROR,
+    TYPE_FATAL
+};
 
 #endif 

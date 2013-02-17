@@ -12,7 +12,7 @@ VALUE cLogger;
 /* This will print a verbose message to STDOUT if the level of verbosity specified does
  * not exceed the runtime verbosity.
  */
-static void log_out2scrn(int type, const char *message, int level)
+static void log_out2scrn(enum logger_event type, const char *message, int level)
 {
     char *real_type = ALLOCA_N(char, 12);
 
