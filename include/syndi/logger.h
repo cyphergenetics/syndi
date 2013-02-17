@@ -29,6 +29,16 @@
 /* ("YYYY-MM-DD HH:MM:SS +ZZZZ") "YEAR-MONTH-DAY HOUR:MINUTES:SECONDS UTC_OFFSET" */
 #define LOG_TIME_FORMAT_LENGTH 25
 
+/* enum for event types */
+enum logger_event
+{
+    TYPE_DEBUG,
+    TYPE_INFO,
+    TYPE_WARNING,
+    TYPE_ERROR,
+    TYPE_FATAL
+};
+
 extern VALUE cLogger;
 void init_syndi_logger();
 
@@ -44,18 +54,9 @@ static VALUE logger_deprecate(VALUE self, VALUE message);
 static VALUE logger_info(VALUE self, VALUE message);
 
 /* internal functions */
-static void log_out2scrn(int type, const char *message, int level);
+static void log_out2scrn(enum logger_event type, const char *message, int level);
 static void log_out2file(const char *type, const char *message);
 static void log_dircheck();
 
-/* symbolic constants for event types */
-enum logger_event
-{
-    TYPE_DEBUG,
-    TYPE_INFO,
-    TYPE_WARNING,
-    TYPE_ERROR,
-    TYPE_FATAL
-};
 
 #endif 
