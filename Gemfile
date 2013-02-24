@@ -1,7 +1,7 @@
 # Copyright (c) 2013, Autumn Perrault, et al. All rights reserved.
 # This free software is distributed under the FreeBSD license (see LICENSE).
 
-source :rubygems
+source 'https://rubygems.org'
 
 gemspec :development_group => :dev
 
