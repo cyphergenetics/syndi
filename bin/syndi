@@ -14,8 +14,10 @@ if ENV.include? 'USER'
 end
 
 # Import necessary libraries.
-require 'bundler'
-Bundler.setup :default
+if File.exists? 'Gemfile.lock'
+  require 'bundler'
+  Bundler.setup :default
+end
 require 'slop'
 require 'syndi'
 require 'syndi/verbosity'
