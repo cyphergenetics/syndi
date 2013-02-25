@@ -13,15 +13,9 @@ if ENV.include? 'USER'
   end
 end
 
-# Import system Syndi libraries, or fall back to internal ones.
-begin
-  require 'syndi/ruby_version_check'
-rescue LoadError
-  $LOAD_PATH.unshift File.join(__dir__, '..', 'lib')
-  require 'syndi/ruby_version_check'
-end
-
 # Import necessary libraries.
+require 'bundler'
+Bundler.setup :default
 require 'slop'
 require 'syndi'
 require 'syndi/verbosity'
