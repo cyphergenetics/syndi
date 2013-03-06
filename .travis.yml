@@ -4,7 +4,10 @@
 language: ruby
 rvm:
   - 2.0.0
-before_install: gem install bundler --pre
+  - ruby-head
+matrix:
+  allow_failures:
+    - rvm: ruby-head
 
 # Notify the official IRC channel
 # i.e. irc.freenode.net #syndi
