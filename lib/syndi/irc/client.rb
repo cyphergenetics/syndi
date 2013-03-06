@@ -218,7 +218,7 @@ module Syndi
         end
       rescue EOFError
         info "Connection to IRC network '#@name' lost!"
-        emit :irc, :disconnect, self
+        emit :irc, :disconnected, self
       end
 
       # Receive data from the socket, and push it into the recvQ.

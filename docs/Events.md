@@ -27,14 +27,6 @@ this event and upon its occurrence, initiate any of their processes.
 
 This occurs when Syndi is terminating.
 
-### :net_receive `|socket_object|`
-
-**socket_object** (_Object_): The object with which the socket (`.socket`) is
-associated.
-
-This occurs when the socket associated with `socket_object` has data waiting to
-be read (as determined by `select()`).
-
 ### :rehash
 
 This event occurs when the configuration file is successfully reprocessed and
@@ -50,13 +42,19 @@ reloaded.
 This event occurs when we are about to register (i.e., send `USER`, `CAP LS`)
 on the server and initiate connection.
 
+### :disconnected |irc|
+
+**irc** (_Syndi::IRC::Server_): The IRC connection.
+
+This event occurs after the connection to the IRC server has been lost.
+
 ### :receive |irc, data|
 
 **irc** (_Syndi::IRC::Server_): The IRC connection.  
 **data** (_String_): The line of data.
 
 This event occurs when data has been removed from the receive queue and is ready
-for processing, with newlines and carriage returns stripped.
+for processing, with CRLFs stripped.
 
 ### :connected |irc|
 
