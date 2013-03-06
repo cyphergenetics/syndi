@@ -114,7 +114,7 @@ module Syndi
       attr_accessor :name, :address, :port, :nick, :user, :real, :password,
                     :bind, :ssl, :connected, :chans, :users
 
-      # Produce a new instance of {Syndi::IRC::Server}.
+      # Produce a new instance of {Syndi::IRC::Client}.
       #
       # @param [String] name The name of the server to which we should connect.
       #
