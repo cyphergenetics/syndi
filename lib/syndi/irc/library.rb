@@ -30,9 +30,6 @@ module Syndi
         # Prepare our collection of IRC server connections.
         @connections = Hash.new
       
-        # Be ready to accept data.
-        $m.events.on :net_receive, 1, &method(:receive)
-
         # Start connections when Syndi is started.
         $m.events.on :start, &method(:start)
 
@@ -43,16 +40,6 @@ module Syndi
         @common = Syndi::IRC::Common.new self
         
       end # def initialize
-
-      # Process incoming network data.
-      #
-      # @param [Object] socket_object The socket object, which in the case of
-      #   ourselves should be an {Syndi::IRC::Server}, or we won't handle it.
-      def receive socket_object
-        if socket_object.instance_of? Syndi::IRC::Server
-          socket_object.recv
-        end
-      end
 
       # Initiate IRC connections.
       def start

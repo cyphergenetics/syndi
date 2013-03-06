@@ -82,18 +82,11 @@ module Syndi
       # Call the start event.
       @events.call :start
 
-      # Throw the program into the main loop.
-      @events.threads.each { |thr| thr.join } # block until we're ready to go
-      $log.verbose("Producing a thread and entering the main loop...", VUSEFUL) do
-        @netloop = Thread.new { main_loop }
-        @netloop.join
-      end
-
     end
 
     # Daemonize the bot.
     def daemonize
-      $log.info "Forking into the background. . . ."
+      Syndi.log.info "Forking into the background. . . ."
   
       # Direct all incoming data on STDIN and outgoing data on STDOUT/STDERR to /dev/null.
       $stdin  =           File.open '/dev/null'
@@ -106,30 +99,6 @@ module Syndi
       unless pid.nil?
         File.open('syndi.pid', 'w') { |io| io.puts pid }
         exit 0
-      end
-    end
-
-    # Main loop.
-    def main_loop
-      loop do
-        # Build a list of sockets.
-        sockets       = []
-        assoc_objects = {}
-        @sockets.each do |o|
-          unless o.socket.nil? or o.socket.closed?
-            sockets << o.socket
-            assoc_objects[o.socket] = o
-          end
-        end
-        next if sockets.empty?
-
-        # Call #select.
-        ready_read, _, _ = IO.select(sockets, [], [], nil)
-
-        # Iterate through sockets ready for reading.
-        ready_read.each do |socket|
-          @events.call :net_receive, assoc_objects[socket]
-        end
       end
     end
 
@@ -208,7 +177,7 @@ module Syndi
     # Load a core library.
     def load_library lib
       # here is where magic occurs to load a library
-      require "syndi/#{lib}"
+      load "syndi/#{lib}"
       instance_variable_set "@#{lib}".to_sym, Object.const_get("LIBRARY_#{lib.uc}")
       define_singleton_method(lib.to_sym) { self.instance_variable_get("@#{__method__}".to_sym) }
     end

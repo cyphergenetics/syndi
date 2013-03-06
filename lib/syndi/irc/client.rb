@@ -2,17 +2,13 @@
 # This free software is distributed under the FreeBSD license (see LICENSE).
 
 require 'ostruct'
-require 'socket'
-require 'openssl'
-require 'thread'
+require 'celluloid/io'
 require 'syndi/dsl/base'
 require 'syndi/irc/state/support'
 require 'syndi/irc/std/commands'
+require 'syndi/logging'
 
-# namespace Syndi
 module Syndi
-
-  # Entering namespace: IRC
   module IRC
 
     # A class which maintains a connection to an IRC server and provides a highly
@@ -20,7 +16,6 @@ module Syndi
     #
     # @api IRC
     # @since 4.0.0
-    # @author noxgirl
     #
     # @!attribute [r] socket
     #   @return [TCPSocket] The TCP socket being used for the connection.
@@ -110,8 +105,10 @@ module Syndi
     #   @return [Hash{String => IRC::Object::User}] A list of users who are known to us,
     #     with each key being the user's nickname in all-lowercase, and the respective values
     #     being of {IRC::Object::User IRC::Object::User}.
-    class Server
+    class Client
       include Syndi::DSL::Base
+      include Celluloid::IO
+      include Syndi::Logging
 
       attr_reader   :socket, :in, :out, :type, :supp
       attr_accessor :name, :address, :port, :nick, :user, :real, :password,
@@ -121,7 +118,7 @@ module Syndi
       #
       # @param [String] name The name of the server to which we should connect.
       #
-      # @yieldparam [Syndi::IRC::Server] c This instance, intended for configuration of the
+      # @yieldparam [Syndi::IRC::Client] c This instance, intended for configuration of the
       #   attributes.
       #
       # Configuration attributes are +address+, +port+, +nick+, +user+, +real+,
@@ -129,7 +126,7 @@ module Syndi
       #
       #
       # @example
-      #   irc = Syndi::IRC::Server.new('Freenode') do |c|
+      #   irc = Syndi::IRC::Client.new('Freenode') do |c|
       #     c.address = 'irc.freenode.net'
       #     c.port    = 7000
       #     c.nick    = 'cowmoon'
@@ -152,7 +149,7 @@ module Syndi
         @ssl      = false
 
         # Yield for configuration.
-        yield(self) if block_given? or raise ArgumentError, "Server #{name} unable to initialize because it was not configured."
+        yield self if block_given? or raise ArgumentError, "Server #{name} unable to initialize because it was not configured."
 
         # Additional instance attributes.
         @in         = 0
@@ -171,9 +168,6 @@ module Syndi
         # Our receive queue remainder.
         @recv_rem = nil
 
-        # Mutual exclusion for thread safety.
-        @lock = Mutex.new
-
       end
 
       # Establish (or attempt to) a connection with the server.
@@ -183,16 +177,16 @@ module Syndi
         begin
           attribute_check
         rescue => e
-          $m.error("Cannot connect to server #@name: #{e}", false, e.backtrace)
+          error "Cannot connect to server #@name: #{e}", true
         end
 
-        $m.info("Connecting to #@name @ #@address:#@port...")
+        info "Connecting to #@name @ #@address:#@port..."
 
         # Create a new socket.
         begin
           socket = TCPSocket.new(@address, @port, @bind)
         rescue => e
-          $m.error("Failed to connect to server #@name: #{e}", false, e.backtrace)
+          error "Failed to connect to server #@name: #{e}", true
           raise
         end
 
@@ -202,7 +196,7 @@ module Syndi
             socket = OpenSSL::SSL::SSLSocket.new(socket)
             socket.connect
           rescue => e
-            $m.error("Failed to connect to server #@name: #{e}", false, e.backtrace)
+            error "Failed to connect to server #@name: #{e}", true
             raise
           end
         end
@@ -215,6 +209,7 @@ module Syndi
         snd 'CAP LS'
         self.nickname = @nick
         user @user, Socket.gethostname, @address, @real
+        async.run
 
       end
 
@@ -222,52 +217,53 @@ module Syndi
       #
       # @param [String] data The string of data, which should not exceed 512 in length.
       def snd data
-        $m.foreground("{irc-send} #@name << #{data}")
+        verbose "{irc-send} #@name << #{data}", 3
         @socket.write("#{data}\r\n")
         @out += "#{data}\r\n".length
       end
 
+      # Run on the socket.
+      def run
+        loop do
+          recv @socket.readpartial(4096)
+        end
+      rescue EOFError
+        info "Connection to IRC network '#@name' lost!"
+        emit :irc, :disconnect, self
+      end
+
       # Receive data from the socket, and push it into the recvQ.
-      def recv
+      #
+      # @param [String] data
+      def recv data
 
-        # Thread safety.
-        @lock.synchronize do
-        
-          if @socket.nil? or @socket.eof?
-            return
-          end
-
-          # Read the data.
-          data = @socket.sysread(1024)
-          # Increase in.
-          @in += data.length
+        # Increase in.
+        @in += data.length
       
-          # Split the data.
-          recv = []
-          until data !~ /\r\n/
-            line, data = data.split(/(?<=\r\n)/, 2)
-            recv.push line.chomp "\r\n"
-          end
-
-          # Check if there's a remainder in the recvQ.
-          if @recv_rem != ''
-            recv[0] = "#@recv_rem#{recv[0]}"
-            @recv_rem = ''
-          end
-          @recv_rem = data if data != ''
-
-          # Lastly, sent the data out
-          recv.each do |dline|
-            $m.foreground("{irc-recv} #@name >> #{dline}")
-            emit :irc, :receive, self, dline # send it out to :receive
-          end
-        
+        # Split the data.
+        recv = []
+        until data !~ /\r\n/
+          line, data = data.split(/(?<=\r\n)/, 2)
+          recv.push line.chomp "\r\n"
         end
 
+        # Check if there's a remainder in the recvQ.
+        if @recv_rem != ''
+          recv[0] = "#@recv_rem#{recv[0]}"
+          @recv_rem = ''
+        end
+        @recv_rem = data if data != ''
+
+        # Lastly, sent the data out
+        recv.each do |dline|
+          verbose "{irc-recv} #@name >> #{dline}", 3
+          emit :irc, :receive, self, dline # send it out to :receive
+        end
+        
       end
 
       def to_s;    @name; end
-      def inspect; "#<Syndi::IRC::Server: name='#@name'>"; end
+      def inspect; "#<Syndi::IRC::Client: name='#@name'>"; end
       alias_method :s, :to_s
 
       #######
@@ -276,11 +272,11 @@ module Syndi
 
       # Check the presence of all attributes.
       def attribute_check
-        raise(ConfigError, "Missing server address")  unless @address
-        raise(ConfigError, "Missing server port")     unless @port
-        raise(ConfigError, "Missing nickname to use") unless @nick
-        raise(ConfigError, "Missing username to use") unless @user
-        raise(ConfigError, "Missing realname to use") unless @real
+        raise(ConfigError, 'Missing server address')  unless @address
+        raise(ConfigError, 'Missing server port')     unless @port
+        raise(ConfigError, 'Missing nickname to use') unless @nick
+        raise(ConfigError, 'Missing username to use') unless @user
+        raise(ConfigError, 'Missing realname to use') unless @real
       end
 
       # Check if we are connected.
@@ -292,10 +288,9 @@ module Syndi
         true
       end
 
-    end # class Server
+    end # class Client
 
   end # module IRC
-
 end # module Syndi
 
 # vim: set ts=4 sts=2 sw=2 et:
