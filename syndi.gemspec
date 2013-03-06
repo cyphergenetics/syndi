@@ -49,8 +49,8 @@ Moreover, you should typically now run `synditool genconf` to produce a configur
   s.add_runtime_dependency 'archive-tar-minitar', '>= 0.5'
 
   s.add_runtime_dependency 'bundler',        '>= 1.3'
-  s.add_runtime_dependency 'celluloid',      '~> 0.12'
-  s.add_runtime_dependency 'celluloid-io',   '~> 0.12'
+  s.add_runtime_dependency 'celluloid',      '>= 0.13.0.pre'
+  s.add_runtime_dependency 'celluloid-io',   '>= 0.13.0.pre'
   s.add_runtime_dependency 'term-ansicolor', '>= 1.0'
   s.add_runtime_dependency 'redis',          '~> 3.0'
   s.add_runtime_dependency 'slop',           '~> 3.4'

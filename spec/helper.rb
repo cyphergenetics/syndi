@@ -16,16 +16,22 @@ require 'syndi'
 
 $temp_dir = Dir.mktmpdir
 Syndi.dir = $temp_dir
-$VERBOSITY = -1
+$VERBOSITY = 5
 Syndi.celluloid_log
 
 class TestServer
   include Celluloid::IO
   attr_accessor :server
+  finalizer :finalize
 
-  def initialize address, port
+  def initialize address, port, ssl = false
     puts "*** Experimental TCP server starting on #{address}:#{port}"
-    @server = TCPServer.new address, port
+    @server = TCPServer.new(address, port)
+    if ssl
+      ctx = OpenSSL::SSL::SSLContext.new
+      ctx.cert = OpenSSL::X509::Certificate.new(File.open("#{__dir__}/server.pem"))
+      @server = SSLServer.new(@server, ctx)
+    end
     @buffer = ''
     async.run
   end
@@ -58,9 +64,9 @@ end
 
 module Helper
 
-  def with_tcp_serv
-    server = TestServer.new '127.0.0.1', 7884
-    yield '127.0.0.1', 7884, server
+  def with_tcp_serv(ssl = false, port: 7884)
+    server = TestServer.new '127.0.0.1', port, ssl
+    yield '127.0.0.1', port, server
     server.terminate
   end
 

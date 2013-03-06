@@ -184,31 +184,20 @@ module Syndi
 
         # Create a new socket.
         begin
-          socket = TCPSocket.new(@address, @port, @bind)
+          @socket = TCPSocket.new(@address, @port, @bind)
+          @socket = SSLSocket.new(@socket) if ssl
+          
+          # Register.
+          emit :irc, :preconnect, self
+          pass @password if @password
+          snd 'CAP LS'
+          self.nickname = @nick
+          user @user, Socket.gethostname, @address, @real
         rescue => e
           error "Failed to connect to server #@name: #{e}", true
           raise
         end
 
-        # Wrap it in SSL if told to.
-        if ssl
-          begin
-            socket = OpenSSL::SSL::SSLSocket.new(socket)
-            socket.connect
-          rescue => e
-            error "Failed to connect to server #@name: #{e}", true
-            raise
-          end
-        end
-
-        @socket = socket
-
-        # Register.
-        emit :irc, :preconnect, self
-        pass @password if @password
-        snd 'CAP LS'
-        self.nickname = @nick
-        user @user, Socket.gethostname, @address, @real
         async.run
 
       end

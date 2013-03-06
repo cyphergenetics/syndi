@@ -23,6 +23,22 @@ describe Syndi::IRC::Client do
       end
     
     end
+
+    it 'and supports SSL' do
+      pending 'whilst SSL client support is implemented, the testing server is broken'
+      with_tcp_serv(true, port: 7885) do |address, port, server|
+        irc = Syndi::IRC::Client.new('meownet') do |c|
+          c.address = address
+          c.port    = port
+          c.nick    = 'cows'
+          c.user    = 'foobar'
+          c.real    = 'Your father'
+          c.ssl     = true
+        end
+        irc.connect
+        expect(server.buffer).to eq "CAP LS\r\nNICK :cows\r\nUSER foobar #{Socket.gethostname} #{address} :Your father\r\n"
+      end
+    end
   
   end
 
