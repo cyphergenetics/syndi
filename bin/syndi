@@ -75,13 +75,9 @@ STARTTIME = time.freeze
 $m.daemonize if !opts.foreground? && $VERBOSITY < 1
 
 # Signals
-sig = {
-  'TERM' => proc { $m.terminate('Caught termination signal') },
-  'INT'  => proc { $m.terminate('Ctrl-C pressed') },
-  'HUP'  => proc { $m.conf.rehash }
-}
-sig.delete 'HUP' if Syndi.windows?
-sig.each { |signal, prc| Signal.trap(signal) { prc.call } }
+Signal.trap('TERM') { Syndi.terminate 'Caught termination signal' }
+Signal.trap('INT') { Syndi.terminate 'Ctrl-C pressed' }
+Signal.trap('HUP') { Syndi.conf.rehash } unless File::ALT_SEPARATOR
 
 begin
   $m.start
