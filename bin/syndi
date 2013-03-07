@@ -59,7 +59,7 @@ http://syndibot.com
       begin
         Syndi.boot opts
       rescue => e
-        Syndi.log.fatal "Fatal runtime error: #{e}\t#{caller}"
+        Syndi.log.fatal "Fatal runtime error: #{e}\n\t#{caller.join("\n\t")}"
       end
     end
   
