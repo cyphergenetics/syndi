@@ -165,9 +165,6 @@ module Syndi
         @chans = nil
         @users = nil
 
-        # Our receive queue remainder.
-        @recv_rem = nil
-
       end
 
       # Establish (or attempt to) a connection with the server.
@@ -214,40 +211,47 @@ module Syndi
       # Run on the socket.
       def run
         loop do
-          recv @socket.readpartial(4096)
+          #recv @socket.readpartial(4096)
+          recv @socket.readline("\r\n")
         end
       rescue EOFError
         info "Connection to IRC network '#@name' lost!"
         emit :irc, :disconnected, self
       end
 
-      # Receive data from the socket, and push it into the recvQ.
+      # Receive data from the socket, and push it out for processing.
       #
       # @param [String] data
       def recv data
 
         # Increase in.
         @in += data.length
+        # Strip CRLF and send for processing.
+        line = data.chomp "\r\n"
+        verbose "{irc-recv} #@name >> #{line}", 3
+        emit :irc, :receive, self, line
       
+        ###
         # Split the data.
-        recv = []
-        until data !~ /\r\n/
-          line, data = data.split(/(?<=\r\n)/, 2)
-          recv.push line.chomp "\r\n"
-        end
-
+        #recv = []
+        #until data !~ /\r\n/
+        #  line, data = data.split(/(?<=\r\n)/, 2)
+        #  recv.push line.chomp "\r\n"
+        #end
+        #
         # Check if there's a remainder in the recvQ.
-        if @recv_rem != ''
-          recv[0] = "#@recv_rem#{recv[0]}"
-          @recv_rem = ''
-        end
-        @recv_rem = data if data != ''
-
-        # Lastly, sent the data out
-        recv.each do |dline|
-          verbose "{irc-recv} #@name >> #{dline}", 3
-          emit :irc, :receive, self, dline # send it out to :receive
-        end
+        #if @recv_rem != ''
+        #  recv[0] = "#@recv_rem#{recv[0]}"
+        #  @recv_rem = ''
+        #end
+        #@recv_rem = data if data != ''
+        #
+        ## Lastly, sent the data out
+        #recv.each do |dline|
+        #  verbose "{irc-recv} #@name >> #{dline}", 3
+        #  emit :irc, :receive, self, dline # send it out to :receive
+        #end
+        ###
         
       end
 

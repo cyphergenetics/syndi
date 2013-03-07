@@ -43,7 +43,11 @@ class TestServer
   def handle_conn client
     _, port, addr = client.peeraddr
     puts "*** Experimental connection from #{addr}:#{port}"
-    loop { @buffer << client.readpartial(4096) }
+    loop do 
+      line = client.readline("\r\n")
+      @buffer << line
+      client.write("#{line}")
+    end
   rescue EOFError
     puts "*** Connection with #{addr}:#{port} lost"
     client.close

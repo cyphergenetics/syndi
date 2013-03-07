@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/celluloid/celluloid-io.git
+  revision: ebc8464622e6fc1efe2d287d62dbc0bc8b307a2f
+  specs:
+    celluloid-io (0.13.0.pre)
+      celluloid (>= 0.13.0.pre)
+      nio4r (>= 0.4.0)
+
 PATH
   remote: .
   specs:
@@ -17,9 +25,6 @@ GEM
     archive-tar-minitar (0.5.2)
     celluloid (0.13.0.pre)
       timers (>= 1.0.0)
-    celluloid-io (0.13.0.pre)
-      celluloid (>= 0.13.0.pre)
-      nio4r (>= 0.4.0)
     diff-lcs (1.2.1)
     nio4r (0.4.3)
     rake (10.0.3)
@@ -43,6 +48,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  celluloid-io!
   rake
   rake-compiler
   rspec
