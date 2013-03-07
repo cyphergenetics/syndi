@@ -29,7 +29,7 @@ Syndi.celluloid_log
 $VERBOSITY = 0
 
 # Parse options.
-opts = Slop.parse(:banner => "Usage: #$PROGRAM_NAME [options]") do
+Slop.parse(:banner => "Usage: #$PROGRAM_NAME [options]") do
   on :h, :help, "You're looking at it." do
     puts self
     exit 0
@@ -45,45 +45,40 @@ http://syndibot.com
     exit 0
   end
 
-  on(:f, :foreground, 'Disable automatic daemonizing.')
-  on(:c, :conf=,      'Specify a particular configuration file.')
-  on(:V, :verbose,    'Increase verbosity of output (more uses, the more verbose).') { $VERBOSITY += 1 }
-end
+  command 'boot', {help: 'Start an instance of Syndi.'} do
 
-# Begin start up.
-puts "* Syndi #{Syndi::VERSION} starting...".bold
-$log = Syndi::Logger.new
+    on(:f, :foreground, 'Disable automatic daemonizing.')
+    on(:d, :directory,  "Specify the application directory. (Default: #{Syndi.dir})")
+    on(:V, :verbose,    'Increase verbosity of output (more uses, the more verbose).') { $VERBOSITY += 1 }
 
-# Create an instance of Syndi.
-begin
-  $m = Syndi::Bot.new opts
-  status = $m.init
-rescue => e
-  $log.fatal "An initialization error occurred: #{e}"
-end
+    run do |opts, _args|
+      if opts.directory?
+        Syndi.dir = opts[:directory]
+      end
 
-# Check our status.
-if status
-  time = Time.now
-  $log.info "Syndi started at #{time}."
-else
-  $log.fatal "Initialization inexplicably failed."
-end
-STARTTIME = time.freeze
+      begin
+        Syndi.boot opts
+      rescue => e
+        Syndi.log.fatal "Fatal runtime error: #{e}\t#{caller}"
+      end
+    end
+  
+  end
 
-# We survived? We survived! Fork into the background if not in debug or foreground.
-$m.daemonize if !opts.foreground? && $VERBOSITY < 1
+  command 'make' do
+    run do |_opts, args|
+      require 'syndi/cli/make'
+      Syndi::CLI::Make.start args
+    end
+  end
 
-# Signals
-Signal.trap('TERM') { Syndi.terminate 'Caught termination signal' }
-Signal.trap('INT') { Syndi.terminate 'Ctrl-C pressed' }
-Signal.trap('HUP') { Syndi.conf.rehash } unless File::ALT_SEPARATOR
+  command 'install' do
+    run do |_opts, args|
+      require 'syndi/cli/install'
+      Syndi::CLI::Install.start args
+    end
+  end
 
-begin
-  $m.start
-rescue => e
-  $log.error_bt "Fatal exception: #{e}", e.backtrace
-  exit 1
 end
 
 # vim: set ts=4 sts=2 sw=2 et:

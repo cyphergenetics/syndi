@@ -3,7 +3,6 @@
 
 require 'syndi/rubyext/string'
 require 'syndi/version'
-require 'fileutils'
 
 require 'term/ansicolor'
 
@@ -64,16 +63,22 @@ module Syndi
 
   # Set the application data directory.
   def dir= directory
-    FileUtils.mkdir_p directory unless Dir.exists? directory
+    Dir.mkdir directory unless Dir.exists? directory
     Dir.chdir directory
     @app_dir = directory
   end 
 
-  # Initiate Syndi with command-line +options+.
+  # Initiate Syndi with command-line `options`.
   #
   # @param [Slop] options The command-line options.
-  def go options
-    
+  def boot options
+    puts "* Syndi #{Syndi::VERSION} starting...".bold
+    @options = options
+
+    @config_path = File.join dir, 'config.yml'
+    conf
+
+    daemonize if opts.foreground? && $VERBOSITY < 1
   end
 
   # Logger access.
@@ -95,11 +100,18 @@ module Syndi
     @event_manager ||= Syndi::Events.new
   end
 
+  # Access to command-line options.
+  #
+  # @return [Slop]
+  def opts
+    @options
+  end
+
   # Configuration access.
   #
   # @return [Syndi::Config]
   def conf
-    @configuration ||= Syndi::Config.new
+    @configuration ||= Syndi::Config.new @config_path
   end
 
   # Central Syndi Celluloid actor.
@@ -127,10 +139,37 @@ module Syndi
     actress.every interval, &prc
   end
 
+  ###################
+  # utility methods #
+  ###################
+
+  def daemonize
+    log.info "Forking into the background. . . ."
+  
+    # Direct all incoming data on STDIN and outgoing data on STDOUT/STDERR to /dev/null.
+    $stdin  =           File.open '/dev/null'
+    $stdout = $stderr = File.open '/dev/null', 'w'
+      
+    # Fork and retrieve the PID.
+    pid = fork
+
+    # Save it to syndi.pid.
+    unless pid.nil?
+      File.open(File.join(dir, 'syndi.pid'),'w') { |io| io.puts pid }
+      exit
+    end
+  end
+
+  def trap_signals
+    Signal.trap('TERM') { Syndi.terminate 'Caught termination signal' }
+    Signal.trap('INT') { Syndi.terminate 'Ctrl-C pressed' }
+    Signal.trap('HUP') { Syndi.conf.rehash } unless File::ALT_SEPARATOR
+  end
+
 end
 
 require 'csyndi'
-%w[events actress config bot].each { |lib| require "syndi/#{lib}" }
+%w[events actress config].each { |lib| require "syndi/#{lib}" }
 
 Syndi.colorize
 

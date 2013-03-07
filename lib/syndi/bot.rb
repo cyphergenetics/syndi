@@ -84,23 +84,6 @@ module Syndi
 
     end
 
-    # Daemonize the bot.
-    def daemonize
-      Syndi.log.info "Forking into the background. . . ."
-  
-      # Direct all incoming data on STDIN and outgoing data on STDOUT/STDERR to /dev/null.
-      $stdin  =           File.open '/dev/null'
-      $stdout = $stderr = File.open '/dev/null', 'w'
-      
-      # Fork and retrieve the PID.
-      pid = fork
-
-      # Save it to syndi.pid.
-      unless pid.nil?
-        File.open('syndi.pid', 'w') { |io| io.puts pid }
-        exit 0
-      end
-    end
 
     # Terminate the bot.
     #
@@ -127,25 +110,6 @@ module Syndi
     #######
     private
     #######
-
-    # Load the configuration.
-    def load_config
-
-      # Try to find the file
-      # if we're a gem, we'll try ~/.syndi/syndi.yml
-      # else we'll try ./conf/syndi.yml
-      confpath = nil
-      if Syndi.gem?
-        confpath = File.join(SYNDI_DIR, 'syndi.yml')
-      else
-        confpath = File.join('conf', 'syndi.yml')
-      end
-      confpath = @opts[:conf] if @opts.conf? # --conf=FILE has supreme precedence
-
-      $log.info "Reading the configuration file #{confpath}..."
-      @conf = Syndi::Config.new File.expand_path(confpath)
-
-    end
 
     # Load Syndi libraries.
     def load_libraries
