@@ -215,6 +215,7 @@ module Syndi
           recv @socket.readline("\r\n")
         end
       rescue EOFError
+        @socket.close
         info "Connection to IRC network '#@name' lost!"
         emit :irc, :disconnected, self
       end
@@ -277,6 +278,7 @@ module Syndi
       # @return [true, false]
       def connected?
         return false unless @socket
+        return false if @socket.closed?
         return false unless @connected
         true
       end
