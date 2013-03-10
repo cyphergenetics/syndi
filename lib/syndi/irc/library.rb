@@ -45,10 +45,11 @@ module Syndi
       def start
         
         # Iterate through each IRC server in the config, and connect to it.
-        Syndi.conf['irc'].each do |name, hash|
+        Syndi.conf['irc'].each do |net, hash|
+          name = net.dc
           begin
             # Configure the IRC instance.
-            @networks[name] = Syndi::IRC::Client.new(name) do |c|
+            @networks[name] = Syndi::IRC::Client.new(net) do |c|
               c.address = hash['address']
               c.port    = hash['port']
               c.nick    = hash['nickname'][0] 
@@ -60,7 +61,7 @@ module Syndi
             # Connect.
             @networks[name].connect
           rescue => e
-            Syndi.log.error "Connection to #{name} failed: #{e}", true
+            Syndi.log.error "Connection to #{net} failed: #{e}", true
           end
         end
 

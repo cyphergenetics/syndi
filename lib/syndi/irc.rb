@@ -7,7 +7,7 @@ module Syndi
   # Fetch the {Syndi::IRC::Client} object which represents a network.
   # @param [String] network The network to be fetched.
   def self.IRC network
-    irc.networks[network]
+    irc.networks[network.dc]
   end
 end
 
