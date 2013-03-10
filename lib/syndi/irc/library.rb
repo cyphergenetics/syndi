@@ -1,7 +1,8 @@
 # Copyright (c) 2013, Autumn Perrault, et al. All rights reserved.
 # This free software is distributed under the FreeBSD license (see LICENSE).
 
-require 'syndi/irc/server'
+require 'syndi/events'
+require 'syndi/irc/client'
 require 'syndi/irc/object/entity'
 require 'syndi/irc/object/channel'
 require 'syndi/irc/object/user'
@@ -9,7 +10,6 @@ require 'syndi/irc/protocol'
 require 'syndi/irc/common'
 
 module Syndi
-  
   module IRC
     
     # The base of the IRC framework.
@@ -17,21 +17,21 @@ module Syndi
     # @!attribute [r] events
     #   @return [Syndi::API::Events] The IRC event system.
     #
-    # @!attribute [r] connections
-    #   @return [Hash{String => Syndi::IRC::Server}] Collection of IRC connections. 
+    # @!attribute [r] networks
+    #   @return [Hash{String => Syndi::IRC::Client}] Collection of IRC connections. 
     class Library
 
-      attr_reader :events, :connections
+      attr_reader :events, :networks
 
       def initialize
 
         # Initialize our event system.
-        @events      = Syndi::API::Events.new
+        @events   = Syndi::Events.new
         # Prepare our collection of IRC server connections.
-        @connections = Hash.new
+        @networks = Hash.new
       
         # Start connections when Syndi is started.
-        $m.events.on :start, &method(:start)
+        Syndi.events.on :start, &method(:start)
 
         # Parse data.
         @parser = Syndi::IRC::Protocol.new self
@@ -45,10 +45,10 @@ module Syndi
       def start
         
         # Iterate through each IRC server in the config, and connect to it.
-        $m.conf['irc'].each do |name, hash|
+        Syndi.conf['irc'].each do |name, hash|
           begin
             # Configure the IRC instance.
-            @connections[name] = Syndi::IRC::Server.new(name) do |c|
+            @networks[name] = Syndi::IRC::Client.new(name) do |c|
               c.address = hash['address']
               c.port    = hash['port']
               c.nick    = hash['nickname'][0] 
@@ -58,19 +58,16 @@ module Syndi
             end
 
             # Connect.
-            $m.sockets << @connections[name]
-            @connections[name].connect
+            @networks[name].connect
           rescue => e
-            $m.error("Connection to #{name} failed: #{e}", false, e.backtrace)
+            Syndi.log.error "Connection to #{name} failed: #{e}", true
           end
         end
 
       end # def start
 
     end # class Library
-
   end # module IRC
-
 end # module Syndi
 
 # vim: set ts=4 sts=2 sw=2 et:

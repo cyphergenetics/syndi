@@ -3,6 +3,14 @@
 
 require 'syndi/irc/library'
 
+module Syndi
+  # Fetch the {Syndi::IRC::Client} object which represents a network.
+  # @param [String] network The network to be fetched.
+  def self.IRC network
+    irc.networks[network]
+  end
+end
+
 LIBRARY_IRC = Syndi::IRC::Library.new
 
 # vim: set ts=4 sts=2 sw=2 et:

@@ -5,6 +5,7 @@ require 'syndi/rubyext/string'
 require 'syndi/version'
 
 require 'term/ansicolor'
+require 'redis'
 
 module Syndi
   extend self
@@ -75,10 +76,28 @@ module Syndi
     puts "* Syndi #{Syndi::VERSION} starting...".bold
     @options = options
 
+    # Load the configuration file.
     @config_path = File.join dir, 'config.yml'
     conf
 
+    # And our libraries.
+    load_libraries
+
+    # And the Redis database.
+    @database = load_database
+
+    # Now daemonize.
     daemonize if opts.foreground? && $VERBOSITY < 1
+    @start_time = Time.now
+    
+    log.info "Syndi successfully started at #@start_time!"
+
+    events.emit :start
+  end
+
+  # Time of starting.
+  def start_time
+    @start_time
   end
 
   # Logger access.
@@ -121,6 +140,18 @@ module Syndi
     @actress ||= Syndi::Actress.new
   end
 
+  # Access a list of Syndi libraries.
+  # @return [Array<String>]
+  def libs
+    @libs
+  end
+
+  # Access the database.
+  # @return [Redis]
+  def db
+    @database
+  end
+
   # Execute some code after the given interval.
   #
   # @param [Integer] interval
@@ -137,6 +168,28 @@ module Syndi
   # @return [Celluloid::Timer]
   def every interval, &prc
     actress.every interval, &prc
+  end
+    
+  # Terminate the bot.
+  #
+  # @param [String] reason The reason for termination.
+  def terminate reason = 'Terminating'
+    log.info "Syndi is terminating owing to thus: #{reason}"
+
+    # Call :die
+    events.emit :die, reason
+    
+    # Close the database.
+    @db.disconnect
+
+    # When dying, allow about three seconds for hooks to execute before
+    # fully terminating.
+    sleep 3
+
+    # Delete syndi.pid
+    File.delete File.join(dir, 'syndi.pid') if File.exists File.join(dir, 'syndi.pid')
+
+    exit
   end
 
   ###################
@@ -164,6 +217,62 @@ module Syndi
     Signal.trap('TERM') { Syndi.terminate 'Caught termination signal' }
     Signal.trap('INT') { Syndi.terminate 'Ctrl-C pressed' }
     Signal.trap('HUP') { Syndi.conf.rehash } unless File::ALT_SEPARATOR
+  end
+    
+  # Load a core library.
+  # @param [String] lib The library to be loaded, which should exist under the `syndi/` namespace.
+  def load_library lib
+    load "syndi/#{lib}"
+
+    instance_variable_set "@#{lib}".to_sym, Object.const_get("LIBRARY_#{lib.uc}")
+    Object.send :remove_const, "LIBRARY_#{lib.uc}"
+    define_singleton_method(lib.to_sym) { self.instance_variable_get("@#{__method__}".to_sym) }
+  end
+    
+  # Load Syndi libraries.
+  def load_libraries
+      
+    log.info 'Loading core libraries...'
+    @libs = []
+
+    # Iterate through each configured library.
+    conf['libraries'].each do |lib|
+      lib.dc!
+
+      if @libs.include? lib
+        # Don't load a library more than once!
+        log.error "Cannot load library twice (#{lib})! Please fix your configuration."
+        next
+      end
+
+      begin
+        load_library lib
+        @libs.push lib
+      rescue => e
+        log.error "Failed to load core library '#{lib}': #{e}", true
+      end
+
+    end
+
+  end
+    
+  # Initializes Redis.
+  def load_database
+
+    config = Hash.new
+    %i[address port path].each { |opt| config[opt] = @conf['database'][opt.to_s] if @conf['database'][opt.to_s] }
+
+    redis = Redis.new config
+
+    if passwd = @conf['database']['password']
+      redis.auth passwd
+    end
+    if id = @conf['database']['number']
+      redis.select id
+    end
+
+    redis
+
   end
 
 end
