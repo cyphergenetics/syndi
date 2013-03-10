@@ -7,6 +7,7 @@ require 'syndi/dsl/base'
 require 'syndi/irc/state/support'
 require 'syndi/irc/std/commands'
 require 'syndi/logging'
+require 'syndi/talk/object'
 
 module Syndi
   module IRC
@@ -15,7 +16,6 @@ module Syndi
     # usable interface for the IRC server.
     #
     # @api IRC
-    # @since 4.0.0
     #
     # @!attribute [r] socket
     #   @return [TCPSocket] The TCP socket being used for the connection.
@@ -109,6 +109,7 @@ module Syndi
       include Syndi::DSL::Base
       include Celluloid::IO
       include Syndi::Logging
+      prepend Syndi::Talk::Object
 
       attr_reader   :socket, :in, :out, :type, :supp
       attr_accessor :name, :address, :port, :nick, :user, :real, :password,
@@ -259,6 +260,20 @@ module Syndi
       def to_s;    @name; end
       def inspect; "#<Syndi::IRC::Client: name='#@name'>"; end
       alias_method :s, :to_s
+
+      # For Syndi::Talk communication.
+      def to_talk
+        hash = Hash.new
+        instance_variables.each do |var|
+          hash[var.sub(/^:@/, '')] = instance_variable_get var
+        end
+        hash
+      end
+
+      # To deserialize a Syndi::Talk capsule.
+      def self.json_create o
+        Syndi::IRC(o['data']['name'].lc)
+      end
 
       #######
       private
