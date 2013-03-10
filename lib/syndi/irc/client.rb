@@ -262,11 +262,17 @@ module Syndi
       alias_method :s, :to_s
 
       # For Syndi::Talk communication.
-      def to_talk
+      def to_talk sync
         hash = Hash.new
-        instance_variables.each do |var|
-          hash[var[2..-1]] = instance_variable_get var
+        
+        if sync
+          instance_variables.each do |var|
+            hash[var[2..-1]] = instance_variable_get var
+          end
+        else
+          hash['name'] = @name
         end
+        
         hash
       end
 
