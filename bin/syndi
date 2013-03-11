@@ -63,6 +63,50 @@ http://syndibot.com
   
   end
 
+  command 'bin', {help: 'Execute an extension command.'} do
+    
+    run do |_opts, args|
+      
+      # process the data
+      bindir = File.join Syndi.dir, 'bin'
+      Dir.mkdir bindir unless Dir.exists? bindir
+      command = args.shift
+     
+      # if it's a rehash command, rehash shims
+      if command.downcase == 'rehash'
+        puts 'Rehashing shims. . . .'
+        extdir = File.join Syndi.dir, 'ext'
+        
+        if Dir.exists? extdir # check if the extension directory exists
+          Dir.foreach(extdir) do |item| # iterate each item
+            next if item =~ /\.|\.\./
+
+            if Dir.exists? File.join(extdir, item, 'bin') # check for a bin/ subdir
+
+              # iterate each executable
+              Dir.foreach(File.join(extdir, item, 'bin')) do |executable|
+                next if executable =~ /\.|\.\./
+                
+                new = File.join bindir, executable
+                File.delete new if File.exists? new
+                File.symlink(File.join(extdir, item, 'bin', executable), new)
+              end
+
+            end
+          end
+        end
+
+      else # it's not rehash; thus, execute the bin command
+        if args.empty?
+          system File.join(bindir, command)
+        else
+          system File.join(bindir, command), *args
+        end
+      end
+    end
+
+  end
+
   command 'make' do
     run do |_opts, args|
       require 'syndi/cli/make'
