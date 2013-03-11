@@ -44,18 +44,16 @@ http://syndibot.com
     EOV
     exit 0
   end
+  on(:d, :directory,  "Specify the application directory. (Default: #{Syndi.dir})", :argument => true) do |dir|
+    Syndi.dir = dir
+  end
 
   command 'boot', {help: 'Start an instance of Syndi.'} do
 
     on(:f, :foreground, 'Disable automatic daemonizing.')
-    on(:d, :directory,  "Specify the application directory. (Default: #{Syndi.dir})")
     on(:V, :verbose,    'Increase verbosity of output (more uses, the more verbose).') { $VERBOSITY += 1 }
 
     run do |opts, _args|
-      if opts.directory?
-        Syndi.dir = opts[:directory]
-      end
-
       begin
         Syndi.boot opts
       rescue => e

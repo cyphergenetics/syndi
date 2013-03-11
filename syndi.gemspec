@@ -34,7 +34,7 @@ Gem::Specification.new do |s|
     conf/example.yml
   ]
   s.test_files    = Dir["spec/**/*.rb"] + ['Rakefile']
-  s.executables   = %w[syndi syndi-conf]
+  s.executables   = %w[syndi]
   s.extensions    = Dir["ext/**/extconf.rb"]
 
   s.post_install_message  = <<-EOM
