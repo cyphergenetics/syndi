@@ -48,7 +48,7 @@ http://syndibot.com
     Syndi.dir = dir
   end
 
-  command 'boot', {help: 'Start an instance of Syndi.'} do
+  command 'boot', {description: 'Start an instance of Syndi.', help: true} do
 
     on(:f, :foreground, 'Disable automatic daemonizing.')
     on(:V, :verbose,    'Increase verbosity of output (more uses, the more verbose).') { $VERBOSITY += 1 }
@@ -63,7 +63,7 @@ http://syndibot.com
   
   end
 
-  command 'bin', {help: 'Execute an extension command.'} do
+  command 'exec', {description: 'Execute an extension command.'} do
     
     run do |_opts, args|
       

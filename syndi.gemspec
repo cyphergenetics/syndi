@@ -28,7 +28,6 @@ Gem::Specification.new do |s|
     LICENSE
     WINDOWS.md
     CHANGELOG.md
-    Gemfile
     Rakefile
     .yardopts
     conf/example.yml
