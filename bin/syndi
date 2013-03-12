@@ -29,12 +29,8 @@ Syndi.celluloid_log
 $VERBOSITY = 0
 
 # Parse options.
-Slop.parse(:banner => "Usage: #$PROGRAM_NAME [options]") do
-  on :h, :help, "You're looking at it." do
-    puts self
-    exit 0
-  end
-
+Slop.parse(:banner => "Usage: #$PROGRAM_NAME [options]", :help => true) do
+  
   on :v, :version, 'Display version and exit.' do
     puts <<-EOV
 Syndi #{Syndi::FULLVERSION}
@@ -44,7 +40,8 @@ http://syndibot.com
     EOV
     exit 0
   end
-  on(:d, :directory,  "Specify the application directory. (Default: #{Syndi.dir})", :argument => true) do |dir|
+  
+  on :d, :directory,  "Specify the application directory. (Default: #{Syndi.dir})", :argument => true do |dir|
     Syndi.dir = dir
   end
 
@@ -107,17 +104,10 @@ http://syndibot.com
 
   end
 
-  command 'make' do
+  command 'make', {description: 'Create various Syndi components.'} do
     run do |_opts, args|
       require 'syndi/cli/make'
       Syndi::CLI::Make.start args
-    end
-  end
-
-  command 'install' do
-    run do |_opts, args|
-      require 'syndi/cli/install'
-      Syndi::CLI::Install.start args
     end
   end
 
