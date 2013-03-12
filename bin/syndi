@@ -61,16 +61,18 @@ http://syndibot.com
   end
 
   command 'exec', {description: 'Execute an extension command.'} do
+    on :r, :rehash, 'Rehash the shim index.'
     
-    run do |_opts, args|
+    run do |opts, args|
       
       # process the data
       bindir = File.join Syndi.dir, 'bin'
       Dir.mkdir bindir unless Dir.exists? bindir
-      command = args.shift
+      command = args.shift unless args.empty?
      
       # if it's a rehash command, rehash shims
-      if command.downcase == 'rehash'
+      if opts.rehash?
+        
         puts 'Rehashing shims. . . .'
         extdir = File.join Syndi.dir, 'ext'
         
@@ -93,13 +95,15 @@ http://syndibot.com
           end
         end
 
-      else # it's not rehash; thus, execute the bin command
-        if args.empty?
-          system File.join(bindir, command)
-        else
-          system File.join(bindir, command), *args
-        end
+        exit
       end
+      
+      if args.empty?
+        system File.join(bindir, command)
+      else
+        system File.join(bindir, command), *args
+      end
+    
     end
 
   end
