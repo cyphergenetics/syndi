@@ -30,8 +30,9 @@ task :release, [:version] => [:compile, :spec] do |t, args|
   File.open(File.join(__dir__, '..', 'CHANGELOG.md')) { |f| data = f.read }
   data.sub! /unreleased\n----------/ do |string|
     line = '-'
-    version.length.times { line << '-' }
-    "v#{version}\n#{line}"
+    newstr = "#{version} #{Time.now.strftime('(%Y-%m-%d)')}"
+    newstr.length.times { line << '-' }
+    "v#{newstr}\n#{line}"
   end
   File.open(File.join(__dir__, '..', 'CHANGELOG.md'), 'w') { |f| f.write data }
 
