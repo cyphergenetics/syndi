@@ -23,7 +23,7 @@ require 'syndi'
 require 'syndi/verbosity'
 
 # Change to the Syndi directory.
-Syndi.dir = File.join ENV['HOME'], '.syndi'
+Syndi.dir = File.join (Syndi.windows? ? ENV['APPDATA'] : ENV['HOME']), '.syndi'
 Syndi.celluloid_log
 
 $VERBOSITY = 0
